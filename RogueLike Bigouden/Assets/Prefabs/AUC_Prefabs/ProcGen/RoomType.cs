@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomType : MonoBehaviour
 {
     public int type;
+    public int Size;
     
     
     // Start is called before the first frame update
