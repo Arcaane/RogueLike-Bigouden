@@ -137,7 +137,19 @@ public class @Player2Controls : IInputActionCollection, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""PlayerController"",
+            ""bindingGroup"": ""PlayerController"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
@@ -265,6 +277,15 @@ public class @Player2Controls : IInputActionCollection, IDisposable
         }
     }
     public Player2Actions @Player2 => new Player2Actions(this);
+    private int m_PlayerControllerSchemeIndex = -1;
+    public InputControlScheme PlayerControllerScheme
+    {
+        get
+        {
+            if (m_PlayerControllerSchemeIndex == -1) m_PlayerControllerSchemeIndex = asset.FindControlSchemeIndex("PlayerController");
+            return asset.controlSchemes[m_PlayerControllerSchemeIndex];
+        }
+    }
     public interface IPlayer2Actions
     {
         void OnXButton(InputAction.CallbackContext context);
