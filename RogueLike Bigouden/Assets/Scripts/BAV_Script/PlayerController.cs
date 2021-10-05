@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerController : MonoBehaviour
 {
     
-    private int playerID;
+    [SerializeField]public  int playerID;
     public PlayerInput playerInput;
     public BAV_PlayerController inputController;
     /*
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
         currentControlScheme = playerInput.currentControlScheme;
         
         rb = GetComponent<Rigidbody2D>();
+        playerID = playerInput.playerIndex;
     }
 
     private void OnEnable()
@@ -49,17 +51,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        MoveThePlayer();
-    }
-    
-    
-    
-    void MoveThePlayer()
-    {
-        Vector2 moveInput = inputController.Player_GK.Move.ReadValue<Vector2>();
-        transform.Translate(new Vector3(moveInput.x, moveInput.y,0) * speed * Time.deltaTime);
+        Move();
     }
 
+
+    #region InputConfig
+    
+    public void OnMove(InputAction.CallbackContext ctx)
+    {
+        movementInput = ctx.ReadValue<Vector2>();
+    }
+    #endregion
+    
+    void Move()
+    {
+        transform.Translate(new Vector3(movementInput.x,movementInput.y, 0) * speed * Time.deltaTime);
+    }
+    
+    /*
     public void OnDash(InputAction.CallbackContext value)
     {
         Vector2 moveInput = inputController.Player_GK.Move.ReadValue<Vector2>();
@@ -69,6 +78,7 @@ public class PlayerController : MonoBehaviour
             Dash(moveInput.x, moveInput.y);
         }
     }
+    */
     
     void Dash(float x, float y)
     {

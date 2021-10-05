@@ -10,7 +10,7 @@ public class BasicMovement_TestAnim : MonoBehaviour
     void Update()
     {
         Movement();
-        //LookRotation();
+        LookRotation();
     }
 
     void Movement()
