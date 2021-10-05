@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerController : MonoBehaviour
 {
     
     private int playerID;
     public PlayerInput playerInput;
+    public BAV_PlayerController inputController;
     /*
     [Header("Input Settings")]
     public float movementSmoothingSpeed = 1f;
@@ -20,28 +23,69 @@ public class PlayerController : MonoBehaviour
     private string currentControlScheme;
     public float speed = 5;
     private Vector2 movementInput;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
+    private Rigidbody2D rb;
 
+    private void Awake()
+    {
+        inputController = new BAV_PlayerController();
+        currentControlScheme = playerInput.currentControlScheme;
+        
+        rb = GetComponent<Rigidbody2D>();
     }
+
+    private void OnEnable()
+    {
+        inputController.Enable();
+    }
+
+    
+    private void OnDisable()
+    {
+        inputController.Disable();
+    }
+    
+    
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(new Vector3(movementInput.x,movementInput.y,0) * speed *Time.deltaTime);
+        MoveThePlayer();
     }
-    public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
     
+    
+    
+    void MoveThePlayer()
+    {
+        Vector2 moveInput = inputController.Player_GK.Move.ReadValue<Vector2>();
+        transform.Translate(new Vector3(moveInput.x, moveInput.y,0) * speed * Time.deltaTime);
+    }
+
+    public void OnDash(InputAction.CallbackContext value)
+    {
+        Vector2 moveInput = inputController.Player_GK.Move.ReadValue<Vector2>();
+            Debug.Log("Je suis la");
+        if (value.started)
+        {
+            Dash(moveInput.x, moveInput.y);
+        }
+    }
+    
+    void Dash(float x, float y)
+    {
+        rb.velocity = Vector2.zero;
+        rb.velocity += new Vector2(x, y).normalized * 2;
+    }
+
+    #region Zone des controles de la manette
+
     public void OnControlsChanged()
     {
-        if(playerInput.currentControlScheme != currentControlScheme)
+        if (playerInput.currentControlScheme != currentControlScheme)
         {
             currentControlScheme = playerInput.currentControlScheme;
         }
     }
-    
+
     public void OnDeviceLost()
     {
         var gamepad = Gamepad.current;
@@ -55,10 +99,20 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(WaitForDeviceToBeRegained());
         Debug.Log("Device " + gamepad + " Regained");
     }
-    
+
     IEnumerator WaitForDeviceToBeRegained()
     {
         yield return new WaitForSeconds(0.1f);
     }
+    #endregion
+    
 
+    private void OnDrawGizmos()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Vector2 moveInput = inputController.Player_GK.Move.ReadValue<Vector2>();
+            Handles.DrawLine(transform.position, transform.position + new Vector3(moveInput.x, moveInput.y, 0));
+        }
+    }
 }
