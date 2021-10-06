@@ -34,7 +34,13 @@ public class StockPositionSpawner : MonoBehaviour
     void SpawnPoint()
     {
         inputManager.playerPrefab.GetComponent<Renderer>().sharedMaterial.color = Color.red;
-        inputManager.playerPrefab.transform.position = spawnPoint[1].transform.position;
+        inputManager.playerPrefab.transform.position = spawnPoint[0].transform.position;
+        numberOfPlayers++;
+        if (inputManager.JoinPlayer(1,1,null,Gamepad.current))
+        {
+            inputManager.playerPrefab.GetComponent<Renderer>().sharedMaterial.color = Color.blue;
+            inputManager.playerPrefab.transform.position = spawnPoint[1].transform.position;
+        }
     }
     
 

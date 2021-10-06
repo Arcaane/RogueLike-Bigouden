@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField]public  int playerID;
     public PlayerInput playerInput;
-    public BAV_PlayerController inputController;
+    [SerializeField] private BAV_PlayerController inputController;
     /*
     [Header("Input Settings")]
     public float movementSmoothingSpeed = 1f;
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private string currentControlScheme;
     public float speed = 5;
     private Vector2 movementInput;
+    private int attackInput, dashInput;
     private Rigidbody2D rb;
 
     private void Awake()
@@ -61,11 +62,23 @@ public class PlayerController : MonoBehaviour
     {
         movementInput = ctx.ReadValue<Vector2>();
     }
+
+    public void OnAttack(InputAction.CallbackContext ctx)
+    {
+        attackInput = ctx.ReadValue<int>();
+    }
+
     #endregion
     
     void Move()
     {
         transform.Translate(new Vector3(movementInput.x,movementInput.y, 0) * speed * Time.deltaTime);
+    }
+
+    void Attack()
+    {
+        inputController.Player_GK.XAttack.started += OnAttack;
+        Debug.Log("J'attaque");
     }
     
     /*
