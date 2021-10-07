@@ -38,12 +38,12 @@ public class StockPositionSpawner : MonoBehaviour
         numberOfPlayers++;
         if (inputManager.JoinPlayer(1,1,null,Gamepad.current))
         {
-            inputManager.playerPrefab.GetComponent<Renderer>().sharedMaterial.color = Color.blue;
+            inputManager.playerPrefab.GetComponent<Renderer>().sharedMaterial.color = Color.white;
             inputManager.playerPrefab.transform.position = spawnPoint[1].transform.position;
         }
     }
     
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         for (int i = 0; i < spawnPoint.Count; i++)
@@ -51,4 +51,5 @@ public class StockPositionSpawner : MonoBehaviour
             Handles.DrawWireDisc(spawnPoint[i].transform.position, new Vector3(0, 0, 90f), 3);
         }
     }
+#endif
 }

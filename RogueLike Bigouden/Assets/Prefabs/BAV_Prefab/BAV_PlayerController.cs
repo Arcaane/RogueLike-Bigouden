@@ -15,7 +15,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     ""name"": ""BAV_PlayerController"",
     ""maps"": [
         {
-            ""name"": ""Player_GK"",
+            ""name"": ""Player"",
             ""id"": ""2289b125-7141-4017-a061-6c6505b586c4"",
             ""actions"": [
                 {
@@ -27,7 +27,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""XAttack"",
+                    ""name"": ""XButton"",
                     ""type"": ""Button"",
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
                     ""expectedControlType"": ""Button"",
@@ -35,7 +35,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""YAttack"",
+                    ""name"": ""YButton"",
                     ""type"": ""Button"",
                     ""id"": ""58ca634e-3f56-456f-a8b3-da0320a8f40c"",
                     ""expectedControlType"": ""Button"",
@@ -55,6 +55,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""4d538565-6a14-419f-905f-decf7717c67f"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""26fd18b4-82af-40a1-9773-f7793181f4c3"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -133,7 +141,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""XAttack"",
+                    ""action"": ""XButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -144,7 +152,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""XAttack"",
+                    ""action"": ""XButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -155,7 +163,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""YAttack"",
+                    ""action"": ""YButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -166,7 +174,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""YAttack"",
+                    ""action"": ""YButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -213,6 +221,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""BButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b730a9e2-027d-4209-8187-493cb3b2bc06"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -242,13 +261,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // Player_GK
-        m_Player_GK = asset.FindActionMap("Player_GK", throwIfNotFound: true);
-        m_Player_GK_Move = m_Player_GK.FindAction("Move", throwIfNotFound: true);
-        m_Player_GK_XAttack = m_Player_GK.FindAction("XAttack", throwIfNotFound: true);
-        m_Player_GK_YAttack = m_Player_GK.FindAction("YAttack", throwIfNotFound: true);
-        m_Player_GK_AButton = m_Player_GK.FindAction("AButton", throwIfNotFound: true);
-        m_Player_GK_BButton = m_Player_GK.FindAction("BButton", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_XButton = m_Player.FindAction("XButton", throwIfNotFound: true);
+        m_Player_YButton = m_Player.FindAction("YButton", throwIfNotFound: true);
+        m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
+        m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,70 +315,78 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player_GK
-    private readonly InputActionMap m_Player_GK;
-    private IPlayer_GKActions m_Player_GKActionsCallbackInterface;
-    private readonly InputAction m_Player_GK_Move;
-    private readonly InputAction m_Player_GK_XAttack;
-    private readonly InputAction m_Player_GK_YAttack;
-    private readonly InputAction m_Player_GK_AButton;
-    private readonly InputAction m_Player_GK_BButton;
-    public struct Player_GKActions
+    // Player
+    private readonly InputActionMap m_Player;
+    private IPlayerActions m_PlayerActionsCallbackInterface;
+    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_XButton;
+    private readonly InputAction m_Player_YButton;
+    private readonly InputAction m_Player_AButton;
+    private readonly InputAction m_Player_BButton;
+    private readonly InputAction m_Player_Look;
+    public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
-        public Player_GKActions(@BAV_PlayerController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_GK_Move;
-        public InputAction @XAttack => m_Wrapper.m_Player_GK_XAttack;
-        public InputAction @YAttack => m_Wrapper.m_Player_GK_YAttack;
-        public InputAction @AButton => m_Wrapper.m_Player_GK_AButton;
-        public InputAction @BButton => m_Wrapper.m_Player_GK_BButton;
-        public InputActionMap Get() { return m_Wrapper.m_Player_GK; }
+        public PlayerActions(@BAV_PlayerController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @XButton => m_Wrapper.m_Player_XButton;
+        public InputAction @YButton => m_Wrapper.m_Player_YButton;
+        public InputAction @AButton => m_Wrapper.m_Player_AButton;
+        public InputAction @BButton => m_Wrapper.m_Player_BButton;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Player_GKActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayer_GKActions instance)
+        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerActions instance)
         {
-            if (m_Wrapper.m_Player_GKActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnMove;
-                @XAttack.started -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnXAttack;
-                @XAttack.performed -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnXAttack;
-                @XAttack.canceled -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnXAttack;
-                @YAttack.started -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnYAttack;
-                @YAttack.performed -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnYAttack;
-                @YAttack.canceled -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnYAttack;
-                @AButton.started -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnAButton;
-                @AButton.performed -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnAButton;
-                @AButton.canceled -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnAButton;
-                @BButton.started -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnBButton;
-                @BButton.performed -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnBButton;
-                @BButton.canceled -= m_Wrapper.m_Player_GKActionsCallbackInterface.OnBButton;
+                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @XButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
+                @XButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
+                @XButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
+                @YButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYButton;
+                @YButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYButton;
+                @YButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYButton;
+                @AButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                @AButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                @AButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                @BButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                @BButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                @BButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
             }
-            m_Wrapper.m_Player_GKActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @XAttack.started += instance.OnXAttack;
-                @XAttack.performed += instance.OnXAttack;
-                @XAttack.canceled += instance.OnXAttack;
-                @YAttack.started += instance.OnYAttack;
-                @YAttack.performed += instance.OnYAttack;
-                @YAttack.canceled += instance.OnYAttack;
+                @XButton.started += instance.OnXButton;
+                @XButton.performed += instance.OnXButton;
+                @XButton.canceled += instance.OnXButton;
+                @YButton.started += instance.OnYButton;
+                @YButton.performed += instance.OnYButton;
+                @YButton.canceled += instance.OnYButton;
                 @AButton.started += instance.OnAButton;
                 @AButton.performed += instance.OnAButton;
                 @AButton.canceled += instance.OnAButton;
                 @BButton.started += instance.OnBButton;
                 @BButton.performed += instance.OnBButton;
                 @BButton.canceled += instance.OnBButton;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
             }
         }
     }
-    public Player_GKActions @Player_GK => new Player_GKActions(this);
+    public PlayerActions @Player => new PlayerActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -377,12 +405,13 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_KeyboardSchemeIndex];
         }
     }
-    public interface IPlayer_GKActions
+    public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnXAttack(InputAction.CallbackContext context);
-        void OnYAttack(InputAction.CallbackContext context);
+        void OnXButton(InputAction.CallbackContext context);
+        void OnYButton(InputAction.CallbackContext context);
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }
