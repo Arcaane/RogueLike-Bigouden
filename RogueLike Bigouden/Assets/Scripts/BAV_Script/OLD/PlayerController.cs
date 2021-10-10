@@ -186,10 +186,5 @@ public class PlayerController : MonoBehaviour
 
 #endif
 
-    #region Animation
-
-
-
-    #endregion
 }
 

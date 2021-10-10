@@ -45,7 +45,7 @@ public class PlayerSetupMenuController : MonoBehaviour
     {
         if(!inputEnabled) { return; }
 
-        //PlayerConfigurationManager.Instance.SetPlayerColor(playerIndex, mat);
+        PlayerConfigurationManager.Instance.SetPlayerColor(playerIndex, mat);
         readyPanel.SetActive(true);
         readyButton.interactable = true;
         menuPanel.SetActive(false);

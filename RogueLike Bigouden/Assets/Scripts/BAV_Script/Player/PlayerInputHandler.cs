@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -16,7 +17,7 @@ public class PlayerInputHandler : MonoBehaviour
     private BAV_PlayerController controls;
     
     private Vector2 movementInput, lookAxis;
-    private bool isMoving;
+    public bool isMoving;
     public float speed = 5;
 
     //Animator
@@ -25,6 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         controls = new BAV_PlayerController();
+        isMoving = false;
     }
 
     public void InitializePlayer(PlayerConfiguration config)
@@ -40,6 +42,17 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 OnMove(obj);
+                Debug.Log(obj.action.name);
+                break;
+            case false:
+                break;
+        }
+
+        switch (obj.action.name == controls.Player.Look.name)
+        {
+            case true:
+                OnLook(obj);
+                Debug.Log(obj.action.name);
                 break;
             case false:
                 break;
@@ -51,6 +64,12 @@ public class PlayerInputHandler : MonoBehaviour
         movementInput = ctx.ReadValue<Vector2>();
         isMoving = true;
     }
+    
+    public void OnLook(InputAction.CallbackContext ctx)
+    {
+        lookAxis = ctx.ReadValue<Vector2>();
+        isMoving = false;
+    }
 
     private void FixedUpdate()
     {
@@ -59,15 +78,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     void Move()
     {
-        switch (isMoving && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0)
+        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0)
         {
             case true:
                 animatorPlayer.SetFloat("Horizontal", lookAxis.x);
                 animatorPlayer.SetFloat("Vertical", lookAxis.y);
+                Debug.Log("0");
                 break;
             case false:
                 animatorPlayer.SetFloat("Horizontal", movementInput.x);
                 animatorPlayer.SetFloat("Vertical", movementInput.y);
+                Debug.Log("1");
                 break;
         }
 

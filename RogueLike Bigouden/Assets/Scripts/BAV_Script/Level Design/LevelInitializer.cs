@@ -26,9 +26,4 @@ public class LevelInitializer : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

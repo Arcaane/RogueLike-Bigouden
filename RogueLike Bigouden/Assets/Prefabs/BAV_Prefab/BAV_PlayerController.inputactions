@@ -14,6 +14,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "26fd18b4-82af-40a1-9773-f7793181f4c3",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "XButton",
                     "type": "Button",
                     "id": "72633990-087c-4c5c-9117-e9a44f392cbb",
@@ -42,14 +50,6 @@
                     "type": "Button",
                     "id": "4d538565-6a14-419f-905f-decf7717c67f",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "26fd18b4-82af-40a1-9773-f7793181f4c3",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -175,23 +175,23 @@
                 },
                 {
                     "name": "",
-                    "id": "b730a9e2-027d-4209-8187-493cb3b2bc06",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "StickDeadzone",
-                    "groups": "Gamepad",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "202319ea-14b5-4377-9585-80a802713a40",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b730a9e2-027d-4209-8187-493cb3b2bc06",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Gamepad",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

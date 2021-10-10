@@ -27,6 +27,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""26fd18b4-82af-40a1-9773-f7793181f4c3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""XButton"",
                     ""type"": ""Button"",
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
@@ -55,14 +63,6 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""4d538565-6a14-419f-905f-decf7717c67f"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""26fd18b4-82af-40a1-9773-f7793181f4c3"",
-                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -188,23 +188,23 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b730a9e2-027d-4209-8187-493cb3b2bc06"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""202319ea-14b5-4377-9585-80a802713a40"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b730a9e2-027d-4209-8187-493cb3b2bc06"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -329,11 +329,11 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_XButton = m_Player.FindAction("XButton", throwIfNotFound: true);
         m_Player_YButton = m_Player.FindAction("YButton", throwIfNotFound: true);
         m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
         m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
-        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -389,22 +389,22 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_XButton;
     private readonly InputAction m_Player_YButton;
     private readonly InputAction m_Player_AButton;
     private readonly InputAction m_Player_BButton;
-    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Select;
     public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
         public PlayerActions(@BAV_PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @XButton => m_Wrapper.m_Player_XButton;
         public InputAction @YButton => m_Wrapper.m_Player_YButton;
         public InputAction @AButton => m_Wrapper.m_Player_AButton;
         public InputAction @BButton => m_Wrapper.m_Player_BButton;
-        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -418,6 +418,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @XButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
                 @XButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
                 @XButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXButton;
@@ -430,9 +433,6 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @BButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
                 @BButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
                 @BButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
-                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
@@ -443,6 +443,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
                 @XButton.started += instance.OnXButton;
                 @XButton.performed += instance.OnXButton;
                 @XButton.canceled += instance.OnXButton;
@@ -455,9 +458,6 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @BButton.started += instance.OnBButton;
                 @BButton.performed += instance.OnBButton;
                 @BButton.canceled += instance.OnBButton;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
@@ -527,11 +527,11 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnXButton(InputAction.CallbackContext context);
         void OnYButton(InputAction.CallbackContext context);
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
     }
     public interface IUIActions
