@@ -10,6 +10,7 @@ public class ControllerTest : MonoBehaviour
     private void Start()
     {
         transform.position = spawnPoint.transform.position;
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame

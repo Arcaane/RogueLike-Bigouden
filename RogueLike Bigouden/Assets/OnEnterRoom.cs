@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class OnEnterRoom : MonoBehaviour
 {
-    private GameObject Player;
+    
     public GameObject spawnPoint;
     // Start is called before the first frame update
     void Start()
     {
-        foreach (var p in PlayerInstance.playerInstance.Player)
-        {
-            p.transform.position = new Vector2(spawnPoint.transform.position.x, spawnPoint.transform.position.y);
-        }
+        GameObject.Find("Player 1").transform.position = spawnPoint.transform.position;
+        GameObject.Find("Player 2").transform.position = spawnPoint.transform.position;
     }
 
     // Update is called once per frame
