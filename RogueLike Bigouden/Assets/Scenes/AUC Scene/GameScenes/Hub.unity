@@ -477,60 +477,6 @@ Transform:
   m_Father: {fileID: 720131318}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &580119821
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 580119822}
-  - component: {fileID: 580119823}
-  m_Layer: 0
-  m_Name: INSTANCE GENERATIONPROC
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &580119822
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580119821}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8570743, y: 7.680808, z: -59.021854}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &580119823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580119821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ad3ed0cd8e82c94da244ef7e5630906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numberOfRoom: 0
-  randomIndex: 
-  roomLevel1:
-  - L1R1
-  - L1R2
-  - L1R3
-  utilityRoom:
-  - Store
-  bossRoom:
-  - L1BR
-  finalList: []
 --- !u!1 &720131317
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,3 +924,60 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.46666667, y: 0.73333335}
   m_EdgeRadius: 0
+--- !u!1001 &5313670429311380331
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.8570743
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.680808
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -59.021854
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600806, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: m_Name
+      value: INSTANCE GENERATIONPROC
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
