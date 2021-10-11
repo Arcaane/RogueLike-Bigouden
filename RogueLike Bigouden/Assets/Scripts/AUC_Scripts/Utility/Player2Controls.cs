@@ -5,11 +5,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using Object = UnityEngine.Object;
 
-public class @Player2Controls : IInputActionCollection, IDisposable
+public class Player2Controls : IInputActionCollection, IDisposable
 {
-    public InputActionAsset asset { get; }
-    public @Player2Controls()
+    // Player2
+    private readonly InputActionMap m_Player2;
+    private readonly InputAction m_Player2_AButton;
+    private readonly InputAction m_Player2_BButon;
+    private readonly InputAction m_Player2_LStick;
+    private readonly InputAction m_Player2_RTrigger;
+    private readonly InputAction m_Player2_XButton;
+    private readonly InputAction m_Player2_YButton;
+    private IPlayer2Actions m_Player2ActionsCallbackInterface;
+
+    public Player2Controls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""Player2Controls"",
@@ -140,18 +150,21 @@ public class @Player2Controls : IInputActionCollection, IDisposable
     ""controlSchemes"": []
 }");
         // Player2
-        m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
-        m_Player2_XButton = m_Player2.FindAction("XButton", throwIfNotFound: true);
-        m_Player2_YButton = m_Player2.FindAction("YButton", throwIfNotFound: true);
-        m_Player2_BButon = m_Player2.FindAction("BButon", throwIfNotFound: true);
-        m_Player2_AButton = m_Player2.FindAction("AButton", throwIfNotFound: true);
-        m_Player2_LStick = m_Player2.FindAction("LStick", throwIfNotFound: true);
-        m_Player2_RTrigger = m_Player2.FindAction("RTrigger", throwIfNotFound: true);
+        m_Player2 = asset.FindActionMap("Player2", true);
+        m_Player2_XButton = m_Player2.FindAction("XButton", true);
+        m_Player2_YButton = m_Player2.FindAction("YButton", true);
+        m_Player2_BButon = m_Player2.FindAction("BButon", true);
+        m_Player2_AButton = m_Player2.FindAction("AButton", true);
+        m_Player2_LStick = m_Player2.FindAction("LStick", true);
+        m_Player2_RTrigger = m_Player2.FindAction("RTrigger", true);
     }
+
+    public InputActionAsset asset { get; }
+    public Player2Actions Player2 => new Player2Actions(this);
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(asset);
+        Object.Destroy(asset);
     }
 
     public InputBinding? bindingMask
@@ -193,78 +206,93 @@ public class @Player2Controls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player2
-    private readonly InputActionMap m_Player2;
-    private IPlayer2Actions m_Player2ActionsCallbackInterface;
-    private readonly InputAction m_Player2_XButton;
-    private readonly InputAction m_Player2_YButton;
-    private readonly InputAction m_Player2_BButon;
-    private readonly InputAction m_Player2_AButton;
-    private readonly InputAction m_Player2_LStick;
-    private readonly InputAction m_Player2_RTrigger;
     public struct Player2Actions
     {
-        private @Player2Controls m_Wrapper;
-        public Player2Actions(@Player2Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @XButton => m_Wrapper.m_Player2_XButton;
-        public InputAction @YButton => m_Wrapper.m_Player2_YButton;
-        public InputAction @BButon => m_Wrapper.m_Player2_BButon;
-        public InputAction @AButton => m_Wrapper.m_Player2_AButton;
-        public InputAction @LStick => m_Wrapper.m_Player2_LStick;
-        public InputAction @RTrigger => m_Wrapper.m_Player2_RTrigger;
-        public InputActionMap Get() { return m_Wrapper.m_Player2; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+        private readonly Player2Controls m_Wrapper;
+
+        public Player2Actions(Player2Controls wrapper)
+        {
+            m_Wrapper = wrapper;
+        }
+
+        public InputAction XButton => m_Wrapper.m_Player2_XButton;
+        public InputAction YButton => m_Wrapper.m_Player2_YButton;
+        public InputAction BButon => m_Wrapper.m_Player2_BButon;
+        public InputAction AButton => m_Wrapper.m_Player2_AButton;
+        public InputAction LStick => m_Wrapper.m_Player2_LStick;
+        public InputAction RTrigger => m_Wrapper.m_Player2_RTrigger;
+
+        public InputActionMap Get()
+        {
+            return m_Wrapper.m_Player2;
+        }
+
+        public void Enable()
+        {
+            Get().Enable();
+        }
+
+        public void Disable()
+        {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Player2Actions set) { return set.Get(); }
+
+        public static implicit operator InputActionMap(Player2Actions set)
+        {
+            return set.Get();
+        }
+
         public void SetCallbacks(IPlayer2Actions instance)
         {
             if (m_Wrapper.m_Player2ActionsCallbackInterface != null)
             {
-                @XButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
-                @XButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
-                @XButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
-                @YButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
-                @YButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
-                @YButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
-                @BButon.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
-                @BButon.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
-                @BButon.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
-                @AButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
-                @AButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
-                @AButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
-                @LStick.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
-                @LStick.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
-                @LStick.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
-                @RTrigger.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
-                @RTrigger.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
-                @RTrigger.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
+                XButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
+                XButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
+                XButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnXButton;
+                YButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
+                YButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
+                YButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnYButton;
+                BButon.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
+                BButon.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
+                BButon.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBButon;
+                AButton.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
+                AButton.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
+                AButton.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAButton;
+                LStick.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
+                LStick.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
+                LStick.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnLStick;
+                RTrigger.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
+                RTrigger.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
+                RTrigger.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnRTrigger;
             }
+
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @XButton.started += instance.OnXButton;
-                @XButton.performed += instance.OnXButton;
-                @XButton.canceled += instance.OnXButton;
-                @YButton.started += instance.OnYButton;
-                @YButton.performed += instance.OnYButton;
-                @YButton.canceled += instance.OnYButton;
-                @BButon.started += instance.OnBButon;
-                @BButon.performed += instance.OnBButon;
-                @BButon.canceled += instance.OnBButon;
-                @AButton.started += instance.OnAButton;
-                @AButton.performed += instance.OnAButton;
-                @AButton.canceled += instance.OnAButton;
-                @LStick.started += instance.OnLStick;
-                @LStick.performed += instance.OnLStick;
-                @LStick.canceled += instance.OnLStick;
-                @RTrigger.started += instance.OnRTrigger;
-                @RTrigger.performed += instance.OnRTrigger;
-                @RTrigger.canceled += instance.OnRTrigger;
+                XButton.started += instance.OnXButton;
+                XButton.performed += instance.OnXButton;
+                XButton.canceled += instance.OnXButton;
+                YButton.started += instance.OnYButton;
+                YButton.performed += instance.OnYButton;
+                YButton.canceled += instance.OnYButton;
+                BButon.started += instance.OnBButon;
+                BButon.performed += instance.OnBButon;
+                BButon.canceled += instance.OnBButon;
+                AButton.started += instance.OnAButton;
+                AButton.performed += instance.OnAButton;
+                AButton.canceled += instance.OnAButton;
+                LStick.started += instance.OnLStick;
+                LStick.performed += instance.OnLStick;
+                LStick.canceled += instance.OnLStick;
+                RTrigger.started += instance.OnRTrigger;
+                RTrigger.performed += instance.OnRTrigger;
+                RTrigger.canceled += instance.OnRTrigger;
             }
         }
     }
-    public Player2Actions @Player2 => new Player2Actions(this);
+
     public interface IPlayer2Actions
     {
         void OnXButton(InputAction.CallbackContext context);

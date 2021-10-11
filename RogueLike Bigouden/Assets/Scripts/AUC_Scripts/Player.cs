@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Player", menuName = "Player")]
@@ -8,7 +6,7 @@ public class Player : ScriptableObject
     // Nom & Description
     public new string name; // Nom de l'unité
     public string description; // Description de l'unité
-    
+
     // Common Int
     public int attackSpeed; // Vitesse d'attaque
     public int actualUltPoint; // Point d'ultimate collecté par le joueur
@@ -19,7 +17,7 @@ public class Player : ScriptableObject
     public int damageX; // Dégat de l'attaque de base
     public int damageY; // Dégat de l'attaque spé
     public int damageProjectile; // Dégat du projectile
-    
+
     // Common Float
     public float movementSpeed;
     public float attackRangeX;
@@ -32,11 +30,11 @@ public class Player : ScriptableObject
     public float dashCooldown;
     public float ultDuration;
     public float bonusSpeed; // Déplacement Dash
-    
+
     // Vector2 Bigouden
     public Vector2 firstAttackReset; // Premier Reset du X 
     public Vector2 secondAttackReset; // Deuxième Reset du X
-    
+
     //Common Bool
     public bool readyToAttackX; // Peut utiliser l'attaque X
     public bool readyToAttackY; // Peut utiliser l'attaque Y
