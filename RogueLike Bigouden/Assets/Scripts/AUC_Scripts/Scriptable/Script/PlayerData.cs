@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Player", menuName = "Player")]
-public class Player : ScriptableObject
+public class PlayerData : ScriptableObject
 {
     // Nom & Description
     public new string name; // Nom de l'unité

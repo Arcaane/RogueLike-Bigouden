@@ -10,7 +10,7 @@ public class OnEnterRoom : MonoBehaviour
     void Start()
     {
         GameObject.Find("Player Pref(Clone)").transform.position = spawnPoint.transform.position;
-        GameObject.Find("Player Pref 1(Clone)").transform.position = spawnPoint.transform.position;
+        //GameObject.Find("Player Pref 1(Clone)").transform.position = spawnPoint.transform.position;
     }
 
     // Update is called once per frame

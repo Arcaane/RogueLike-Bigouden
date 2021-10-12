@@ -25,7 +25,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         controls = new BAV_PlayerController();
         isMoving = false;
     }

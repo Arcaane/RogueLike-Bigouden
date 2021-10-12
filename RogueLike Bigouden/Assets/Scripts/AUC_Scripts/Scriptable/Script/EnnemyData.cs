@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Ennemy", menuName = "Ennemies")]
-public class Ennemy : ScriptableObject
+public class EnnemyData : ScriptableObject
 {
     // Nom & Description
     public new string name; // Nom de l'unité
