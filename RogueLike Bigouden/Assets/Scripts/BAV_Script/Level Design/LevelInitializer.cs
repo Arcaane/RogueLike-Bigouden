@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class LevelInitializer : MonoBehaviour
 {
+    //Point de Spawn des Joueurs
     [SerializeField] private Transform[] PlayerSpawns;
-
+    //Prefab du Player
     [SerializeField] private GameObject playerPrefab;
+    //Nombre de joueurs dans la scene
+    [SerializeField] private List<GameObject> prefabInstantiate;
 
     // Start is called before the first frame update
     void LateUpdate()
@@ -17,13 +20,16 @@ public class LevelInitializer : MonoBehaviour
             var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
             for (int i = 0; i < playerConfigs.Length; i++)
             {
-                var player = Instantiate(playerPrefab, PlayerSpawns[i].position, PlayerSpawns[i].rotation,
+                GameObject player = Instantiate(playerPrefab, PlayerSpawns[i].position, PlayerSpawns[i].rotation,
                     gameObject.transform);
+                player.name = ("Player " + i);
                 player.GetComponent<PlayerInputHandler>().InitializePlayer(playerConfigs[i]);
+                prefabInstantiate.Add(player);
                 PlayerConfigurationManager.Instance.launchGame = false;
                 if(PlayerConfigurationManager.Instance.launchGame == false)
                     PlayerConfigurationManager.Instance.MainLayout.SetActive(false);
             }
         }
-    }
+ 
+   }
 }
