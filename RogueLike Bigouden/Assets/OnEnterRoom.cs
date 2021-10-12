@@ -9,8 +9,8 @@ public class OnEnterRoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Find("Player Pref(Clone)").transform.position = spawnPoint.transform.position;
-        //GameObject.Find("Player Pref 1(Clone)").transform.position = spawnPoint.transform.position;
+        GameObject.Find("Player 0").transform.position = spawnPoint.transform.position;
+        GameObject.Find("Player 1").transform.position = spawnPoint.transform.position;
     }
 
     // Update is called once per frame
