@@ -1,40 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnnemyIA : MonoBehaviour
 {
-    #region Variables
-    // Utility
-        public NavMeshAgent agent;
-        public Transform player;
-        public LayerMask whatIsGround, whatIsPlayer;
-
-    // Patroling
-        public Vector3 walkPoint;
-        bool walkPointSet;
-        public float walkPointRange;
-
-    
-    // States
-        public float sightRange = 2f, attackRange;
-        public bool playerInSightRange, playerInAttackRange;
-
-
-    // Attacktype
-        public float timeBetweenAttacks = .5f; // Temps du reset
-        bool readyToShoot; // Bool pour le reset
-        Transform shootPoint;
-        GameObject bulletPrefab;
-
-    #endregion
-
     private void Awake()
     {
         readyToShoot = true;
-
     }
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -57,6 +30,15 @@ public class EnnemyIA : MonoBehaviour
         if (playerInSightRange && playerInAttackRange)
             Attacking();
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
     private void Patroling()
     {
         if (!walkPointSet)
@@ -64,16 +46,15 @@ public class EnnemyIA : MonoBehaviour
         if (walkPointSet)
             agent.SetDestination(walkPoint);
 
-        Vector3 distanceToWalkPoint = (transform.position - walkPoint);
+        var distanceToWalkPoint = transform.position - walkPoint;
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
-
     }
 
     private void SearchWalkPoint()
     {
-        float randomY = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        var randomY = Random.Range(-walkPointRange, walkPointRange);
+        var randomX = Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector2(transform.position.x + randomX, transform.position.y + randomY);
     }
@@ -82,14 +63,14 @@ public class EnnemyIA : MonoBehaviour
     {
         agent.SetDestination(player.position);
     }
+
     private void Attacking()
     {
         agent.SetDestination(transform.position);
         transform.LookAt(player);
-        
-        if(readyToShoot)
-            EnnemyShoot();
 
+        if (readyToShoot)
+            EnnemyShoot();
     }
 
     private void EnnemyShoot()
@@ -104,11 +85,29 @@ public class EnnemyIA : MonoBehaviour
         readyToShoot = true;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
-    }
+    #region Variables
+
+    // Utility
+    public NavMeshAgent agent;
+    public Transform player;
+    public LayerMask whatIsGround, whatIsPlayer;
+
+    // Patroling
+    public Vector3 walkPoint;
+    private bool walkPointSet;
+    public float walkPointRange;
+
+
+    // States
+    public float sightRange = 2f, attackRange;
+    public bool playerInSightRange, playerInAttackRange;
+
+
+    // Attacktype
+    public float timeBetweenAttacks = .5f; // Temps du reset
+    private bool readyToShoot; // Bool pour le reset
+    private Transform shootPoint;
+    private GameObject bulletPrefab;
+
+    #endregion
 }

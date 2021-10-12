@@ -5,11 +5,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using Object = UnityEngine.Object;
 
-public class @PlayerControls : IInputActionCollection, IDisposable
+public class PlayerControls : IInputActionCollection, IDisposable
 {
-    public InputActionAsset asset { get; }
-    public @PlayerControls()
+    // Player
+    private readonly InputActionMap m_Player;
+    private readonly InputAction m_Player_AButton;
+    private readonly InputAction m_Player_BButton;
+    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_XAttack;
+    private readonly InputAction m_Player_YAttack;
+    private IPlayerActions m_PlayerActionsCallbackInterface;
+
+    public PlayerControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerControls"",
@@ -121,17 +130,20 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     ""controlSchemes"": []
 }");
         // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_XAttack = m_Player.FindAction("XAttack", throwIfNotFound: true);
-        m_Player_YAttack = m_Player.FindAction("YAttack", throwIfNotFound: true);
-        m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
-        m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
+        m_Player = asset.FindActionMap("Player", true);
+        m_Player_Move = m_Player.FindAction("Move", true);
+        m_Player_XAttack = m_Player.FindAction("XAttack", true);
+        m_Player_YAttack = m_Player.FindAction("YAttack", true);
+        m_Player_AButton = m_Player.FindAction("AButton", true);
+        m_Player_BButton = m_Player.FindAction("BButton", true);
     }
+
+    public InputActionAsset asset { get; }
+    public PlayerActions Player => new PlayerActions(this);
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(asset);
+        Object.Destroy(asset);
     }
 
     public InputBinding? bindingMask
@@ -173,70 +185,86 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_XAttack;
-    private readonly InputAction m_Player_YAttack;
-    private readonly InputAction m_Player_AButton;
-    private readonly InputAction m_Player_BButton;
     public struct PlayerActions
     {
-        private @PlayerControls m_Wrapper;
-        public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @XAttack => m_Wrapper.m_Player_XAttack;
-        public InputAction @YAttack => m_Wrapper.m_Player_YAttack;
-        public InputAction @AButton => m_Wrapper.m_Player_AButton;
-        public InputAction @BButton => m_Wrapper.m_Player_BButton;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+        private readonly PlayerControls m_Wrapper;
+
+        public PlayerActions(PlayerControls wrapper)
+        {
+            m_Wrapper = wrapper;
+        }
+
+        public InputAction Move => m_Wrapper.m_Player_Move;
+        public InputAction XAttack => m_Wrapper.m_Player_XAttack;
+        public InputAction YAttack => m_Wrapper.m_Player_YAttack;
+        public InputAction AButton => m_Wrapper.m_Player_AButton;
+        public InputAction BButton => m_Wrapper.m_Player_BButton;
+
+        public InputActionMap Get()
+        {
+            return m_Wrapper.m_Player;
+        }
+
+        public void Enable()
+        {
+            Get().Enable();
+        }
+
+        public void Disable()
+        {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+
+        public static implicit operator InputActionMap(PlayerActions set)
+        {
+            return set.Get();
+        }
+
         public void SetCallbacks(IPlayerActions instance)
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @XAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
-                @XAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
-                @XAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
-                @YAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
-                @YAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
-                @YAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
-                @AButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
-                @AButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
-                @AButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
-                @BButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
-                @BButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
-                @BButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                XAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
+                XAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
+                XAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnXAttack;
+                YAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
+                YAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
+                YAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYAttack;
+                AButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                AButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                AButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAButton;
+                BButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                BButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                BButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
             }
+
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @XAttack.started += instance.OnXAttack;
-                @XAttack.performed += instance.OnXAttack;
-                @XAttack.canceled += instance.OnXAttack;
-                @YAttack.started += instance.OnYAttack;
-                @YAttack.performed += instance.OnYAttack;
-                @YAttack.canceled += instance.OnYAttack;
-                @AButton.started += instance.OnAButton;
-                @AButton.performed += instance.OnAButton;
-                @AButton.canceled += instance.OnAButton;
-                @BButton.started += instance.OnBButton;
-                @BButton.performed += instance.OnBButton;
-                @BButton.canceled += instance.OnBButton;
+                Move.started += instance.OnMove;
+                Move.performed += instance.OnMove;
+                Move.canceled += instance.OnMove;
+                XAttack.started += instance.OnXAttack;
+                XAttack.performed += instance.OnXAttack;
+                XAttack.canceled += instance.OnXAttack;
+                YAttack.started += instance.OnYAttack;
+                YAttack.performed += instance.OnYAttack;
+                YAttack.canceled += instance.OnYAttack;
+                AButton.started += instance.OnAButton;
+                AButton.performed += instance.OnAButton;
+                AButton.canceled += instance.OnAButton;
+                BButton.started += instance.OnBButton;
+                BButton.performed += instance.OnBButton;
+                BButton.canceled += instance.OnBButton;
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);

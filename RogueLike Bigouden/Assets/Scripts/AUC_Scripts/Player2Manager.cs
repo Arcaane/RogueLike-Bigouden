@@ -1,43 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player2Manager : MonoBehaviour
 {
-    
     // Utilities
     public static Player2Manager instance;
-    private Rigidbody2D rb;
-    
+
     // X Attack
     public Transform attackPointX;
     public float attackRangeX = 0.7f;
     public bool readyToAttackX;
     public float xAttackCd = 0.2f; // A MODIFIER
-    
+
     // Y Attack
     public Transform attackPointY;
     public float attackRangeY;
     public bool readyToAttackY;
     public float yAttackCd;
-    
+    public bool readyToDash;
+    private float dashCooldown = 2f;
+    private float dashDuration = .2f;
+    private float dashForce = 15f;
+
     // Dash
     private bool isDashing;
-    public bool readyToDash;
-    private float dashDuration = .2f;
-    private float dashCooldown = 2f;
-    private float dashForce = 15f;
-    
+    private Rigidbody2D rb;
+
     private void Awake()
     {
         if (instance != null)
             return;
-        
+
         instance = this;
     }
-    
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         readyToDash = true;
@@ -46,9 +43,8 @@ public class Player2Manager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
 
     public void XAttack()
@@ -70,7 +66,7 @@ public class Player2Manager : MonoBehaviour
     {
         Debug.Log("B Button Pressed!");
     }
-    
+
     private void ResetX()
     {
         readyToAttackX = true;

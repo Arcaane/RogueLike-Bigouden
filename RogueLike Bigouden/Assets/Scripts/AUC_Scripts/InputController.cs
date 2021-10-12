@@ -5,11 +5,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using Object = UnityEngine.Object;
 
-public class @InputController : IInputActionCollection, IDisposable
+public class InputController : IInputActionCollection, IDisposable
 {
-    public InputActionAsset asset { get; }
-    public @InputController()
+    // Player
+    private readonly InputActionMap m_Player;
+    private readonly InputAction m_Player_LowerAttack;
+    private readonly InputAction m_Player_MoveInput;
+    private readonly InputAction m_Player_UpperAttack;
+    private IPlayerActions m_PlayerActionsCallbackInterface;
+
+    public InputController()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputController"",
@@ -83,15 +90,18 @@ public class @InputController : IInputActionCollection, IDisposable
     ""controlSchemes"": []
 }");
         // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_LowerAttack = m_Player.FindAction("LowerAttack", throwIfNotFound: true);
-        m_Player_UpperAttack = m_Player.FindAction("UpperAttack", throwIfNotFound: true);
-        m_Player_MoveInput = m_Player.FindAction("MoveInput", throwIfNotFound: true);
+        m_Player = asset.FindActionMap("Player", true);
+        m_Player_LowerAttack = m_Player.FindAction("LowerAttack", true);
+        m_Player_UpperAttack = m_Player.FindAction("UpperAttack", true);
+        m_Player_MoveInput = m_Player.FindAction("MoveInput", true);
     }
+
+    public InputActionAsset asset { get; }
+    public PlayerActions Player => new PlayerActions(this);
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(asset);
+        Object.Destroy(asset);
     }
 
     public InputBinding? bindingMask
@@ -133,54 +143,72 @@ public class @InputController : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_LowerAttack;
-    private readonly InputAction m_Player_UpperAttack;
-    private readonly InputAction m_Player_MoveInput;
     public struct PlayerActions
     {
-        private @InputController m_Wrapper;
-        public PlayerActions(@InputController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LowerAttack => m_Wrapper.m_Player_LowerAttack;
-        public InputAction @UpperAttack => m_Wrapper.m_Player_UpperAttack;
-        public InputAction @MoveInput => m_Wrapper.m_Player_MoveInput;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+        private readonly InputController m_Wrapper;
+
+        public PlayerActions(InputController wrapper)
+        {
+            m_Wrapper = wrapper;
+        }
+
+        public InputAction LowerAttack => m_Wrapper.m_Player_LowerAttack;
+        public InputAction UpperAttack => m_Wrapper.m_Player_UpperAttack;
+        public InputAction MoveInput => m_Wrapper.m_Player_MoveInput;
+
+        public InputActionMap Get()
+        {
+            return m_Wrapper.m_Player;
+        }
+
+        public void Enable()
+        {
+            Get().Enable();
+        }
+
+        public void Disable()
+        {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+
+        public static implicit operator InputActionMap(PlayerActions set)
+        {
+            return set.Get();
+        }
+
         public void SetCallbacks(IPlayerActions instance)
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @LowerAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
-                @LowerAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
-                @LowerAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
-                @UpperAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
-                @UpperAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
-                @UpperAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
-                @MoveInput.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
-                @MoveInput.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
-                @MoveInput.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
+                LowerAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
+                LowerAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
+                LowerAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowerAttack;
+                UpperAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
+                UpperAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
+                UpperAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpperAttack;
+                MoveInput.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
+                MoveInput.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
+                MoveInput.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveInput;
             }
+
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @LowerAttack.started += instance.OnLowerAttack;
-                @LowerAttack.performed += instance.OnLowerAttack;
-                @LowerAttack.canceled += instance.OnLowerAttack;
-                @UpperAttack.started += instance.OnUpperAttack;
-                @UpperAttack.performed += instance.OnUpperAttack;
-                @UpperAttack.canceled += instance.OnUpperAttack;
-                @MoveInput.started += instance.OnMoveInput;
-                @MoveInput.performed += instance.OnMoveInput;
-                @MoveInput.canceled += instance.OnMoveInput;
+                LowerAttack.started += instance.OnLowerAttack;
+                LowerAttack.performed += instance.OnLowerAttack;
+                LowerAttack.canceled += instance.OnLowerAttack;
+                UpperAttack.started += instance.OnUpperAttack;
+                UpperAttack.performed += instance.OnUpperAttack;
+                UpperAttack.canceled += instance.OnUpperAttack;
+                MoveInput.started += instance.OnMoveInput;
+                MoveInput.performed += instance.OnMoveInput;
+                MoveInput.canceled += instance.OnMoveInput;
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+
     public interface IPlayerActions
     {
         void OnLowerAttack(InputAction.CallbackContext context);
