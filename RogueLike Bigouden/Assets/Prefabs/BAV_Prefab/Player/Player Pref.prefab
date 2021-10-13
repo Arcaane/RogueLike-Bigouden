@@ -50,6 +50,13 @@ MonoBehaviour:
   playerMesh: {fileID: 3148788587835654078}
   isMoving: 0
   speed: 5
+  buttonAValue: 0
+  buttonBValue: 0
+  buttonXValue: 0
+  buttonYValue: 0
+  leftPressTrigger: 0
+  rightPressTrigger: 0
+  vibrationForce: {x: 0, y: 0}
   animatorPlayer: {fileID: 2274977210518290289}
 --- !u!61 &4795681332030857772
 BoxCollider2D:
@@ -182,7 +189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7933512645129114798, guid: d5dbf7e9c5714f64fa5db76932538594, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
