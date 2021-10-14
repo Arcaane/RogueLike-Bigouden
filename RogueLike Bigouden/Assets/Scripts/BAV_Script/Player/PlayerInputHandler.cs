@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,6 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool isMoving;
 
     public float speed = 5;
+    public float dashSpeed = 5;
 
     [Header("Boutton Value")]
     //Concerne les valeurs des Inputs renvoyer par les bouttons
@@ -36,6 +38,11 @@ public class PlayerInputHandler : MonoBehaviour
     //Force de la vibration dans la manette
     public Vector2 vibrationForce;
 
+    [SerializeField] private bool hasDashed, isDashing;
+    
+
+    [HideInInspector]
+    public Rigidbody2D rb;
     //Animator
     [SerializeField] private Animator animatorPlayer;
 
@@ -43,6 +50,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         controls = new BAV_PlayerController();
         isMoving = false;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void InitializePlayer(PlayerConfiguration config)
@@ -208,6 +216,7 @@ public class PlayerInputHandler : MonoBehaviour
         switch (buttonA.started)
         {
             case true:
+                Dash();
                 Debug.Log("Button A Started");
                 break;
             case false:
@@ -408,16 +417,37 @@ public class PlayerInputHandler : MonoBehaviour
             case true:
                 animatorPlayer.SetFloat("Horizontal", lookAxis.x);
                 animatorPlayer.SetFloat("Vertical", lookAxis.y);
+                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
                 //Debug.Log("0");
                 break;
             case false:
                 animatorPlayer.SetFloat("Horizontal", movementInput.x);
                 animatorPlayer.SetFloat("Vertical", movementInput.y);
+                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
+                //animatorPlayer.SetFloat("Speed", speed);
                 //Debug.Log("1");
                 break;
         }
-
         transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * speed * Time.deltaTime);
+        
+    }
+
+    void Dash()
+    {
+        hasDashed = true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2(movementInput.x, movementInput.y);
+
+        rb.velocity += dir.normalized * dashSpeed;
+        StartCoroutine(DashWait());
+    }
+
+    IEnumerator DashWait()
+    {
+        isDashing = true;
+        yield return new WaitForSeconds(.3f);
+        rb.velocity = Vector2.zero;
+        isDashing = false;
     }
 
     void MovingRumble(Vector2 force)

@@ -17,7 +17,7 @@ public class PlayerSetupMenuController : MonoBehaviour
     [SerializeField]
     private Button readyButton;
 
-    private float ignoreInputTime = 1.5f;
+    private float ignoreInputTime = 1f;
     private bool inputEnabled;
     public void setPlayerIndex(int pi)
     {
@@ -43,6 +43,7 @@ public class PlayerSetupMenuController : MonoBehaviour
 
     public void SelectColor(Material mat)
     {
+        readyPanel.SetActive(false);
         if(!inputEnabled) { return; }
 
         PlayerConfigurationManager.Instance.SetPlayerColor(playerIndex, mat);
