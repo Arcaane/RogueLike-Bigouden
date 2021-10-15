@@ -9,7 +9,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigs;
     [SerializeField]
-    private int MaxPlayers = 2;
+    public int MaxPlayers = 2;
 
     public GameObject MainLayout;
 
