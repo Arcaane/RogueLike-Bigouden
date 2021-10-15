@@ -4,24 +4,117 @@ using UnityEngine.AI;
 
 public class IABarman : MonoBehaviour
 {
+    #region MyRegion
     // Utilities
+    public EnnemyData ennemyData;
     [SerializeField] private Transform target;
-    [SerializeField] private bool playerInAttackRange, readyToShoot, playerAggro;
-
-    // Tweakable Values
-    public float attackRange = 1.5f;
-    public float timeToResetShoot = 1f;
-    public float timeBeforeAggro = .5f;
-    public float height; // Hauteur de la parabole
-    public Transform shootPoint;
-
-    public int _numberOfElements = 10; // Number of elements should draw in path of parabola
-    public Transform _moveableObject; // Objet to move on path
-    private readonly List<GameObject> _trajectoryElementsContainer = new List<GameObject>();
     private NavMeshAgent agent;
     private Rigidbody2D rb;
-    private float shootForce;
+    public Transform shootPoint;
+    
+    [SerializeField] private string name // Nom de l'unité
+    {
+        get { return ennemyData.nameSO; }
+        set { ennemyData.nameSO = name; }
+    }
+    [SerializeField] private string description // Description de l'unité
+    {
+        get { return ennemyData.descriptionSO; }
+        set { ennemyData.descriptionSO = description; }
+    }
+    [SerializeField] int lifePoint // Point de vie de l'unité
+    {
+        get { return ennemyData.lifePointSO; }
+        set { ennemyData.lifePointSO = lifePoint; }
+    }
+    [SerializeField] int shieldPoint // Point de l'armure de l'unité
+    {
+        get { return ennemyData.shieldPointSO; }
+        set { ennemyData.shieldPointSO = shieldPoint; }
+    }
+    [SerializeField] int damage // Nombre de dégats
+    {
+        get { return ennemyData.damageSO; }
+        set { ennemyData.damageSO = damage; }
+    }
+    [SerializeField] int detectZone // Fov
+    {
+        get { return ennemyData.detectZoneSO; }
+        set { ennemyData.detectZoneSO = detectZone; }
+    }
+    [SerializeField] float attackRange // Portée de l'attaque
+    {
+        get { return ennemyData.attackRangeSO; }
+        set { ennemyData.attackRangeSO = attackRange; }
+    }
+    [SerializeField] float delayAttack // Delay entre les attack des ennemis
+    {
+        get { return ennemyData.delayAttackSO; }
+        set { ennemyData.delayAttackSO = delayAttack; }
+    }
+    [SerializeField] float timeBeforeAggro // Delay avant que les ennemis aggro le joueur
+    {
+        get { return ennemyData.timeBeforeAggroSO; }
+        set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
+    }
+    [SerializeField] float attackSpeed // Vitesse d'attaque de l'unité
+    {
+        get { return ennemyData.attackSpeedSO; }
+        set { ennemyData.attackSpeedSO = attackSpeed; }
+    }
+    [SerializeField] float movementSpeed // Vitesse de déplacement de l'unité
+    {
+        get { return ennemyData.movementSpeedSO; }
+        set { ennemyData.movementSpeedSO = movementSpeed; }
+    }
+    [SerializeField] int damageAoe // Range de l'aoe du coktail du serveur
+    {
+        get { return ennemyData.damageAoeSO; }
+        set { ennemyData.damageAoeSO = damageAoe; }
+    }
+    [SerializeField] int damageAoeBeforeExplosion // Nombre de balles que tire le shooter
+    {
+        get { return ennemyData.damageAoeBeforeExplosionSO; }
+        set { ennemyData.damageAoeBeforeExplosionSO = damageAoeBeforeExplosion; }
+    }
+    [SerializeField] bool isPlayerInAttackRange // Le player est-il en range ?
+    {
+        get { return ennemyData.isPlayerInAttackRangeSO; }
+        set { ennemyData.isPlayerInAttackRangeSO = isPlayerInAttackRange; }
+    }
+    [SerializeField] bool isReadyToShoot // Peut tirer ?
+    {
+        get { return ennemyData.isReadyToShootSO; }
+        set { ennemyData.isReadyToShootSO = isReadyToShoot; }
+    }
+    [SerializeField] bool isAggro // L'unité chase le joueur ?
+    {
+        get { return ennemyData.isAggroSO; }
+        set { ennemyData.isAggroSO = isAggro; }
+    }
+    [SerializeField] bool isAttacking // L'unité attaque ?
+    {
+        get { return ennemyData.isAttackingSO; }
+        set { ennemyData.isAttackingSO = isAttacking; }
+    }
+    [SerializeField] bool isStun // L'unité est stun ?
+    {
+        get { return ennemyData.isStunSO; }
+        set { ennemyData.isStunSO = isStun; }
+    }
 
+    [SerializeField] Vector2 bulletSpeed // L'unité est stun ?
+    {
+        get { return ennemyData.bulletSpeedSO; }
+        set { ennemyData.bulletSpeedSO = bulletSpeed; }
+    }
+    [SerializeField] float rangeAoe // L'unité est stun ?
+    {
+        get { return ennemyData.rangeAoeSO; }
+        set { ennemyData.rangeAoeSO = rangeAoe; }
+    }
+    
+    #endregion
 
     // Start is called before the first frame update
     private void Start()
@@ -29,8 +122,8 @@ public class IABarman : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        playerAggro = false;
-        readyToShoot = true;
+        isAggro = false;
+        isReadyToShoot = true;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         Invoke(nameof(WaitToGo), timeBeforeAggro);
@@ -39,30 +132,10 @@ public class IABarman : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        playerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
+        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
 
-        if (playerInAttackRange && playerAggro)
+        if (isPlayerInAttackRange && isAggro)
             Attacking();
-
-        float distributionTime = 0;
-        for (float i = 1; i <= _numberOfElements; i++)
-        {
-            distributionTime++;
-            var currentPosition =
-                SampleParabola(transform.position, target.position, height, i / _numberOfElements);
-            _trajectoryElementsContainer[(int) i - 1].transform.position =
-                new Vector3(currentPosition.x, currentPosition.y, 0);
-
-            var nextPosition = SampleParabola(transform.position, target.position, height,
-                (i + 1) / _numberOfElements);
-            var angleInR = Mathf.Atan2(nextPosition.y - currentPosition.y, nextPosition.x - currentPosition.x);
-            _trajectoryElementsContainer[(int) i - 1].transform.eulerAngles =
-                new Vector3(0, 0, Mathf.Rad2Deg * angleInR - 90);
-        }
-
-        if (_moveableObject)
-            //Shows how to animate something following a parabola
-            _moveableObject.position = SampleParabola(transform.position, target.position, height, Time.time % 1);
     }
 
     private void FixedUpdate()
@@ -77,15 +150,6 @@ public class IABarman : MonoBehaviour
         //Draw the parabola by sample a few times
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, target.position);
-        float count = 20;
-        var lastP = transform.position;
-        for (float i = 0; i < count + 1; i++)
-        {
-            var p = SampleParabola(transform.position, target.position, height, i / count);
-            Gizmos.color = i % 2 == 0 ? Color.blue : Color.green;
-            Gizmos.DrawLine(lastP, p);
-            lastP = p;
-        }
     }
 
     private void OnDrawGizmosSelected()
@@ -96,55 +160,32 @@ public class IABarman : MonoBehaviour
 
     private void Attacking()
     {
-        if (readyToShoot)
+        if (isReadyToShoot)
             Shoot();
     }
 
     private void Shoot()
     {
-        shootForce = Random.Range(1.5f, 2.1f);
-        height = Random.Range(1, 2);
-        readyToShoot = false;
+        var bulletVelocity = Random.Range(bulletSpeed.x, bulletSpeed.y);
+        isReadyToShoot = false;
         // Play an attack animation
+        
         var projectile =
             ObjectPooler.Instance.SpawnFromPool("ProjectileBarman", shootPoint.position, Quaternion.identity);
         var rbProjectile = projectile.GetComponent<Rigidbody2D>();
-        rbProjectile.position = SampleParabola(transform.position, target.position, height, 0.7f);
+        
         rbProjectile.rotation = rb.rotation;
-        Invoke(nameof(ResetShoot), timeToResetShoot);
+        Invoke(nameof(ResetShoot), delayAttack);
     }
-
-    private Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t)
-    {
-        var parabolicT = t * 2 - 1;
-        if (Mathf.Abs(start.y - end.y) < 0.1f)
-        {
-            var travelDirection = end - start;
-            var result = start + t * travelDirection;
-            result.y += (-parabolicT * parabolicT + 1) * height;
-            return result;
-        }
-        else
-        {
-            var travelDirection = end - start;
-            var levelDirection = end - new Vector3(start.x, end.y, start.z);
-            var right = Vector3.Cross(travelDirection, levelDirection);
-            var up = Vector3.Cross(right, travelDirection);
-            if (end.y > start.y)
-                up = -up;
-            var result = start + t * travelDirection;
-            result += (-parabolicT * parabolicT + 1) * height * up.normalized;
-            return result;
-        }
-    }
+    
 
     private void ResetShoot()
     {
-        readyToShoot = true;
+        isReadyToShoot = true;
     }
 
     private void WaitToGo()
     {
-        playerAggro = true;
+        isAggro = true;
     }
 }
