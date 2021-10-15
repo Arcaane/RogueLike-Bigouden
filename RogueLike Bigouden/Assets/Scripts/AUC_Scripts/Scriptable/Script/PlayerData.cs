@@ -4,42 +4,42 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     // Nom & Description
-    public new string name; // Nom de l'unité
-    public string description; // Description de l'unité
+    public string nameSO; // Nom de l'unité
+    public string descriptionSO; // Description de l'unité
 
-    // Common Int
-    public int attackSpeed; // Vitesse d'attaque
-    public int actualUltPoint; // Point d'ultimate collecté par le joueur
-    public int ultMaxPoint; // Point d'ultime pour lancer l'ult
-    public int lifePoints; // Point de vie du joueur
-    public int shieldPoint; // Point de bouclier de l'ennemis
+    //  Int
+    public int attackSpeedSO; // Vitesse d'attaque
+    public int actualUltPointSO; // Point d'ultimate collecté par le joueur
+    public int ultMaxPointSO; // Point d'ultime pour lancer l'ult
+    public int lifePointsSO; // Point de vie du joueur
+    public int shieldPointSO; // Point de bouclier de l'ennemis
 
-    public int damageX; // Dégat de l'attaque de base
-    public int damageY; // Dégat de l'attaque spé
-    public int damageProjectile; // Dégat du projectile
+    public int damageXSO; // Dégat de l'attaque de base
+    public int damageYSO; // Dégat de l'attaque spé
+    public int damageProjectileSO; // Dégat du projectile
 
-    // Common Float
-    public float movementSpeed;
-    public float attackRangeX;
-    public float attackCdX;
-    public float attackRangeY;
-    public float attackCdY;
-    public float attackRangeProjectile;
-    public float attackCdB;
-    public float dashRange;
-    public float dashCooldown;
-    public float ultDuration;
-    public float bonusSpeed; // Déplacement Dash
+    //  Float
+    public float movementSpeedSO;
+    public float attackRangeXSO;
+    public float attackCdXSO;
+    public float attackRangeYSO;
+    public float attackCdYSO;
+    public float attackRangeProjectileSO;
+    public float attackCdBSO;
+    public float dashRangeSO;
+    public float dashCooldownSO;
+    public float ultDurationSO;
+    public float bonusSpeedSO; // Déplacement Dash
 
-    // Vector2 Bigouden
-    public Vector2 firstAttackReset; // Premier Reset du X 
-    public Vector2 secondAttackReset; // Deuxième Reset du X
+    // Vector2 
+    public Vector2 firstAttackResetSO; // Premier Reset du X 
+    public Vector2 secondAttackResetSO; // Deuxième Reset du X
 
-    //Common Bool
-    public bool readyToAttackX; // Peut utiliser l'attaque X
-    public bool readyToAttackY; // Peut utiliser l'attaque Y
-    public bool readyToAttackB; // Peut utiliser l'attaque projectile
-    public bool isDashing;
-    public bool readyToDash;
-    public bool onButter; // Le joueur se trouve sur une flaque de beurre
+    // Bool
+    public bool readyToAttackXSO; // Peut utiliser l'attaque X
+    public bool readyToAttackYSO; // Peut utiliser l'attaque Y
+    public bool readyToAttackBSO; // Peut utiliser l'attaque projectile
+    public bool isDashingSO;
+    public bool readyToDashSO;
+    public bool onButterSO; // Le joueur se trouve sur une flaque de beurre
 }
