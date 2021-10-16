@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class PlayerAttribut : MonoBehaviour
 {
-    [SerializeField] private bool hasDashed, isDashing;
     [SerializeField] private Rigidbody2D rb;
+    //Permet de relier ces vecteurs au Joystick dans le InputHandler.
     private Vector2 movementInput, lookAxis;
-    public float dashSpeed = 5;
+    //Vitesse de déplacement du joueur.
     public float speed = 5;
+    //Vitesse de force du dash.
+    public float dashSpeed = 5;
+    //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
+    [SerializeField] private bool hasDashed, isDashing;
+    //Script permettant d'ajouter des FeedBack dans le jeu.
+    [SerializeField] private PlayerFeedBack playerFeedBack;
     
-    //Force de la vibration dans la manette
-    public Vector2 vibrationForce;
+
 
     // Start is called before the first frame update
     void Start()
@@ -71,18 +76,11 @@ public class PlayerAttribut : MonoBehaviour
 
     IEnumerator DashWait()
     {
-        //MovingRumble(vibrationForce);
+        playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         isDashing = true;
         yield return new WaitForSeconds(.3f);
-        //MovingRumble(Vector2.zero);
+        playerFeedBack.MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
         isDashing = false;
     }
-    
-    /*
-    void MovingRumble(Vector2 force)
-    {
-        //Gamepad.current.SetMotorSpeeds(force.x, force.y);
-    }
-    */
 }
