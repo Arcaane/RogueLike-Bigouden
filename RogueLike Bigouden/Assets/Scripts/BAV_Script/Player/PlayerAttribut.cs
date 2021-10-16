@@ -18,13 +18,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        Move();
-    }
-
+    
     //Animator
     [SerializeField] private Animator animatorPlayer;
 
@@ -77,16 +71,18 @@ public class PlayerAttribut : MonoBehaviour
 
     IEnumerator DashWait()
     {
-        MovingRumble(vibrationForce);
+        //MovingRumble(vibrationForce);
         isDashing = true;
         yield return new WaitForSeconds(.3f);
-        MovingRumble(Vector2.zero);
+        //MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
         isDashing = false;
     }
     
+    /*
     void MovingRumble(Vector2 force)
     {
         //Gamepad.current.SetMotorSpeeds(force.x, force.y);
     }
+    */
 }

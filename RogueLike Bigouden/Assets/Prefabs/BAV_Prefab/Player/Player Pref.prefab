@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2205954843553579101}
   - component: {fileID: 5238175144520093631}
+  - component: {fileID: 2863195238870779043}
   - component: {fileID: 4795681332030857772}
   - component: {fileID: 4954751699612679667}
   - component: {fileID: 9212476998518355297}
@@ -48,19 +49,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMesh: {fileID: 3148788587835654078}
+  playerAttribut: {fileID: 2863195238870779043}
   isMoving: 0
-  speed: 5
-  dashSpeed: 5
   buttonAValue: 0
   buttonBValue: 0
   buttonXValue: 0
   buttonYValue: 0
   leftPressTrigger: 0
   rightPressTrigger: 0
-  vibrationForce: {x: 0, y: 0.25}
+--- !u!114 &2863195238870779043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537573348309961095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023590b7490f65047b397e4a44efa437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   hasDashed: 0
   isDashing: 0
-  rb: {fileID: 0}
+  rb: {fileID: 4954751699612679667}
+  dashSpeed: 5
+  speed: 5
+  vibrationForce: {x: 0, y: 0}
   animatorPlayer: {fileID: 2274977210518290289}
 --- !u!61 &4795681332030857772
 BoxCollider2D:

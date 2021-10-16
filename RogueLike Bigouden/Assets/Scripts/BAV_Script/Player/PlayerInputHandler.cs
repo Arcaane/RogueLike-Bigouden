@@ -17,7 +17,7 @@ public class PlayerInputHandler : MonoBehaviour
     //PlayerController
     private BAV_PlayerController controls;
 
-    private PlayerAttribut playerAttribut;
+    [SerializeField] PlayerAttribut playerAttribut;
     
     public bool isMoving;
 
