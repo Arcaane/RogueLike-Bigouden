@@ -239,7 +239,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""653b0900-cc12-4cea-b130-31893de91101"",
                     ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
+                    ""interactions"": ""MultiTap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""AButton"",
