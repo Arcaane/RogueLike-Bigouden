@@ -393,5 +393,6 @@ public class PlayerInputHandler : MonoBehaviour
     private void FixedUpdate()
     {
         playerAttribut.Move();
+        playerAttribut.MoveAnimation();
     } 
 }

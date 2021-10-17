@@ -5,17 +5,21 @@ using UnityEngine;
 public class PlayerAttribut : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
+
     //Permet de relier ces vecteurs au Joystick dans le InputHandler.
     private Vector2 movementInput, lookAxis;
+
     //Vitesse de déplacement du joueur.
     public float speed = 5;
+
     //Vitesse de force du dash.
     public float dashSpeed = 5;
+
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
     [SerializeField] private bool hasDashed, isDashing;
+
     //Script permettant d'ajouter des FeedBack dans le jeu.
     [SerializeField] private PlayerFeedBack playerFeedBack;
-    
 
 
     // Start is called before the first frame update
@@ -23,31 +27,36 @@ public class PlayerAttribut : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    
+
     //Animator
     [SerializeField] private Animator animatorPlayer;
 
     public void Move()
     {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0)
+        transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * speed * Time.deltaTime);
+    }
+
+    public void MoveAnimation()
+    {
+        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
             case true:
                 animatorPlayer.SetFloat("Horizontal", lookAxis.x);
                 animatorPlayer.SetFloat("Vertical", lookAxis.y);
                 animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                //Debug.Log("0");
                 break;
             case false:
-                animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                animatorPlayer.SetFloat("Vertical", movementInput.y);
+                if (movementInput != Vector2.zero)
+                {
+                    animatorPlayer.SetFloat("Horizontal", movementInput.x);
+                    animatorPlayer.SetFloat("Vertical", movementInput.y);
+                }
+
                 animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                //animatorPlayer.SetFloat("Speed", speed);
-                //Debug.Log("1");
                 break;
         }
-
-        transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * speed * Time.deltaTime);
     }
+
 
     public void SetInputVector(Vector2 direction, bool look)
     {
