@@ -199,7 +199,8 @@ public class PlayerInputHandler : MonoBehaviour
     private void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
-        switch (buttonAValue >= 0.2f)
+        
+        switch (buttonA.started)
         {
             case true:
                 playerAttribut.Dash();

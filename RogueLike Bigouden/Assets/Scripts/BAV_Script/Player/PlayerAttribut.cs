@@ -77,7 +77,6 @@ public class PlayerAttribut : MonoBehaviour
         hasDashed = true;
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2(movementInput.x, movementInput.y);
-
         rb.velocity += dir.normalized * dashSpeed;
         StartCoroutine(DashWait());
     }

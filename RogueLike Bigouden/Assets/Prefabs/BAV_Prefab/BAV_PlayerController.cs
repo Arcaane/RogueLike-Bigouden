@@ -333,6 +333,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b4492b5-fe60-40ff-bbac-e0637f0daeda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -467,6 +475,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Selected"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c214a9f5-15ea-4ddc-a2a7-f0bf6f73b3e5"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -522,6 +541,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
         m_UI_Selected = m_UI.FindAction("Selected", throwIfNotFound: true);
+        m_UI_PauseGame = m_UI.FindAction("PauseGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -670,12 +690,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Move;
     private readonly InputAction m_UI_Selected;
+    private readonly InputAction m_UI_PauseGame;
     public struct UIActions
     {
         private @BAV_PlayerController m_Wrapper;
         public UIActions(@BAV_PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_UI_Move;
         public InputAction @Selected => m_Wrapper.m_UI_Selected;
+        public InputAction @PauseGame => m_Wrapper.m_UI_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -691,6 +713,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Selected.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSelected;
                 @Selected.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSelected;
                 @Selected.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSelected;
+                @PauseGame.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseGame;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -701,6 +726,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Selected.started += instance.OnSelected;
                 @Selected.performed += instance.OnSelected;
                 @Selected.canceled += instance.OnSelected;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
         }
     }
@@ -748,5 +776,6 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnSelected(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }
