@@ -34,7 +34,7 @@ MonoBehaviour:
   components:
   - {fileID: 2539455672095205134}
   - {fileID: -8969606100302806142}
-  - {fileID: 7484622495226120105}
+  - {fileID: 5426583102308246738}
 --- !u!114 &2539455672095205134
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -51,11 +51,11 @@ MonoBehaviour:
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 0.95
+    m_Value: 0.5
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
     min: 0
   scatter:
     m_OverrideState: 1
@@ -87,7 +87,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
     min: 0
---- !u!114 &7484622495226120105
+--- !u!114 &5426583102308246738
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,31 +96,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
-  m_Name: LensDistortion
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
-  intensity:
+  postExposure:
     m_OverrideState: 1
-    m_Value: 1
-    min: -1
-    max: 1
-  xMultiplier:
+    m_Value: 1.5
+  contrast:
+    m_OverrideState: 1
+    m_Value: 10
+    min: -100
+    max: 100
+  colorFilter:
     m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  yMultiplier:
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  hueShift:
     m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  center:
-    m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.5}
-  scale:
-    m_OverrideState: 1
-    m_Value: 0.21
-    min: 0.01
-    max: 5
+    m_Value: 41
+    min: -180
+    max: 180
+  saturation:
+    m_OverrideState: 0
+    m_Value: 22
+    min: -100
+    max: 100
