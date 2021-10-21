@@ -11,7 +11,8 @@ public class Items : ScriptableObject
     public string description;
     public Sprite image;
     public int price;
-    public int rarity;
+    public Rarity rarity;
+    public enum Rarity{ Commun, Rare, Epic}
 
     public ItemEffect[] itemEffects;
 
@@ -32,6 +33,7 @@ public class Items : ScriptableObject
       public Affected affected;
       public float affectValue;
       public bool onTime;
+      public float onTimeDuration;
       
       public enum Type
       {

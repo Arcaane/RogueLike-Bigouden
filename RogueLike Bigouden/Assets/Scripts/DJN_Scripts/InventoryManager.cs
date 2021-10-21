@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,23 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     public List<Items> items;
-
+    private PlayerInputHandler player;
     public GameObject targetObject;
+    public bool isBonus;
+    public bool isMalus;
 
+    private void Start()
+    {
+        player = GetComponent<PlayerInputHandler>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UpdateItems();
+        }
+    }
 
     void UpdateItems()
     {
@@ -47,9 +62,13 @@ public class InventoryManager : MonoBehaviour
                 switch (currentItemEffect.type)
                 {
                     case Items.ItemEffect.Type.Bonus : Debug.Log("Bonus");
+                        isBonus = true;
+                        isMalus = false;
                         break;
                     
                     case Items.ItemEffect.Type.Malus : Debug.Log("Malus");
+                        isBonus = false;
+                        isMalus = true;
                         break;
                 }
                 
@@ -62,6 +81,58 @@ public class InventoryManager : MonoBehaviour
                 switch (currentItemEffect.condition)
                 {
                     case Items.ItemEffect.Condition.None : Debug.Log("None");
+                        
+                        switch (currentItemEffect.affected)
+                        {
+                            case Items.ItemEffect.Affected.Damage : Debug.Log("Damage");
+                                break;
+                    
+                            case Items.ItemEffect.Affected.Dash : Debug.Log("DashE");
+                                break;
+                    
+                            case Items.ItemEffect.Affected.Health : Debug.Log("Health");
+                                break;
+                    
+                            case Items.ItemEffect.Affected.Energy : Debug.Log("Energy");
+                                break;
+                    
+                            case Items.ItemEffect.Affected.Money : Debug.Log("Money");
+                                break;
+                    
+                            case Items.ItemEffect.Affected.Speed : Debug.Log("Speed");
+
+                                if (isBonus)
+                                {
+                                    if (currentItemEffect.onTime == true)
+                                    {
+                                        if(targetObject.CompareTag("Player"))
+                                            StartCoroutine(OnTimeEffect(player.speed));
+
+                                    }
+                                    else
+                                    {
+                                        player.speed += currentItemEffect.affectValue;
+                                    }
+                                }
+
+                                if (isMalus)
+                                {
+                                    if (currentItemEffect.onTime == true)
+                                    {
+                                        if(targetObject.CompareTag("Player"))
+                                            StartCoroutine(OnTimeEffect(-player.speed));
+
+                                    }
+                                    else
+                                    {
+                                        player.speed -= currentItemEffect.affectValue;
+                                    }
+                                }
+                                
+                                break;
+                        }
+                        
+                        
                         break;
                     
                     case Items.ItemEffect.Condition.AttackX : Debug.Log("AttackX");
@@ -90,7 +161,7 @@ public class InventoryManager : MonoBehaviour
                 
                 //application des modifications : affected
 
-                #region AFFECTED
+              /*  #region AFFECTED
                 
                 switch (currentItemEffect.affected)
                 {
@@ -112,9 +183,22 @@ public class InventoryManager : MonoBehaviour
                     case Items.ItemEffect.Affected.Speed : Debug.Log("Speed");
                         break;
                 }
-                
                 #endregion
+                */
+
+              IEnumerator OnTimeEffect(float playerValue)
+              {
+                  float playerValueBackup = playerValue;
+                  yield return new WaitForSeconds(0.1f);
+                  playerValue += currentItemEffect.affectValue;
+                  yield return new WaitForSeconds(currentItemEffect.onTimeDuration);
+                  playerValue = playerValueBackup;
+              }
+              
             }
         }
     }
+
+    
+  
 }
