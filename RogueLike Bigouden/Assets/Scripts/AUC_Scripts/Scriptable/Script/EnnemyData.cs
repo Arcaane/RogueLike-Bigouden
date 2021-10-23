@@ -11,7 +11,7 @@ public class EnnemyData : ScriptableObject
     public int lifePointSO; // Point de vie de l'unité
     public int shieldPointSO; // Point de l'armure de l'unité
     public int damageSO; // Nombre de dégats
-    public int detectZoneSO; // Fov
+    public float detectZoneSO; // Fov
 
     // IA Barman
     public int damageAoeSO; // Impact de zone quand un coktail touche le sol

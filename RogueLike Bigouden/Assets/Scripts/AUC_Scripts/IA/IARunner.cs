@@ -1,179 +1,281 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class IARunner : MonoBehaviour
 {
     public EnnemyData ennemyData;
+
     #region Variables
+
     //Utilities
     [SerializeField] private Transform target;
     public Transform shootPoint;
     private NavMeshAgent agent;
     private Rigidbody2D rb;
-    
-    [SerializeField] private string name // Nom de l'unité
+
+    private bool isPlayerInAggroRange;
+    private bool isRdyMove;
+    private Vector2 pos;
+
+    [SerializeField]
+    public string name // Nom de l'unité
     {
         get { return ennemyData.nameSO; }
         set { ennemyData.nameSO = name; }
     }
-    [SerializeField] private string description // Description de l'unité
+
+    [SerializeField]
+    public string description // Description de l'unité
     {
         get { return ennemyData.descriptionSO; }
         set { ennemyData.descriptionSO = description; }
     }
-    [SerializeField] int lifePoint // Point de vie de l'unité
+
+    [SerializeField]
+    public int lifePoint // Point de vie de l'unité
     {
         get { return ennemyData.lifePointSO; }
         set { ennemyData.lifePointSO = lifePoint; }
     }
-    [SerializeField] int shieldPoint // Point de l'armure de l'unité
+
+    [SerializeField]
+    public int shieldPoint // Point de l'armure de l'unité
     {
         get { return ennemyData.shieldPointSO; }
         set { ennemyData.shieldPointSO = shieldPoint; }
     }
-    [SerializeField] int damage // Nombre de dégats
+
+    [SerializeField]
+    public int damage // Nombre de dégats
     {
         get { return ennemyData.damageSO; }
         set { ennemyData.damageSO = damage; }
     }
-    [SerializeField] int detectZone // Fov
+
+    [SerializeField]
+    public float detectZone // Fov
     {
         get { return ennemyData.detectZoneSO; }
         set { ennemyData.detectZoneSO = detectZone; }
     }
-    [SerializeField] float attackRange // Portée de l'attaque
+
+    [SerializeField]
+    public float attackRange // Portée de l'attaque
     {
         get { return ennemyData.attackRangeSO; }
         set { ennemyData.attackRangeSO = attackRange; }
     }
-    [SerializeField] float delayAttack // Delay entre les attack des ennemis
+
+    [SerializeField]
+    public float delayAttack // Delay entre les attack des ennemis
     {
         get { return ennemyData.delayAttackSO; }
         set { ennemyData.delayAttackSO = delayAttack; }
     }
-    [SerializeField] float timeBeforeAggro // Delay avant que les ennemis aggro le joueur
+
+    [SerializeField]
+    public float timeBeforeAggro // Delay avant que les ennemis aggro le joueur
     {
         get { return ennemyData.timeBeforeAggroSO; }
         set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
     }
-    [SerializeField] float attackSpeed // Vitesse d'attaque de l'unité
+
+    [SerializeField]
+    public float attackSpeed // Vitesse d'attaque de l'unité
     {
         get { return ennemyData.attackSpeedSO; }
         set { ennemyData.attackSpeedSO = attackSpeed; }
     }
-    [SerializeField] float movementSpeed // Vitesse de déplacement de l'unité
+
+    [SerializeField]
+    public float movementSpeed // Vitesse de déplacement de l'unité
     {
         get { return ennemyData.movementSpeedSO; }
         set { ennemyData.movementSpeedSO = movementSpeed; }
     }
-    [SerializeField] float chargeDuration // MS de la charge du runner
+
+    [SerializeField]
+    public float chargeDuration // MS de la charge du runner
     {
         get { return ennemyData.chargeDurationSO; }
         set { ennemyData.chargeDurationSO = chargeDuration; }
     }
-    [SerializeField] float moveSpeedCharge // MS de la charge du runner
+
+    [SerializeField]
+    public float moveSpeedCharge // MS de la charge du runner
     {
         get { return ennemyData.moveSpeedChargeSO; }
         set { ennemyData.moveSpeedChargeSO = moveSpeedCharge; }
     }
-    [SerializeField] bool isPlayerInAttackRange // Le player est-il en range ?
+
+    [SerializeField]
+    public bool isPlayerInAttackRange // Le player est-il en range ?
     {
         get { return ennemyData.isPlayerInAttackRangeSO; }
         set { ennemyData.isPlayerInAttackRangeSO = isPlayerInAttackRange; }
     }
-    [SerializeField] bool isReadyToShoot // Peut tirer ?
+
+    [SerializeField]
+    public bool isReadyToShoot // Peut tirer ?
     {
         get { return ennemyData.isReadyToShootSO; }
         set { ennemyData.isReadyToShootSO = isReadyToShoot; }
     }
-    [SerializeField] bool isAggro // L'unité chase le joueur ?
+
+    [SerializeField]
+    public bool isAggro // L'unité chase le joueur ?
     {
         get { return ennemyData.isAggroSO; }
         set { ennemyData.isAggroSO = isAggro; }
     }
-    [SerializeField] bool isCharging  // Le runner charge t'il ?
+
+    [SerializeField]
+    public bool isCharging // Le runner charge t'il ?
     {
         get { return ennemyData.isChargingSO; }
         set { ennemyData.isChargingSO = isCharging; }
     }
-    [SerializeField] bool isAttacking // L'unité attaque ?
+
+    [SerializeField]
+    public bool isAttacking // L'unité attaque ?
     {
         get { return ennemyData.isAttackingSO; }
         set { ennemyData.isAttackingSO = isAttacking; }
     }
-    [SerializeField] bool isStun // L'unité est stun ?
+
+    [SerializeField]
+    public bool isStun // L'unité est stun ?
     {
         get { return ennemyData.isStunSO; }
         set { ennemyData.isStunSO = isStun; }
     }
+
     #endregion
-    
-    
-    private void Start()
+
+    public bool isRushing;
+    private bool isReadyToDash;
+    private float rushDelay = 3f;
+    private float rushingSpeed;
+    private float stunDuration = 3f;
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        agent.speed = movementSpeed;
+        rushingSpeed = movementSpeed * 3;
+        
+        
         isAggro = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        isReadyToShoot = true;
+        isReadyToDash = true;
+        isRushing = false;
+        
         Invoke(nameof(WaitToGo), timeBeforeAggro);
     }
 
     private void Update()
     {
+        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
         isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
 
-        if (!isPlayerInAttackRange && isAggro)
+        if (!isPlayerInAggroRange && isAggro)
+            Patrolling();
+        if (!isPlayerInAttackRange && isPlayerInAggroRange && isAggro)
             ChasePlayer();
-        if (isPlayerInAttackRange && isAggro)
+        if (isPlayerInAttackRange && isPlayerInAggroRange && isAggro)
             Attacking();
     }
 
-    private void FixedUpdate()
+    #region PatrollingState
+
+    private void Patrolling()
     {
-        var lookdir = target.position - rb.transform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
+        if (isRdyMove)
+            StartCoroutine(ResetPath());
+    }
+    
+    private void GetNewPath()
+    {
+        Vector2 pos = GetNewRandomPosition();
+        agent.SetDestination(pos);
     }
 
-    private void OnDrawGizmosSelected()
+    IEnumerator ResetPath()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(shootPoint.position, attackRange / 2);
+        isRdyMove = false;
+        GetNewPath();
+        yield return new WaitForSeconds(3f);
     }
+    
+    Vector3 GetNewRandomPosition()
+    {
+        float x = Random.Range(-3, 4);
+        float y = Random.Range(-3, 4);
+        pos = new Vector2(x, y);
+        Debug.Log(pos);
+        return pos;
+    }
+    
+    #endregion
 
+    #region ChaseState
     private void ChasePlayer()
     {
         agent.SetDestination(target.position);
+        var accelaration = (moveSpeedCharge - movementSpeed) / 3;
+        agent.speed += accelaration * Time.deltaTime;
     }
+    
+    #endregion
 
+    #region AttackState
     private void Attacking()
     {
         agent.SetDestination(transform.position);
-
-        if (isReadyToShoot) Shoot();
+        if (isReadyToDash) 
+            StartCoroutine(nameof(Dash));
     }
-
-    private void Shoot()
+    
+    IEnumerator Dash()
     {
-        isReadyToShoot = false;
-        // Play an attack animation
-        // Detect if player in range
-        var hitEnemies = Physics2D.OverlapCircleAll(shootPoint.position, attackRange / 2);
-        // Damage if true
-        foreach (var hittenObj in hitEnemies) Debug.Log("We hit " + hittenObj.name);
-        Invoke(nameof(ResetShoot), delayAttack);
+        isRushing = true;
+        agent.speed = rushingSpeed;
+        yield return new WaitForSeconds(rushDelay);
+        agent.speed = movementSpeed;
+        isRushing = false;
     }
 
-    private void ResetShoot()
+    public IEnumerator TakeObstacle()
     {
-        isReadyToShoot = true;
+        StopCoroutine(nameof(Dash));
+        isRushing = false;
+        agent.speed = 0;
+        isStun = true;
+        yield return new WaitForSeconds(stunDuration);
+        agent.speed = movementSpeed;
+        isStun = false;
     }
-
+    
+    #endregion
+    
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(shootPoint.position, attackRange / 2);
+    }
+    
     private void WaitToGo()
     {
         isAggro = true;

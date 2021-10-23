@@ -73,6 +73,22 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""a108a7c0-857d-4e8f-8f60-373596350010"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RightTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""f979e8c2-b712-4c1b-96b0-a967f205247f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -143,6 +159,61 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Taiko"",
+                    ""id"": ""c5c00ae2-829e-46f3-a828-260765ef2c63"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4cffc32f-f4ac-4ea8-8454-b4dc4aa27445"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button12"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""4654229f-b204-4501-8295-333f86a183d9"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button11"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9201ed0c-84e7-4fdb-96b3-2a16ac1a7e1a"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a66afabd-ccba-4ab0-9a1f-38ac480a89de"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""291f2e59-def6-406f-8c4d-2cf12a4ee06e"",
                     ""path"": ""<Gamepad>/buttonWest"",
@@ -177,6 +248,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d47a6c53-6132-4c71-b1fe-d455b2a48f72"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""AButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f4ec3eba-cf8b-4d82-929e-0b30bcc792b5"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -205,6 +287,28 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d28e37ac-5021-4755-b6bf-def163d4b39a"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81987cff-8700-4185-a73e-a6c4a49fa4b1"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RightTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -297,6 +401,72 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Taiko"",
+                    ""id"": ""7ee1115f-ac20-4d85-b3f4-51c4180b8e3a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""09e3afab-f1e7-4d83-bfe3-1cda67166945"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button12"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b0b4523a-be0d-4aec-846b-8567b8d07688"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button11"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""c6a49ad1-3950-4663-beeb-aa566d6819d1"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""7f0f5971-199c-47c9-82aa-e7bc098d29db"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f91b3229-baf8-44d7-a49b-54da8884ac92"",
+                    ""path"": ""<HID::HORI CO.,LTD. Taiko Controller>/button4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""New control scheme"",
+                    ""action"": ""Selected"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -323,6 +493,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""New control scheme"",
+            ""bindingGroup"": ""New control scheme"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<HID::HORI CO.,LTD. Taiko Controller>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -335,6 +516,8 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
         m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
+        m_Player_LeftTrigger = m_Player.FindAction("LeftTrigger", throwIfNotFound: true);
+        m_Player_RightTrigger = m_Player.FindAction("RightTrigger", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -395,6 +578,8 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_AButton;
     private readonly InputAction m_Player_BButton;
     private readonly InputAction m_Player_Select;
+    private readonly InputAction m_Player_LeftTrigger;
+    private readonly InputAction m_Player_RightTrigger;
     public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
@@ -406,6 +591,8 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         public InputAction @AButton => m_Wrapper.m_Player_AButton;
         public InputAction @BButton => m_Wrapper.m_Player_BButton;
         public InputAction @Select => m_Wrapper.m_Player_Select;
+        public InputAction @LeftTrigger => m_Wrapper.m_Player_LeftTrigger;
+        public InputAction @RightTrigger => m_Wrapper.m_Player_RightTrigger;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -436,6 +623,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
+                @LeftTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @RightTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -461,6 +654,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
+                @LeftTrigger.started += instance.OnLeftTrigger;
+                @LeftTrigger.performed += instance.OnLeftTrigger;
+                @LeftTrigger.canceled += instance.OnLeftTrigger;
+                @RightTrigger.started += instance.OnRightTrigger;
+                @RightTrigger.performed += instance.OnRightTrigger;
+                @RightTrigger.canceled += instance.OnRightTrigger;
             }
         }
     }
@@ -524,6 +723,15 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_KeyboardSchemeIndex];
         }
     }
+    private int m_NewcontrolschemeSchemeIndex = -1;
+    public InputControlScheme NewcontrolschemeScheme
+    {
+        get
+        {
+            if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
+            return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
+        }
+    }
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -533,6 +741,8 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnLeftTrigger(InputAction.CallbackContext context);
+        void OnRightTrigger(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

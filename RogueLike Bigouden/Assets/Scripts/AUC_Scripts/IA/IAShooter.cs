@@ -1,6 +1,14 @@
+using System;
+using System.Collections;
+using System.Runtime.Remoting.Messaging;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.PlayerLoop;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class IAShooter : MonoBehaviour
@@ -11,15 +19,24 @@ public class IAShooter : MonoBehaviour
     public EnnemyData ennemyData;
     [SerializeField] private Transform target;
     public Transform shootPoint;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Rigidbody2D rb;
-    
-    [SerializeField] private string name // Nom de l'unité
+    public Animator shooterAnimator;
+    private Vector2 shootPosRef;
+
+    // Bools
+    [SerializeField] private bool isPlayerInAggroRange;
+    [SerializeField] private bool isPlayerInAttackRange;
+    [SerializeField] private bool isReadyToShoot;
+    [SerializeField] private bool isAggro;
+    public LayerMask isPlayer;
+
+    [SerializeField] string name // Nom de l'unité
     {
         get { return ennemyData.nameSO; }
         set { ennemyData.nameSO = name; }
     }
-    [SerializeField] private string description // Description de l'unité
+    [SerializeField] string description // Description de l'unité
     {
         get { return ennemyData.descriptionSO; }
         set { ennemyData.descriptionSO = description; }
@@ -39,7 +56,7 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.damageSO; }
         set { ennemyData.damageSO = damage; }
     }
-    [SerializeField] int detectZone // Fov
+    [SerializeField] float detectZone // Fov
     {
         get { return ennemyData.detectZoneSO; }
         set { ennemyData.detectZoneSO = detectZone; }
@@ -79,26 +96,7 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.bulletSpeedSO; }
         set { ennemyData.bulletSpeedSO = bulletSpeed; }
     }
-    [SerializeField] bool isPlayerInAttackRange // Le player est-il en range ?
-    {
-        get { return ennemyData.isPlayerInAttackRangeSO; }
-        set { ennemyData.isPlayerInAttackRangeSO = isPlayerInAttackRange; }
-    }
-    [SerializeField] bool isReadyToShoot // Peut tirer ?
-    {
-        get { return ennemyData.isReadyToShootSO; }
-        set { ennemyData.isReadyToShootSO = isReadyToShoot; }
-    }
-    [SerializeField] bool isAggro // L'unité chase le joueur ?
-    {
-        get { return ennemyData.isAggroSO; }
-        set { ennemyData.isAggroSO = isAggro; }
-    }
-    [SerializeField] bool isAttacking // L'unité attaque ?
-    {
-        get { return ennemyData.isAttackingSO; }
-        set { ennemyData.isAttackingSO = isAttacking; }
-    }
+    
     [SerializeField] bool isStun // L'unité est stun ?
     {
         get { return ennemyData.isStunSO; }
@@ -106,82 +104,171 @@ public class IAShooter : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    private bool isLock;
+    private bool isRdyMove;
+    private Vector3 pos;
+    public float magnitude;
+    public bool isAttack;
+    private Vector2 fwd;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        agent = GetComponent<NavMeshAgent>();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        agent.updateRotation = false;
+        agent = GetComponent<NavMeshAgent>();    
+    }
+
+    private void Start()
+    {
+        agent.updateRotation = false; 
         agent.updateUpAxis = false;
+        agent.speed = movementSpeed;
+        
+        isLock = false;
         isAggro = false;
         isReadyToShoot = true;
+        isRdyMove = true;
+        
+        isPlayerInAggroRange = false;
+        isPlayerInAttackRange = false;
+        Debug.Log(detectZone);
+        Debug.Log(attackRange);
+
         Invoke(nameof(WaitToGo), timeBeforeAggro);
     }
 
     private void Update()
     {
-        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
-
-        if (!isPlayerInAttackRange && isAggro)
-            ChasePlayer();
-        if (isAggro && isAggro)
-            Attacking();
-    }
-
-    private void FixedUpdate()
-    {
+        magnitude = agent.velocity.magnitude;
         var lookdir = target.position - rb.transform.position;
         var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
+        
+        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
+        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
+        
+        if (!isPlayerInAggroRange && !isPlayerInAttackRange) 
+            Patrolling();
+        if (isPlayerInAggroRange && !isPlayerInAttackRange) 
+            ChasePlayer();
+        if (isPlayerInAttackRange && isPlayerInAggroRange) 
+            Attacking();
     }
-
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
     }
+    
 
+    private void Patrolling()
+    {
+        WalkAnimation(agent);
+        if (isRdyMove)
+        {
+            StartCoroutine(ResetPath());
+        }
+    }
+    
     private void ChasePlayer()
     {
         agent.SetDestination(target.position);
+        WalkAnimation(agent);
+        isLock = true;
+        isAttack = false;
     }
 
     private void Attacking()
     {
+        if (!isReadyToShoot)
+        {
+            isAttack = true;
+        }
         agent.SetDestination(transform.position);
+        Debug.DrawRay(transform.position, new Vector3(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y), Color.green);
+        if (isReadyToShoot) VerifyShoot();
+    }
 
-        if (isReadyToShoot) Shoot();
+    private void VerifyShoot()
+    {
+        // Raycast pour vérifier si le joueur est en cible 
+        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y, 0);
+
+        if (Physics2D.Raycast(transform.position, fwd, attackRange, isPlayer))
+        {
+            Debug.Log("Player dans le viseur !");
+            Shoot();
+        }
     }
 
     private void Shoot()
     {
-        float bulletVelocity = Random.Range(bulletSpeed.x, bulletSpeed.y);
         isReadyToShoot = false;
-        
-        // Play an attack animation
-        
-        var ball = ObjectPooler.Instance.SpawnFromPool("Projectile", shootPoint.position, Quaternion.identity);
-        var rbball = ball.GetComponent<Rigidbody2D>();
-        rbball.AddForce(shootPoint.right * bulletVelocity, ForceMode2D.Impulse);
-        rbball.rotation = rb.rotation;
-        
-        Invoke(nameof(ResetShoot), delayAttack);
+        StartCoroutine(BulletShoot());
     }
-
-    private void ResetShoot()
+    
+    IEnumerator BulletShoot()
     {
+        Vector2 fwd = transform.TransformDirection(target.position.x, target.position.y, 0);
+        float bulletVelocity = Random.Range(bulletSpeed.x, bulletSpeed.y);
+        
+        AttackAnimation(agent);
+        
+        var lookdir = target.position - rb.transform.position;
+        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
+        
+        var ball = ObjectPooler.Instance.SpawnFromPool("Bullet", new Vector3(agent.transform.position.x, agent.transform.position.y), Quaternion.identity);
+        ball.transform.position = Vector2.MoveTowards(ball.transform.position, fwd, bulletVelocity * Time.deltaTime); 
+        yield return new WaitForSeconds(1f);
         isReadyToShoot = true;
     }
-
-    public void LookPlayer(Transform targetTransform, Transform launcherTransform)
+    
+    Vector3 GetNewRandomPosition()
     {
-        Vector2 lookdir = targetTransform.position - launcherTransform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
+        float x = Random.Range(-3, 4);
+        float y = Random.Range(-3, 4);
+        pos = new Vector2(x, y);
+        Debug.Log(pos);
+        return pos;
     }
-
+    
     private void WaitToGo()
     {
+        Debug.Log(isAggro);
         isAggro = true;
+        Debug.Log(isAggro);
+    }
+    
+    private void GetNewPath()
+    {
+        Vector2 pos = GetNewRandomPosition();
+        agent.SetDestination(pos);
+    }
+
+    IEnumerator ResetPath()
+    {
+        isRdyMove = false;
+        GetNewPath();
+        yield return new WaitForSeconds(3f);
+        isRdyMove = true;
+    }
+
+    public void WalkAnimation(NavMeshAgent agent)
+    {
+        if (agent.velocity != Vector3.zero)
+        {
+            shooterAnimator.SetFloat("Vertical", agent.velocity.y);
+            shooterAnimator.SetFloat("Horizontal", agent.velocity.x);
+            shooterAnimator.SetFloat("Magnitude", agent.velocity.magnitude); 
+        }
+    }
+
+    public void AttackAnimation(NavMeshAgent agent)
+    {
+        shooterAnimator.SetFloat("Vertical", fwd.y);
+        shooterAnimator.SetFloat("Horizontal", fwd.x);
+        shooterAnimator.SetBool("isAttack", isAttack);
     }
 }

@@ -37,7 +37,7 @@ public class IABarman : MonoBehaviour
         get { return ennemyData.damageSO; }
         set { ennemyData.damageSO = damage; }
     }
-    [SerializeField] int detectZone // Fov
+    [SerializeField] float detectZone // Fov
     {
         get { return ennemyData.detectZoneSO; }
         set { ennemyData.detectZoneSO = detectZone; }

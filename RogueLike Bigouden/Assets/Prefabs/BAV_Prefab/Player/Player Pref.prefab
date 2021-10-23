@@ -50,6 +50,17 @@ MonoBehaviour:
   playerMesh: {fileID: 3148788587835654078}
   isMoving: 0
   speed: 5
+  dashSpeed: 5
+  buttonAValue: 0
+  buttonBValue: 0
+  buttonXValue: 0
+  buttonYValue: 0
+  leftPressTrigger: 0
+  rightPressTrigger: 0
+  vibrationForce: {x: 0, y: 0}
+  hasDashed: 0
+  isDashing: 0
+  rb: {fileID: 0}
   animatorPlayer: {fileID: 2274977210518290289}
 --- !u!61 &4795681332030857772
 BoxCollider2D:
@@ -183,8 +194,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7933512645129114798, guid: d5dbf7e9c5714f64fa5db76932538594, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,7 +203,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2274977210518290289
@@ -205,7 +216,7 @@ Animator:
   m_GameObject: {fileID: 7250380072424164172}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50af8b156f3cf7d449b39763fc88b2f5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5824827212ffd6f4193305e87c979cea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
