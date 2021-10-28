@@ -14,7 +14,7 @@ public class ItemsManager : MonoBehaviour
 
     public List<Items> epicItems;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //ajouter tous les items dans le dossier sur la liste.
         items = Resources.LoadAll<Items>("Items");

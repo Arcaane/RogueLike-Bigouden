@@ -14,16 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Check this out redbull
   description: Is this real life ?
-  image: {fileID: 21300000, guid: 0be3fd6c13b7a194fa5cb6ad29ab8186, type: 3}
+  image: {fileID: -2580360775680210046, guid: 42dd7afa70790af4182d4fa5afacbbf2, type: 3}
   price: 0
   rarity: 2
   itemEffects:
-  - type: 1
+  - target: 0
+    type: 1
     condition: 1
-    conditionValue: 0
-    conditionTrueOrFalse: 0
-    target: 0
-    affected: 0
-    affectValue: 0
-    onTime: 0
-    onTimeDuration: 0
+    effectOn: 0
+    action: 0
+    conditionActionMustBeDone: 0
+    value: 0
+    conditionValueToReach: 0
+    augmentation: 0
+    onCurrent: 0
+    amount: 0
+    alteration: 0
+    targetObject: {fileID: 0}
+    pointOfAppear: {fileID: 0}
+    appearAmount: 0
+    overTime: 0
+    overTimeDuration: 0
