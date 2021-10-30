@@ -336,7 +336,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""PauseGame"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""5b4492b5-fe60-40ff-bbac-e0637f0daeda"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -464,6 +464,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcc2fd5e-e630-44ab-803a-ce2ec89f9a38"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",

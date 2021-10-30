@@ -51,7 +51,6 @@ public class PlayerSetupMenuController : MonoBehaviour
         readyButton.interactable = true;
         menuPanel.SetActive(false);
         readyButton.Select();
-        
     }
 
     public void ReadyPlayer()
