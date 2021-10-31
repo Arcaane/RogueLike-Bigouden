@@ -18,21 +18,27 @@ public class PlayerInputHandler : MonoBehaviour
     private BAV_PlayerController controls;
 
     [SerializeField] PlayerAttribut playerAttribut;
-    
+
     public bool isMoving;
 
     [Header("Boutton Value")]
     //Concerne les valeurs des Inputs renvoyer par les bouttons
-    [SerializeField] private float buttonAValue;
+    [SerializeField]
+    private float buttonAValue;
+
     [SerializeField] private float buttonBValue;
     [SerializeField] private float buttonXValue;
     [SerializeField] private float buttonYValue;
 
     [Header("Trigger Value")]
     //Concerne les Inputs des trigger
-    [SerializeField] private float leftPressTrigger;
+    [SerializeField]
+    private float leftPressTrigger;
+
     [SerializeField] private float rightPressTrigger;
-    
+
+    private float duration = 0.2f;
+
     private void Awake()
     {
         controls = new BAV_PlayerController();
@@ -169,12 +175,12 @@ public class PlayerInputHandler : MonoBehaviour
                 break;
         }
     }
-    
+
     /// <summary>
     /// Permet de déclencher les Etats de la gachette Droite.
     /// </summary>
     /// <param name="isRightTriggerEnable"></param>
-    private void RightTrigger (bool isRightTriggerEnable)
+    private void RightTrigger(bool isRightTriggerEnable)
     {
         switch (isRightTriggerEnable)
         {
@@ -199,7 +205,6 @@ public class PlayerInputHandler : MonoBehaviour
     private void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
-        
         switch (buttonA.started)
         {
             case true:
@@ -395,5 +400,5 @@ public class PlayerInputHandler : MonoBehaviour
     {
         playerAttribut.Move();
         playerAttribut.MoveAnimation();
-    } 
+    }
 }

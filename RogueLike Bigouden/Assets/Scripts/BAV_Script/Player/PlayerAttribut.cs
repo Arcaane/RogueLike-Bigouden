@@ -21,6 +21,9 @@ public class PlayerAttribut : MonoBehaviour
     //Script permettant d'ajouter des FeedBack dans le jeu.
     [SerializeField] private PlayerFeedBack playerFeedBack;
 
+    [Header("Player Attack")] [SerializeField]
+    private AttackSystemSpline attackSpline;
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +60,6 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-
     public void SetInputVector(Vector2 direction, bool look)
     {
         switch (look)
@@ -70,7 +72,8 @@ public class PlayerAttribut : MonoBehaviour
                 break;
         }
     }
-
+    
+    
 
     public void Dash()
     {

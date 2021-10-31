@@ -217,7 +217,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""291f2e59-def6-406f-8c4d-2cf12a4ee06e"",
                     ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
+                    ""interactions"": ""MultiTap(tapCount=3)"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""XButton"",
