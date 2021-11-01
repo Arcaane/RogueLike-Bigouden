@@ -26,7 +26,7 @@ public class ProjectilePath : MonoBehaviour
     public int goingForward = 0;
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         Path();
         OnMovement(spline.arrayVector[0].pointAttack);

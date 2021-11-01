@@ -29,10 +29,13 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
+
+
     [SerializeField] public bool launchAttack;
     [SerializeField] public bool launchSecondAttack;
     [SerializeField] public float delayForSecondAttack = 4f;
-    [SerializeField] private float launchValue; 
+    [SerializeField] private float timer;
+    [SerializeField] public float incrementValue;
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -132,22 +135,24 @@ public class PlayerAttribut : MonoBehaviour
         isDashing = false;
     }
 
-    public void AttackLaunch(float delayTime)
+    void DownValue()
     {
-        if(launchAttack)
+        if (incrementValue >= 4)
         {
-            launchValue += (Time.deltaTime / (delayTime / 10));
-            if (launchValue <= delayTime)
+            timer += (Time.deltaTime / (speed / 10));
+            if (timer >= speed)
             {
-                launchSecondAttack = true;
+                incrementValue = 0;
+                timer = 0f;
             }
         }
-        launchValue = 0;
     }
+
 
     public void FixedUpdate()
     {
         Move();
         MoveAnimation();
+        DownValue();
     }
 }

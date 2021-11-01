@@ -181,6 +181,11 @@ MonoBehaviour:
   splinePivot: {fileID: 5324598856544789741}
   attackSpline: {fileID: 7399876086301487475}
   attackPath: {fileID: 1918349006}
+  launchAttack: 0
+  launchSecondAttack: 0
+  delayForSecondAttack: 4
+  timer: 0
+  incrementValue: 0
   playerMesh: {fileID: 3148788587835654078}
   animatorPlayer: {fileID: 2274977210518290289}
   playerFeedBack: {fileID: 8216965673747083310}
@@ -466,7 +471,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -553,19 +558,19 @@ MonoBehaviour:
     - {x: -1, y: 0, z: 0}
     - {x: -1, y: 1, z: 0}
     - {x: 0, y: 1, z: 0}
-  - color: {r: 0, g: 0, b: 1, a: 1}
-    pointAttack:
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
     - {x: 1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-  - color: {r: 1, g: 0, b: 0, a: 1}
+    - {x: 1, y: 0, z: 0}
+    - {x: 1, y: 0, z: 0}
+  - color: {r: 0, g: 1, b: 0, a: 1}
     pointAttack:
+    - {x: -1, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -1, y: 1, z: 0}
     - {x: 0, y: 1, z: 0}
-    - {x: 0, y: 1.25, z: 0}
-    - {x: 0, y: 1.5, z: 0}
-    - {x: 0, y: 2, z: 0}
-  radiusAttack: 0.5
+    - {x: 1, y: 1, z: 0}
+    - {x: 1, y: 0, z: 0}
+    - {x: 1, y: 0, z: 0}
+  radiusAttack: 1
   addPoint: 0
 --- !u!114 &1918349006
 MonoBehaviour:
@@ -581,7 +586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spline: {fileID: 7399876086301487475}
   projectile: {fileID: 7329523933834890391}
-  duration: 1
-  speed: 4
-  lookForward: 0
-  mode: 1
+  progress: 0
+  speed: 8
+  mode: 0
+  goingForward: 0

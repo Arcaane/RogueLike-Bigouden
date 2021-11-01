@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Security.AccessControl;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using static UnityEngine.InputSystem.InputAction;
@@ -43,15 +44,22 @@ public class PlayerInputHandler : MonoBehaviour
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
         playerConfig.Input.onActionTriggered += Input_MoveTrigger;
-    }
-
-    public void OnEnable()
-    {
         AButton(true);
         BButton(true);
         XButton(true);
         YButton(true);
         RightTrigger(true);
+    }
+
+    public void OnEnable()
+    {
+        /*
+        AButton(true);
+        BButton(true);
+        XButton(true);
+        YButton(true);
+        RightTrigger(true);
+        */
         controls.Enable();
     }
 
@@ -85,6 +93,15 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 OnLook(obj);
+                break;
+            case false:
+                break;
+        }
+
+        switch (obj.action.name == controls.Player.XButton.name)
+        {
+            case true:
+                playerAttribut.attackPath.goingForward = 0;
                 break;
             case false:
                 break;
@@ -191,6 +208,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+
     #region Appel des différentes Inputs
 
     /// <summary>
@@ -228,6 +246,7 @@ public class PlayerInputHandler : MonoBehaviour
                 break;
         }
     }
+
 
     /// <summary>
     /// Permet d'appeler l'input du Boutton B
@@ -284,8 +303,6 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 Debug.Log("Button X Performed");
-                playerAttribut.attackPath.goingForward = 1;
-                playerAttribut.attackPath.OnMovement(playerAttribut.attackSpline.arrayVector[0].pointAttack);
                 break;
             case false:
                 break;
@@ -294,7 +311,6 @@ public class PlayerInputHandler : MonoBehaviour
         switch (buttonX.canceled)
         {
             case true:
-                playerAttribut.attackPath.goingForward = 0;
                 Debug.Log("Button X Canceled");
                 break;
             case false:
@@ -371,7 +387,6 @@ public class PlayerInputHandler : MonoBehaviour
                 break;
         }
     }
-
 
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
