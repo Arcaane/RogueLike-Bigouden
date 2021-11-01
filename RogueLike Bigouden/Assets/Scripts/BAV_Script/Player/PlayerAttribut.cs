@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,21 +10,30 @@ public class PlayerAttribut : MonoBehaviour
     //Permet de relier ces vecteurs au Joystick dans le InputHandler.
     private Vector2 movementInput, lookAxis;
 
+    [Header("Vitesse du joueur")]
     //Vitesse de déplacement du joueur.
     public float speed = 5;
 
     //Vitesse de force du dash.
     public float dashSpeed = 5;
 
+    [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
-    [SerializeField] private bool hasDashed, isDashing;
-
-    //Script permettant d'ajouter des FeedBack dans le jeu.
-    [SerializeField] private PlayerFeedBack playerFeedBack;
+    [SerializeField] private bool hasDashed;
+    [SerializeField] private bool isDashing;
 
     [Header("Player Attack")] [SerializeField]
     private AttackSystemSpline attackSpline;
 
+    [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
+    public SpriteRenderer playerMesh;
+
+    [SerializeField] private Animator animatorPlayer;
+
+    [Header("FeedBack (Vibrations, etc)")]
+    //Script permettant d'ajouter des FeedBack dans le jeu.
+    [SerializeField]
+    private PlayerFeedBack playerFeedBack;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +42,6 @@ public class PlayerAttribut : MonoBehaviour
     }
 
     //Animator
-    [SerializeField] private Animator animatorPlayer;
 
     public void Move()
     {
@@ -60,20 +69,35 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
+    public void Attack(bool look)
+    {
+        switch (look)
+        {
+            case true:
+                float rotationXObjLook = (Mathf.Atan2(lookAxis.y, lookAxis.x) * Mathf.Rad2Deg) - 90f;
+                attackSpline.transform.rotation = Quaternion.AngleAxis(rotationXObjLook, Vector3.forward);
+                break;
+            case false:
+                float rotationXObjMove  = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg) - 90f;
+                attackSpline.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
+                break;
+        }
+    }
+
     public void SetInputVector(Vector2 direction, bool look)
     {
         switch (look)
         {
             case true:
                 lookAxis = direction;
+                Attack(true);
                 break;
             case false:
                 movementInput = direction;
+                Attack(false);
                 break;
         }
     }
-    
-    
 
     public void Dash()
     {
@@ -84,7 +108,6 @@ public class PlayerAttribut : MonoBehaviour
         StartCoroutine(DashWait());
     }
 
-
     IEnumerator DashWait()
     {
         playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
@@ -93,5 +116,11 @@ public class PlayerAttribut : MonoBehaviour
         playerFeedBack.MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
         isDashing = false;
+    }
+
+    public void FixedUpdate()
+    {
+        Move();
+        MoveAnimation();
     }
 }

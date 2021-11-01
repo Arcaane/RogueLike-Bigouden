@@ -206,6 +206,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &297798391 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7399876086301487475, guid: 7487c504d882d844c87db2e7d730a83b, type: 3}
+  m_PrefabInstance: {fileID: 2069989192}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d6a40fae0a1164393c6e8b65ce21c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1152334981
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +261,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1677404509 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3148788587835654078, guid: 7487c504d882d844c87db2e7d730a83b, type: 3}
+  m_PrefabInstance: {fileID: 2069989192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1693898079
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +440,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 740656411174128538, guid: 7487c504d882d844c87db2e7d730a83b, type: 3}
+      propertyPath: playerMesh
+      value: 
+      objectReference: {fileID: 1677404509}
+    - target: {fileID: 740656411174128538, guid: 7487c504d882d844c87db2e7d730a83b, type: 3}
+      propertyPath: attackSpline
+      value: 
+      objectReference: {fileID: 297798391}
     - target: {fileID: 2205954843553579101, guid: 7487c504d882d844c87db2e7d730a83b, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-
 [CustomEditor(typeof(AttackSystemSpline))]
 public class AttackSystemInspector : Editor
 {

@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Security.AccessControl;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
-
-    [SerializeField] private SpriteRenderer playerMesh;
-
+    
     //PlayerController
     private BAV_PlayerController controls;
 
     [SerializeField] PlayerAttribut playerAttribut;
-
     public bool isMoving;
 
     [Header("Boutton Value")]
@@ -48,26 +39,31 @@ public class PlayerInputHandler : MonoBehaviour
     public void InitializePlayer(PlayerConfiguration config)
     {
         playerConfig = config;
-        playerMesh.material = config.playerMaterial;
+        playerAttribut.playerMesh.material = config.playerMaterial;
         playerConfig.Input.onActionTriggered += Input_MoveTrigger;
     }
 
     public void OnEnable()
     {
+        /*
         AButton(true);
         BButton(true);
         XButton(true);
         YButton(true);
         RightTrigger(true);
+        */
+        controls.Enable();
     }
 
     public void OnDisable()
     {
+        /*
         AButton(false);
         BButton(false);
         XButton(false);
         YButton(false);
-        RightTrigger(false);
+        RightTrigger(false);*/
+        controls.Disable();
     }
 
 
@@ -395,10 +391,5 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     #endregion
-
-    private void FixedUpdate()
-    {
-        playerAttribut.Move();
-        playerAttribut.MoveAnimation();
-    }
+    
 }

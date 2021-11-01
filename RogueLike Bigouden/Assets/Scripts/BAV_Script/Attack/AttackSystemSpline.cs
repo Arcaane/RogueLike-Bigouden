@@ -24,7 +24,7 @@ public class AttackSystemSpline : MonoBehaviour
 
     public void Awake()
     {
-        arrayVector = new ArrayVector[3];
+        Reset();
     }
 
 
