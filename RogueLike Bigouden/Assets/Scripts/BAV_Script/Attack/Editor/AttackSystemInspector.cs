@@ -57,7 +57,7 @@ public class AttackSystemInspector : Editor
     {
         Handles.color = color;
         Vector3 point = spline.GetPoint(0f, pointsAttack);
-        Handles.DrawLine(point, point + spline.GetDirection(0f, pointsAttack) * directionScale);
+        Handles.DrawLine(point, point + spline.GetDirection(0f, pointsAttack));
         for (int i = 1; i <= lineSteps; i++)
         {
             point = spline.GetPoint(i / (float) lineSteps, pointsAttack);

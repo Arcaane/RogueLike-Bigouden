@@ -21,12 +21,7 @@ public class AttackSystemSpline : MonoBehaviour
     public float radiusAttack;
 
     public bool addPoint = false;
-
-    public void Awake()
-    {
-        Reset();
-    }
-
+    
 
     public int CurveCount
     {
@@ -50,10 +45,10 @@ public class AttackSystemSpline : MonoBehaviour
         }
 
         return transform.TransformPoint(Bezier.GetPoint(
-            new Vector3(pointsAttack[i].x, pointsAttack[i].y, pointsAttack[i].z) * radiusAttack,
-            new Vector3(pointsAttack[i + 1].x * radiusAttack, pointsAttack[i + 1].y,pointsAttack[i + 1].z ) * radiusAttack,
-            new Vector3(pointsAttack[i + 2].x * radiusAttack, pointsAttack[i + 2].y,pointsAttack[i + 2].z ) * radiusAttack,
-            new Vector3(pointsAttack[i + 3].x * radiusAttack, pointsAttack[i + 3].y,pointsAttack[i + 3].z ) * radiusAttack,
+            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * radiusAttack,
+            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y,0f ) * radiusAttack,
+            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y,0f ) * radiusAttack,
+            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y,0f ) * radiusAttack,
             t));
     }
 
@@ -74,10 +69,10 @@ public class AttackSystemSpline : MonoBehaviour
         }
 
         return transform.TransformPoint(Bezier.GetFirstDerivative(
-            new Vector3(pointsAttack[i].x, pointsAttack[i].y, pointsAttack[i].z) * radiusAttack,
-            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y, pointsAttack[i + 1].z) * radiusAttack,
-            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y, pointsAttack[i + 2].z) * radiusAttack,
-            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y, pointsAttack[i + 3].z) * radiusAttack,
+            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * radiusAttack,
+            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y, 0f) * radiusAttack,
+            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y, 0f) * radiusAttack,
+            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y, 0f) * radiusAttack,
             t));
     }
 
