@@ -29,6 +29,10 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
+    [SerializeField] public bool launchAttack;
+    [SerializeField] public bool launchSecondAttack;
+    [SerializeField] public float delayForSecondAttack = 4f;
+    [SerializeField] private float launchValue; 
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -76,7 +80,8 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Attack(bool look)
     {
-        switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+        switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 ||
+                lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
             case true:
                 float rotationXObjLook = (Mathf.Atan2(lookAxis.y, lookAxis.x) * Mathf.Rad2Deg) - 90f;
@@ -88,6 +93,7 @@ public class PlayerAttribut : MonoBehaviour
                     float rotationXObjMove = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90f);
                     splinePivot.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
                 }
+
                 break;
         }
     }
@@ -124,6 +130,19 @@ public class PlayerAttribut : MonoBehaviour
         playerFeedBack.MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
         isDashing = false;
+    }
+
+    public void AttackLaunch(float delayTime)
+    {
+        if(launchAttack)
+        {
+            launchValue += (Time.deltaTime / (delayTime / 10));
+            if (launchValue <= delayTime)
+            {
+                launchSecondAttack = true;
+            }
+        }
+        launchValue = 0;
     }
 
     public void FixedUpdate()

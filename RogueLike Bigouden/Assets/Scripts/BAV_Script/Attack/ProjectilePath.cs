@@ -15,12 +15,15 @@ public class ProjectilePath : MonoBehaviour
 {
     public AttackSystemSpline spline;
     public GameObject projectile;
-    public float duration;
+    private float duration;
     public float progress;
+
+    [Header("Attack Speed du joueur"), Range(0.1f, 8f)]
     public float speed = 4f;
-    public bool lookForward;
+
+    private bool lookForward;
     public SplineWalkerMode mode;
-    public bool goingForward = true;
+    public int goingForward = 0;
 
 
     private void Update()
@@ -29,32 +32,46 @@ public class ProjectilePath : MonoBehaviour
         OnMovement(spline.arrayVector[0].pointAttack);
     }
 
+
+    /// <summary>///
+    /// Fonction permettant au projectile de ce déplacer sur la curve.
+    /// /// </summary>
     public void Path()
     {
-        if (goingForward)
+        if (goingForward == 1)
         {
-            progress += (Time.deltaTime / duration) * speed;
+            projectile.SetActive(true);
+            progress += (Time.deltaTime / (speed / 10));
             if (progress > 1f)
             {
                 if (mode == SplineWalkerMode.Once)
                 {
                     progress = 1f;
-                    goingForward = false;
+                    goingForward = 2;
                 }
                 else if (mode == SplineWalkerMode.Loop)
                 {
                     progress -= 1f;
+                    goingForward = 0;
                 }
                 else
                 {
                     progress = 2f - progress;
-                    goingForward = false;
+                    goingForward = 0;
                 }
             }
         }
         else
         {
-            progress = 0;
+            if (goingForward == 0)
+            {
+                progress -= (Time.deltaTime / (speed / 10));
+                if (progress < 0f)
+                {
+                    progress = -progress;
+                    goingForward = 1;
+                }
+            }
         }
     }
 
@@ -67,6 +84,13 @@ public class ProjectilePath : MonoBehaviour
         {
             transform.LookAt(spline.GetDirection(progress, pointAttack));
         }
+    }
+
+    public void Reset()
+    {
+        spline = GetComponent<AttackSystemSpline>();
+        duration = 1f;
+        speed = 1f;
     }
 }
 /*public void Path()

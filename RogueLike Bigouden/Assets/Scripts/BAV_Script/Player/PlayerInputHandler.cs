@@ -284,9 +284,8 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 Debug.Log("Button X Performed");
-                playerAttribut.attackPath.goingForward = true;
-                playerAttribut.attackPath.OnMovement(
-                    playerAttribut.attackSpline.arrayVector[0].pointAttack);
+                playerAttribut.attackPath.goingForward = 1;
+                playerAttribut.attackPath.OnMovement(playerAttribut.attackSpline.arrayVector[0].pointAttack);
                 break;
             case false:
                 break;
@@ -295,6 +294,7 @@ public class PlayerInputHandler : MonoBehaviour
         switch (buttonX.canceled)
         {
             case true:
+                playerAttribut.attackPath.goingForward = 0;
                 Debug.Log("Button X Canceled");
                 break;
             case false:
@@ -391,5 +391,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
+
     #endregion
 }
