@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+
 [CustomEditor(typeof(AttackSystemSpline))]
 public class AttackSystemInspector : Editor
 {
@@ -16,13 +17,42 @@ public class AttackSystemInspector : Editor
         handleTransform = spline.transform;
         handleRotation = Tools.pivotRotation == PivotRotation.Local ? handleTransform.rotation : Quaternion.identity;
         Vector3 p01 = ShowPoint(0, spline.arrayVector[0].pointAttack);
-        Vector3 p02 = ShowPoint(0, spline.arrayVector[1].pointAttack);
-        Vector3 p03 = ShowPoint(0, spline.arrayVector[2].pointAttack);
-
         DrawCurve(p01, spline.arrayVector[0].pointAttack, spline.arrayVector[0].color);
-        DrawCurve(p02, spline.arrayVector[1].pointAttack, spline.arrayVector[1].color);
-        DrawCurve(p03, spline.arrayVector[2].pointAttack, spline.arrayVector[2].color);
+
+        switch (spline.arrayVector.Length > 1)
+        {
+            case true:
+                Vector3 p02 = ShowPoint(0, spline.arrayVector[1].pointAttack);
+                DrawCurve(p02, spline.arrayVector[1].pointAttack, spline.arrayVector[1].color);
+                break;
+            case false:
+                return;
+        }
+
+        switch (spline.arrayVector.Length > 2)
+        {
+            case true:
+                Vector3 p03 = ShowPoint(0, spline.arrayVector[2].pointAttack);
+                DrawCurve(p03, spline.arrayVector[2].pointAttack, spline.arrayVector[2].color);
+                break;
+            case false:
+                return;
+        }
+
+        switch (spline.arrayVector.Length > 3)
+        {
+            case true:
+                for (int i = 3; i < spline.arrayVector.Length; i++)
+                {
+                    Vector3 p04 = ShowPoint(0, spline.arrayVector[i].pointAttack);
+                    DrawCurve(p04, spline.arrayVector[i].pointAttack, spline.arrayVector[i].color);
+                }
+                break;
+            case false:
+                return;
+        }
     }
+
 
     public override void OnInspectorGUI()
     {

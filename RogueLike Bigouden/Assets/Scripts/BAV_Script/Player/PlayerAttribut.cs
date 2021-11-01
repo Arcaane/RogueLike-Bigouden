@@ -19,11 +19,16 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
-    [SerializeField] private bool hasDashed;
+    [SerializeField]
+    private bool hasDashed;
+
     [SerializeField] private bool isDashing;
 
     [Header("Player Attack")] [SerializeField]
-    private AttackSystemSpline attackSpline;
+    private GameObject splinePivot;
+
+    [SerializeField] public AttackSystemSpline attackSpline;
+    public ProjectilePath attackPath;
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -71,15 +76,18 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Attack(bool look)
     {
-        switch (look)
+        switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
             case true:
                 float rotationXObjLook = (Mathf.Atan2(lookAxis.y, lookAxis.x) * Mathf.Rad2Deg) - 90f;
-                attackSpline.transform.rotation = Quaternion.AngleAxis(rotationXObjLook, Vector3.forward);
+                splinePivot.transform.rotation = Quaternion.AngleAxis(rotationXObjLook, Vector3.forward);
                 break;
             case false:
-                float rotationXObjMove  = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg) - 90f;
-                attackSpline.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
+                if (movementInput != Vector2.zero)
+                {
+                    float rotationXObjMove = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90f);
+                    splinePivot.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
+                }
                 break;
         }
     }

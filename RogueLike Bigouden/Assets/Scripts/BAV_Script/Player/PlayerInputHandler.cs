@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
-    
+
     //PlayerController
     private BAV_PlayerController controls;
 
@@ -29,6 +30,7 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private float rightPressTrigger;
 
     private float duration = 0.2f;
+    private int inputPerformed = 0;
 
     private void Awake()
     {
@@ -45,24 +47,21 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnEnable()
     {
-        /*
         AButton(true);
         BButton(true);
         XButton(true);
         YButton(true);
         RightTrigger(true);
-        */
         controls.Enable();
     }
 
     public void OnDisable()
     {
-        /*
         AButton(false);
         BButton(false);
         XButton(false);
         YButton(false);
-        RightTrigger(false);*/
+        RightTrigger(false);
         controls.Disable();
     }
 
@@ -205,7 +204,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 playerAttribut.Dash();
-                Debug.Log("Button A Started");
+                Debug.Log("Button A Started" + buttonAValue);
                 break;
             case false:
                 break;
@@ -214,7 +213,7 @@ public class PlayerInputHandler : MonoBehaviour
         switch (buttonA.performed)
         {
             case true:
-                Debug.Log("Button A Performed");
+                Debug.Log("Button A performed");
                 break;
             case false:
                 break;
@@ -285,6 +284,9 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 Debug.Log("Button X Performed");
+                playerAttribut.attackPath.goingForward = true;
+                playerAttribut.attackPath.OnMovement(
+                    playerAttribut.attackSpline.arrayVector[0].pointAttack);
                 break;
             case false:
                 break;
@@ -389,7 +391,5 @@ public class PlayerInputHandler : MonoBehaviour
     {
         playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
-
     #endregion
-    
 }

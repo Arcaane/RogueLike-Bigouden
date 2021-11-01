@@ -34,7 +34,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4332134868031872633}
-  - {fileID: 7358868131657085583}
+  - {fileID: 971206472202809349}
   - {fileID: 5956083992793173519}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -178,8 +178,10 @@ MonoBehaviour:
   dashSpeed: 5
   hasDashed: 0
   isDashing: 0
-  attackSpline: {fileID: 0}
-  playerMesh: {fileID: 0}
+  splinePivot: {fileID: 5324598856544789741}
+  attackSpline: {fileID: 7399876086301487475}
+  attackPath: {fileID: 1918349006}
+  playerMesh: {fileID: 3148788587835654078}
   animatorPlayer: {fileID: 2274977210518290289}
   playerFeedBack: {fileID: 8216965673747083310}
 --- !u!114 &8216965673747083310
@@ -242,6 +244,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!1 &5324598856544789741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 971206472202809349}
+  m_Layer: 0
+  m_Name: PivotAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &971206472202809349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324598856544789741}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7358868131657085583}
+  m_Father: {fileID: 2205954843553579101}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7250380072424164172
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +404,6 @@ GameObject:
   - component: {fileID: 5956083992793173519}
   - component: {fileID: 7684616170747249414}
   - component: {fileID: 6726498933111855668}
-  - component: {fileID: 353020117316697776}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -387,8 +419,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7329523933834890391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7, y: -0.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 2205954843553579101}
   m_RootOrder: 2
@@ -470,23 +502,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &353020117316697776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7329523933834890391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227ae30b777e2a04c83a406dc8a5999d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spline: {fileID: 7399876086301487475}
-  duration: 0
-  speed: 4
-  lookForward: 0
-  mode: 0
 --- !u!1 &7610877418328469914
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7358868131657085583}
   - component: {fileID: 7399876086301487475}
+  - component: {fileID: 1918349006}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -511,12 +527,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7610877418328469914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2205954843553579101}
-  m_RootOrder: 1
+  m_Father: {fileID: 971206472202809349}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7399876086301487475
 MonoBehaviour:
@@ -549,5 +565,23 @@ MonoBehaviour:
     - {x: 0, y: 1.25, z: 0}
     - {x: 0, y: 1.5, z: 0}
     - {x: 0, y: 2, z: 0}
-  radiusAttack: 1
+  radiusAttack: 0.5
   addPoint: 0
+--- !u!114 &1918349006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7610877418328469914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227ae30b777e2a04c83a406dc8a5999d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 7399876086301487475}
+  projectile: {fileID: 7329523933834890391}
+  duration: 1
+  speed: 4
+  lookForward: 0
+  mode: 1

@@ -21,7 +21,7 @@ public class AttackSystemSpline : MonoBehaviour
     public float radiusAttack;
 
     public bool addPoint = false;
-    
+
 
     public int CurveCount
     {
@@ -45,10 +45,10 @@ public class AttackSystemSpline : MonoBehaviour
         }
 
         return transform.TransformPoint(Bezier.GetPoint(
-            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * radiusAttack,
-            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y,0f ) * radiusAttack,
-            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y,0f ) * radiusAttack,
-            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y,0f ) * radiusAttack,
+            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y, 0f) * (radiusAttack),
             t));
     }
 
@@ -69,26 +69,27 @@ public class AttackSystemSpline : MonoBehaviour
         }
 
         return transform.TransformPoint(Bezier.GetFirstDerivative(
-            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * radiusAttack,
-            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y, 0f) * radiusAttack,
-            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y, 0f) * radiusAttack,
-            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y, 0f) * radiusAttack,
+            new Vector3(pointsAttack[i].x, pointsAttack[i].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 1].x, pointsAttack[i + 1].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 2].x, pointsAttack[i + 2].y, 0f) * (radiusAttack),
+            new Vector3(pointsAttack[i + 3].x, pointsAttack[i + 3].y, 0f) * (radiusAttack),
             t));
     }
 
     public Vector3 GetDirection(float t, Vector3[] pointsAttack)
     {
-        return GetVelocity(t, pointsAttack).normalized;
+        return GetVelocity(t, pointsAttack).normalized * -radiusAttack;
     }
 
     public void Reset()
     {
         radiusAttack = 1f;
-        int numberArray = 3;
+        int numberArray = 1;
         arrayVector = new ArrayVector[numberArray];
         for (int i = 0; i < arrayVector.Length; i++)
         {
             arrayVector[i] = new ArrayVector();
+
             switch (i)
             {
                 case 0:
@@ -97,10 +98,19 @@ public class AttackSystemSpline : MonoBehaviour
                         new Vector3(-1f, 0f, 0f) * radiusAttack,
                         new Vector3(-1f, 0f, 0f) * radiusAttack,
                         new Vector3(-1f, 1f, 0f) * radiusAttack,
-                        new Vector3(0f, 1f, 0f) * radiusAttack
+                        new Vector3(0f, 1f, 0f) * radiusAttack,
+                        new Vector3(1f, 1f, 0f) * radiusAttack,
+                        new Vector3(1f, 0f, 0f) * radiusAttack,
+                        new Vector3(1f, 0f, 0f) * radiusAttack
                     };
                     arrayVector[0].color = Color.green;
                     break;
+            }
+
+            /*
+            switch (i)
+            {
+                case 0:
                 case 1:
                     arrayVector[1].pointAttack = new[]
                     {
@@ -122,6 +132,7 @@ public class AttackSystemSpline : MonoBehaviour
                     arrayVector[2].color = Color.red;
                     break;
             }
+            */
         }
     }
 
@@ -140,24 +151,40 @@ public class AttackSystemSpline : MonoBehaviour
                 arrayVector[0].pointAttack[arrayVector[0].pointAttack.Length - 1] = point1;
                 break;
             case 1:
-                Vector3 point2 = arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 1];
-                Array.Resize(ref arrayVector[1].pointAttack, arrayVector[1].pointAttack.Length + 3);
-                point2.x += 1f;
-                arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 3] = point2;
-                point2.x += 1f;
-                arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 2] = point2;
-                point2.x += 1f;
-                arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 1] = point2;
+                switch (arrayVector[1].pointAttack != null)
+                {
+                    case true:
+                        Vector3 point2 = arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 1];
+                        Array.Resize(ref arrayVector[1].pointAttack, arrayVector[1].pointAttack.Length + 3);
+                        point2.x += 1f;
+                        arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 3] = point2;
+                        point2.x += 1f;
+                        arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 2] = point2;
+                        point2.x += 1f;
+                        arrayVector[1].pointAttack[arrayVector[1].pointAttack.Length - 1] = point2;
+                        break;
+                    case false:
+                        return;
+                }
+
                 break;
             case 2:
-                Vector3 point3 = arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 1];
-                Array.Resize(ref arrayVector[2].pointAttack, arrayVector[2].pointAttack.Length + 3);
-                point3.x += 1f;
-                arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 3] = point3;
-                point3.x += 1f;
-                arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 2] = point3;
-                point3.x += 1f;
-                arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 1] = point3;
+                switch (arrayVector[2].pointAttack != null)
+                {
+                    case true:
+                        Vector3 point3 = arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 1];
+                        Array.Resize(ref arrayVector[2].pointAttack, arrayVector[2].pointAttack.Length + 3);
+                        point3.x += 1f;
+                        arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 3] = point3;
+                        point3.x += 1f;
+                        arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 2] = point3;
+                        point3.x += 1f;
+                        arrayVector[2].pointAttack[arrayVector[2].pointAttack.Length - 1] = point3;
+                        break;
+                    case false:
+                        return;
+                }
+
                 break;
         }
     }

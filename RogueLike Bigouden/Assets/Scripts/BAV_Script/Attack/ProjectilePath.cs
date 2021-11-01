@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum SplineWalkerMode
 {
@@ -12,14 +14,22 @@ public enum SplineWalkerMode
 public class ProjectilePath : MonoBehaviour
 {
     public AttackSystemSpline spline;
+    public GameObject projectile;
     public float duration;
-    private float progress;
+    public float progress;
     public float speed = 4f;
     public bool lookForward;
     public SplineWalkerMode mode;
-    private bool goingForward = true;
+    public bool goingForward = true;
+
 
     private void Update()
+    {
+        Path();
+        OnMovement(spline.arrayVector[0].pointAttack);
+    }
+
+    public void Path()
     {
         if (goingForward)
         {
@@ -29,6 +39,7 @@ public class ProjectilePath : MonoBehaviour
                 if (mode == SplineWalkerMode.Once)
                 {
                     progress = 1f;
+                    goingForward = false;
                 }
                 else if (mode == SplineWalkerMode.Loop)
                 {
@@ -43,32 +54,50 @@ public class ProjectilePath : MonoBehaviour
         }
         else
         {
-            progress -= (Time.deltaTime / duration) * speed;
-            if (progress < 0f)
-            {
-                progress = -progress;
-                goingForward = true;
-            }
+            progress = 0;
         }
+    }
 
-        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1))
-        {
-            Vector3 position = spline.GetPoint(progress, spline.arrayVector[0].pointAttack);
-            transform.localPosition = position;
-            if (lookForward)
-            {
-                transform.LookAt(position + spline.GetDirection(progress,spline.arrayVector[0].pointAttack));
-            }
-        }
 
-        if (Input.GetMouseButton(1) && !Input.GetMouseButton(0))
+    public void OnMovement(Vector3[] pointAttack)
+    {
+        Vector3 position = spline.GetPoint(progress, pointAttack);
+        projectile.transform.position = position;
+        if (lookForward)
         {
-            Vector3 position = spline.GetPoint(progress, spline.arrayVector[1].pointAttack);
-            transform.localPosition = position;
-            if (lookForward)
-            {
-                transform.LookAt(position + spline.GetDirection(progress, spline.arrayVector[1].pointAttack));
-            }
+            transform.LookAt(spline.GetDirection(progress, pointAttack));
         }
     }
 }
+/*public void Path()
+{
+    if (goingForward)
+    {
+        progress += (Time.deltaTime / duration) * speed;
+        if (progress > 1f)
+        {
+            if (mode == SplineWalkerMode.Once)
+            {
+                progress = 1f;
+            }
+            else if (mode == SplineWalkerMode.Loop)
+            {
+                progress -= 1f;
+            }
+            else
+            {
+                progress = 2f - progress;
+                goingForward = false;
+            }
+        }
+    }
+    else
+    {
+        progress -= (Time.deltaTime / duration) * speed;
+        if (progress < 0f)
+        {
+            progress = -progress;
+            goingForward = true;
+        }
+    }
+}*/
