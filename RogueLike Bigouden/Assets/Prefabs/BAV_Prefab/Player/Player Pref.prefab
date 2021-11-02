@@ -10,10 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2205954843553579101}
   - component: {fileID: 5238175144520093631}
+  - component: {fileID: 2863195238870779043}
+  - component: {fileID: 212663174153788843}
   - component: {fileID: 4795681332030857772}
   - component: {fileID: 4954751699612679667}
   - component: {fileID: 9212476998518355297}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player Pref
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -29,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4537573348309961095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4332134868031872633}
   m_Father: {fileID: 0}
@@ -48,20 +50,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMesh: {fileID: 3148788587835654078}
+  playerAttribut: {fileID: 2863195238870779043}
   isMoving: 0
-  speed: 5
-  dashSpeed: 5
   buttonAValue: 0
   buttonBValue: 0
   buttonXValue: 0
   buttonYValue: 0
   leftPressTrigger: 0
   rightPressTrigger: 0
-  vibrationForce: {x: 0, y: 0}
+--- !u!114 &2863195238870779043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537573348309961095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023590b7490f65047b397e4a44efa437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 4954751699612679667}
+  speed: 5
+  dashSpeed: 5
   hasDashed: 0
   isDashing: 0
-  rb: {fileID: 0}
+  playerFeedBack: {fileID: 212663174153788843}
   animatorPlayer: {fileID: 2274977210518290289}
+--- !u!114 &212663174153788843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537573348309961095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vibrationForce: {x: 0.25, y: 0.5}
 --- !u!61 &4795681332030857772
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -108,7 +136,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &9212476998518355297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4e22a41e8e0d348a0aafac9e17570e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 0}
 --- !u!1 &7250380072424164172
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +161,7 @@ GameObject:
   - component: {fileID: 3148788587835654078}
   - component: {fileID: 2274977210518290289}
   - component: {fileID: 1200639065568160143}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,72 +1,66 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Security.AccessControl;
+﻿using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
 
-    [SerializeField] private SpriteRenderer playerMesh;
-
     //PlayerController
     private BAV_PlayerController controls;
 
-    private Vector2 movementInput, lookAxis;
+    [SerializeField] PlayerAttribut playerAttribut;
     public bool isMoving;
-
-    public float speed = 5;
-    public float dashSpeed = 5;
 
     [Header("Boutton Value")]
     //Concerne les valeurs des Inputs renvoyer par les bouttons
-    [SerializeField] private float buttonAValue;
+    [SerializeField]
+    private float buttonAValue;
+
     [SerializeField] private float buttonBValue;
     [SerializeField] private float buttonXValue;
     [SerializeField] private float buttonYValue;
 
     [Header("Trigger Value")]
     //Concerne les Inputs des trigger
-    [SerializeField] private float leftPressTrigger;
+    [SerializeField]
+    private float leftPressTrigger;
+
     [SerializeField] private float rightPressTrigger;
 
-    //Force de la vibration dans la manette
-    public Vector2 vibrationForce;
-
-    [SerializeField] private bool hasDashed, isDashing;
-    
-
-    [HideInInspector]
-    public Rigidbody2D rb;
-    //Animator
-    [SerializeField] private Animator animatorPlayer;
+    private float duration = 0.2f;
+    private int inputPerformed = 0;
 
     private void Awake()
     {
         controls = new BAV_PlayerController();
         isMoving = false;
-        rb = GetComponent<Rigidbody2D>();
     }
 
     public void InitializePlayer(PlayerConfiguration config)
     {
         playerConfig = config;
-        playerMesh.material = config.playerMaterial;
-        config.Input.onActionTriggered += Input_MoveTrigger;
-    }
-
-    public void OnEnable()
-    {
+        playerAttribut.playerMesh.material = config.playerMaterial;
+        playerConfig.Input.onActionTriggered += Input_MoveTrigger;
         AButton(true);
         BButton(true);
         XButton(true);
         YButton(true);
         RightTrigger(true);
+    }
+
+    public void OnEnable()
+    {
+        /*
+        AButton(true);
+        BButton(true);
+        XButton(true);
+        YButton(true);
+        RightTrigger(true);
+        */
+        controls.Enable();
     }
 
     public void OnDisable()
@@ -76,6 +70,7 @@ public class PlayerInputHandler : MonoBehaviour
         XButton(false);
         YButton(false);
         RightTrigger(false);
+        controls.Disable();
     }
 
 
@@ -98,6 +93,15 @@ public class PlayerInputHandler : MonoBehaviour
         {
             case true:
                 OnLook(obj);
+                break;
+            case false:
+                break;
+        }
+
+        switch (obj.action.name == controls.Player.XButton.name)
+        {
+            case true:
+                playerAttribut.attackPath.goingForward = 0;
                 break;
             case false:
                 break;
@@ -183,12 +187,12 @@ public class PlayerInputHandler : MonoBehaviour
                 break;
         }
     }
-    
+
     /// <summary>
     /// Permet de déclencher les Etats de la gachette Droite.
     /// </summary>
     /// <param name="isRightTriggerEnable"></param>
-    private void RightTrigger (bool isRightTriggerEnable)
+    private void RightTrigger(bool isRightTriggerEnable)
     {
         switch (isRightTriggerEnable)
         {
@@ -204,20 +208,21 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+
     #region Appel des différentes Inputs
 
     /// <summary>
     /// Permet d'appeler l'input du Boutton A
     /// </summary>
     /// <param name="buttonA"></param>
-    private void Input_AButton(InputAction.CallbackContext buttonA)
+    private void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
         switch (buttonA.started)
         {
             case true:
-                Dash();
-                Debug.Log("Button A Started");
+                playerAttribut.Dash();
+                Debug.Log("Button A Started" + buttonAValue);
                 break;
             case false:
                 break;
@@ -226,7 +231,7 @@ public class PlayerInputHandler : MonoBehaviour
         switch (buttonA.performed)
         {
             case true:
-                Debug.Log("Button A Performed");
+                Debug.Log("Button A performed");
                 break;
             case false:
                 break;
@@ -242,11 +247,12 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Permet d'appeler l'input du Boutton B
     /// </summary>
     /// <param name="buttonB"></param>
-    private void Input_BButton(InputAction.CallbackContext buttonB)
+    private void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
         switch (buttonB.started)
@@ -281,7 +287,7 @@ public class PlayerInputHandler : MonoBehaviour
     /// Permet d'appeler l'input du Boutton X
     /// </summary>
     /// <param name="buttonX"></param>
-    private void Input_XButton(InputAction.CallbackContext buttonX)
+    private void Input_XButton(CallbackContext buttonX)
     {
         buttonXValue = buttonX.ReadValue<float>();
         switch (buttonX.started)
@@ -316,7 +322,7 @@ public class PlayerInputHandler : MonoBehaviour
     /// Permet d'appeler l'input du Boutton Y
     /// </summary>
     /// <param name="buttonY"></param>
-    private void Input_YButton(InputAction.CallbackContext buttonY)
+    private void Input_YButton(CallbackContext buttonY)
     {
         buttonYValue = buttonY.ReadValue<float>();
         switch (buttonY.started)
@@ -351,10 +357,9 @@ public class PlayerInputHandler : MonoBehaviour
     /// Permet d'appeler l'input de la Gachette Droite
     /// </summary>
     /// <param name="rightTrigger"></param>
-    private void Input_RightTrigger(InputAction.CallbackContext rightTrigger)
+    private void Input_RightTrigger(CallbackContext rightTrigger)
     {
         rightPressTrigger = rightTrigger.ReadValue<float>();
-        Debug.Log(rightPressTrigger);
         switch (rightTrigger.started)
         {
             case true:
@@ -383,14 +388,13 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>
     /// <param name="leftStick"></param>
-    public void OnMove(InputAction.CallbackContext leftStick)
+    public void OnMove(CallbackContext leftStick)
     {
-        movementInput = leftStick.ReadValue<Vector2>();
+        playerAttribut.SetInputVector(leftStick.ReadValue<Vector2>(), false);
         isMoving = true;
     }
 
@@ -400,58 +404,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="rightStick"></param>
     public void OnLook(InputAction.CallbackContext rightStick)
     {
-        lookAxis = rightStick.ReadValue<Vector2>();
+        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
 
     #endregion
-
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
-    void Move()
-    {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0)
-        {
-            case true:
-                animatorPlayer.SetFloat("Horizontal", lookAxis.x);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                //Debug.Log("0");
-                break;
-            case false:
-                animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                animatorPlayer.SetFloat("Vertical", movementInput.y);
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                //animatorPlayer.SetFloat("Speed", speed);
-                //Debug.Log("1");
-                break;
-        }
-        transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * speed * Time.deltaTime);
-        
-    }
-
-    void Dash()
-    {
-        hasDashed = true;
-        rb.velocity = Vector2.zero;
-        Vector2 dir = new Vector2(movementInput.x, movementInput.y);
-
-        rb.velocity += dir.normalized * dashSpeed;
-        StartCoroutine(DashWait());
-    }
-
-    IEnumerator DashWait()
-    {
-        isDashing = true;
-        yield return new WaitForSeconds(.3f);
-        rb.velocity = Vector2.zero;
-        isDashing = false;
-    }
-
-    void MovingRumble(Vector2 force)
-    {
-        Gamepad.current.SetMotorSpeeds(force.x, force.y);
-    }
 }
