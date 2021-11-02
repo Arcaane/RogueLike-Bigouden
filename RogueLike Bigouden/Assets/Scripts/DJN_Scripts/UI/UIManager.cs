@@ -28,8 +28,17 @@ public class UIManager : MonoBehaviour
     [Header("Player1 HUD")] 
     public GameObject player1UI;
     public Image healthBarImage;
+    public TextMeshProUGUI healthText;
     public Image energyBarImage;
     public TextMeshProUGUI moneyText;
+
+    [Header("Enemy HUD")] 
+    public GameObject enemyUI;
+    public GameObject enemyHealthBarObject;
+    public Image healthBarEnemy;
+    public TextMeshProUGUI enemyHealthText;
+    public TextMeshProUGUI enemyName;
+    private GameObject lastEnemyHit;
 
     [Header("Test Information")] 
     [Range(0, 10)]
@@ -58,6 +67,7 @@ public class UIManager : MonoBehaviour
     {
         healthBarImage.fillAmount = currentHealth / maxHealth;
         energyBarImage.fillAmount = currentEnergy / maxEnergy;
+        healthText.text = currentHealth + "/" + maxHealth;
         moneyText.text = currentMoney.ToString();
         
         UpdateItemPlayer();
@@ -92,6 +102,18 @@ public class UIManager : MonoBehaviour
         itemNameText.text = inventory.itemOnTheFloor.itemName;
         itemPriceText.text = inventory.itemOnTheFloor.price.ToString();
         rarityText.text = inventory.itemOnTheFloor.rarity.ToString();
+    }
+
+    public void EnemyHealthBar()
+    {
+        //récupérer le dernier enemy touché dans le script de la collision enemy seulement si il reçoit
+        if (lastEnemyHit)
+        {
+            enemyName.text = lastEnemyHit.name;
+            //enemyHealthText.text = lastEnemyHit.healthActual + "/" + lastEnemyHit.maxHealth;
+            //energyBarImage.fillAmount = lastEnemyHit.healthActual / lastEnemyHit.maxHealth;
+        }
+           
     }
 
     public void ClosePanel()
