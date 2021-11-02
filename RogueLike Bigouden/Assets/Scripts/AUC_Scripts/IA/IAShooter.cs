@@ -1,14 +1,9 @@
 using System;
 using System.Collections;
-using System.Runtime.Remoting.Messaging;
-using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Utilities;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class IAShooter : MonoBehaviour
@@ -41,7 +36,7 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.descriptionSO; }
         set { ennemyData.descriptionSO = description; }
     }
-    [SerializeField] int lifePoint // Point de vie de l'unité
+    public int lifePoint // Point de vie de l'unité
     {
         get { return ennemyData.lifePointSO; }
         set { ennemyData.lifePointSO = lifePoint; }
@@ -102,15 +97,15 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.isStunSO; }
         set { ennemyData.isStunSO = isStun; }
     }
-    #endregion
+    
 
     private bool isLock;
     private bool isRdyMove;
     private Vector3 pos;
-    public float magnitude;
     public bool isAttack;
     private Vector2 fwd;
-
+    
+    #endregion
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -119,10 +114,12 @@ public class IAShooter : MonoBehaviour
 
     private void Start()
     {
+        // Parametres de l'agent
         agent.updateRotation = false; 
         agent.updateUpAxis = false;
         agent.speed = movementSpeed;
         
+        // Set Bools
         isLock = false;
         isAggro = false;
         isReadyToShoot = true;
@@ -130,18 +127,12 @@ public class IAShooter : MonoBehaviour
         
         isPlayerInAggroRange = false;
         isPlayerInAttackRange = false;
-        Debug.Log(detectZone);
-        Debug.Log(attackRange);
 
         Invoke(nameof(WaitToGo), timeBeforeAggro);
     }
 
     private void Update()
     {
-        magnitude = agent.velocity.magnitude;
-        var lookdir = target.position - rb.transform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        
         isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
         isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
         
@@ -152,17 +143,8 @@ public class IAShooter : MonoBehaviour
         if (isPlayerInAttackRange && isPlayerInAggroRange) 
             Attacking();
     }
-    
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectZone);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
-    }
-    
 
+    #region PatrollingState
     private void Patrolling()
     {
         WalkAnimation(agent);
@@ -171,7 +153,29 @@ public class IAShooter : MonoBehaviour
             StartCoroutine(ResetPath());
         }
     }
-    
+    Vector3 GetNewRandomPosition()
+    {
+        float x = Random.Range(-3, 4);
+        float y = Random.Range(-3, 4);
+        pos = new Vector2(x, y);
+        Debug.Log(pos);
+        return pos;
+    }
+    private void GetNewPath()
+    {
+        Vector2 pos = GetNewRandomPosition();
+        agent.SetDestination(pos);
+    }
+    IEnumerator ResetPath()
+    {
+        isRdyMove = false;
+        GetNewPath();
+        yield return new WaitForSeconds(3f);
+        isRdyMove = true;
+    }
+    #endregion
+
+    #region ChaseState
     private void ChasePlayer()
     {
         agent.SetDestination(target.position);
@@ -180,21 +184,21 @@ public class IAShooter : MonoBehaviour
         isAttack = false;
     }
 
+    #endregion
+
+    #region AttackState
     private void Attacking()
     {
-        if (!isReadyToShoot)
-        {
-            isAttack = true;
-        }
-        agent.SetDestination(transform.position);
-        Debug.DrawRay(transform.position, new Vector3(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y), Color.green);
         if (isReadyToShoot) VerifyShoot();
+        
+        agent.SetDestination(transform.position);
+        Debug.DrawRay(transform.position, new Vector3(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f), Color.green);
     }
 
     private void VerifyShoot()
     {
         // Raycast pour vérifier si le joueur est en cible 
-        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y, 0);
+        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f, 0);
 
         if (Physics2D.Raycast(transform.position, fwd, attackRange, isPlayer))
         {
@@ -211,28 +215,19 @@ public class IAShooter : MonoBehaviour
     
     IEnumerator BulletShoot()
     {
-        Vector2 fwd = transform.TransformDirection(target.position.x, target.position.y, 0);
-        float bulletVelocity = Random.Range(bulletSpeed.x, bulletSpeed.y);
-        
+        isAttack = true;
         AttackAnimation(agent);
-        
-        var lookdir = target.position - rb.transform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        
-        var ball = ObjectPooler.Instance.SpawnFromPool("Bullet", new Vector3(agent.transform.position.x, agent.transform.position.y), Quaternion.identity);
-        ball.transform.position = Vector2.MoveTowards(ball.transform.position, fwd, bulletVelocity * Time.deltaTime); 
+        for (int i = 0; i < 5; i++)
+        {
+            ObjectPooler.Instance.SpawnFromPool("Bullet", shootPoint.position, Quaternion.identity);
+            yield return new WaitForSeconds(.3f);
+        }
+        isAttack = false;
         yield return new WaitForSeconds(1f);
         isReadyToShoot = true;
     }
+    #endregion
     
-    Vector3 GetNewRandomPosition()
-    {
-        float x = Random.Range(-3, 4);
-        float y = Random.Range(-3, 4);
-        pos = new Vector2(x, y);
-        Debug.Log(pos);
-        return pos;
-    }
     
     private void WaitToGo()
     {
@@ -240,21 +235,8 @@ public class IAShooter : MonoBehaviour
         isAggro = true;
         Debug.Log(isAggro);
     }
-    
-    private void GetNewPath()
-    {
-        Vector2 pos = GetNewRandomPosition();
-        agent.SetDestination(pos);
-    }
 
-    IEnumerator ResetPath()
-    {
-        isRdyMove = false;
-        GetNewPath();
-        yield return new WaitForSeconds(3f);
-        isRdyMove = true;
-    }
-
+    #region Animations
     public void WalkAnimation(NavMeshAgent agent)
     {
         if (agent.velocity != Vector3.zero)
@@ -270,5 +252,17 @@ public class IAShooter : MonoBehaviour
         shooterAnimator.SetFloat("Vertical", fwd.y);
         shooterAnimator.SetFloat("Horizontal", fwd.x);
         shooterAnimator.SetBool("isAttack", isAttack);
+    }
+
+    #endregion
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
     }
 }

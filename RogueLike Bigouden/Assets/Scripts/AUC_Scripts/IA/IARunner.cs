@@ -7,19 +7,30 @@ using Random = UnityEngine.Random;
 public class IARunner : MonoBehaviour
 {
     public EnnemyData ennemyData;
-
+    
     #region Variables
 
     //Utilities
     [SerializeField] private Transform target;
-    public Transform shootPoint;
-    private NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
     private Rigidbody2D rb;
-
-    private bool isPlayerInAggroRange;
-    private bool isRdyMove;
     private Vector2 pos;
+    
+    // Bools
+    public bool isPlayerInAggroRange;
+    public bool isRdyMove;
+    public bool isPlayerInAttackRange;
+    public bool isReadyToShoot;
+    public bool isStun;
+    public bool isCharging;
+    public bool isRushing;
+    public bool isAggro;
 
+    public float dashSpeed = 3f;
+    public bool isReadyToDash;
+    public bool isDashing;
+    private float stunDuration = 1.5f;
+    
     [SerializeField]
     public string name // Nom de l'unité
     {
@@ -63,7 +74,7 @@ public class IARunner : MonoBehaviour
     }
 
     [SerializeField]
-    public float attackRange // Portée de l'attaque
+    private float attackRange // Portée de l'attaque
     {
         get { return ennemyData.attackRangeSO; }
         set { ennemyData.attackRangeSO = attackRange; }
@@ -91,7 +102,7 @@ public class IARunner : MonoBehaviour
     }
 
     [SerializeField]
-    public float movementSpeed // Vitesse de déplacement de l'unité
+    private float movementSpeed // Vitesse de déplacement de l'unité
     {
         get { return ennemyData.movementSpeedSO; }
         set { ennemyData.movementSpeedSO = movementSpeed; }
@@ -110,56 +121,15 @@ public class IARunner : MonoBehaviour
         get { return ennemyData.moveSpeedChargeSO; }
         set { ennemyData.moveSpeedChargeSO = moveSpeedCharge; }
     }
-
-    [SerializeField]
-    public bool isPlayerInAttackRange // Le player est-il en range ?
-    {
-        get { return ennemyData.isPlayerInAttackRangeSO; }
-        set { ennemyData.isPlayerInAttackRangeSO = isPlayerInAttackRange; }
-    }
-
-    [SerializeField]
-    public bool isReadyToShoot // Peut tirer ?
-    {
-        get { return ennemyData.isReadyToShootSO; }
-        set { ennemyData.isReadyToShootSO = isReadyToShoot; }
-    }
-
-    [SerializeField]
-    public bool isAggro // L'unité chase le joueur ?
-    {
-        get { return ennemyData.isAggroSO; }
-        set { ennemyData.isAggroSO = isAggro; }
-    }
-
-    [SerializeField]
-    public bool isCharging // Le runner charge t'il ?
-    {
-        get { return ennemyData.isChargingSO; }
-        set { ennemyData.isChargingSO = isCharging; }
-    }
-
-    [SerializeField]
-    public bool isAttacking // L'unité attaque ?
-    {
-        get { return ennemyData.isAttackingSO; }
-        set { ennemyData.isAttackingSO = isAttacking; }
-    }
-
-    [SerializeField]
-    public bool isStun // L'unité est stun ?
-    {
-        get { return ennemyData.isStunSO; }
-        set { ennemyData.isStunSO = isStun; }
-    }
-
-    #endregion
-
-    public bool isRushing;
-    private bool isReadyToDash;
+    
+    
     private float rushDelay = 3f;
     private float rushingSpeed;
-    private float stunDuration = 3f;
+    private Vector2 fwd;
+    private LayerMask isPlayer;
+    
+    #endregion
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -168,17 +138,21 @@ public class IARunner : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        agent.speed = movementSpeed;
-        rushingSpeed = movementSpeed * 3;
-        
-        
-        isAggro = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.speed = movementSpeed;
+        rushingSpeed = movementSpeed * 3;
+
+        isAggro = false;
         isReadyToDash = true;
         isRushing = false;
-        
+
+        isPlayerInAggroRange = false;
+        isPlayerInAttackRange = false;
+        Debug.Log(detectZone);
+        Debug.Log(attackRange);
+        Debug.Log(target);
+        Debug.Log(movementSpeed);
         Invoke(nameof(WaitToGo), timeBeforeAggro);
     }
 
@@ -214,6 +188,7 @@ public class IARunner : MonoBehaviour
         isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
+        isRdyMove = true;
     }
     
     Vector3 GetNewRandomPosition()
@@ -230,6 +205,7 @@ public class IARunner : MonoBehaviour
     #region ChaseState
     private void ChasePlayer()
     {
+        isCharging = true;
         agent.SetDestination(target.position);
         var accelaration = (moveSpeedCharge - movementSpeed) / 3;
         agent.speed += accelaration * Time.deltaTime;
@@ -240,44 +216,81 @@ public class IARunner : MonoBehaviour
     #region AttackState
     private void Attacking()
     {
+        isCharging = false;
         agent.SetDestination(transform.position);
-        if (isReadyToDash) 
+        if (isReadyToDash)
+        {
             StartCoroutine(nameof(Dash));
+        }
     }
     
     IEnumerator Dash()
     {
-        isRushing = true;
-        agent.speed = rushingSpeed;
-        yield return new WaitForSeconds(rushDelay);
+        isReadyToDash = false;
+        rb.velocity = Vector2.zero;
+        
+        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y, 0);
+        Physics2D.Raycast(transform.position, fwd, attackRange, isPlayer);
+        Debug.DrawRay(transform.position, fwd, Color.green);
+        
+        yield return new WaitForSeconds(0f);
+        rb.velocity = fwd.normalized * dashSpeed;
+        isDashing = true;
         agent.speed = movementSpeed;
-        isRushing = false;
+        StartCoroutine(DashWait());
     }
 
-    public IEnumerator TakeObstacle()
+    IEnumerator DashWait()
+    {
+        yield return new WaitForSeconds(.5f);
+        rb.velocity = Vector2.zero;
+        isDashing = false;
+        Vector2 dir = Vector2.zero;
+        
+        yield return new WaitForSeconds(1f);
+        isReadyToDash = true;
+        agent.speed = movementSpeed;
+        StopCoroutine(nameof(Dash));
+    }
+    
+    private IEnumerator TakeObstacle()
     {
         StopCoroutine(nameof(Dash));
-        isRushing = false;
+        isReadyToDash = false;
         agent.speed = 0;
+
+        Debug.Log("STUN");
         isStun = true;
+        
         yield return new WaitForSeconds(stunDuration);
+        
         agent.speed = movementSpeed;
+        isReadyToDash = true;
         isStun = false;
+        Debug.Log("NO MORE STUN");
     }
     
     #endregion
     
-    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(shootPoint.position, attackRange / 2);
+        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
     
     private void WaitToGo()
     {
         isAggro = true;
+        isRdyMove = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            StartCoroutine(nameof(TakeObstacle));
+        }
     }
 }

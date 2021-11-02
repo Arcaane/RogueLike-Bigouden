@@ -1,129 +1,69 @@
+using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class IABarman : MonoBehaviour
 {
-    #region MyRegion
+    #region Variables
     // Utilities
-    public EnnemyData ennemyData;
     [SerializeField] private Transform target;
     private NavMeshAgent agent;
-    private Rigidbody2D rb;
     public Transform shootPoint;
-    
-    [SerializeField] private string name // Nom de l'unité
-    {
-        get { return ennemyData.nameSO; }
-        set { ennemyData.nameSO = name; }
-    }
-    [SerializeField] private string description // Description de l'unité
-    {
-        get { return ennemyData.descriptionSO; }
-        set { ennemyData.descriptionSO = description; }
-    }
-    [SerializeField] int lifePoint // Point de vie de l'unité
-    {
-        get { return ennemyData.lifePointSO; }
-        set { ennemyData.lifePointSO = lifePoint; }
-    }
-    [SerializeField] int shieldPoint // Point de l'armure de l'unité
-    {
-        get { return ennemyData.shieldPointSO; }
-        set { ennemyData.shieldPointSO = shieldPoint; }
-    }
-    [SerializeField] int damage // Nombre de dégats
-    {
-        get { return ennemyData.damageSO; }
-        set { ennemyData.damageSO = damage; }
-    }
-    [SerializeField] float detectZone // Fov
-    {
-        get { return ennemyData.detectZoneSO; }
-        set { ennemyData.detectZoneSO = detectZone; }
-    }
-    [SerializeField] float attackRange // Portée de l'attaque
-    {
-        get { return ennemyData.attackRangeSO; }
-        set { ennemyData.attackRangeSO = attackRange; }
-    }
-    [SerializeField] float delayAttack // Delay entre les attack des ennemis
-    {
-        get { return ennemyData.delayAttackSO; }
-        set { ennemyData.delayAttackSO = delayAttack; }
-    }
-    [SerializeField] float timeBeforeAggro // Delay avant que les ennemis aggro le joueur
-    {
-        get { return ennemyData.timeBeforeAggroSO; }
-        set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
-    }
-    [SerializeField] float attackSpeed // Vitesse d'attaque de l'unité
-    {
-        get { return ennemyData.attackSpeedSO; }
-        set { ennemyData.attackSpeedSO = attackSpeed; }
-    }
-    [SerializeField] float movementSpeed // Vitesse de déplacement de l'unité
-    {
-        get { return ennemyData.movementSpeedSO; }
-        set { ennemyData.movementSpeedSO = movementSpeed; }
-    }
-    [SerializeField] int damageAoe // Range de l'aoe du coktail du serveur
-    {
-        get { return ennemyData.damageAoeSO; }
-        set { ennemyData.damageAoeSO = damageAoe; }
-    }
-    [SerializeField] int damageAoeBeforeExplosion // Nombre de balles que tire le shooter
-    {
-        get { return ennemyData.damageAoeBeforeExplosionSO; }
-        set { ennemyData.damageAoeBeforeExplosionSO = damageAoeBeforeExplosion; }
-    }
-    [SerializeField] bool isPlayerInAttackRange // Le player est-il en range ?
-    {
-        get { return ennemyData.isPlayerInAttackRangeSO; }
-        set { ennemyData.isPlayerInAttackRangeSO = isPlayerInAttackRange; }
-    }
-    [SerializeField] bool isReadyToShoot // Peut tirer ?
-    {
-        get { return ennemyData.isReadyToShootSO; }
-        set { ennemyData.isReadyToShootSO = isReadyToShoot; }
-    }
-    [SerializeField] bool isAggro // L'unité chase le joueur ?
-    {
-        get { return ennemyData.isAggroSO; }
-        set { ennemyData.isAggroSO = isAggro; }
-    }
-    [SerializeField] bool isAttacking // L'unité attaque ?
-    {
-        get { return ennemyData.isAttackingSO; }
-        set { ennemyData.isAttackingSO = isAttacking; }
-    }
-    [SerializeField] bool isStun // L'unité est stun ?
-    {
-        get { return ennemyData.isStunSO; }
-        set { ennemyData.isStunSO = isStun; }
-    }
+    private Vector2 pos;
 
-    [SerializeField] Vector2 bulletSpeed // L'unité est stun ?
-    {
-        get { return ennemyData.bulletSpeedSO; }
-        set { ennemyData.bulletSpeedSO = bulletSpeed; }
-    }
-    [SerializeField] float rangeAoe // L'unité est stun ?
-    {
-        get { return ennemyData.rangeAoeSO; }
-        set { ennemyData.rangeAoeSO = rangeAoe; }
-    }
+    // Bezier Param
+    public Transform angularPointBezier;
+    private LineRenderer _lineRenderer;
+    private int numPoints = 20;
+    private Vector3[] positions = new Vector3[20];
+
+    // Cocktails Projectiles Parameter
+    private float tParam;
+    private Vector2 projectilePosition;
+    public GameObject cocktail;
+    
+    
+    // Ints
+    [SerializeField] public int lifePoint; // Point de vie de l'unité
+    [SerializeField] private int shieldPoint; // Point de l'armure de l'unité
+    
+    // Floats
+    [SerializeField] private float detectZone; // Fov
+    [SerializeField] private float attackRange; // Portée de l'attaque
+    [SerializeField] private float delayAttack; // Delay entre les attack des ennemis
+    [SerializeField] private float timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
+    [SerializeField] private float movementSpeed; // Vitesse de déplacement de l'unité
+    
+    // Variable spé Barman
+    [SerializeField] private float rangeAoe; // L'unité est stun ?
+    [SerializeField] private int damageAoe; // Range de l'aoe du coktail du serveur
+    [SerializeField] private int damageAoeBeforeExplosion; // Nombre de balles que tire le shooter
+    
+    // Bools
+    [SerializeField] private bool isPlayerInAggroRange;
+    [SerializeField] private bool isPlayerInAttackRange; // Le player est-il en range ?
+    [SerializeField] private bool isReadyToShoot; // Peut tirer ?
+    [SerializeField] private bool isAggro; // L'unité chase le joueur ?
+    [SerializeField] private bool isAttacking; // L'unité attaque ?
+    [SerializeField] private bool isStun; // L'unité est stun ?
+    [SerializeField] private bool isRdyMove;
     
     #endregion
 
     // Start is called before the first frame update
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = numPoints;
+        
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        
         isAggro = false;
-        isReadyToShoot = true;
+        isRdyMove = false;
+        isReadyToShoot = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         Invoke(nameof(WaitToGo), timeBeforeAggro);
@@ -132,60 +72,154 @@ public class IABarman : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        angularPointBezier.position = new Vector3((target.position.x + shootPoint.position.x) / 2,
+            (target.position.y + shootPoint.position.y) / 2 + 3, 0);
+        
+        DrawQuadraticCurve();
+            
+        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
         isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
-
-        if (isPlayerInAttackRange && isAggro)
+    
+        if (!isPlayerInAggroRange && isAggro)
+            Patrolling();
+        if (isPlayerInAggroRange && isAggro)
+            ChasePlayer();
+        if ( isPlayerInAggroRange && isPlayerInAttackRange && isAggro )
             Attacking();
     }
-
-    private void FixedUpdate()
-    {
-        var lookdir = target.position - rb.transform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Draw the parabola by sample a few times
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, target.position);
-    }
-
+    
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
     }
 
+    #region PatrollingState
+    private void Patrolling()
+    {
+        if (isRdyMove)
+        {
+            StartCoroutine(ResetPath());
+        }
+    }
+    Vector3 GetNewRandomPosition()
+    {
+        float x = Random.Range(-3, 4);
+        float y = Random.Range(-3, 4);
+        pos = new Vector2(x, y);
+        Debug.DrawLine(transform.position, pos, Color.white);
+        return pos;
+    }
+    private void GetNewPath()
+    {
+        pos = GetNewRandomPosition();
+        agent.SetDestination(pos);
+    }
+    IEnumerator ResetPath()
+    {
+        isRdyMove = false;
+        GetNewPath();
+        yield return new WaitForSeconds(3f);
+        isRdyMove = true;
+    }
+    #endregion
+
+    #region ChaseState
+
+    private void ChasePlayer()
+    { agent.SetDestination(target.position); }
+    #endregion
+    
+    #region AttackState
     private void Attacking()
     {
+        agent.SetDestination(transform.position);
         if (isReadyToShoot)
-            Shoot();
+            StartCoroutine(Shoot());
     }
 
-    private void Shoot()
+    private IEnumerator Shoot()
     {
-        var bulletVelocity = Random.Range(bulletSpeed.x, bulletSpeed.y);
         isReadyToShoot = false;
         // Play an attack animation
-        
-        var projectile =
-            ObjectPooler.Instance.SpawnFromPool("ProjectileBarman", shootPoint.position, Quaternion.identity);
-        var rbProjectile = projectile.GetComponent<Rigidbody2D>();
-        
-        rbProjectile.rotation = rb.rotation;
-        Invoke(nameof(ResetShoot), delayAttack);
-    }
     
+        int cocktailRand = Random.Range(1, 4);
+        // 1 = Dmg (+) / 2 = Dmg (-) / 3 = Vie + aux ennemis
 
-    private void ResetShoot()
+        var projectile = Instantiate(cocktail, shootPoint);
+        for (int i = 0; i < positions.Length; i++)
+        {
+            yield return new WaitForSeconds(0.01f);
+            projectile.transform.position = positions[i];
+        }
+
+        if (projectile.transform.position == positions[positions.Length - 1])
+        {
+            projectilePosition = projectile.transform.position;
+            BreakProjectile(cocktailRand);
+            Destroy(projectile);
+        }
+        StartCoroutine(ResetShoot());
+    }
+        
+    
+    private IEnumerator ResetShoot()
     {
+        yield return new WaitForSeconds(delayAttack);
         isReadyToShoot = true;
     }
-
+    #endregion
+    
     private void WaitToGo()
     {
         isAggro = true;
+        isRdyMove = true;
+        isReadyToShoot = true;
     }
+
+    public Vector3 CalculateQuadraticBezierCurve(float t, Vector3 p0, Vector3 p1, Vector3 p2) // Calculer la courbe du coktail
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        Vector3 p = uu * p0;
+        p += 2 * u * t * p1;
+        p += tt * p2;
+        return p;
+    }
+
+    private void DrawQuadraticCurve()
+    {
+        for (int i = 0; i < numPoints; i++)
+        {
+            float t = i / (float) numPoints;
+            positions[i] =
+                CalculateQuadraticBezierCurve(t, shootPoint.position, angularPointBezier.position, target.position);
+        }
+        _lineRenderer.SetPositions(positions);
+    }
+
+    #region ProjectileBehaviour
+
+    private void BreakProjectile(int projectileType)
+    {
+        switch (projectileType)
+        {
+            case 1:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman1", projectilePosition, Quaternion.identity);
+                break;
+            case 2:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman2", projectilePosition, Quaternion.identity);
+                break;
+            case 3:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman3", projectilePosition, Quaternion.identity);
+                break;
+        }
+    }
+    #endregion
 }

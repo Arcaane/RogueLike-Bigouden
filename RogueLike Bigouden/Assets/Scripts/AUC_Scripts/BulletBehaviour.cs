@@ -5,18 +5,13 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Transform target;
     void Start()
     {
-        
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(target.position.x, target.position.y), ForceMode2D.Impulse);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
