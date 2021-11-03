@@ -24,7 +24,7 @@ public class EnnemyIA : MonoBehaviour
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         if (!playerInAttackRange && !playerInSightRange)
-            Patroling();
+            Patrolling();
         if (!playerInAttackRange && playerInSightRange)
             ChasePlayer();
         if (playerInSightRange && playerInAttackRange)
@@ -39,7 +39,7 @@ public class EnnemyIA : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 
-    private void Patroling()
+    private void Patrolling()
     {
         if (!walkPointSet)
             SearchWalkPoint();

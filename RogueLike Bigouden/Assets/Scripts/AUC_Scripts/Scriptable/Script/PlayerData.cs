@@ -8,7 +8,6 @@ public class PlayerData : ScriptableObject
     public string descriptionSO; // Description de l'unité
 
     //  Int
-    public int attackSpeedSO; // Vitesse d'attaque
     public int actualUltPointSO; // Point d'ultimate collecté par le joueur
     public int ultMaxPointSO; // Point d'ultime pour lancer l'ult
     public int lifePointsSO; // Point de vie du joueur

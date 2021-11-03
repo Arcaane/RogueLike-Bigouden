@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4795681332030857772}
   - component: {fileID: 4954751699612679667}
   - component: {fileID: 9212476998518355297}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player Pref
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4537573348309961095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4332134868031872633}
   m_Father: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   playerMesh: {fileID: 3148788587835654078}
   isMoving: 0
   speed: 5
+  dashSpeed: 5
   buttonAValue: 0
   buttonBValue: 0
   buttonXValue: 0
@@ -57,6 +58,9 @@ MonoBehaviour:
   leftPressTrigger: 0
   rightPressTrigger: 0
   vibrationForce: {x: 0, y: 0}
+  hasDashed: 0
+  isDashing: 0
+  rb: {fileID: 0}
   animatorPlayer: {fileID: 2274977210518290289}
 --- !u!61 &4795681332030857772
 BoxCollider2D:
@@ -117,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4e22a41e8e0d348a0aafac9e17570e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 0}
 --- !u!1 &7250380072424164172
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +134,7 @@ GameObject:
   - component: {fileID: 3148788587835654078}
   - component: {fileID: 2274977210518290289}
   - component: {fileID: 1200639065568160143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}

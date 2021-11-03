@@ -6,162 +6,228 @@ using UnityEngine;
 public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
+    
 
     #region Player Variable Assignation
-    [SerializeField] private string name
+    private string name
     {
         get { return playerData.nameSO; }
         set { playerData.nameSO = name; }
     }
-    [SerializeField] private string description
+    private string description
     {
         get { return playerData.descriptionSO; }
         set { playerData.descriptionSO = description; }
     }
-    [SerializeField] private int attackSpeed
-    {
-        get { return playerData.attackSpeedSO; }
-        set { playerData.attackSpeedSO = attackSpeed; }
-    }
-    [SerializeField] private int actualUltPoint
+    private int actualUltPointSO
     {
         get { return playerData.actualUltPointSO; }
-        set { playerData.actualUltPointSO = actualUltPoint; }
+        set { playerData.actualUltPointSO = actualUltPointSO; }
     }
-    [SerializeField] private int ultMaxPoint
+    private int ultMaxPointSO
     {
         get { return playerData.ultMaxPointSO; }
-        set { playerData.ultMaxPointSO = ultMaxPoint; }
+        set { playerData.ultMaxPointSO = ultMaxPointSO; }
     }
-    [SerializeField] private int lifePoints
+    private int lifePointSO
     {
         get { return playerData.lifePointsSO; }
-        set { playerData.lifePointsSO = lifePoints; }
+        set { playerData.lifePointsSO = lifePointSO; }
     }
-    [SerializeField] private int shieldPoint
+    private int shieldPointSO
     {
         get { return playerData.shieldPointSO; }
-        set { playerData.shieldPointSO = shieldPoint; }
+        set { playerData.shieldPointSO = shieldPointSO; }
     }
-    [SerializeField] private int damageX
+    private int damageXSO
     {
         get { return playerData.damageXSO; }
-        set { playerData.damageXSO = damageX; }
-    }
-    [SerializeField] private int damageY
+        set { playerData.damageXSO = damageXSO; }
+    } 
+    private int damageYSO
     {
         get { return playerData.damageYSO; }
-        set { playerData.damageYSO = damageY; }
+        set { playerData.damageYSO = damageYSO; }
     }
-    [SerializeField] private int damageProjectile
+    private int damageProjectileSO
     {
         get { return playerData.damageProjectileSO; }
-        set { playerData.damageProjectileSO = damageProjectile; }
+        set { playerData.damageProjectileSO = damageProjectileSO; }
     }
-    [SerializeField] private float movementSpeed
+    private float movementSpeedSO
     {
         get { return playerData.movementSpeedSO; }
-        set { playerData.movementSpeedSO = movementSpeed; }
+        set { playerData.movementSpeedSO = movementSpeedSO; }
     }
-    
-    [SerializeField] private float attackRangeX
+    private float attackRangeXSO
     {
         get { return playerData.attackRangeXSO; }
-        set { playerData.attackRangeXSO = attackRangeX; }
+        set { playerData.attackRangeXSO = attackRangeXSO; }
     }
-    
-    [SerializeField] private float attackCdX
+    private float attackCdXSO
     {
         get { return playerData.attackCdXSO; }
-        set { playerData.attackCdXSO = attackCdX; }
+        set { playerData.attackCdXSO = attackCdXSO; }
     }
-    
-    [SerializeField] private float attackRangeY
+    private float attackRangeYSO
     {
         get { return playerData.attackRangeYSO; }
-        set { playerData.attackRangeYSO = attackRangeY; }
+        set { playerData.attackRangeYSO = attackRangeYSO; }
     }
-    
-    [SerializeField] private float attackCdY
+    private float attackCdYSO
     {
         get { return playerData.attackCdYSO; }
-        set { playerData.attackCdYSO = attackCdY; }
+        set { playerData.attackCdYSO = attackCdYSO; }
     }
-    
-    [SerializeField] private float attackRangeProjectile
+    private float attackRangeProjectileSO
     {
         get { return playerData.attackRangeProjectileSO; }
-        set { playerData.attackRangeProjectileSO = attackRangeProjectile; }
+        set { playerData.attackRangeProjectileSO = attackRangeProjectileSO; }
     }
-    [SerializeField] private float attackCdB
+    private float attackCdBSO
     {
         get { return playerData.attackCdBSO; }
-        set { playerData.attackCdBSO = attackCdB; }
+        set { playerData.attackCdBSO = attackCdBSO; }
     }
-    [SerializeField] private float dashRange
+    private float dashRangeSO
     {
         get { return playerData.dashRangeSO; }
-        set { playerData.dashRangeSO = dashRange; }
+        set { playerData.dashRangeSO = dashRangeSO; }
     }
-    [SerializeField] private float dashCooldown
+    private float dashCooldownSO
     {
         get { return playerData.dashCooldownSO; }
-        set { playerData.dashCooldownSO = dashCooldown; }
+        set { playerData.dashCooldownSO = dashCooldownSO; }
     }
-    [SerializeField] private float ultDuration
+    private float ultDurationSO
     {
         get { return playerData.ultDurationSO; }
-        set { playerData.ultDurationSO = ultDuration; }
+        set { playerData.ultDurationSO = ultDurationSO; }
     }
-    [SerializeField] private float bonusSpeed
+    private float bonusSpeedSO
     {
         get { return playerData.bonusSpeedSO; }
-        set { playerData.bonusSpeedSO = bonusSpeed; }
+        set { playerData.bonusSpeedSO = bonusSpeedSO; }
     }
-    [SerializeField] private Vector2 firstAttackReset
+    private Vector2 firstAttackResetSO
     {
         get { return playerData.firstAttackResetSO; }
-        set { playerData.firstAttackResetSO = firstAttackReset; }
+        set { playerData.firstAttackResetSO = firstAttackResetSO; }
     }
-    [SerializeField] private Vector2 secondAttackReset
+    private Vector2 secondAttackResetSO
     {
         get { return playerData.secondAttackResetSO; }
-        set { playerData.secondAttackResetSO = secondAttackReset; }
+        set { playerData.secondAttackResetSO = secondAttackResetSO; }
     }
-    [SerializeField] private bool readyToAttackX
+    private bool readyToAttackXSO
     {
         get { return playerData.readyToAttackXSO; }
-        set { playerData.readyToAttackXSO = readyToAttackX; }
+        set { playerData.readyToAttackXSO = readyToAttackXSO; }
     }
-    [SerializeField] private bool readyToAttackY
+    private bool readyToAttackYSO
     {
         get { return playerData.readyToAttackYSO; }
-        set { playerData.readyToAttackYSO = readyToAttackY; }
+        set { playerData.readyToAttackYSO = readyToAttackYSO; }
     }
-    [SerializeField] private bool readyToAttackB
+    private bool readyToAttackBSO
     {
         get { return playerData.readyToAttackBSO; }
-        set { playerData.readyToAttackBSO = readyToAttackB; }
+        set { playerData.readyToAttackBSO = readyToAttackBSO; }
     }
-    [SerializeField] private bool isDashing
+    private bool isDashingSO
     {
         get { return playerData.isDashingSO; }
-        set { playerData.isDashingSO = isDashing; }
+        set { playerData.isDashingSO = isDashingSO; }
     }
-    [SerializeField] private bool readyToDash
+    private bool readyToDashSO
     {
         get { return playerData.readyToDashSO; }
-        set { playerData.readyToDashSO = readyToDash; }
+        set { playerData.readyToDashSO = readyToDashSO; }
     }
-    [SerializeField] private bool onButter
+    private bool onButterSO
     {
         get { return playerData.onButterSO; }
-        set { playerData.onButterSO = onButter; }
+        set { playerData.onButterSO = onButterSO; }
     }
+    
+    //Ints 
+    public int actualUltPoint; // Point d'ultimate collecté par le joueur
+    public int ultMaxPoint; // Point d'ultime pour lancer l'ult
+    public int lifePoint; // Point de vie du joueur
+    public int shieldPoint; // Point de bouclier de l'ennemis
+    public int damageX; // Dégats de l'attaque de base
+    public int damageY; // Dégats de l'attaque spé
+    public int damageProjectile;// Dégats du projectile
+    
+    // Floats
+    public float movementSpeed;
+    public float attackRangeX;
+    public float attackCdX;
+    public float attackRangeY;
+    public float attackCdY;
+    public float attackRangeProjectile;
+    public float attackCdB;
+    public float dashRange;
+    public float dashCooldown;
+    public float ultDuration;
+    public float bonusSpeed;
+    
+    // Vectors 2
+    public Vector2 firstAttackReset;
+    public Vector2 secondAttackReset;
+    
+    // Bools
+    public bool readyToAttackX;
+    public bool readyToAttackY;
+    public bool readyToAttackB;
+    public bool isDashing;
+    public bool readyToDash;
+    public bool onButter;
+        
     #endregion
     
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
     }
+
+    private void Start()
+    {
+        // Set int
+        actualUltPoint = actualUltPointSO; 
+        ultMaxPoint = ultMaxPointSO; 
+        lifePoint = lifePointSO; 
+        shieldPoint = shieldPointSO; 
+        damageX = damageXSO; 
+        damageY = damageYSO; 
+        damageProjectile = damageProjectileSO;
+        
+        //Set Float
+        movementSpeed = movementSpeedSO;
+        attackRangeX = attackCdXSO;
+        attackCdX = attackCdXSO;
+        attackRangeY = attackRangeYSO; 
+        attackCdY = attackCdYSO;
+        attackRangeProjectile = attackRangeProjectileSO;
+        attackCdB = attackCdBSO; 
+        dashRange = dashRangeSO;
+        dashCooldown = dashCooldownSO;
+        ultDuration = ultDurationSO;
+        bonusSpeed = bonusSpeedSO;
+        
+        // Set Vector
+        firstAttackReset = firstAttackResetSO;
+        secondAttackReset = secondAttackResetSO;
+        
+        // Bools
+        readyToAttackX = readyToAttackXSO; 
+        readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
+        readyToAttackB = readyToAttackBSO; // Peut utiliser l'attaque projectile
+        isDashing = isDashingSO;
+        readyToDash = readyToDashSO;
+        onButter = onButterSO;
+    }
+    
 }
+
+
