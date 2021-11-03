@@ -31,6 +31,7 @@ public class IACac : MonoBehaviour
     
     // Int 
     public int lifePoint;
+    public int shieldPoint;
     public int damageDealt;
 
     // Float
@@ -56,6 +57,7 @@ public class IACac : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = movementSpeed;
@@ -175,4 +177,27 @@ public class IACac : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(hitPoint.position, hitRadius);
     }
+    
+    #region Damage Gestion
+    public void TakeDamage(int damage)
+    {
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
+        
+        if (lifePoint <= 0)
+            Death();
+    }
+
+    private void Death()
+    {
+        // Play Death Animation
+        Destroy(gameObject);
+    }
+    #endregion
 }

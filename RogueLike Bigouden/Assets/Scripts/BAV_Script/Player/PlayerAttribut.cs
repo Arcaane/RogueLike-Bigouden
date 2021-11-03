@@ -30,7 +30,6 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
 
-
     [SerializeField] public bool launchAttack;
     [SerializeField] public bool launchSecondAttack;
     [SerializeField] public float delayForSecondAttack = 4f;

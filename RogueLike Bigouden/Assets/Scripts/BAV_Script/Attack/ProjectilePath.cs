@@ -17,6 +17,7 @@ public class ProjectilePath : MonoBehaviour
     public GameObject projectile;
     private float duration;
     public float progress;
+    public bool isAttacking;
 
     [Header("Attack Speed du joueur"), Range(0.1f, 8f)]
     public float speed = 4f;
@@ -25,11 +26,23 @@ public class ProjectilePath : MonoBehaviour
     public SplineWalkerMode mode;
     public int goingForward = 0;
 
+    private void Start()
+    {
+        isAttacking = false;
+    }
 
     private void FixedUpdate()
     {
         Path();
         OnMovement(spline.arrayVector[0].pointAttack);
+    }
+
+    private void Update()
+    {
+        if (progress < 1)
+        {
+            isAttacking = true;
+        }
     }
 
 

@@ -713,7 +713,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9756fa898e250ac4cb6f47c1a27977a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRoomClear: 1
+  isRoomClear: 1
+  numberOfEnnemies: 0
+  isEnnemy:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &5313670429311380331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -721,6 +725,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: bossRoom.Array.data[0]
+      value: R2_TEST
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1.Array.data[0]
+      value: R1_TEST
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1.Array.data[1]
+      value: R3_TEST
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1.Array.data[2]
+      value: R4_TEST
+      objectReference: {fileID: 0}
     - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -830,5 +850,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSetup
       objectReference: {fileID: 0}
+    - target: {fileID: 8139641095833739149, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 1277593158827216752, guid: 64788c777c6ee754ebbc7bbfeaeea5cb, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}

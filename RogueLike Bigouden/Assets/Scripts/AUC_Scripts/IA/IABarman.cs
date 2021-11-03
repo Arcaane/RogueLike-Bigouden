@@ -7,6 +7,55 @@ using UnityEngine.AI;
 public class IABarman : MonoBehaviour
 {
     #region Variables
+
+    private EnnemyData ennemyData;
+    
+    private int lifePointSO
+    {
+        get { return ennemyData.lifePointSO; }
+        set { ennemyData.lifePointSO = lifePointSO; }
+    }
+    private int shieldPointSO
+    {
+        get { return ennemyData.shieldPointSO; }
+        set { ennemyData.shieldPointSO = shieldPointSO; }
+    }
+    private int damageAoeSO
+    {
+        get { return ennemyData.damageAoeSO; }
+        set { ennemyData.damageAoeSO = damageAoeSO; }
+    }
+    private int damageAoeBeforeExplosionSO
+    {
+        get { return ennemyData.damageAoeBeforeExplosionSO; }
+        set { ennemyData.damageAoeBeforeExplosionSO = damageAoeBeforeExplosionSO; }
+    }
+    private float detectZoneSO
+    {
+        get { return ennemyData.detectZoneSO; }
+        set { ennemyData.detectZoneSO = detectZoneSO; }
+    }
+    private float attackRangeSO
+    {
+        get { return ennemyData.attackRangeSO; }
+        set { ennemyData.attackRangeSO = attackRangeSO; }
+    }
+    private float delayAttackSO
+    {
+        get { return ennemyData.delayAttackSO; }
+        set { ennemyData.delayAttackSO = delayAttackSO; }
+    }
+    private float timeBeforeAggroSO
+    {
+        get { return ennemyData.timeBeforeAggroSO; }
+        set { ennemyData.timeBeforeAggroSO = timeBeforeAggroSO; }
+    }
+    private float movementSpeedSO
+    {
+        get { return ennemyData.movementSpeedSO; }
+        set { ennemyData.movementSpeedSO = movementSpeedSO; }
+    }
+    
     // Utilities
     [SerializeField] private Transform target;
     private NavMeshAgent agent;
@@ -27,34 +76,41 @@ public class IABarman : MonoBehaviour
     
     // Ints
     [SerializeField] public int lifePoint; // Point de vie de l'unité
-    [SerializeField] private int shieldPoint; // Point de l'armure de l'unité
+    [SerializeField] public int shieldPoint; // Point de l'armure de l'unité
     
     // Floats
-    [SerializeField] private float detectZone; // Fov
-    [SerializeField] private float attackRange; // Portée de l'attaque
-    [SerializeField] private float delayAttack; // Delay entre les attack des ennemis
-    [SerializeField] private float timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
-    [SerializeField] private float movementSpeed; // Vitesse de déplacement de l'unité
+    [SerializeField] public float detectZone; // Fov
+    [SerializeField] public float attackRange; // Portée de l'attaque
+    [SerializeField] public float delayAttack; // Delay entre les attack des ennemis
+    [SerializeField] public float timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
+    [SerializeField] public float movementSpeed; // Vitesse de déplacement de l'unité
     
     // Variable spé Barman
-    [SerializeField] private float rangeAoe; // L'unité est stun ?
-    [SerializeField] private int damageAoe; // Range de l'aoe du coktail du serveur
-    [SerializeField] private int damageAoeBeforeExplosion; // Nombre de balles que tire le shooter
+    [SerializeField] public int damageAoeBeforeExplosion; 
     
     // Bools
-    [SerializeField] private bool isPlayerInAggroRange;
-    [SerializeField] private bool isPlayerInAttackRange; // Le player est-il en range ?
-    [SerializeField] private bool isReadyToShoot; // Peut tirer ?
-    [SerializeField] private bool isAggro; // L'unité chase le joueur ?
-    [SerializeField] private bool isAttacking; // L'unité attaque ?
-    [SerializeField] private bool isStun; // L'unité est stun ?
-    [SerializeField] private bool isRdyMove;
+    [SerializeField] public bool isPlayerInAggroRange;
+    [SerializeField] public bool isPlayerInAttackRange; // Le player est-il en range ?
+    [SerializeField] public bool isReadyToShoot; // Peut tirer ?
+    [SerializeField] public bool isAggro; // L'unité chase le joueur ?
+    [SerializeField] public bool isAttacking; // L'unité attaque ?
+    [SerializeField] public bool isStun; // L'unité est stun ?
+    [SerializeField] public bool isRdyMove;
     
     #endregion
 
     // Start is called before the first frame update
     private void Start()
     {
+        lifePoint = lifePointSO;
+        shieldPoint = shieldPointSO;
+        detectZone = detectZoneSO;
+        attackRange = attackRangeSO;
+        delayAttack = delayAttackSO;
+        movementSpeed = movementSpeedSO;
+        damageAoeBeforeExplosion = damageAoeBeforeExplosionSO;
+        
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = numPoints;
         
@@ -220,6 +276,29 @@ public class IABarman : MonoBehaviour
                 ObjectPooler.Instance.SpawnFromPool("ProjectileBarman3", projectilePosition, Quaternion.identity);
                 break;
         }
+    }
+    #endregion
+
+    #region Damage Gestion
+    public void TakeDamage(int damage)
+    {
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
+        
+        if (lifePoint <= 0)
+            Death();
+    }
+
+    private void Death()
+    {
+        // Play Death Animation
+        Destroy(gameObject);
     }
     #endregion
 }

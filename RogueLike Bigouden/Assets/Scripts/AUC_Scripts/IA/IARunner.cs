@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -8,7 +9,7 @@ public class IARunner : MonoBehaviour
 {
     public EnnemyData ennemyData;
     
-    #region Variables
+    #region Variables Assignation 
 
     //Utilities
     [SerializeField] private Transform target;
@@ -46,17 +47,17 @@ public class IARunner : MonoBehaviour
     }
 
     [SerializeField]
-    public int lifePoint // Point de vie de l'unité
+    public int lifePointSO // Point de vie de l'unité
     {
         get { return ennemyData.lifePointSO; }
-        set { ennemyData.lifePointSO = lifePoint; }
+        set { ennemyData.lifePointSO = lifePointSO; }
     }
 
     [SerializeField]
-    public int shieldPoint // Point de l'armure de l'unité
+    public int shieldPointSO // Point de l'armure de l'unité
     {
         get { return ennemyData.shieldPointSO; }
-        set { ennemyData.shieldPointSO = shieldPoint; }
+        set { ennemyData.shieldPointSO = shieldPointSO; }
     }
 
     [SerializeField]
@@ -93,14 +94,7 @@ public class IARunner : MonoBehaviour
         get { return ennemyData.timeBeforeAggroSO; }
         set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
     }
-
-    [SerializeField]
-    public float attackSpeed // Vitesse d'attaque de l'unité
-    {
-        get { return ennemyData.attackSpeedSO; }
-        set { ennemyData.attackSpeedSO = attackSpeed; }
-    }
-
+    
     [SerializeField]
     private float movementSpeed // Vitesse de déplacement de l'unité
     {
@@ -121,7 +115,9 @@ public class IARunner : MonoBehaviour
         get { return ennemyData.moveSpeedChargeSO; }
         set { ennemyData.moveSpeedChargeSO = moveSpeedCharge; }
     }
-    
+
+    public int lifePoint;
+    public int shieldPoint;
     
     private float rushDelay = 3f;
     private float rushingSpeed;
@@ -134,10 +130,15 @@ public class IARunner : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Start()
     {
+        lifePoint = lifePointSO;
+        shieldPoint = shieldPointSO;
+        
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = movementSpeed;
@@ -292,5 +293,26 @@ public class IARunner : MonoBehaviour
         {
             StartCoroutine(nameof(TakeObstacle));
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
+        
+        if (lifePoint <= 0)
+            Death();
+    }
+
+    private void Death()
+    {
+        // Play Death Animation
+        Destroy(gameObject);
     }
 }

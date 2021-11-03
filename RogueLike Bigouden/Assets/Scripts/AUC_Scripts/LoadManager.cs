@@ -62,11 +62,10 @@ public class LoadManager : MonoBehaviour
 
      void CreateFinalList()
      {
-         finalList.Add(roomLevel1[randomIndex[0]]); // RandomRoom5
-         finalList.Add(roomLevel1[randomIndex[2]]); // RandomRoom5
-         finalList.Add(roomLevel1[randomIndex[0]]); // RandomRoom5
-         finalList.Add(roomLevel1[randomIndex[1]]); // RandomRoom5
-         
+         finalList.Add(roomLevel1[0]); 
+         finalList.Add(roomLevel1[1]); 
+         finalList.Add(roomLevel1[2]);
+
          finalList.Add(utilityRoom[0]); // UtilityRoom1
          
          finalList.Add(roomLevel1[randomIndex[2]]); // RandomRoom5
@@ -77,20 +76,12 @@ public class LoadManager : MonoBehaviour
 
      public void ChangeRoom()
      {
-         Debug.Log("Oui");
          SceneManager.LoadSceneAsync(finalList[numberOfRoom]);
-         Debug.Log("Oui");
          numberOfRoom++;
-         Debug.Log("Oui");
-
          if (numberOfRoom == 11)
          {
-             Debug.Log("Oui");
              ResetProcedural();
          }
-         Debug.Log("Oui");
-         //SetPlayerPosition();
-         Debug.Log("Oui");
      }
 
      void ResetProcedural()

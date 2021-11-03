@@ -21,7 +21,6 @@ public class EnnemyData : ScriptableObject
     public float attackRangeSO; // Portée de l'attaque
     public float delayAttackSO; // Delay entre les attack des ennemis
     public float timeBeforeAggroSO; // Delay avant que les ennemis aggro le joueur
-    public float attackSpeedSO; // Vitesse d'attaque de l'unité
     public float movementSpeedSO; // Vitesse de déplacement de l'unité
 
     // Special Float

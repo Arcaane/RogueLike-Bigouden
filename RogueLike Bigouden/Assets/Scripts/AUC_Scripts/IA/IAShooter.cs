@@ -26,22 +26,22 @@ public class IAShooter : MonoBehaviour
     [SerializeField] private bool isAggro;
     public LayerMask isPlayer;
 
-    [SerializeField] string name // Nom de l'unité
+    string name // Nom de l'unité
     {
         get { return ennemyData.nameSO; }
         set { ennemyData.nameSO = name; }
     }
-    [SerializeField] string description // Description de l'unité
+     string description // Description de l'unité
     {
         get { return ennemyData.descriptionSO; }
         set { ennemyData.descriptionSO = description; }
     }
-    public int lifePoint // Point de vie de l'unité
+    private int lifePointSO // Point de vie de l'unité
     {
         get { return ennemyData.lifePointSO; }
-        set { ennemyData.lifePointSO = lifePoint; }
+        set { ennemyData.lifePointSO = lifePointSO; }
     }
-    [SerializeField] int shieldPoint // Point de l'armure de l'unité
+    private int shieldPoint // Point de l'armure de l'unité
     {
         get { return ennemyData.shieldPointSO; }
         set { ennemyData.shieldPointSO = shieldPoint; }
@@ -71,11 +71,6 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.timeBeforeAggroSO; }
         set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
     }
-    [SerializeField] float attackSpeed // Vitesse d'attaque de l'unité
-    {
-        get { return ennemyData.attackSpeedSO; }
-        set { ennemyData.attackSpeedSO = attackSpeed; }
-    }
     [SerializeField] float movementSpeed // Vitesse de déplacement de l'unité
     {
         get { return ennemyData.movementSpeedSO; }
@@ -97,8 +92,8 @@ public class IAShooter : MonoBehaviour
         get { return ennemyData.isStunSO; }
         set { ennemyData.isStunSO = isStun; }
     }
-    
 
+    public int lifePoint;
     private bool isLock;
     private bool isRdyMove;
     private Vector3 pos;
@@ -114,6 +109,9 @@ public class IAShooter : MonoBehaviour
 
     private void Start()
     {
+        lifePoint = lifePointSO;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        
         // Parametres de l'agent
         agent.updateRotation = false; 
         agent.updateUpAxis = false;
@@ -264,5 +262,26 @@ public class IAShooter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
+        
+        if (lifePoint <= 0)
+            Death();
+    }
+
+    private void Death()
+    {
+        // Play Death Animation
+        Destroy(gameObject);
     }
 }
