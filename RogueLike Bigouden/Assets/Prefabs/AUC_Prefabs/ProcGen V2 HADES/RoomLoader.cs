@@ -22,6 +22,7 @@ public class RoomLoader : MonoBehaviour
         }
         
         InvokeRepeating(nameof(CheckforEnnemies), 5, 1.5f);
+        isRoomClear = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
