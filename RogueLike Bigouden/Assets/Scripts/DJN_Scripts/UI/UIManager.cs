@@ -59,7 +59,8 @@ public class UIManager : MonoBehaviour
         
         TestingFunction();
         
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        if(GameObject.FindGameObjectWithTag("Player"))
+            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         
         imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
         
@@ -82,7 +83,9 @@ public class UIManager : MonoBehaviour
         healthBarImage.fillAmount = currentHealth / maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
         energyBarImage.fillAmount = currentEnergy / maxEnergy; //lié aux variables joueur : actualEnergy / maxEnergy;
         healthText.text = currentHealth + "/" + maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
-        moneyText.text = inventory.currentMoney.ToString(); //lié aux variables Inventaire : currentMoney;
+        
+        if(inventory)
+            moneyText.text = inventory.currentMoney.ToString(); //lié aux variables Inventaire : currentMoney;
     }
 
     void UpdateItemPlayer()
