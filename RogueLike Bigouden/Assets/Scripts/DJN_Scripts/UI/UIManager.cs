@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public Image energyBarImage;
     public TextMeshProUGUI moneyText;
+    //insérer script statistique player
 
     [Header("Enemy HUD")] 
     public GameObject enemyUI;
@@ -55,40 +56,53 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player1UI.SetActive(true);
+        
         TestingFunction();
+        
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        
         imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
+        
         itemInformationPanel.SetActive(false);
+        
         dialogueBox.SetActive(false);
+        
+        //trouver le script player statistiques
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthBarImage.fillAmount = currentHealth / maxHealth;
-        energyBarImage.fillAmount = currentEnergy / maxEnergy;
-        healthText.text = currentHealth + "/" + maxHealth;
-        moneyText.text = currentMoney.ToString();
-        
+        PlayerUIUpdate();
         UpdateItemPlayer();
-        
+    }
+
+    private void PlayerUIUpdate()
+    {
+        healthBarImage.fillAmount = currentHealth / maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
+        energyBarImage.fillAmount = currentEnergy / maxEnergy; //lié aux variables joueur : actualEnergy / maxEnergy;
+        healthText.text = currentHealth + "/" + maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
+        moneyText.text = inventory.currentMoney.ToString(); //lié aux variables Inventaire : currentMoney;
     }
 
     void UpdateItemPlayer()
     {
-        foreach (Transform itemsImage in imageItemPanel)
+        if (inventory)
         {
-            for (int i = 1; i < imageItemPanel.Length; i++)
+            foreach (Transform itemsImage in imageItemPanel)
             {
-                if(imageItemPanel.Length > inventory.items.Count)
-                    imageItemPanel[i].GetComponent<Image>().enabled = false;
+                for (int i = 1; i < imageItemPanel.Length; i++)
+                {
+                    if(imageItemPanel.Length > inventory.items.Count)
+                        imageItemPanel[i].GetComponent<Image>().enabled = false;
                 
-            }
+                }
 
-            for (int i = 0; i < inventory.items.Count; i++)
-            {
-                imageItemPanel[i +1].GetComponent<Image>().enabled = true;
-                imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
+                for (int i = 0; i < inventory.items.Count; i++)
+                {
+                    imageItemPanel[i +1].GetComponent<Image>().enabled = true;
+                    imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
+                }
             }
         }
     }
@@ -97,16 +111,22 @@ public class UIManager : MonoBehaviour
     {
         itemInformationPanel.SetActive(true);
 
-        itemImage.sprite = inventory.itemOnTheFloor.image;
-        itemDescriptionText.text = inventory.itemOnTheFloor.description;
-        itemNameText.text = inventory.itemOnTheFloor.itemName;
-        itemPriceText.text = inventory.itemOnTheFloor.price.ToString();
-        rarityText.text = inventory.itemOnTheFloor.rarity.ToString();
+        if (inventory)
+        {
+            itemImage.sprite = inventory.itemOnTheFloor.image;
+            itemDescriptionText.text = inventory.itemOnTheFloor.description;
+            itemNameText.text = inventory.itemOnTheFloor.itemName;
+            itemPriceText.text = inventory.itemOnTheFloor.price.ToString();
+            rarityText.text = inventory.itemOnTheFloor.rarity.ToString();
+        }
+        
     }
+
 
     public void EnemyHealthBar()
     {
-        //récupérer le dernier enemy touché dans le script de la collision enemy seulement si il reçoit
+        //récupérer le dernier enemy touché dans le script de la collision enemy avec n'importe quel attaque (x,y,b) seulement si il reçoit des dégâts (dans tout les cas il est censé en prendre)
+        
         if (lastEnemyHit)
         {
             enemyName.text = lastEnemyHit.name;

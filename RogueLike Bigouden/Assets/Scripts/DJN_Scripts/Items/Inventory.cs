@@ -12,6 +12,8 @@ public class Inventory : MonoBehaviour
     public Items itemOnTheFloor;
     public bool conditionActivate;
 
+    public int currentMoney;
+    
     private UIManager uiManager;
     // Start is called before the first frame update
     void Start()
