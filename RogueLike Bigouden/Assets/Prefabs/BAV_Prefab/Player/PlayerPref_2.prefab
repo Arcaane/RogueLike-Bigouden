@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 3593730529134266026}
   - component: {fileID: 7490579457119390024}
   - component: {fileID: 2667549121227804013}
+  - component: {fileID: 7428929022978721337}
   - component: {fileID: 6722423303255095001}
   - component: {fileID: 7912807079348135131}
   - component: {fileID: 7746348269042350852}
-  m_Layer: 0
+  - component: {fileID: 1756226868195531794}
+  m_Layer: 8
   m_Name: PlayerPref_2
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -86,6 +88,45 @@ MonoBehaviour:
   playerMesh: {fileID: 356031037205739849}
   animatorPlayer: {fileID: 3517321643038554502}
   playerFeedBack: {fileID: 6722423303255095001}
+--- !u!114 &7428929022978721337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277593158827216752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad7ab0972969c14f8b35b803451aade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  actualUltPoint: 0
+  ultMaxPoint: 0
+  lifePoint: 0
+  shieldPoint: 0
+  damageX: 0
+  damageY: 0
+  damageProjectile: 0
+  movementSpeed: 0
+  attackRangeX: 0
+  attackCdX: 0
+  attackRangeY: 0
+  attackCdY: 0
+  attackRangeProjectile: 0
+  attackCdB: 0
+  dashRange: 0
+  dashCooldown: 0
+  ultDuration: 0
+  bonusSpeed: 0
+  firstAttackReset: {x: 0, y: 0}
+  secondAttackReset: {x: 0, y: 0}
+  readyToAttackX: 0
+  readyToAttackY: 0
+  readyToAttackB: 0
+  isDashing: 0
+  readyToDash: 0
+  onButter: 0
 --- !u!114 &6722423303255095001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +186,26 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &1756226868195531794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277593158827216752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde6b4b5797f3b6468bb5564e0c0aa8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemAdded: 0
+  items: []
+  target: {fileID: 0}
+  lastItemAdded: {fileID: 0}
+  itemOnTheFloor: {fileID: 0}
+  conditionActivate: 0
+  currentMoney: 0
 --- !u!1 &5106266613256337261
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +269,7 @@ MonoBehaviour:
     - {x: 1, y: 1, z: 0}
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
-  radiusAttack: 1
+  radiusAttack: 0.8
   addPoint: 0
 --- !u!114 &3405388577385850937
 MonoBehaviour:
@@ -226,7 +286,8 @@ MonoBehaviour:
   spline: {fileID: 5328878512671455108}
   projectile: {fileID: 5401484947978832480}
   progress: 0
-  speed: 8
+  isAttacking: 0
+  speed: 2
   mode: 0
   goingForward: 0
 --- !u!1 &5401484947978832480
@@ -240,7 +301,8 @@ GameObject:
   - component: {fileID: 9073095235508488440}
   - component: {fileID: 5037104038433965553}
   - component: {fileID: 8222180912309935299}
-  m_Layer: 0
+  - component: {fileID: 4130453911201963278}
+  m_Layer: 10
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,6 +400,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4130453911201963278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401484947978832480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409869ed4e2b5234c88fab6e403cba19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectilePathHolder: {fileID: 5106266613256337261}
 --- !u!1 &5466482215745473979
 GameObject:
   m_ObjectHideFlags: 0

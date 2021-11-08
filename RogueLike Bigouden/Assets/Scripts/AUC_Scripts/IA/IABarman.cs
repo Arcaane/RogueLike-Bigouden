@@ -1,150 +1,227 @@
+using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class IABarman : MonoBehaviour
 {
+    #region Variables Barman Assignation
     // Utilities
     [SerializeField] private Transform target;
-    [SerializeField] private bool playerInAttackRange, readyToShoot, playerAggro;
-
-    // Tweakable Values
-    public float attackRange = 1.5f;
-    public float timeToResetShoot = 1f;
-    public float timeBeforeAggro = .5f;
-    public float height; // Hauteur de la parabole
-    public Transform shootPoint;
-
-    public int _numberOfElements = 10; // Number of elements should draw in path of parabola
-    public Transform _moveableObject; // Objet to move on path
-    private readonly List<GameObject> _trajectoryElementsContainer = new List<GameObject>();
     private NavMeshAgent agent;
-    private Rigidbody2D rb;
-    private float shootForce;
+    public Transform shootPoint;
+    private Vector2 pos;
 
+    // Bezier Param
+    public Transform angularPointBezier;
+    private LineRenderer _lineRenderer;
+    private int numPoints = 20;
+    private Vector3[] positions = new Vector3[20];
+
+    // Cocktails Projectiles Parameter
+    private float tParam;
+    private Vector2 projectilePosition;
+    public GameObject cocktail;
+    
+    // Floats
+    [SerializeField] private float _detectZone; // Fov
+    [SerializeField] private float _attackRange; // Portée de l'attaque
+    [SerializeField] private float _delayAttack; // Delay entre les attack des ennemis
+    [SerializeField] private float _timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
+    [SerializeField] private float _movementSpeed; // Vitesse de déplacement de l'unité
+    
+    // Variable spé Barman
+    [SerializeField] private float _rangeAoe; // 
+    [SerializeField] private int _damageAoe; // Range de l'aoe du coktail du serveur
+    [SerializeField] private int _damageAoeAfterExplosion; // Nombre de balles que tire le shooter
+    
+    // Bools
+    [SerializeField] private bool _isPlayerInAggroRange;
+    [SerializeField] private bool _isPlayerInAttackRange; // Le player est-il en range ?
+    [SerializeField] private bool _isReadyToShoot; // Peut tirer ?
+    [SerializeField] private bool _isAggro; // L'unité chase le joueur ?
+    [SerializeField] private bool _isAttacking; // L'unité attaque ?
+    [SerializeField] private bool _isRdyMove;
+    #endregion
 
     // Start is called before the first frame update
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
+        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
+        _delayAttack = GetComponent<EnnemyStatsManager>().attackDelay;
+        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
+        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
+        _rangeAoe = GetComponent<EnnemyStatsManager>().rangeAoe;
+        _damageAoe = GetComponent<EnnemyStatsManager>().damageAoe;
+        _damageAoeAfterExplosion = GetComponent<EnnemyStatsManager>().damageAoeAfterExplosion;
+        
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = numPoints;
+        agent.speed = _movementSpeed;
+        
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        playerAggro = false;
-        readyToShoot = true;
+        
+        _isAggro = false;
+        _isRdyMove = false;
+        _isReadyToShoot = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        Invoke(nameof(WaitToGo), timeBeforeAggro);
+        Invoke(nameof(WaitToGo), _timeBeforeAggro);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        playerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
-
-        if (playerInAttackRange && playerAggro)
+        angularPointBezier.position = new Vector3((target.position.x + shootPoint.position.x) / 2,
+            (target.position.y + shootPoint.position.y) / 2 + 3, 0);
+        
+        DrawQuadraticCurve();
+            
+        _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
+        _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
+    
+        if (!_isPlayerInAggroRange && _isAggro)
+            Patrolling();
+        if (_isPlayerInAggroRange && _isAggro)
+            ChasePlayer();
+        if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
             Attacking();
-
-        float distributionTime = 0;
-        for (float i = 1; i <= _numberOfElements; i++)
-        {
-            distributionTime++;
-            var currentPosition =
-                SampleParabola(transform.position, target.position, height, i / _numberOfElements);
-            _trajectoryElementsContainer[(int) i - 1].transform.position =
-                new Vector3(currentPosition.x, currentPosition.y, 0);
-
-            var nextPosition = SampleParabola(transform.position, target.position, height,
-                (i + 1) / _numberOfElements);
-            var angleInR = Mathf.Atan2(nextPosition.y - currentPosition.y, nextPosition.x - currentPosition.x);
-            _trajectoryElementsContainer[(int) i - 1].transform.eulerAngles =
-                new Vector3(0, 0, Mathf.Rad2Deg * angleInR - 90);
-        }
-
-        if (_moveableObject)
-            //Shows how to animate something following a parabola
-            _moveableObject.position = SampleParabola(transform.position, target.position, height, Time.time % 1);
-    }
-
-    private void FixedUpdate()
-    {
-        var lookdir = target.position - rb.transform.position;
-        var angle = Mathf.Atan2(lookdir.y, lookdir.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Draw the parabola by sample a few times
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, target.position);
-        float count = 20;
-        var lastP = transform.position;
-        for (float i = 0; i < count + 1; i++)
-        {
-            var p = SampleParabola(transform.position, target.position, height, i / count);
-            Gizmos.color = i % 2 == 0 ? Color.blue : Color.green;
-            Gizmos.DrawLine(lastP, p);
-            lastP = p;
-        }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, _detectZone);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
     }
 
+    #region PatrollingState
+    private void Patrolling()
+    {
+        if (_isRdyMove)
+        {
+            StartCoroutine(ResetPath());
+        }
+    }
+    Vector3 GetNewRandomPosition()
+    {
+        float x = Random.Range(-3, 4);
+        float y = Random.Range(-3, 4);
+        pos = new Vector2(x, y);
+        Debug.DrawLine(transform.position, pos, Color.white);
+        return pos;
+    }
+    private void GetNewPath()
+    {
+        pos = GetNewRandomPosition();
+        agent.SetDestination(pos);
+    }
+    IEnumerator ResetPath()
+    {
+        _isRdyMove = false;
+        GetNewPath();
+        yield return new WaitForSeconds(3f);
+        _isRdyMove = true;
+    }
+    #endregion
+
+    #region ChaseState
+
+    private void ChasePlayer()
+    { agent.SetDestination(target.position); }
+    #endregion
+    
+    #region AttackState
     private void Attacking()
     {
-        if (readyToShoot)
-            Shoot();
+        agent.SetDestination(transform.position);
+        if (_isReadyToShoot)
+            StartCoroutine(Shoot());
     }
 
-    private void Shoot()
+    private IEnumerator Shoot()
     {
-        shootForce = Random.Range(1.5f, 2.1f);
-        height = Random.Range(1, 2);
-        readyToShoot = false;
+        _isReadyToShoot = false;
         // Play an attack animation
-        var projectile =
-            ObjectPooler.Instance.SpawnFromPool("ProjectileBarman", shootPoint.position, Quaternion.identity);
-        var rbProjectile = projectile.GetComponent<Rigidbody2D>();
-        rbProjectile.position = SampleParabola(transform.position, target.position, height, 0.7f);
-        rbProjectile.rotation = rb.rotation;
-        Invoke(nameof(ResetShoot), timeToResetShoot);
-    }
+    
+        int cocktailRand = Random.Range(1, 4);
+        // 1 = Dmg (+) / 2 = Dmg (-) / 3 = Vie + aux ennemis
 
-    private Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t)
-    {
-        var parabolicT = t * 2 - 1;
-        if (Mathf.Abs(start.y - end.y) < 0.1f)
+        var projectile = Instantiate(cocktail, shootPoint);
+        for (int i = 0; i < positions.Length; i++)
         {
-            var travelDirection = end - start;
-            var result = start + t * travelDirection;
-            result.y += (-parabolicT * parabolicT + 1) * height;
-            return result;
+            yield return new WaitForSeconds(0.01f);
+            projectile.transform.position = positions[i];
         }
-        else
+
+        if (projectile.transform.position == positions[positions.Length - 1])
         {
-            var travelDirection = end - start;
-            var levelDirection = end - new Vector3(start.x, end.y, start.z);
-            var right = Vector3.Cross(travelDirection, levelDirection);
-            var up = Vector3.Cross(right, travelDirection);
-            if (end.y > start.y)
-                up = -up;
-            var result = start + t * travelDirection;
-            result += (-parabolicT * parabolicT + 1) * height * up.normalized;
-            return result;
+            projectilePosition = projectile.transform.position;
+            BreakProjectile(cocktailRand);
+            Destroy(projectile);
         }
+        StartCoroutine(ResetShoot());
     }
-
-    private void ResetShoot()
+        
+    
+    private IEnumerator ResetShoot()
     {
-        readyToShoot = true;
+        yield return new WaitForSeconds(_delayAttack);
+        _isReadyToShoot = true;
     }
-
+    #endregion
+    
     private void WaitToGo()
     {
-        playerAggro = true;
+        _isAggro = true;
+        _isRdyMove = true;
+        _isReadyToShoot = true;
     }
+
+    
+
+    #region ProjectileBehaviour
+    public Vector3 CalculateQuadraticBezierCurve(float t, Vector3 p0, Vector3 p1, Vector3 p2) // Calculer la courbe du coktail
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        Vector3 p = uu * p0;
+        p += 2 * u * t * p1;
+        p += tt * p2;
+        return p;
+    }
+
+    private void DrawQuadraticCurve()
+    {
+        for (int i = 0; i < numPoints; i++)
+        {
+            float t = i / (float) numPoints;
+            positions[i] =
+                CalculateQuadraticBezierCurve(t, shootPoint.position, angularPointBezier.position, target.position);
+        }
+        _lineRenderer.SetPositions(positions);
+    }
+    private void BreakProjectile(int projectileType)
+    {
+        switch (projectileType)
+        {
+            case 1:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman1", projectilePosition, Quaternion.identity);
+                break;
+            case 2:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman2", projectilePosition, Quaternion.identity);
+                break;
+            case 3:
+                ObjectPooler.Instance.SpawnFromPool("ProjectileBarman3", projectilePosition, Quaternion.identity);
+                break;
+        }
+    }
+    #endregion
 }

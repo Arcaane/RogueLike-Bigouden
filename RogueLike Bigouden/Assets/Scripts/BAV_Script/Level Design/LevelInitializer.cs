@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,8 +27,11 @@ public class LevelInitializer : MonoBehaviour
                 player.GetComponent<PlayerInputHandler>().InitializePlayer(playerConfigs[i]);
                 prefabInstantiate.Add(player);
                 PlayerConfigurationManager.Instance.launchGame = false;
-                if(PlayerConfigurationManager.Instance.launchGame == false)
+                if (PlayerConfigurationManager.Instance.launchGame == false)
+                {
+                    UIManager.instance.SearchPlayer(player);
                     PlayerConfigurationManager.Instance.MainLayout.SetActive(false);
+                }
             }
         }
  
