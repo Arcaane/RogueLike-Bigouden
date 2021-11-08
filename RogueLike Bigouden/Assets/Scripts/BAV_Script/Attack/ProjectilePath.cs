@@ -17,6 +17,7 @@ public class ProjectilePath : MonoBehaviour
     public GameObject projectile;
     private float duration;
     public float progress;
+    public bool isAttacking;
 
     [Header("Attack Speed du joueur"), Range(0.1f, 8f)]
     public float speed = 4f;
@@ -25,14 +26,31 @@ public class ProjectilePath : MonoBehaviour
     public SplineWalkerMode mode;
     public int goingForward = 0;
 
+    private void Start()
+    {
+        isAttacking = false;
+    }
 
+    private void Update()
+    {
+        if (progress < 1)
+        {
+            isAttacking = true;
+            projectile.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+        else
+        {
+            isAttacking = false;
+            projectile.GetComponent<BoxCollider2D>().isTrigger = true;
+
+        }
+    }
     private void FixedUpdate()
     {
         Path();
         OnMovement(spline.arrayVector[0].pointAttack);
     }
-
-
+    
     /// <summary>///
     /// Fonction permettant au projectile de ce déplacer sur la curve.
     /// /// </summary>
@@ -74,8 +92,7 @@ public class ProjectilePath : MonoBehaviour
             }
         }
     }
-
-
+    
     public void OnMovement(Vector3[] pointAttack)
     {
         Vector3 position = spline.GetPoint(progress, pointAttack);
