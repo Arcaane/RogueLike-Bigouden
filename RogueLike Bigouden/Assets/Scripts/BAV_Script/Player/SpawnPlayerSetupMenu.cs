@@ -11,12 +11,12 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
     private GameObject rootMenu;
     public PlayerInput input;
 
-    private void Awake()
+    private void Start()
     {
         rootMenu = PlayerConfigurationManager.Instance.MainLayout;
         if (rootMenu != null)
         {
-            var menu = Instantiate(playerSetupMenuPrefab, rootMenu.transform);
+            GameObject menu = Instantiate(playerSetupMenuPrefab, rootMenu.transform);
             input.uiInputModule = menu.GetComponentInChildren<InputSystemUIInputModule>();
             menu.GetComponent<PlayerSetupMenuController>().setPlayerIndex(input.playerIndex);
         }

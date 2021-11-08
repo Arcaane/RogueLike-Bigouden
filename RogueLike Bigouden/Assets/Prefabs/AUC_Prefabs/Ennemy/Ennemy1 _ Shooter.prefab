@@ -41,12 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 81293163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8292904c89606b24887c8eb7a339f305, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a2b43d0b11faea46ad49d9805c02f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectToRotate: {fileID: 892268418}
   objectTarget: {fileID: 0}
-  radius: 0.55
+  speed: 1
+  radius: 1
 --- !u!1 &892268417
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1519636972}
   - component: {fileID: 1519636974}
-  - component: {fileID: 1519636973}
+  - component: {fileID: 926734045825623667}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -128,7 +129,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!212 &1519636973
+--- !u!212 &926734045825623667
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,7 +148,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d1931f6016926124cbe39c636503314f, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -168,7 +169,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1241202914869338763, guid: f7d88e5193b98a044ac6a7cda4535029, type: 3}
+  m_Sprite: {fileID: 2943228007331034247, guid: dc870f55ea4fba746afc9b8604733db6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -177,7 +178,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 2
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &82470713143018614
 GameObject:
@@ -192,13 +193,14 @@ GameObject:
   - component: {fileID: 2023003139}
   - component: {fileID: 2110859047016906816}
   - component: {fileID: 2023003138}
-  m_Layer: 10
+  - component: {fileID: 8166797091082929893}
+  m_Layer: 9
   m_Name: Ennemy1 _ Shooter
   m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &82470713143018613
 Transform:
   m_ObjectHideFlags: 0
@@ -207,7 +209,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82470713143018614}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.01, y: -2.75, z: -446.11945}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1519636972}
@@ -228,7 +230,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.050717205, y: -0.16538227}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -239,7 +241,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.42226475, y: 0.79272103}
   m_EdgeRadius: 0
 --- !u!50 &2023003139
 Rigidbody2D:
@@ -274,20 +276,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257333ecbf74634469e932669f25b1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ennemyData: {fileID: 11400000, guid: 6b12382897109d6488423d44c08940ad, type: 2}
   target: {fileID: 0}
   shootPoint: {fileID: 892268418}
   agent: {fileID: 2023003138}
   shooterAnimator: {fileID: 1519636974}
-  isPlayerInAggroRange: 0
-  isPlayerInAttackRange: 0
-  isReadyToShoot: 0
-  isAggro: 0
+  _detectZone: 0
+  _attackRange: 0
+  _attackDelay: 0
+  _timeBeforeAggro: 0
+  _movementSpeed: 0
+  _isPlayerInAggroRange: 0
+  _isPlayerInAttackRange: 0
+  _isReadyToShoot: 0
+  _isAggro: 0
+  _isAttacking: 0
   isPlayer:
     serializedVersion: 2
     m_Bits: 256
-  magnitude: 0
-  isAttack: 0
 --- !u!195 &2023003138
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -310,3 +315,39 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8166797091082929893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82470713143018614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9676b47b3e6530449eee59611a2c456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ennemyData: {fileID: 11400000, guid: 6b12382897109d6488423d44c08940ad, type: 2}
+  lifePoint: 0
+  shieldPoint: 0
+  damageDealt: 0
+  detectZone: 0
+  attackRange: 0
+  attackDelay: 0
+  timeBeforeAggro: 0
+  movementSpeed: 0
+  isPlayerInAggroRange: 0
+  isPlayerInAttackRange: 0
+  isReadyToShoot: 0
+  isAggro: 0
+  isAttacking: 0
+  isStun: 0
+  damageAoe: 0
+  damageAoeAfterExplosion: 0
+  rangeAoe: 0
+  bulletSpread: {x: 0, y: 0}
+  bulletSpeed: {x: 0, y: 0}
+  dashSpeed: 0
+  stunDuration: 0
+  rushDelay: 0
+  isReadyToDash: 0

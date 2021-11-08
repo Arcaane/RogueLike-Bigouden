@@ -7,79 +7,72 @@ using Random = UnityEngine.Random;
 
 public class IACac : MonoBehaviour
 {
-    #region Variables
+    #region Cac Variables Assignation
     
     // Utilities
-    [SerializeField] 
-    private Transform target;
-    
-    [SerializeField] 
-    private NavMeshAgent agent;
-    
-    [SerializeField]
-    private Transform hitPoint;
-    
-    private Rigidbody2D rb;
+    [SerializeField] private Transform target;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Transform hitPoint;
+    [SerializeField] private bool isRdyMove;
     private Vector2 pos;
-    
-    // Bools 
-    public bool isPlayerInAggroRange;
-    public bool isPlayerInAttackRange;
-    public bool isRdyMove;
-    public bool isReadyToHit;
-    public bool isAggro;
-    
-    // Int 
-    public int lifePoint;
-    public int damageDealt;
-
-    // Float
-    public float detectZone;
-    public float attackRange;
-    public float timeBeforeAggro;
-    public float delayAttack;
-    public float movementSpeed;
-    public float hitRadius;
-
     private Vector2 fwd;
     public LayerMask isPlayer;
-    private List<Vector2> pathList;
-
+    
+    [SerializeField] private int _damageDealt;
+    [SerializeField] private float _detectZone;
+    [SerializeField] private float _attackRange;
+    [SerializeField] private float _attackDelay;
+    [SerializeField] private float _timeBeforeAggro;
+    [SerializeField] private float _movementSpeed;
+    [SerializeField] private bool _isPlayerInAggroRange;
+    [SerializeField] private bool _isPlayerInAttackRange;
+    [SerializeField] private bool _isReadyToShoot;
+    [SerializeField] private bool _isAggro;
+    [SerializeField] private bool _isAttacking;
+    public float hitRadius;
+    
     #endregion
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindWithTag("Player").transform;
+        _damageDealt = GetComponent<EnnemyStatsManager>().damageDealt;
+        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
+        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
+        _attackDelay = GetComponent<EnnemyStatsManager>().attackDelay;
+        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
+        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
+        
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.speed = movementSpeed;
+        agent.speed = _movementSpeed;
 
-        isAggro = false;
+        _isAggro = false;
         isRdyMove = false;
-        isPlayerInAggroRange = false;
-        isPlayerInAttackRange = false;
-        
-        isReadyToHit = true;
-        Invoke(nameof(WaitToGo), timeBeforeAggro);
+        _isPlayerInAggroRange = false;
+        _isPlayerInAttackRange = false;
+        _isAttacking = false;
+        _isReadyToShoot = true;
+        Invoke(nameof(WaitToGo), _timeBeforeAggro);
     }
 
     // Update is called once per frame
     void Update()
     {
-        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
-        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
+        _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
+        _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
-        if (!isPlayerInAggroRange && isAggro)
+        if (!_isPlayerInAggroRange && _isAggro)
             Patrolling();
-        if (!isPlayerInAttackRange && isPlayerInAggroRange && isAggro)
+        if (!_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
             ChasePlayer();
-        if(isPlayerInAggroRange && isPlayerInAttackRange && isAggro)
+        if(_isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro)
             Attacking();
     }
 
@@ -128,7 +121,7 @@ public class IACac : MonoBehaviour
     void Attacking()
     {
         agent.SetDestination(transform.position);
-        if (isReadyToHit)
+        if (_isReadyToShoot)
         {
             Hit();
         }
@@ -136,7 +129,7 @@ public class IACac : MonoBehaviour
 
     private void Hit()
     {
-        isReadyToHit = false;
+        _isReadyToShoot = false;
         
         // Play attack animation
         
@@ -146,7 +139,8 @@ public class IACac : MonoBehaviour
         // Damage them
         foreach (var player in hitPlayers)
         {
-            Debug.Log("Player hit" + player.name);
+            player.GetComponent<PlayerStatsManager>().TakeDamage(_damageDealt);
+            Debug.Log("Player: " + player.name + " just hit!");
         }
         
         StartCoroutine(ResetHit());
@@ -154,24 +148,24 @@ public class IACac : MonoBehaviour
 
     IEnumerator ResetHit()
     {
-        yield return new WaitForSeconds(delayAttack);
-        isReadyToHit = true;
+        yield return new WaitForSeconds(_attackDelay);
+        _isReadyToShoot = true;
     }
     #endregion
 
     private void WaitToGo()
     {
-        isAggro = true;
+        _isAggro = true;
         isRdyMove = true;
-        isReadyToHit = true;
+        _isReadyToShoot = true;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.DrawWireSphere(transform.position, _detectZone);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(hitPoint.position, hitRadius);
     }

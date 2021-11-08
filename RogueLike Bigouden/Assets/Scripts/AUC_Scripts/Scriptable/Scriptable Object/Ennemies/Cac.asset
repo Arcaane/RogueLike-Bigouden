@@ -12,28 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8748f3b880ae38a4e90a9406f065c969, type: 3}
   m_Name: Cac
   m_EditorClassIdentifier: 
-  nameSO: 
-  descriptionSO: 
-  lifePointSO: 0
-  shieldPointSO: 0
-  damageSO: 0
-  detectZoneSO: 0
-  damageAoeSO: 0
-  damageAoeBeforeExplosionSO: 0
-  attackRangeSO: 0
-  delayAttackSO: 0
-  timeBeforeAggroSO: 0
-  attackSpeedSO: 0
-  movementSpeedSO: 0
-  rangeAoeSO: 0
-  numberBulletShotSO: 0
-  moveSpeedChargeSO: 0
-  chargeDurationSO: 0
-  bulletSpreadSO: {x: 0, y: 0}
-  bulletSpeedSO: {x: 0, y: 0}
+  lifePointSO: 1
+  shieldPointSO: 1
+  damageSO: 1
+  detectZoneSO: 1
+  attackRangeSO: 1
+  attackDelaySO: 1
+  timeBeforeAggroSO: 1
+  movementSpeedSO: 1
   isPlayerInAttackRangeSO: 0
+  isPlayerInAggroRangeSO: 0
   isReadyToShootSO: 0
   isAggroSO: 0
   isAttackingSO: 0
   isStunSO: 0
-  isChargingSO: 0
+  damageAoeSO: 0
+  damageAoeAfterExplosionSO: 0
+  rangeAoeSO: 0
+  bulletSpreadSO: {x: 0, y: 0}
+  bulletSpeedSO: {x: 0, y: 0}
+  dashSpeedSO: 0
+  stunDurationSO: 0
+  rushDelaySO: 0
+  isReadyToDashSO: 0

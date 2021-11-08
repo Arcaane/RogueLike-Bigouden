@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
+    public GameObject player;
+    
     public Inventory inventory;
     public Transform[] imageItemPanel;
     public Transform itemPanelParent;
@@ -51,17 +54,27 @@ public class UIManager : MonoBehaviour
     public float currentEnergy;
     public float maxEnergy;
     
-    
+    public bool searchInventory;
+    private PlayerStatsManager _playerStatsManager;
+
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
+ 
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         player1UI.SetActive(true);
-        
-        TestingFunction();
-        
-        if(GameObject.FindGameObjectWithTag("Player"))
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
             inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        
+        }
+        searchInventory = false;
         imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
         
         itemInformationPanel.SetActive(false);
@@ -70,24 +83,7 @@ public class UIManager : MonoBehaviour
         
         //trouver le script player statistiques
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        PlayerUIUpdate();
-        UpdateItemPlayer();
-    }
-
-    private void PlayerUIUpdate()
-    {
-        healthBarImage.fillAmount = currentHealth / maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
-        energyBarImage.fillAmount = currentEnergy / maxEnergy; //lié aux variables joueur : actualEnergy / maxEnergy;
-        healthText.text = currentHealth + "/" + maxHealth; //lié aux variables joueur : actualHealth / maxHealth;
-        
-        if(inventory)
-            moneyText.text = inventory.currentMoney.ToString(); //lié aux variables Inventaire : currentMoney;
-    }
-
+    
     void UpdateItemPlayer()
     {
         if (inventory)
@@ -124,7 +120,36 @@ public class UIManager : MonoBehaviour
         }
         
     }
+    
+    public void SearchPlayer(GameObject P)
+    {
+        player = P;
+        Debug.Log(_playerStatsManager);
+        _playerStatsManager = player.GetComponent<PlayerStatsManager>();
+        Debug.Log(_playerStatsManager);
+        inventory = player.GetComponent<Inventory>();
+        searchInventory = true;
+        player1UI.SetActive(true);
+        Invoke(nameof(RefreshUI), 1);
+    }
 
+    public void RefreshUI()
+    {
+        Debug.Log(_playerStatsManager.maxLifePoint);
+        Debug.Log(_playerStatsManager.lifePoint);
+        
+        float rlifePoint = (float)Math.Round(_playerStatsManager.lifePoint * 100f) / 100f;
+        float rmaxLifePoint = (float)Math.Round(_playerStatsManager.maxLifePoint * 100f) / 100f;
+        float rUltPoint = (float)Math.Round(_playerStatsManager.actualUltPoint * 100f) / 100f;
+        float rmaxUltPoint = (float)Math.Round(_playerStatsManager.ultMaxPoint * 100f) / 100f;
+        
+        healthBarImage.fillAmount = rlifePoint / rmaxLifePoint;
+        energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
+        healthText.text = rlifePoint + "/" + rmaxLifePoint;
+        moneyText.text = currentMoney.ToString();
+
+        UpdateItemPlayer();
+    }
 
     public void EnemyHealthBar()
     {
@@ -136,17 +161,10 @@ public class UIManager : MonoBehaviour
             //enemyHealthText.text = lastEnemyHit.healthActual + "/" + lastEnemyHit.maxHealth;
             //energyBarImage.fillAmount = lastEnemyHit.healthActual / lastEnemyHit.maxHealth;
         }
-           
     }
 
     public void ClosePanel()
     {
         itemInformationPanel.SetActive(false);
-    }
-    
-    void TestingFunction()
-    {
-        currentHealth = maxHealth;
-        currentEnergy = maxEnergy;
     }
 }

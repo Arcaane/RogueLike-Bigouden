@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class IABarman : MonoBehaviour
 {
-    #region Variables
+    #region Variables Barman Assignation
     // Utilities
     [SerializeField] private Transform target;
     private NavMeshAgent agent;
@@ -24,49 +24,52 @@ public class IABarman : MonoBehaviour
     private Vector2 projectilePosition;
     public GameObject cocktail;
     
-    
-    // Ints
-    [SerializeField] public int lifePoint; // Point de vie de l'unité
-    [SerializeField] private int shieldPoint; // Point de l'armure de l'unité
-    
     // Floats
-    [SerializeField] private float detectZone; // Fov
-    [SerializeField] private float attackRange; // Portée de l'attaque
-    [SerializeField] private float delayAttack; // Delay entre les attack des ennemis
-    [SerializeField] private float timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
-    [SerializeField] private float movementSpeed; // Vitesse de déplacement de l'unité
+    [SerializeField] private float _detectZone; // Fov
+    [SerializeField] private float _attackRange; // Portée de l'attaque
+    [SerializeField] private float _delayAttack; // Delay entre les attack des ennemis
+    [SerializeField] private float _timeBeforeAggro; // Delay avant que les ennemis aggro le joueur
+    [SerializeField] private float _movementSpeed; // Vitesse de déplacement de l'unité
     
     // Variable spé Barman
-    [SerializeField] private float rangeAoe; // L'unité est stun ?
-    [SerializeField] private int damageAoe; // Range de l'aoe du coktail du serveur
-    [SerializeField] private int damageAoeBeforeExplosion; // Nombre de balles que tire le shooter
+    [SerializeField] private float _rangeAoe; // 
+    [SerializeField] private int _damageAoe; // Range de l'aoe du coktail du serveur
+    [SerializeField] private int _damageAoeAfterExplosion; // Nombre de balles que tire le shooter
     
     // Bools
-    [SerializeField] private bool isPlayerInAggroRange;
-    [SerializeField] private bool isPlayerInAttackRange; // Le player est-il en range ?
-    [SerializeField] private bool isReadyToShoot; // Peut tirer ?
-    [SerializeField] private bool isAggro; // L'unité chase le joueur ?
-    [SerializeField] private bool isAttacking; // L'unité attaque ?
-    [SerializeField] private bool isStun; // L'unité est stun ?
-    [SerializeField] private bool isRdyMove;
-    
+    [SerializeField] private bool _isPlayerInAggroRange;
+    [SerializeField] private bool _isPlayerInAttackRange; // Le player est-il en range ?
+    [SerializeField] private bool _isReadyToShoot; // Peut tirer ?
+    [SerializeField] private bool _isAggro; // L'unité chase le joueur ?
+    [SerializeField] private bool _isAttacking; // L'unité attaque ?
+    [SerializeField] private bool _isRdyMove;
     #endregion
 
     // Start is called before the first frame update
     private void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
+        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
+        _delayAttack = GetComponent<EnnemyStatsManager>().attackDelay;
+        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
+        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
+        _rangeAoe = GetComponent<EnnemyStatsManager>().rangeAoe;
+        _damageAoe = GetComponent<EnnemyStatsManager>().damageAoe;
+        _damageAoeAfterExplosion = GetComponent<EnnemyStatsManager>().damageAoeAfterExplosion;
+        
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = numPoints;
+        agent.speed = _movementSpeed;
         
-        agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         
-        isAggro = false;
-        isRdyMove = false;
-        isReadyToShoot = false;
+        _isAggro = false;
+        _isRdyMove = false;
+        _isReadyToShoot = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        Invoke(nameof(WaitToGo), timeBeforeAggro);
+        Invoke(nameof(WaitToGo), _timeBeforeAggro);
     }
 
     // Update is called once per frame
@@ -77,24 +80,23 @@ public class IABarman : MonoBehaviour
         
         DrawQuadraticCurve();
             
-        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
-        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
+        _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
+        _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
     
-        if (!isPlayerInAggroRange && isAggro)
+        if (!_isPlayerInAggroRange && _isAggro)
             Patrolling();
-        if (isPlayerInAggroRange && isAggro)
+        if (_isPlayerInAggroRange && _isAggro)
             ChasePlayer();
-        if ( isPlayerInAggroRange && isPlayerInAttackRange && isAggro )
+        if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
             Attacking();
     }
-    
-    
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.DrawWireSphere(transform.position, _detectZone);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
     }
@@ -102,7 +104,7 @@ public class IABarman : MonoBehaviour
     #region PatrollingState
     private void Patrolling()
     {
-        if (isRdyMove)
+        if (_isRdyMove)
         {
             StartCoroutine(ResetPath());
         }
@@ -122,10 +124,10 @@ public class IABarman : MonoBehaviour
     }
     IEnumerator ResetPath()
     {
-        isRdyMove = false;
+        _isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
-        isRdyMove = true;
+        _isRdyMove = true;
     }
     #endregion
 
@@ -139,13 +141,13 @@ public class IABarman : MonoBehaviour
     private void Attacking()
     {
         agent.SetDestination(transform.position);
-        if (isReadyToShoot)
+        if (_isReadyToShoot)
             StartCoroutine(Shoot());
     }
 
     private IEnumerator Shoot()
     {
-        isReadyToShoot = false;
+        _isReadyToShoot = false;
         // Play an attack animation
     
         int cocktailRand = Random.Range(1, 4);
@@ -170,18 +172,21 @@ public class IABarman : MonoBehaviour
     
     private IEnumerator ResetShoot()
     {
-        yield return new WaitForSeconds(delayAttack);
-        isReadyToShoot = true;
+        yield return new WaitForSeconds(_delayAttack);
+        _isReadyToShoot = true;
     }
     #endregion
     
     private void WaitToGo()
     {
-        isAggro = true;
-        isRdyMove = true;
-        isReadyToShoot = true;
+        _isAggro = true;
+        _isRdyMove = true;
+        _isReadyToShoot = true;
     }
 
+    
+
+    #region ProjectileBehaviour
     public Vector3 CalculateQuadraticBezierCurve(float t, Vector3 p0, Vector3 p1, Vector3 p2) // Calculer la courbe du coktail
     {
         float u = 1 - t;
@@ -203,9 +208,6 @@ public class IABarman : MonoBehaviour
         }
         _lineRenderer.SetPositions(positions);
     }
-
-    #region ProjectileBehaviour
-
     private void BreakProjectile(int projectileType)
     {
         switch (projectileType)

@@ -320,6 +320,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "PassThrough",
+                    "id": "5b4492b5-fe60-40ff-bbac-e0637f0daeda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -446,12 +454,34 @@
                 },
                 {
                     "name": "",
+                    "id": "fcc2fd5e-e630-44ab-803a-ce2ec89f9a38",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f91b3229-baf8-44d7-a49b-54da8884ac92",
                     "path": "<HID::HORI CO.,LTD. Taiko Controller>/button4",
                     "interactions": "",
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Selected",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c214a9f5-15ea-4ddc-a2a7-f0bf6f73b3e5",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
