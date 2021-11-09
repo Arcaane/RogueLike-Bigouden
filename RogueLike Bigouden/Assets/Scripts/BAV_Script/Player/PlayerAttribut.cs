@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAttribut : MonoBehaviour
 {
@@ -20,13 +21,19 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
-    
+
     //float--------------------
     public float dashSpeed = 5;
+
     public float durationDash = 1f;
+    public float durationBeforeDash = 1f;
 
     //int--------------------
     public int dashCount = 3;
+
+    //bool--------------------
+    public bool isDash;
+    public bool canDash;
 
     [Header("Player Attack")] [SerializeField]
     private GameObject splinePivot;
@@ -38,7 +45,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] public bool launchSecondAttack;
     [SerializeField] public float delayForSecondAttack = 4f;
     [SerializeField] private float timer;
+
     [SerializeField] public float incrementValue;
+    //[SerializeField] public float incrementLaunch;
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -156,11 +165,26 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Dash()
     {
-        Vector2 velocity = Vector2.zero;
-        Vector2 dir = _lastPosition;
-        velocity += dir.normalized * (dashSpeed *1.666667f);
-        rb.velocity = velocity;
-        StartCoroutine(DashWait());
+        incrementValue++;
+        canDash = true;
+        if (incrementValue >= 1)
+        {
+            isDash = true;
+            if (incrementValue >= dashCount + 1)
+            {
+                incrementValue = dashCount;
+                canDash = false;
+            }
+        }
+
+        if (canDash)
+        {
+            Vector2 velocity = Vector2.zero;
+            Vector2 dir = _lastPosition;
+            velocity += dir.normalized * (dashSpeed * 1.666667f);
+            rb.velocity = velocity;
+            StartCoroutine(DashWait());
+        }
     }
 
     IEnumerator DashWait()
@@ -173,18 +197,32 @@ public class PlayerAttribut : MonoBehaviour
         _isDashing = false;
     }
 
-    void DownValue()
+    public void ResetDash()
     {
-        if (incrementValue >= 4)
+        timer += Time.deltaTime;
+        if (timer >= durationBeforeDash)
         {
-            timer += (Time.deltaTime / (speed / 10));
-            if (timer >= speed)
-            {
-                incrementValue = 0;
-                timer = 0f;
-            }
+            canDash = true;
+            isDash = false;
+            incrementValue = 0f;
+            timer = 0f;
         }
     }
+
+/*
+void DownValue()
+{
+    if (incrementValue >= incrementLaunch)
+    {
+        timer += (Time.deltaTime);
+        if (timer >= speed)
+        {
+            incrementValue = 0;
+            timer = 0f;
+        }
+    }
+}
+*/
 
     public void FixedUpdate()
     {
@@ -193,7 +231,11 @@ public class PlayerAttribut : MonoBehaviour
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         MoveAnimation();
-        DownValue();
+        //DownValue();
+        if (isDash)
+        {
+            ResetDash();
+        }
     }
 
     public void SaveLastPosition()
@@ -220,6 +262,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             return true;
         }
+
         return false;
     }
 

@@ -221,7 +221,6 @@ public class PlayerGA: MonoBehaviour
         switch (buttonA.started)
         {
             case true:
-                playerAttribut.Dash();
                 Debug.Log("Button A Started" + buttonAValue);
                 break;
             case false:
@@ -231,6 +230,7 @@ public class PlayerGA: MonoBehaviour
         switch (buttonA.performed)
         {
             case true:
+                playerAttribut.Dash();
                 Debug.Log("Button A performed");
                 break;
             case false:
