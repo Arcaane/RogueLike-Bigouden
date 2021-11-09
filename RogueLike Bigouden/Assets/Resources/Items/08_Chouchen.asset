@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
+  m_Name: 08_Chouchen
+  m_EditorClassIdentifier: 
+  itemName: Chouchen
+  description: "Quand un ennemie meurt, il explose et inflige des d\xE9g\xE2ts autour
+    de lui"
+  image: {fileID: 0}
+  price: 0
+  rarity: 2
+  itemEffects:
+  - target: 1
+    type: 0
+    condition: 1
+    effectOn: 0
+    action: 6
+    conditionActionMustBeDone: 0
+    value: 0
+    conditionValueToReach: 0
+    augmentation: 0
+    onCurrent: 0
+    amount: 0
+    rate: 0
+    alteration: 0
+    targetObject: {fileID: 0}
+    destructEffect: 3
+    pointOfAppear: {fileID: 0}
+    appearAmount: 0
+    appearRate: 0
+    overTime: 0
+    overTimeDuration: 0

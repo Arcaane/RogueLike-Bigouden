@@ -46,7 +46,7 @@ public class Items : ScriptableObject
         [Tooltip("Selectionnez la valeur à atteindre")]
         public Value value;
         [Tooltip("Quel montant cette valeur doit atteindre pour que l'effet s'active ?")]
-        public float conditionValueToReach;
+        public int conditionValueToReach;
         
         [Header("On Variable")]
         [Tooltip("Choississez la valeur à modifier")]
@@ -54,17 +54,23 @@ public class Items : ScriptableObject
         [Tooltip("Est-ce que c'est sur le montant actuel ? Si faux, c'est sur le maximum")]
         public bool onCurrent;
         [Tooltip("De quel montant cette valeur est-elle modifié ?")]
-        public float amount;
+        public int amount;
+        [Range(0,100)]
+        public float rate;
         
         [Header("On Object")]
         [Tooltip("Choisissez le type d'altération que subit la cible")]
         public Alteration alteration;
         [Tooltip("Choisissez l'objet de la cible qui subira la modification")]
         public GameObject targetObject;
+
+        public int destructEffect;
         [Tooltip("Choisissez, le cas écheant, le point d'apparition de l'objet")]
         public Transform pointOfAppear;
         [Tooltip("Choisissez le nombre d'objet qui doit apparaître")]
         public float appearAmount;
+        [Range(0,100)]
+        public float appearRate;
         
         [Header("Is Over Time ?")]
         [Tooltip("L'effet est-il sur la durée ?")]
@@ -88,7 +94,8 @@ public class Items : ScriptableObject
         {
             None,
             Action,
-            Value
+            Value,
+            BrokeSomething
 
         }
 
@@ -99,7 +106,8 @@ public class Items : ScriptableObject
             AttackDistance,
             AttackUltime,
             Dash,
-            GetHurt
+            GetHurt,
+            Death
         }
 
         public enum Value
@@ -121,6 +129,8 @@ public class Items : ScriptableObject
         {
             None,
             Damage,
+            AttackRange,
+            AttackSpeed,
             Money,
             Health,
             Speed,
@@ -130,10 +140,8 @@ public class Items : ScriptableObject
 
         public enum Alteration
         {
-            None,
             Creation,
-            Destruction,
-            Multiplication
+            Destruction
         }
 
     }
