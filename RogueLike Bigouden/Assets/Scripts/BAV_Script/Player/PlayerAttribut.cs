@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAttribut : MonoBehaviour
@@ -15,22 +16,22 @@ public class PlayerAttribut : MonoBehaviour
     public float speed = 5;
 
     //Vitesse de force du dash.
-    public float dashSpeed = 5;
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
-    [SerializeField]
-    private bool hasDashed;
-
-    [SerializeField] private bool isDashing;
+    //float--------------------
+    public float dashSpeed = 5;
+    public float durationDash = 1f;
+    
+    //int--------------------
+    public int dashCount = 3;
 
     [Header("Player Attack")] [SerializeField]
     private GameObject splinePivot;
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
-
-
+    
     [SerializeField] public bool launchAttack;
     [SerializeField] public bool launchSecondAttack;
     [SerializeField] public float delayForSecondAttack = 4f;
@@ -47,17 +48,51 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField]
     private PlayerFeedBack playerFeedBack;
 
-    // Start is called before the first frame update
-    void Start()
+    // Private Valor use just for this script----------------------------------
+    [SerializeField] private PlayerStatsManager _playerStatsManager;
+    [SerializeField] private ProjectilePath _attackPath;
+    
+    //float
+    private float _durationResetDash;
+    
+    //int
+    private int _dashCount;
+    private int _dashCountMax;
+
+
+    //Vector3
+    [SerializeField] Vector3 _lastPosition;
+    [SerializeField] Vector3 _move;
+    [SerializeField] Vector3 _look;
+
+    //Bools
+    private bool _readyToAttackX;
+    private bool _readyToAttackY;
+    private bool _readyToAttackB;
+    private bool _isDashing;
+    private bool _readyToDash;
+    private bool _onButter;
+
+    //End of Private Valor ----------------------------------------------------
+
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        _playerStatsManager = GetComponent<PlayerStatsManager>();
+        _isDashing = _playerStatsManager.isDashing;
     }
-
-    //Animator
 
     public void Move()
     {
-        transform.Translate(new Vector3(movementInput.x, movementInput.y, 0) * speed * Time.deltaTime);
+        if (attackPath.launchAttack)
+        {
+            transform.Translate(_move * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(_move * speed * Time.deltaTime);
+        }
     }
 
     public void MoveAnimation()
@@ -115,24 +150,25 @@ public class PlayerAttribut : MonoBehaviour
                 break;
         }
     }
+    
 
     public void Dash()
     {
-        hasDashed = true;
-        rb.velocity = Vector2.zero;
-        Vector2 dir = new Vector2(movementInput.x, movementInput.y);
-        rb.velocity += dir.normalized * dashSpeed;
+        Vector2 velocity = Vector2.zero;
+        Vector2 dir = _lastPosition;
+        velocity += dir.normalized * dashSpeed;
+        rb.velocity = velocity;
         StartCoroutine(DashWait());
     }
 
     IEnumerator DashWait()
     {
         playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
-        isDashing = true;
-        yield return new WaitForSeconds(.3f);
+        _isDashing = true;
+        yield return new WaitForSeconds(durationDash/2);
         playerFeedBack.MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
-        isDashing = false;
+        _isDashing = false;
     }
 
     void DownValue()
@@ -148,11 +184,36 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-
     public void FixedUpdate()
     {
+        SaveLastPosition();
+        _attackPath.Path();
+        _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         MoveAnimation();
         DownValue();
+    }
+
+    public void SaveLastPosition()
+    {
+        Vector3 move = new Vector3(movementInput.x, movementInput.y, 0);
+        Vector3 look = new Vector3(lookAxis.x, lookAxis.y, 0);
+        _move = move;
+        _look = look;
+        if (movementInput.x != 0 || movementInput.y != 0)
+        {
+            _lastPosition = _move;
+        }
+
+        if (lookAxis.x != 0 || lookAxis.y != 0)
+        {
+            _lastPosition = _look;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed)/2);
     }
 }
