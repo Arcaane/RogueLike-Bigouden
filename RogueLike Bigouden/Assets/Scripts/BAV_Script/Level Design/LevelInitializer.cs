@@ -29,7 +29,7 @@ public class LevelInitializer : MonoBehaviour
                 PlayerConfigurationManager.Instance.launchGame = false;
                 if (PlayerConfigurationManager.Instance.launchGame == false)
                 {
-                    UIManager.instance.SearchPlayer(player);
+                    //UIManager.instance.SearchPlayer(player);
                     PlayerConfigurationManager.Instance.MainLayout.SetActive(false);
                 }
             }

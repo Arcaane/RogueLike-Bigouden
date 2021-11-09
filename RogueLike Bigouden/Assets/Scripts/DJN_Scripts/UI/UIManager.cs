@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+   public static UIManager instance;
     public GameObject player;
     
     public Inventory inventory;
@@ -127,7 +127,6 @@ public class UIManager : MonoBehaviour
         Debug.Log(_playerStatsManager);
         _playerStatsManager = player.GetComponent<PlayerStatsManager>();
         Debug.Log(_playerStatsManager);
-        inventory = player.GetComponent<Inventory>();
         searchInventory = true;
         player1UI.SetActive(true);
         Invoke(nameof(RefreshUI), 1);
@@ -167,4 +166,5 @@ public class UIManager : MonoBehaviour
     {
         itemInformationPanel.SetActive(false);
     }
+    
 }

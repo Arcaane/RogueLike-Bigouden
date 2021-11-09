@@ -10,10 +10,11 @@ public class InventoryEditor : Editor
     {
         DrawDefaultInspector();
 
-        Inventory inventory = (Inventory) target;
-        if (GUILayout.Button("Update Items"))
+       Inventory inventory = (Inventory) target;
+       GUILayout.Space(20);
+        if (GUILayout.Button("Check Items"))
         {
-            inventory.UpdateItems();
+            inventory.CheckItemCondition();
         }
     }
 }

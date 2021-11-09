@@ -69,4 +69,5 @@ public class DialogueManager : MonoBehaviour
         selectDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
         Debug.Log("Dialogue selected is " + selectDialogue.name);
     }
+    
 }

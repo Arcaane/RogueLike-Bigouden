@@ -1,20 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEditor;
 using UnityEngine;
+using Random = System.Random;
 
 public class Inventory : MonoBehaviour
 {
-    public bool itemAdded;
     public List<Items> items;
-    public string target;
-    public Items lastItemAdded;
     public Items itemOnTheFloor;
     public bool conditionActivate;
-    public PlayerStatsManager playerStats;
     public int currentMoney;
+    private int moneyCollect;
     
+    public PlayerStatsManager playerStats;
+
+    public int roll;
     private UIManager uiManager;
     // Start is called before the first frame update
     void Start()
@@ -22,319 +24,505 @@ public class Inventory : MonoBehaviour
         uiManager = GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
     }
-    
-    // Update is called once per frame
-    public void Update()
-    {
-        
-    }
-    
 
-    public void CheckCondition()
+    public void CheckItemCondition()
     {
-        foreach (Items item in items)
+        foreach (Items i in items)
         {
-            for (int i = 0; i < item.itemEffects.Length; i++)
+            switch (i.condition)
             {
-                Items.ItemEffect currentItemEffect = item.itemEffects[i];
-                
-                 switch (currentItemEffect.condition)
-                {
-                    //si la condition est une action
-                    case Items.ItemEffect.Condition.Action:
-                        switch (currentItemEffect.action)
-                        {
-                            case Items.ItemEffect.Action.AttackX:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    if(playerStats.readyToAttackX)
-                                        conditionActivate = true;
-                                }
-                                break;
-                            
-                            case Items.ItemEffect.Action.AttackY:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    if(playerStats.readyToAttackY)
-                                        conditionActivate = true;
-                                }
-                                break;
-                            
-                            case Items.ItemEffect.Action.AttackUltime:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    //if InputAttackUlt
-                                    conditionActivate = true;
-                                }
-                                break;
-                            
-                            case Items.ItemEffect.Action.AttackDistance:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    if(playerStats.readyToAttackB)
-                                        conditionActivate = true;
-                                }
+                case Items.Condition.None:
+                    ApplyItemEffect(i);
+                    break;
 
-                                break;
-                            
-                            case Items.ItemEffect.Action.Dash:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    if(playerStats.isDashing)
-                                        conditionActivate = true;
-                                }
+                case Items.Condition.Action:
 
-                                break;
-                            
-                            case Items.ItemEffect.Action.GetHurt:
-                                if (currentItemEffect.conditionActionMustBeDone)
-                                {
-                                    //if getHurt
-                                    conditionActivate = true;
-                                }
-
-                                break;
-                            
-                            
-                        }
-                        break;
-                    
-                    //si la condition est une valeur
-                    case Items.ItemEffect.Condition.Value:
-                        switch (currentItemEffect.value)
-                        {
-                            case Items.ItemEffect.Value.Health:
-                                if(playerStats.lifePoint == currentItemEffect.conditionValueToReach)
-                                    conditionActivate = true;
-                                break;
-                            
-                            case Items.ItemEffect.Value.Energy:
-                                if(playerStats.actualUltPoint == currentItemEffect.conditionValueToReach)
-                                 conditionActivate = true;
-                                break;
-                            
-                            case Items.ItemEffect.Value.Money:
-                                if(currentMoney == currentItemEffect.conditionValueToReach)
-                                    conditionActivate = true;
-                                break;
-
-                        }
-
-                        break;
-                    
-                    case Items.ItemEffect.Condition.None:
-                        conditionActivate = true;
-                        break;
-
-                }
-            }
-        }
-    }
-    
-    public void UpdateItems()
-    {
-        //StartCoroutine(ResetCondition());
-        Debug.Log("Updating Items...");
-        foreach (Items item in items)
-        {
-            for(int i = 0; i < item.itemEffects.Length; i++)
-            {
-                Debug.Log("Looking for List...");
-                Items.ItemEffect currentItemEffect = item.itemEffects[i];
-
-                //here we setup the target
-                switch (currentItemEffect.target)
-                {
-
-                    case(Items.ItemEffect.Target.Player):
-                        target = "player";
-                        Debug.Log("target is" + target);
-                        break;
-                    
-                    case(Items.ItemEffect.Target.Enemy) :
-                        target = "enemy";
-                        Debug.Log("target is" + target);
-                        break;
-                }
-                
-                //now we setup the condition type to launch the action and say if this condition is filled or not
-
-                //then we activate the effect
-                
-                    switch (currentItemEffect.effectOn)
+                    switch (i.action)
                     {
-                        case Items.ItemEffect.Effect.Variable:
-
-                            switch (currentItemEffect.type)
+                        case Items.Action.AttackX :
+                            if (!playerStats.readyToAttackX)
                             {
-                                case Items.ItemEffect.Type.Bonus:
-                                    currentItemEffect.amount = currentItemEffect.amount;
-                                    break;
-                                case Items.ItemEffect.Type.Malus:
-                                    currentItemEffect.amount = -currentItemEffect.amount;
-                                    break;
+                                ApplyItemEffect(i);
                             }
-                            
-                            switch (currentItemEffect.augmentation)
+                            break;
+                        
+                        case Items.Action.AttackY:
+                            if (!playerStats.readyToAttackY)
                             {
-                                case Items.ItemEffect.Augmentation.Health:
-                                    Debug.Log("It's Okay Bro, that's work");
-                                    
-                                    if (currentItemEffect.onCurrent)
-                                    {
-                                        if (currentItemEffect.overTime)
-                                        {
-                                            StartCoroutine(OvertimeEffect(playerStats.lifePoint,
-                                                currentItemEffect.amount, currentItemEffect.overTimeDuration));
-                                        }
-
-                                        else
-                                        {
-                                            playerStats.lifePoint += currentItemEffect.amount;
-
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (currentItemEffect.overTime)
-                                        {
-                                            StartCoroutine(OvertimeEffect( playerStats.maxLifePoint,
-                                                currentItemEffect.amount, currentItemEffect.overTimeDuration));
-                                        }
-
-                                        else
-                                        {
-                                            playerStats.maxLifePoint += currentItemEffect.amount;
-
-                                        }
-                                    }
-                                    break;
-                                
-                                case Items.ItemEffect.Augmentation.Damage:
-                                    playerStats.damageX += currentItemEffect.amount;
-                                    playerStats.damageY += currentItemEffect.amount;
-                                    break;
-                                
-                                case Items.ItemEffect.Augmentation.Dash:
-                                    playerStats.dashRange += currentItemEffect.amount;
-                                    break;
-                                
-                                case Items.ItemEffect.Augmentation.Energy:
-                                    
-                                    if (currentItemEffect.overTime)
-                                    { 
-                                        StartCoroutine(OvertimeEffect(playerStats.actualUltPoint,
-                                            currentItemEffect.amount, currentItemEffect.overTimeDuration));
-                                        
-                                        if (target == "player")
-                                        {
-                                            playerStats.actualUltPoint += currentItemEffect.amount;
-                                        }
-                                        else if(target == "enemy")
-                                        {
-                                        }
-                                    }
-                                        
-                                    break;
-                                
-                                case Items.ItemEffect.Augmentation.AttackRange:
-
-                                    if (currentItemEffect.overTime)
-                                    {
-                                       //add overtime effect
-                                    }
-                                    else
-                                    {
-                                        if (target == "player")
-                                        {
-                                            playerStats.attackRangeX += currentItemEffect.amount;
-                                            playerStats.attackRangeY += currentItemEffect.amount;
-                                        }
-                                    }
-                                    
-                                    break;
-                                
-                                case Items.ItemEffect.Augmentation.AttackSpeed:
-                                    playerStats.attackCdX += currentItemEffect.amount;
-                                    return;
-                                
+                                ApplyItemEffect(i);
                             }
 
                             break;
                         
-                        case Items.ItemEffect.Effect.Object:
-
-                            switch ( currentItemEffect.alteration)
+                        case Items.Action.AttackDistance:
+                            if (!playerStats.readyToAttackB)
                             {
-                                case Items.ItemEffect.Alteration.Creation:
-                                    for (int j = 0; j < currentItemEffect.appearAmount; j++)
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                        
+                        case Items.Action.AttackUltime:
+                            //addAttackUltime
+                            break;
+                        
+                        case Items.Action.Dash:
+                            if (!playerStats.readyToDash)
+                            {
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                        
+                        case Items.Action.Death:
+                            if (playerStats.lifePoint == 0)
+                            {
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                        
+                        case Items.Action.GetHurt:
+                            //addGetHurt
+                            break;
+                    }
+                    break;
+                
+                case Items.Condition.Value:
+                    switch (i.value)
+                    {
+                        case Items.Value.Health:
+                            if (playerStats.lifePoint == Mathf.FloorToInt(i.conditionValueToReach))
+                            {
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                        
+                        case Items.Value.Energy:
+                            if (playerStats.actualUltPoint == Mathf.FloorToInt(i.conditionValueToReach))
+                            {
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                        
+                        case Items.Value.Money:
+                            if (currentMoney == Mathf.FloorToInt(i.conditionValueToReach))
+                            {
+                                ApplyItemEffect(i);
+                            }
+
+                            break;
+                    }
+                    break;
+                
+                case Items.Condition.State:
+
+                    switch (i.state)
+                    {
+                        case Items.State.Alive:
+
+                            switch (i.target)
+                            {
+                                case Items.Target.Player:
+
+                                    switch (i.player)
                                     {
-                                        Instantiate(currentItemEffect.targetObject, currentItemEffect.pointOfAppear);
+                                        case Items.Player.CurrentPlayer:
+                                            if (playerStats.lifePoint > 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                            }
+
+                                            break;
+                                        
+                                        case Items.Player.Everyone:
+                                            // foreach player in the game, check if they are all alive
+                                            break;
                                     }
-                                    //add overtime effect
-                                    return;
+                                    
+                                    break;
                                 
-                                case Items.ItemEffect.Alteration.Destruction:
-                                    Destroy(currentItemEffect.targetObject);
-                                    return;
+                                case Items.Target.Enemy:
+
+                                    switch (i.enemy)
+                                    {
+                                        //chercher tout les enemys dans la scene et voir ceux qui sont actifs
+                                    }
+                                    
+                                    break;
                             }
                             
                             break;
+                        
+                        case Items.State.Dead:
+
+                            switch (i.target)
+                            {
+                                case Items.Target.Player:
+
+                                    switch (i.player)
+                                    {
+                                        case Items.Player.CurrentPlayer:
+                                            if (playerStats.lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                            }
+
+                                            break;
+                                        
+                                        case Items.Player.Everyone:
+                                            // foreach player in the game, check if they are all alive
+                                            break;
+                                    }
+                                    
+                                    break;
+                                
+                                case Items.Target.Enemy:
+
+                                    switch (i.enemy)
+                                    {
+                                        //chercher tout les enemys dans la scene et voir ceux qui sont actifs
+                                    }
+                                    
+                                    break;
+                            }
+                            break;
                     }
+                    
+                    break;
                 
             }
-                
         }
     }
+
+    void ApplyItemEffect(Items i)
+    {
+        roll = UnityEngine.Random.Range(0, 100);
         
-    
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Item"))
+        switch (i.effectOn)
         {
-            itemOnTheFloor = other.GetComponent<DropSystem>().itemSelect;
-            uiManager.ItemPanelInformation();
+            case Items.Effect.Variable:
+
+                switch (i.augmentation)
+                {
+                    case Items.Augmentation.DamageX:
+
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageX, i.modAmount, playerStats.damageX));
+
+                            }
+                            else
+                            {
+                                playerStats.damageX += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.DamageY:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageY, i.modAmount, playerStats.damageY));
+
+                            }
+                            else
+                            {
+                                playerStats.damageY += i.modAmount;
+                            }
+                            
+                        }
+
+                        break;
+                    
+                    case Items.Augmentation.DamageB:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageProjectile, i.modAmount, playerStats.damageProjectile));
+
+                            }
+                            else
+                            {
+                                playerStats.damageProjectile += i.modAmount;
+                            }
+                            
+                        }
+
+                        break;
+                    
+                    case Items.Augmentation.DamageUlt:
+                        //setup damage ultime
+                        break;
+                    
+                    case Items.Augmentation.AttackRangeX:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeX, i.modAmount, playerStats.attackRangeX));
+
+                            }
+                            else
+                            {
+                                playerStats.attackRangeX += i.modAmount;
+                            }
+                            
+                        }
+
+                        break;
+                    
+                    case Items.Augmentation.AttackRangeY:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeY, i.modAmount, playerStats.attackRangeY));
+
+                            }
+                            else
+                            {
+                                playerStats.attackRangeY += i.modAmount;
+                            }
+                            
+                        }
+                        break;
+                    
+                    case Items.Augmentation.AttackRangeB:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeProjectile, i.modAmount, playerStats.attackRangeProjectile));
+
+                            }
+                            else
+                            {
+                                playerStats.attackRangeProjectile += i.modAmount;
+                            }
+                            
+                        }
+
+                        break;
+                    
+                    case Items.Augmentation.AttackRangeUlt:
+                        //setup ult range;
+                        break;
+                    
+                    case Items.Augmentation.AttackSpeedX:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdX, i.modAmount, playerStats.attackCdX));
+
+                            }
+                            else
+                            {
+                                playerStats.attackCdX += i.modAmount;
+                            }
+                            
+                        }
+
+                        break;
+                    
+                    case Items.Augmentation.AttackSpeedY:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdY, i.modAmount, playerStats.attackCdY));
+
+                            }
+                            else
+                            {
+                                playerStats.attackCdY += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.AttackSpeedB:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdB, i.modAmount, playerStats.attackCdB));
+
+                            }
+                            else
+                            {
+                                playerStats.attackCdB += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.AttackSpeedUlt:
+                        //setup speed ult
+                        break;
+                    
+                    case Items.Augmentation.Health:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                if (i.onCurrent)
+                                {
+                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.lifePoint, i.modAmount, playerStats.lifePoint));
+
+                                }
+                                else
+                                {
+                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.maxLifePoint, i.modAmount, playerStats.maxLifePoint));
+
+                                }
+                            }
+                            else
+                            {
+                                if (i.onCurrent)
+                                {
+                                    playerStats.lifePoint += i.modAmount;
+
+                                }
+                                else
+                                {
+                                    playerStats.maxLifePoint += i.modAmount;
+                                }
+                            }
+                            
+                            
+                        }
+                        break;
+                    
+                    case Items.Augmentation.Energy:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                if (i.onCurrent)
+                                {
+                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.actualUltPoint, i.modAmount, playerStats.actualUltPoint));
+
+                                }
+                                else
+                                {
+                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.ultMaxPoint, i.modAmount, playerStats.ultMaxPoint));
+
+                                }
+                            }
+                            else
+                            {
+                                if (i.onCurrent)
+                                {
+                                    playerStats.actualUltPoint += i.modAmount;
+
+                                }
+                                else
+                                {
+                                    playerStats.ultMaxPoint += i.modAmount;
+                                }
+                            }
+                            
+                            
+                        }
+                        break;
+                    
+                    case Items.Augmentation.DashRange:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.dashRange, i.modAmount, playerStats.dashRange));
+                            }
+                            else
+                            {
+                                playerStats.dashRange += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.AddMoney:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, currentMoney, i.modAmount, currentMoney));
+
+                            }
+                            else
+                            {
+                                currentMoney += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.MoreMoney:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, moneyCollect, i.modAmount, moneyCollect));
+
+                            }
+                            else
+                            {
+                                moneyCollect += i.modAmount;
+                            }
+                        }
+                        break;
+                    
+                    case Items.Augmentation.Speed:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.bonusSpeed, i.modAmount, playerStats.bonusSpeed));
+                            }
+                            else
+                            {
+                                playerStats.bonusSpeed += i.modAmount;
+                            }
+                        }
+                        break;
+
+                }
+                
+                break;
             
-            if (Input.GetKey(KeyCode.Space))
-            {
-                itemAdded = true;
-                UpdateItems();
-                items.Add(other.GetComponent<DropSystem>().itemSelect);
-                lastItemAdded = other.GetComponent<DropSystem>().itemSelect;
-                StartCoroutine(DestroyObject(other.gameObject));
-            }
-           
+            case Items.Effect.Object:
+                switch (i.alteration)
+                {
+                    case Items.Alteration.Creation:
+
+                        for (int j = 0; j < i.spawnAmount; j++)
+                        {
+                            GameObject objectSpawn = Instantiate(i.objectPrefab, i.spawnPoint);
+                        }
+                        break;
+                    
+                    case Items.Alteration.Destruction:
+                        break;
+                }
+                break;
         }
     }
 
-    
-    private void OnTriggerExit2D(Collider2D other)
+    IEnumerator ApplyOverTime(float duration, float modVariable, float modAmount, float backup)
     {
-        if (other.CompareTag("Item"))
-        {
-            uiManager.ClosePanel();
-        }
+        modVariable += modAmount;
+        yield return new WaitForSeconds(duration);
+        modVariable = backup;
     }
 
-    IEnumerator OvertimeEffect(int valueToChange, int amountValue, float time)
+    IEnumerator DelayToDestroy(float duration)
     {
-        int backupValue = valueToChange;
-        valueToChange += amountValue;
-        yield return new WaitForSeconds(time);
-        valueToChange = backupValue;
+        yield return new WaitForSeconds(duration);
+
     }
-    
-    IEnumerator ResetCondition()
-    {
-        yield return new WaitForSeconds(0.0000000000001f);
-        conditionActivate = false;
-    }
-    IEnumerator DestroyObject(GameObject item)
-    {
-        yield return new WaitForSeconds(0.00000000001f);
-        itemAdded = false;
-        Destroy(item);
-    }
+
 }

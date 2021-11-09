@@ -7,142 +7,60 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "ScriptableObject/Item", order = 1)]
 public class Items : ScriptableObject
 {
+    public int itemID;
     public string itemName;
     public string description;
     public Sprite image;
     public int price;
     public Rarity rarity;
 
-    public enum Rarity
-    {
-        Commun,
-        Rare,
-        Epic
-    }
+    public enum Rarity { Commun, Rare, Epic }
+    public Target target;
+    public Type type;
+    public Condition condition;
+    public Effect effectOn;
+    public Action action;
+    public Augmentation augmentation;
+    public Value value;
+    public State state;
+    public Player player;
+    public Enemy enemy;
+    public Alteration alteration;
 
-    public ItemEffect[] itemEffects;
+    public bool conditionActionMustBeDone;
+    public int conditionValueToReach;
+    public bool onCurrent;
+    public int modAmount;
+    [Range(0,100)] public float rate;
+    public GameObject objectPrefab;
+    public Transform spawnPoint;
+    public int spawnAmount;
+    public bool activeOnlyOnIt;
+    public bool mustBeActivated;
+    public bool overTime; 
+    public float overTimeDuration;
 
-    [Serializable]
-    public struct ItemEffect
-    {
+        public enum Effect { Variable, Object }
+        public enum Type { Bonus, Malus }
 
-        [Header("Configuration")]
-        [Tooltip("Choisissez sur qui va s'effectuer la modification")]
-        public Target target;
-        [Tooltip("Choisissez si cela altére positivement ou négativement la cible")]
-        public Type type;
-        [Tooltip("Choisissez le type de condition à remplir pour l'activer")]
-        public Condition condition;
-        [Tooltip("Choisissez sur quel élement de la cible s'effectue l'effet")]
-        public Effect effectOn;
-        
-        [Header("Action Condition")]
-        [Tooltip("Selectionnez l'action a effectué")]
-        public Action action;
-        [Tooltip("Est-ce que la condition doit avoir lui ou non ?")]
-        public bool conditionActionMustBeDone;
-        
-        [Header("Value Condition")]
-        [Tooltip("Selectionnez la valeur à atteindre")]
-        public Value value;
-        [Tooltip("Quel montant cette valeur doit atteindre pour que l'effet s'active ?")]
-        public int conditionValueToReach;
-        
-        [Header("On Variable")]
-        [Tooltip("Choississez la valeur à modifier")]
-        public Augmentation augmentation;
-        [Tooltip("Est-ce que c'est sur le montant actuel ? Si faux, c'est sur le maximum")]
-        public bool onCurrent;
-        [Tooltip("De quel montant cette valeur est-elle modifié ?")]
-        public int amount;
-        [Range(0,100)]
-        public float rate;
-        
-        [Header("On Object")]
-        [Tooltip("Choisissez le type d'altération que subit la cible")]
-        public Alteration alteration;
-        [Tooltip("Choisissez l'objet de la cible qui subira la modification")]
-        public GameObject targetObject;
+        public enum Condition { None, Action, Value, State }
 
-        public int destructEffect;
-        [Tooltip("Choisissez, le cas écheant, le point d'apparition de l'objet")]
-        public Transform pointOfAppear;
-        [Tooltip("Choisissez le nombre d'objet qui doit apparaître")]
-        public float appearAmount;
-        [Range(0,100)]
-        public float appearRate;
-        
-        [Header("Is Over Time ?")]
-        [Tooltip("L'effet est-il sur la durée ?")]
-        public bool overTime;
-        [Tooltip("Choisissez, le cas échéant, la durée de l'effet")]
-        public float overTimeDuration;
-
-   
-        public enum Effect
-        {
-            Variable,
-            Object
-        }
-        public enum Type
-        {
-            Bonus,
-            Malus
-        }
-
-        public enum Condition
-        {
-            None,
-            Action,
-            Value,
-            BrokeSomething
-
-        }
-
-        public enum Action
-        {
-            AttackX,
-            AttackY,
-            AttackDistance,
-            AttackUltime,
-            Dash,
-            GetHurt,
-            Death
-        }
+        public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death }
 
         public enum Value
-        {
-            Health,
-            Energy,
-            Money
-        }
+        { Health, Energy, Money }
 
-        public enum Target
-        {
-            Player,
-            Enemy,
-            PlayerProjectile,
-            EnemyProjectile
-        }
+        public enum Target{Player, Enemy}
+        
+        public enum Player {Everyone, CurrentPlayer}
 
-        public enum Augmentation
-        {
-            None,
-            Damage,
-            AttackRange,
-            AttackSpeed,
-            Money,
-            Health,
-            Speed,
-            Dash,
-            Energy
-        }
+        public enum Enemy{All, Barman, Cac, Rush, Tir}
 
-        public enum Alteration
-        {
-            Creation,
-            Destruction
-        }
+        public enum Augmentation { DamageX, DamageY, DamageB, DamageUlt, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
 
-    }
+        public enum Alteration { Creation, Destruction }
+        
+        public enum State{ Alive, Dead }
+
 }
+
