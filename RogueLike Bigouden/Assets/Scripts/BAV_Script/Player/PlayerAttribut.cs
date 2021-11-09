@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,10 +20,11 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
+    
     //float--------------------
     public float dashSpeed = 5;
     public float durationDash = 1f;
-    
+
     //int--------------------
     public int dashCount = 3;
 
@@ -31,7 +33,7 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
-    
+
     [SerializeField] public bool launchAttack;
     [SerializeField] public bool launchSecondAttack;
     [SerializeField] public float delayForSecondAttack = 4f;
@@ -51,10 +53,10 @@ public class PlayerAttribut : MonoBehaviour
     // Private Valor use just for this script----------------------------------
     [SerializeField] private PlayerStatsManager _playerStatsManager;
     [SerializeField] private ProjectilePath _attackPath;
-    
+
     //float
     private float _durationResetDash;
-    
+
     //int
     private int _dashCount;
     private int _dashCountMax;
@@ -150,13 +152,13 @@ public class PlayerAttribut : MonoBehaviour
                 break;
         }
     }
-    
+
 
     public void Dash()
     {
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
-        velocity += dir.normalized * dashSpeed;
+        velocity += dir.normalized * (dashSpeed *1.666667f);
         rb.velocity = velocity;
         StartCoroutine(DashWait());
     }
@@ -165,7 +167,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         _isDashing = true;
-        yield return new WaitForSeconds(durationDash/2);
+        yield return new WaitForSeconds(durationDash / 2);
         playerFeedBack.MovingRumble(Vector2.zero);
         rb.velocity = Vector2.zero;
         _isDashing = false;
@@ -211,9 +213,19 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
+    public bool TimerCount(float enterNumber, float compareNumber)
+    {
+        compareNumber += Time.deltaTime;
+        if (compareNumber >= enterNumber)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed)/2);
+        Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed) / 2);
     }
 }

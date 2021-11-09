@@ -215,7 +215,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet d'appeler l'input du Boutton A
     /// </summary>
     /// <param name="buttonA"></param>
-    private void Input_AButton(CallbackContext buttonA)
+    public void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
         switch (buttonA.started)
