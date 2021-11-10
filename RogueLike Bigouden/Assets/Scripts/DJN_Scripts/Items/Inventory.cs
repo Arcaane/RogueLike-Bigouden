@@ -13,16 +13,31 @@ public class Inventory : MonoBehaviour
     public bool conditionActivate;
     public int currentMoney;
     private int moneyCollect;
-    
-    public PlayerStatsManager playerStats;
-
     public int roll;
+
+    private bool onTime;
+    private float onTimeDuration;
+    private bool onTimeStart;
+    private float overtimeDurationActual;
+    private bool onCD;
+    public float onCdDuration;
+    private float cd;
+    
+    
+    private PlayerStatsManager playerStats;
     private UIManager uiManager;
     // Start is called before the first frame update
     void Start()
     {
         uiManager = GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
+    }
+
+    private void Update()
+    {
+     
+
+        
     }
 
     public void CheckItemCondition()
@@ -502,6 +517,7 @@ public class Inventory : MonoBehaviour
                         for (int j = 0; j < i.spawnAmount; j++)
                         {
                             GameObject objectSpawn = Instantiate(i.objectPrefab, i.spawnPoint);
+                            StartCoroutine(DelayToDestroy(i.spawnTime, objectSpawn));
                         }
                         break;
                     
@@ -519,10 +535,10 @@ public class Inventory : MonoBehaviour
         modVariable = backup;
     }
 
-    IEnumerator DelayToDestroy(float duration)
+    IEnumerator DelayToDestroy(float duration, GameObject gameObject)
     {
         yield return new WaitForSeconds(duration);
-
+        Destroy(gameObject);
     }
 
 }

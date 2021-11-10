@@ -6,24 +6,37 @@ using UnityEngine;
 public class SpawnedItem : MonoBehaviour
 {
     public Sprite spawnedSprite;
+
+    [Header("Effect")]
     public float amountChange;
-    public bool onTime;
-    public float onTimeDuration;
-    public bool somethingOnIt;
     public ValueToMod valueToMod;
     public Target target;
     public Type type;
+    
+    [Header("Overtime")]
+    public bool onTime;
+    public float onTimeDuration;
+    private bool onTimeStart;
+    private float overtimeDurationActual;
+    
+    private bool onCD;
+    public float onCdDuration;
+    private float cd;
+    
+   
+    
     public enum ValueToMod{ Health, ShieldPoint, DamageX, DamageY, DamageProjectile, BonusSpeed}
     public enum Target{Player, Enemy}
     public enum Type {Bonus, Malus}
 
-    public PlayerStatsManager playerStats;
-    public EnnemyStatsManager enemyStats;
+    private PlayerStatsManager playerStats;
+    private EnnemyStatsManager enemyStats;
 
     private void Awake()
     {
-        playerStats = FindObjectOfType<PlayerStatsManager>();
-
+        overtimeDurationActual = onTimeDuration;
+        cd = onCdDuration;
+        
         switch (type)
         {
             case Type.Bonus:
@@ -41,6 +54,7 @@ public class SpawnedItem : MonoBehaviour
         if (other.GetComponent<PlayerStatsManager>())
         {
             Debug.Log("Player on it");
+            Debug.Log(other.name);
             playerStats = other.GetComponent<PlayerStatsManager>();
         }
 
@@ -49,13 +63,42 @@ public class SpawnedItem : MonoBehaviour
             Debug.Log("Enemy on it");
             enemyStats = other.GetComponent<EnnemyStatsManager>();
         }
-        
+
         ItemObjectEffect();
-        
+    }
+
+    private void Update()
+    {
+        if (onTimeStart)
+        {
+            overtimeDurationActual -= Time.deltaTime;
+
+            if (overtimeDurationActual <= 0)
+            {
+                overtimeDurationActual = onTimeDuration;
+                onTimeStart = false;
+                onCD = true;
+                ItemObjectEffect();
+            }
+
+            
+        }
+
+        if (onCD)
+        {
+            cd -= Time.deltaTime;
+
+            if (cd <= 0)
+            {
+                onCD = false;
+                cd = onCdDuration;
+            }
+        }
     }
 
     void ItemObjectEffect()
     {
+        
         switch (target)
                     {
                     case Target.Player:
@@ -65,8 +108,17 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.Health:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.lifePoint, amountChange,
-                                        playerStats.lifePoint));
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.lifePoint += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.lifePoint = playerStats.playerData.lifePointsSO;
+                                    }
                                 }
                                 else
                                 {
@@ -77,8 +129,17 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.BonusSpeed:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.bonusSpeed, amountChange,
-                                        playerStats.bonusSpeed));
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.bonusSpeed += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.bonusSpeed = playerStats.playerData.bonusSpeedSO;
+                                    }
                                 }
                                 else
                                 {
@@ -89,8 +150,19 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.ShieldPoint:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.shieldPoint, amountChange,
-                                        playerStats.shieldPoint));
+
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.shieldPoint += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.shieldPoint = playerStats.playerData.shieldPointSO;
+                                    }
+
                                 }
                                 else
                                 {
@@ -102,8 +174,17 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageX:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.damageX, amountChange,
-                                        playerStats.damageX));
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.damageX += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.damageX = playerStats.playerData.damageXSO;
+                                    }
                                 }
                                 else
                                 {
@@ -114,8 +195,17 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageY:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.damageY, amountChange,
-                                        playerStats.damageY));
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.damageY += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.damageY = playerStats.playerData.damageYSO;
+                                    }
                                 }
                                 else
                                 {
@@ -126,8 +216,17 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageProjectile:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, playerStats.damageProjectile, amountChange,
-                                        playerStats.damageProjectile));
+                                    if (!onTimeStart && !onCD)
+                                    {
+                                        onTimeStart = true;
+                                        playerStats.damageProjectile += Mathf.FloorToInt(amountChange);
+
+                                    }
+
+                                    if (!onTimeStart && onCD)
+                                    {
+                                        playerStats.damageProjectile = playerStats.playerData.damageProjectileSO;
+                                    }
                                 }
                                 else
                                 {
@@ -147,8 +246,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.Health:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.lifePoint, amountChange,
-                                        enemyStats.lifePoint));
                                 }
                                 else
                                 {
@@ -159,8 +256,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.BonusSpeed:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.movementSpeed, amountChange,
-                                        enemyStats.movementSpeed));
                                 }
                                 else
                                 {
@@ -171,8 +266,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.ShieldPoint:
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.shieldPoint, amountChange,
-                                        enemyStats.shieldPoint));
                                 }
                                 else
                                 {
@@ -184,8 +277,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageX: //DEALT
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.damageDealt, amountChange,
-                                        enemyStats.damageDealt));
                                 }
                                 else
                                 {
@@ -196,8 +287,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageY: //AOE
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.damageAoe, amountChange,
-                                        enemyStats.damageAoe));
                                 }
                                 else
                                 {
@@ -208,8 +297,6 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.DamageProjectile: //AFTER EXPLOSION
                                 if (onTime)
                                 {
-                                    StartCoroutine(OnTimeEffect(onTimeDuration, enemyStats.damageAoeAfterExplosion, amountChange,
-                                        enemyStats.damageAoeAfterExplosion));
                                 }
                                 else
                                 {
@@ -224,15 +311,24 @@ public class SpawnedItem : MonoBehaviour
                     }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public IEnumerator DestroyObject(float duration)
     {
-        somethingOnIt = false;
-    }
-
-    IEnumerator OnTimeEffect(float duration, float modValue, float modAmount, float backup)
-    {
-        modValue += modAmount;
         yield return new WaitForSeconds(duration);
-        modValue = backup;
+        onTimeStart = false;
+        onCD = true;
+        ItemObjectEffect();
+        yield return new WaitForSeconds(0.001f);
+        Destroy(gameObject);
     }
+    
+
+
+
+   
+
+
+    
+ 
+    
+    
 }

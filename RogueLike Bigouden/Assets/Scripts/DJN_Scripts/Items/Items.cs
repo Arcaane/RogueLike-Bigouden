@@ -37,6 +37,7 @@ public class Items : ScriptableObject
     public int spawnAmount;
     public bool activeOnlyOnIt;
     public bool mustBeActivated;
+    public float spawnTime;
     public bool overTime; 
     public float overTimeDuration;
 

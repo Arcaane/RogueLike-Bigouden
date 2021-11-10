@@ -72,6 +72,7 @@ public class ItemsEditor : Editor
                 items.modAmount = EditorGUILayout.IntField("Amount modification", items.modAmount);
                 items.rate = EditorGUILayout.FloatField("Activation rate", items.rate);
                 items.activeOnlyOnIt = EditorGUILayout.Toggle("Active Effect Only On Object", items.activeOnlyOnIt);
+                items.spawnTime = EditorGUILayout.FloatField("Spawn Active Time", items.spawnTime);
                 break;
             
         }
