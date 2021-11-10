@@ -745,18 +745,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7746348269246687287}
   speed: 5
-  dashSpeed: 5
+  timerDash: 0
+  timerAttack: 0.2
+  dashSpeed: 1
   durationDash: 1
+  durationCooldownDash: 1
   dashCount: 3
+  isDash: 0
+  canDash: 0
+  dashCounter: 0
   splinePivot: {fileID: 7396767306070208809}
   attackSpline: {fileID: 5328878512464749751}
   attackPath: {fileID: 3405388577181514506}
-  launchAttack: 0
+  attackType: 0
+  isAttacking: 0
   launchSecondAttack: 0
-  delayForSecondAttack: 4
-  timer: 0
-  incrementValue: 0
-  incrementLaunch: 0
+  delayForSecondAttack: 0.5
   playerMesh: {fileID: 356031037009783418}
   animatorPlayer: {fileID: 3517321643108674229}
   playerFeedBack: {fileID: 6722423303048390122}
@@ -782,8 +786,9 @@ MonoBehaviour:
   progress: 0
   isAttacking: 0
   speed: 2
-  mode: 1
+  mode: 3
   launchAttack: 0
+  launchSecondAttack: 0
 --- !u!1001 &3405388577238385087
 PrefabInstance:
   m_ObjectHideFlags: 0

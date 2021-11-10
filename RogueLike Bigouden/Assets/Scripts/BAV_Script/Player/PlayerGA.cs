@@ -302,7 +302,7 @@ public class PlayerGA: MonoBehaviour
         switch (buttonX.performed)
         {
             case true:
-                playerAttribut.attackPath.launchAttack = true;
+                playerAttribut.AttackType();
                 Debug.Log("Button X Performed");
                 break;
             case false:

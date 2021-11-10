@@ -8,7 +8,9 @@ public enum SplineWalkerMode
 {
     Once,
     Loop,
-    PingPong
+    PingPong,
+    FirstAttack,
+    SecondAttack
 }
 
 public class ProjectilePath : MonoBehaviour
@@ -25,6 +27,7 @@ public class ProjectilePath : MonoBehaviour
     private bool lookForward;
     public SplineWalkerMode mode;
     public bool launchAttack;
+    public bool launchSecondAttack;
 
     private void Start()
     {
@@ -40,14 +43,14 @@ public class ProjectilePath : MonoBehaviour
         else
         {
             projectile.GetComponent<BoxCollider2D>().isTrigger = true;
-
         }
     }
+
     private void FixedUpdate()
     {
         OnMovement(spline.arrayVector[0].pointAttack);
     }
-    
+
     /// <summary>///
     /// Fonction permettant au projectile de ce déplacer sur la curve.
     /// /// </summary>
@@ -70,14 +73,29 @@ public class ProjectilePath : MonoBehaviour
                         launchAttack = false;
                         break;
                     case SplineWalkerMode.PingPong:
-                    progress = 2f - progress;
-                    launchAttack = false;
+                        progress = 2f - progress;
+                        launchAttack = false;
+                        break;
+                    case SplineWalkerMode.FirstAttack:
+                        progress = 1f;
+                        launchAttack = false;
                         break;
                 }
             }
         }
+        else if (launchSecondAttack)
+        {
+            progress -= (Time.deltaTime / (speed / 10));
+            if (progress < 0f)
+            {
+                progress = 0f;
+                launchSecondAttack = false;
+                launchAttack = false;
+            }
+        }
     }
-    
+
+
     public void OnMovement(Vector3[] pointAttack)
     {
         Vector3 position = spline.GetPoint(progress, pointAttack);

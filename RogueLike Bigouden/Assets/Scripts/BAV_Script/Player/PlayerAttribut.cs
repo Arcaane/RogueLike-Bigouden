@@ -17,7 +17,8 @@ public class PlayerAttribut : MonoBehaviour
     //Vitesse de déplacement du joueur.
     public float speed = 5;
 
-    //Vitesse de force du dash.
+    //Timer Value for the Delay.
+    [SerializeField] private float timerDash, timerAttack;
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
@@ -26,7 +27,7 @@ public class PlayerAttribut : MonoBehaviour
     public float dashSpeed = 5;
 
     public float durationDash = 1f;
-    public float durationBeforeDash = 1f;
+    public float durationCooldownDash = 1f;
 
     //int--------------------
     public int dashCount = 3;
@@ -35,24 +36,30 @@ public class PlayerAttribut : MonoBehaviour
     public bool isDash;
     public bool canDash;
 
+    //private value for Dash------------------
+    [SerializeField] private float dashCounter;
+
+
     [Header("Player Attack")] [SerializeField]
     private GameObject splinePivot;
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
 
-    [SerializeField] public bool launchAttack;
-    [SerializeField] public bool launchSecondAttack;
-    [SerializeField] public float delayForSecondAttack = 4f;
-    [SerializeField] private float timer;
+    //float-------------------
+    [SerializeField] public float attackType;
 
-    [SerializeField] public float incrementValue;
-    //[SerializeField] public float incrementLaunch;
+    //bool--------------------
+    public bool isAttacking;
+    public bool launchSecondAttack;
+    public float delayForSecondAttack = 4f;
+
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
 
     [SerializeField] private Animator animatorPlayer;
+
 
     [Header("FeedBack (Vibrations, etc)")]
     //Script permettant d'ajouter des FeedBack dans le jeu.
@@ -83,6 +90,7 @@ public class PlayerAttribut : MonoBehaviour
     private bool _isDashing;
     private bool _readyToDash;
     private bool _onButter;
+    private bool _b;
 
     //End of Private Valor ----------------------------------------------------
 
@@ -96,14 +104,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (attackPath.launchAttack)
-        {
-            transform.Translate(_move * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(_move * speed * Time.deltaTime);
-        }
+        transform.Translate(_move * speed * Time.deltaTime);
     }
 
     public void MoveAnimation()
@@ -130,7 +131,7 @@ public class PlayerAttribut : MonoBehaviour
     public void Attack(bool look)
     {
         switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 ||
-                lookAxis.y < 0 && lookAxis != Vector2.zero)
+                lookAxis.y < 0 && lookAxis != Vector2.zero && !isAttacking)
         {
             case true:
                 float rotationXObjLook = (Mathf.Atan2(lookAxis.y, lookAxis.x) * Mathf.Rad2Deg) - 90f;
@@ -163,16 +164,18 @@ public class PlayerAttribut : MonoBehaviour
     }
 
 
+    #region DashAttribut
+
     public void Dash()
     {
-        incrementValue++;
+        dashCounter++;
         canDash = true;
-        if (incrementValue >= 1)
+        if (dashCounter >= 1)
         {
             isDash = true;
-            if (incrementValue >= dashCount + 1)
+            if (dashCounter >= dashCount + 1)
             {
-                incrementValue = dashCount;
+                dashCounter = dashCount;
                 canDash = false;
             }
         }
@@ -197,32 +200,58 @@ public class PlayerAttribut : MonoBehaviour
         _isDashing = false;
     }
 
-    public void ResetDash()
+    #endregion DashAttribut
+
+    public void AttackType()
     {
-        timer += Time.deltaTime;
-        if (timer >= durationBeforeDash)
+        attackType++;
+        isAttacking = true;
+        attackPath.launchAttack = true;
+        SmallMovement();
+        if (attackType >= 2)
         {
-            canDash = true;
-            isDash = false;
-            incrementValue = 0f;
-            timer = 0f;
+            attackType = 0;
+            timerAttack = 0;
+            attackPath.launchSecondAttack = true;
+            isAttacking = false;
+            SmallMovement();
+        }
+        else
+        {
+            attackPath.launchSecondAttack = false;
         }
     }
 
-/*
-void DownValue()
-{
-    if (incrementValue >= incrementLaunch)
+
+    public void Reset()
     {
-        timer += (Time.deltaTime);
-        if (timer >= speed)
+        if (isDash)
         {
-            incrementValue = 0;
-            timer = 0f;
+            timerDash += Time.deltaTime;
+            if (timerDash >= durationCooldownDash)
+            {
+                canDash = true;
+                isDash = false;
+                dashCounter = 0f;
+                timerDash = 0f;
+            }
+        }
+
+        if (isAttacking)
+        {
+            timerAttack += Time.deltaTime;
+            if (timerAttack >= delayForSecondAttack)
+            {
+                attackType = 0;
+                isAttacking = false;
+                attackPath.launchAttack = false;
+                attackPath.launchSecondAttack = false;
+                attackPath.progress = 0f;
+                timerAttack = 0f;
+            }
         }
     }
-}
-*/
+
 
     public void FixedUpdate()
     {
@@ -231,10 +260,9 @@ void DownValue()
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         MoveAnimation();
-        //DownValue();
-        if (isDash)
+        if (isDash || isAttacking)
         {
-            ResetDash();
+            Reset();
         }
     }
 
@@ -255,16 +283,21 @@ void DownValue()
         }
     }
 
-    public bool TimerCount(float enterNumber, float compareNumber)
+    public void SmallMovement()
     {
-        compareNumber += Time.deltaTime;
-        if (compareNumber >= enterNumber)
+        timerAttack += Time.deltaTime;
+        Vector2 velocity = Vector2.zero;
+        Vector2 dir = _lastPosition;
+        velocity += dir.normalized * (dashSpeed * 1.666667f);
+        rb.velocity = velocity;
+        if (timerAttack >= 0.5f)
         {
-            return true;
+            timerAttack = 0f;
+            velocity = Vector2.zero;
+            rb.velocity = velocity;
         }
-
-        return false;
     }
+
 
     private void OnDrawGizmos()
     {
