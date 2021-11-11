@@ -15,17 +15,9 @@ public class Inventory : MonoBehaviour
     private int moneyCollect;
     public int roll;
 
-    private bool onTime;
-    private float onTimeDuration;
-    private bool onTimeStart;
-    private float overtimeDurationActual;
-    private bool onCD;
-    public float onCdDuration;
-    private float cd;
-    
-    
     private PlayerStatsManager playerStats;
     private UIManager uiManager;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +27,7 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-     
-
-        
+        //CheckItemCondition();
     }
 
     public void CheckItemCondition()
@@ -228,7 +218,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageX, i.modAmount, playerStats.damageX));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseDamageX = playerStats.damageX;
+                                    playerStats.damageX += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                }    
 
                             }
                             else
@@ -243,7 +241,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageY, i.modAmount, playerStats.damageY));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseDamageY = playerStats.damageY;
+                                    playerStats.damageY += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.damageY = Mathf.FloorToInt(baseDamageY);
+                                }    
+                                
 
                             }
                             else
@@ -260,7 +267,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.damageProjectile, i.modAmount, playerStats.damageProjectile));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseDamageB = playerStats.damageProjectile;
+                                    playerStats.damageProjectile += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
+                                }    
 
                             }
                             else
@@ -281,8 +296,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeX, i.modAmount, playerStats.attackRangeX));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackRangeX = playerStats.attackRangeX;
+                                    playerStats.attackRangeX += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackRangeX = baseAttackRangeX;
+                                }
                             }
                             else
                             {
@@ -298,7 +320,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeY, i.modAmount, playerStats.attackRangeY));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackRangeY = playerStats.attackRangeY;
+                                    playerStats.attackRangeY += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackRangeY = baseAttackRangeY;
+                                }    
 
                             }
                             else
@@ -314,7 +344,17 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackRangeProjectile, i.modAmount, playerStats.attackRangeProjectile));
+                                
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackRangeB = playerStats.attackRangeProjectile;
+                                    playerStats.attackRangeProjectile += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackRangeProjectile = baseAttackRangeB;
+                                }    
+                                
 
                             }
                             else
@@ -335,8 +375,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdX, i.modAmount, playerStats.attackCdX));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackSpeedX = playerStats.attackCdX;
+                                    playerStats.attackCdX += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackCdX = baseAttackSpeedX;
+                                }    
+                                
                             }
                             else
                             {
@@ -352,8 +400,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdY, i.modAmount, playerStats.attackCdY));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackSpeedY = playerStats.attackCdY;
+                                    playerStats.attackCdY += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackCdY = baseAttackSpeedY;
+                                }    
+                                
                             }
                             else
                             {
@@ -367,8 +423,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.attackCdB, i.modAmount, playerStats.attackCdB));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackSpeedB = playerStats.attackCdB;
+                                    playerStats.attackCdB += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackCdB = baseAttackSpeedB;
+                                }    
+                                
                             }
                             else
                             {
@@ -388,13 +452,31 @@ public class Inventory : MonoBehaviour
                             {
                                 if (i.onCurrent)
                                 {
-                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.lifePoint, i.modAmount, playerStats.lifePoint));
+                                    
+                                    StartCoroutine(OnTimeEffect());
+                                
+                                    IEnumerator OnTimeEffect()
+                                    {
+                                        float baseActualLifePoint = playerStats.lifePoint;
+                                        playerStats.lifePoint += i.modAmount;
+                                        yield return new WaitForSeconds(i.overTimeDuration);
+                                        playerStats.lifePoint = Mathf.FloorToInt(baseActualLifePoint);
+                                    }    
+                                    
 
                                 }
                                 else
                                 {
-                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.maxLifePoint, i.modAmount, playerStats.maxLifePoint));
-
+                                    StartCoroutine(OnTimeEffect());
+                                
+                                    IEnumerator OnTimeEffect()
+                                    {
+                                        float baseMaxLifePoint = playerStats.maxLifePoint;
+                                        playerStats.maxLifePoint += i.modAmount;
+                                        yield return new WaitForSeconds(i.overTimeDuration);
+                                        playerStats.maxLifePoint = Mathf.FloorToInt(baseMaxLifePoint);
+                                    }    
+                                    
                                 }
                             }
                             else
@@ -421,13 +503,29 @@ public class Inventory : MonoBehaviour
                             {
                                 if (i.onCurrent)
                                 {
-                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.actualUltPoint, i.modAmount, playerStats.actualUltPoint));
-
+                                    StartCoroutine(OnTimeEffect());
+                                
+                                    IEnumerator OnTimeEffect()
+                                    {
+                                        float baseActualUltPoint = playerStats.actualUltPoint;
+                                        playerStats.actualUltPoint += i.modAmount;
+                                        yield return new WaitForSeconds(i.overTimeDuration);
+                                        playerStats.actualUltPoint = Mathf.FloorToInt(baseActualUltPoint);
+                                    }    
+                                    
                                 }
                                 else
                                 {
-                                    StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.ultMaxPoint, i.modAmount, playerStats.ultMaxPoint));
-
+                                    StartCoroutine(OnTimeEffect());
+                                
+                                    IEnumerator OnTimeEffect()
+                                    {
+                                        float baseMaxUltPoint = playerStats.ultMaxPoint;
+                                        playerStats.ultMaxPoint += i.modAmount;
+                                        yield return new WaitForSeconds(i.overTimeDuration);
+                                        playerStats.ultMaxPoint = Mathf.FloorToInt(baseMaxUltPoint);
+                                    }    
+                                    
                                 }
                             }
                             else
@@ -452,7 +550,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.dashRange, i.modAmount, playerStats.dashRange));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseDashRange = playerStats.dashRange;
+                                    playerStats.dashRange += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.dashRange = baseDashRange;
+                                }                            
+                                
                             }
                             else
                             {
@@ -466,8 +573,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, currentMoney, i.modAmount, currentMoney));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseCMoney = currentMoney;
+                                    currentMoney += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    currentMoney = Mathf.FloorToInt(baseCMoney);
+                                }
                             }
                             else
                             {
@@ -481,8 +595,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, moneyCollect, i.modAmount, moneyCollect));
-
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseMoney = moneyCollect;
+                                    moneyCollect += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    moneyCollect = Mathf.FloorToInt(baseMoney);
+                                }
+                                
                             }
                             else
                             {
@@ -496,7 +618,16 @@ public class Inventory : MonoBehaviour
                         {
                             if (i.overTime)
                             {
-                                StartCoroutine(ApplyOverTime(i.overTimeDuration, playerStats.bonusSpeed, i.modAmount, playerStats.bonusSpeed));
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseBSpeed = playerStats.bonusSpeed;
+                                    playerStats.bonusSpeed += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.bonusSpeed = baseBSpeed;
+                                }
+                                
                             }
                             else
                             {
@@ -505,6 +636,26 @@ public class Inventory : MonoBehaviour
                         }
                         break;
 
+                    case Items.Augmentation.Shield:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseShield = playerStats.shieldPoint;
+                                    Debug.Log(baseShield);
+                                    playerStats.shieldPoint += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.shieldPoint = Mathf.FloorToInt(baseShield);
+                                }
+                                
+                            }
+                        }
+
+                        break;
                 }
                 
                 break;
@@ -514,10 +665,15 @@ public class Inventory : MonoBehaviour
                 {
                     case Items.Alteration.Creation:
 
-                        for (int j = 0; j < i.spawnAmount; j++)
+                        if (roll <= i.rate)
                         {
-                            GameObject objectSpawn = Instantiate(i.objectPrefab, i.spawnPoint);
-                            StartCoroutine(DelayToDestroy(i.spawnTime, objectSpawn));
+                            for (int j = 0; j < i.spawnAmount; j++)
+                            {
+                                GameObject objectSpawn = Instantiate(i.objectPrefab);
+                                objectSpawn.transform.localPosition = i.spawnPoint.transform.localPosition;
+                                StartCoroutine(DelayToDestroy(i.spawnTime, objectSpawn));
+                            }
+                            
                         }
                         break;
                     
@@ -527,18 +683,14 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-
-    IEnumerator ApplyOverTime(float duration, float modVariable, float modAmount, float backup)
+    
+    IEnumerator DelayToDestroy(float duration, GameObject spawnObject)
     {
-        modVariable += modAmount;
+        Debug.Log("This Object will be destroy in" + duration + " seconds");
         yield return new WaitForSeconds(duration);
-        modVariable = backup;
+        Destroy(spawnObject);
+        Debug.Log(spawnObject + " have been destroyed");
     }
-
-    IEnumerator DelayToDestroy(float duration, GameObject gameObject)
-    {
-        yield return new WaitForSeconds(duration);
-        Destroy(gameObject);
-    }
+    
 
 }

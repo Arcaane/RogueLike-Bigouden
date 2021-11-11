@@ -57,7 +57,7 @@ public class Items : ScriptableObject
 
         public enum Enemy{All, Barman, Cac, Rush, Tir}
 
-        public enum Augmentation { DamageX, DamageY, DamageB, DamageUlt, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
+        public enum Augmentation { Shield, DamageX, DamageY, DamageB, DamageUlt, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
 
         public enum Alteration { Creation, Destruction }
         
