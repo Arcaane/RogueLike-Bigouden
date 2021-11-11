@@ -240,6 +240,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bounciness: 0.5
   boxCollider: {fileID: 814239114}
+  objectEnter: []
 --- !u!61 &814239114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -250,7 +251,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -572,41 +573,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1984160534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1277593158827216752, guid: 64788c777c6ee754ebbc7bbfeaeea5cb, type: 3}
-  m_PrefabInstance: {fileID: 3405388577238385087}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1984160535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984160534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!212 &356031037009783418
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -823,7 +789,7 @@ MonoBehaviour:
     m_ActionId: 5b4492b5-fe60-40ff-bbac-e0637f0daeda
     m_ActionName: UI/PauseGame
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

@@ -65,7 +65,6 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="obj"></param>
     private void ControlTrigger(CallbackContext obj)
     {
-        
         //JoystickGauche---------------------------------------------
         if (obj.action.name == controls.Player.Move.name)
         {
@@ -92,10 +91,10 @@ public class PlayerInputHandler : MonoBehaviour
         {
             if (obj.performed)
             {
-
+                playerAttribut.AttackType();
             }
         }
-        
+
         //BouttonA---------------------------------------------
         if (obj.action.name == controls.Player.AButton.name)
         {
@@ -113,7 +112,7 @@ public class PlayerInputHandler : MonoBehaviour
                 //playerAttribut.Dash();
             }
         }
-        
+
         //BouttonB---------------------------------------------
         if (obj.action.name == controls.Player.BButton.name)
         {
@@ -122,10 +121,8 @@ public class PlayerInputHandler : MonoBehaviour
                 playerAttribut.Dash();
             }
         }
-        
     }
-
-
+    
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>

@@ -1,10 +1,12 @@
-﻿using System.Security.AccessControl;
+﻿using System.Diagnostics;
+using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using static UnityEngine.InputSystem.InputAction;
+using Debug = UnityEngine.Debug;
 
-public class PlayerGA: MonoBehaviour
+public class PlayerInput_Final : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
 
@@ -43,77 +45,24 @@ public class PlayerGA: MonoBehaviour
     {
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
-        playerConfig.Input.onActionTriggered += Input_MoveTrigger;
-        
-        AButton(true);
-        BButton(true);
-        XButton(true);
-        YButton(true);
-        RightTrigger(true);
+        controls.Player.Move.performed += OnMove;
     }
 
     public void OnEnable()
     {
-        /*
-        AButton(true);
-        BButton(true);
-        XButton(true);
-        YButton(true);
-        RightTrigger(true);
-        */
         controls.Enable();
     }
 
     public void OnDisable()
     {
-        AButton(false);
-        BButton(false);
-        XButton(false);
-        YButton(false);
-        RightTrigger(false);
         controls.Disable();
-    }
-
-
-    /// <summary>
-    /// Permet de déclencher le déplacement.
-    /// </summary>
-    /// <param name="obj"></param>
-    private void Input_MoveTrigger(CallbackContext obj)
-    {
-        switch (obj.action.name == controls.Player.Move.name)
-        {
-            case true:
-                OnMove(obj);
-                break;
-            case false:
-                break;
-        }
-
-        switch (obj.action.name == controls.Player.Look.name)
-        {
-            case true:
-                OnLook(obj);
-                break;
-            case false:
-                break;
-        }
-
-        switch (obj.action.name == controls.Player.XButton.name)
-        {
-            case true:
-
-                break;
-            case false:
-                break;
-        }
     }
 
     /// <summary>
     /// Permet de déclencher les Etats du boutton Input A
     /// </summary>
     /// <param name="isAEnable"></param>
-    private void AButton(bool isAEnable)
+    void AButton(bool isAEnable)
     {
         switch (isAEnable)
         {
@@ -133,7 +82,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet de déclencher les Etats du boutton Input B
     /// </summary>
     /// <param name="isBEnable"></param>
-    private void BButton(bool isBEnable)
+    void BButton(bool isBEnable)
     {
         switch (isBEnable)
         {
@@ -154,7 +103,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet de déclencher les Etats du boutton Input X
     /// </summary>
     /// <param name="isXEnable"></param>
-    private void XButton(bool isXEnable)
+    void XButton(bool isXEnable)
     {
         switch (isXEnable)
         {
@@ -174,7 +123,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet de déclencher les Etats du boutton Input Y
     /// </summary>
     /// <param name="isYEnable"></param>
-    private void YButton(bool isYEnable)
+    void YButton(bool isYEnable)
     {
         switch (isYEnable)
         {
@@ -194,7 +143,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet de déclencher les Etats de la gachette Droite.
     /// </summary>
     /// <param name="isRightTriggerEnable"></param>
-    private void RightTrigger(bool isRightTriggerEnable)
+    void RightTrigger(bool isRightTriggerEnable)
     {
         switch (isRightTriggerEnable)
         {
@@ -209,9 +158,6 @@ public class PlayerGA: MonoBehaviour
                 break;
         }
     }
-
-
-    #region Appel des différentes Inputs
 
     /// <summary>
     /// Permet d'appeler l'input du Boutton A
@@ -254,7 +200,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet d'appeler l'input du Boutton B
     /// </summary>
     /// <param name="buttonB"></param>
-    private void Input_BButton(CallbackContext buttonB)
+    public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
         switch (buttonB.started)
@@ -325,7 +271,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet d'appeler l'input du Boutton Y
     /// </summary>
     /// <param name="buttonY"></param>
-    private void Input_YButton(CallbackContext buttonY)
+    public void Input_YButton(CallbackContext buttonY)
     {
         buttonYValue = buttonY.ReadValue<float>();
         switch (buttonY.started)
@@ -360,7 +306,7 @@ public class PlayerGA: MonoBehaviour
     /// Permet d'appeler l'input de la Gachette Droite
     /// </summary>
     /// <param name="rightTrigger"></param>
-    private void Input_RightTrigger(CallbackContext rightTrigger)
+    public void Input_RightTrigger(CallbackContext rightTrigger)
     {
         rightPressTrigger = rightTrigger.ReadValue<float>();
         switch (rightTrigger.started)
@@ -391,25 +337,24 @@ public class PlayerGA: MonoBehaviour
         }
     }
 
+    
+    
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>
     /// <param name="leftStick"></param>
-
-    /// <summary>
-    /// Permet d'appeler l'input du Stick Droit
-    /// </summary>
-    /// <param name="rightStick"></param>
-    public void OnLook(InputAction.CallbackContext rightStick)
-    {
-        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
-    }
-    
     public void OnMove(CallbackContext leftStick)
     {
         playerAttribut.SetInputVector(leftStick.ReadValue<Vector2>(), false);
         isMoving = true;
     }
 
-    #endregion
+    /// <summary>
+    /// Permet d'appeler l'input du Stick Droit
+    /// </summary>
+    /// <param name="rightStick"></param>
+    public void OnLook(CallbackContext rightStick)
+    {
+        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
+    }
 }

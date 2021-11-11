@@ -36,7 +36,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""XButton"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -220,6 +220,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""XButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60839f66-d277-4d60-bbe1-ad1a7d3f489f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""XButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

@@ -25,6 +25,7 @@ public class PlayerAttribut : MonoBehaviour
 
     //float--------------------
     public float dashSpeed = 5;
+
     public float durationDash = 1f;
     public float durationCooldownDash = 1f;
     public float attackMoveSmall = 1f;
@@ -205,7 +206,6 @@ public class PlayerAttribut : MonoBehaviour
 
     #endregion DashAttribut
 
-
     public void FixedUpdate()
     {
         SaveLastPosition();
@@ -218,14 +218,17 @@ public class PlayerAttribut : MonoBehaviour
             Reset();
         }
 
-        switch (attackType)
+        if (attackType > 0)
         {
-            case 1:
-                ResetSmallMovement(1);
-                break;
-            case 2:
-                ResetSmallMovement(2);
-                break;
+            switch (attackType)
+            {
+                case 1:
+                    ResetSmallMovement(1);
+                    break;
+                case 2:
+                    ResetSmallMovement(2);
+                    break;
+            }
         }
     }
 
@@ -299,18 +302,21 @@ public class PlayerAttribut : MonoBehaviour
     {
         timerDelayAttack += Time.deltaTime;
         Vector2 velocity = Vector2.zero;
+        float resetTimer = 0f;
         if (timerDelayAttack >= 0.3f)
         {
-            timerDelayAttack = 0f;
             switch (launchAttack)
             {
                 case 0:
+                    timerDelayAttack = resetTimer;
                     return;
                 case 1:
+                    timerDelayAttack = resetTimer;
                     rb.velocity = velocity;
                     launchFirstAttack = false;
                     break;
                 case 2:
+                    timerDelayAttack = resetTimer;
                     rb.velocity = velocity;
                     launchSecondAttack = false;
                     break;
