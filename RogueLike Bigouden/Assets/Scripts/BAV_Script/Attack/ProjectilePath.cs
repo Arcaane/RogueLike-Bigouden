@@ -78,6 +78,7 @@ public class ProjectilePath : MonoBehaviour
                         break;
                     case SplineWalkerMode.FirstAttack:
                         progress = 1f;
+                        projectile.SetActive(false);
                         launchAttack = false;
                         break;
                 }
@@ -85,10 +86,12 @@ public class ProjectilePath : MonoBehaviour
         }
         else if (launchSecondAttack)
         {
+            projectile.SetActive(true);
             progress -= (Time.deltaTime / (speed / 10));
             if (progress < 0f)
             {
                 progress = 0f;
+                projectile.SetActive(false);
                 launchSecondAttack = false;
                 launchAttack = false;
             }

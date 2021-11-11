@@ -102,7 +102,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
-        _isDashing = _playerStatsManager.isDashing;
+        //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
     }
 
