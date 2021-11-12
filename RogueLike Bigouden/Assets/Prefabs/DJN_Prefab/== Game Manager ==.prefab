@@ -5458,7 +5458,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: -1
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!114 &4466577911730189055
 MonoBehaviour:
@@ -5708,7 +5708,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!114 &4466577911925194519
 MonoBehaviour:
@@ -6097,7 +6097,7 @@ RectTransform:
   - {fileID: 508019003}
   - {fileID: 610942388}
   m_Father: {fileID: 4466577913099479304}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6123,7 +6123,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &4466577912363013817
 MonoBehaviour:
@@ -6199,7 +6199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112, y: -13.9999695}
+  m_AnchoredPosition: {x: 112, y: -14}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4466577912463337237
@@ -6488,7 +6488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15.550659, y: -257}
+  m_AnchoredPosition: {x: -15.550781, y: -257}
   m_SizeDelta: {x: -1022.69995, y: -880.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4466577912684476637
@@ -7013,8 +7013,8 @@ Transform:
   - {fileID: 4466577911505435261}
   - {fileID: 4466577911730189053}
   - {fileID: 4466577911925194517}
-  - {fileID: 4466577912363013823}
   - {fileID: 3628081412587859334}
+  - {fileID: 4466577912363013823}
   m_Father: {fileID: 4466577913259297034}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7030,6 +7030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d383a0d6ba9015c4f93cd7e9c93db168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   inventory: {fileID: 0}
   imageItemPanel: []
   itemPanelParent: {fileID: 4466577911931059956}
@@ -7056,6 +7057,7 @@ MonoBehaviour:
   currentMoney: 0
   currentEnergy: 0
   maxEnergy: 100
+  searchInventory: 0
 --- !u!1 &4466577913186194457
 GameObject:
   m_ObjectHideFlags: 0
@@ -7644,17 +7646,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24600b2c4dd348b41bdaeaed4bdc4870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundList:
-  - soundName: 
-    sound: {fileID: 0}
-    mixerGroup: {fileID: 0}
-    pitch: 0
-    loop: 0
-  - soundName: 
-    sound: {fileID: 0}
-    mixerGroup: {fileID: 0}
-    pitch: 0
-    loop: 0
+  sounds: []
+  musics: []
+  lowLevelMusic: 
+  mediumLevelMusic: 
+  highLevelMusic: 
+  bossLevelMusic: 
 --- !u!1 &5908244422558424860
 GameObject:
   m_ObjectHideFlags: 0
@@ -7821,7 +7818,7 @@ RectTransform:
   m_Children:
   - {fileID: 8077725153142126240}
   m_Father: {fileID: 4466577913099479304}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
