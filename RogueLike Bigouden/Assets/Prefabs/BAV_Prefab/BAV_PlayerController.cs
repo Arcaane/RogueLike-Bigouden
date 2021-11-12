@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/BAV_Prefab/BAV_PlayerController.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/BAV_Prefab/Controller/BAV_PlayerController.inputactions'
 
 using System;
 using System.Collections;
