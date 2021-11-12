@@ -13,8 +13,8 @@ public class Items : ScriptableObject
     public Sprite image;
     public int price;
     public Rarity rarity;
-
     public enum Rarity { Commun, Rare, Epic }
+    
     public Target target;
     public Type type;
     public Condition condition;
@@ -26,39 +26,62 @@ public class Items : ScriptableObject
     public Player player;
     public Enemy enemy;
     public Alteration alteration;
-
+    public ActionTarget actionTarget;
+    public ActionPlayer actionPlayer;
+    public ActionEnemy actionEnemy;
+    public VariableTarget variableTarget;
+    public Operator _operator;
+    
     public bool conditionActionMustBeDone;
     public int conditionValueToReach;
+    
     public bool onCurrent;
     public int modAmount;
+    public bool modIsAnotherVariable;
+    
     [Range(0,100)] public float rate;
+    
     public GameObject objectPrefab;
     public Transform spawnPoint;
     public int spawnAmount;
-    public bool activeOnlyOnIt;
     public bool mustBeActivated;
     public float spawnTime;
+    
     public bool overTime; 
     public float overTimeDuration;
 
-        public enum Effect { Variable, Object }
+    public enum Operator
+    {
+        Add,
+        Substract,
+        Multiplie
+    }
+
+    public enum Effect { Variable, Object }
         public enum Type { Bonus, Malus }
 
         public enum Condition { None, Action, Value, State }
 
         public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death, KillOrDestroy }
 
+        public enum ActionTarget{ None, Player, Enemy, Props}
+        
+        public enum ActionPlayer{ CurrentPlayer, Everyone}
+        public enum ActionEnemy{All, Barman, Cac, Rush, Tir}
+    
+        
         public enum Value
         { Health, Energy, Money }
 
         public enum Target{Player, Enemy, Props}
         
-        public enum Player {Everyone, CurrentPlayer}
+        public enum Player {CurrentPlayer, Everyone}
 
         public enum Enemy{All, Barman, Cac, Rush, Tir}
 
-        public enum Augmentation { Shield, DamageX, DamageY, DamageB, DamageUlt, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
+        public enum Augmentation { Shield, Damage, DamageX, DamageY, DamageB, DamageUlt, AttackRange, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeed, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
 
+        public enum VariableTarget{Shield, Damage, DamageX, DamageY, DamageB, DamageUlt, AttackRange, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeed, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy}
         public enum Alteration { Creation, Destruction }
         
         public enum State{ Alive, Dead }
