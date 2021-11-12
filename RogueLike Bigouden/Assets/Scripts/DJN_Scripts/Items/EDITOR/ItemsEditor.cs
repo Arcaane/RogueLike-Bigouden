@@ -1,11 +1,34 @@
 using System;
+using System.Reflection.Emit;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
-[System.Serializable]
+
+/*public class AssetHandle
+{
+    [OnOpenAsset()]
+    public static bool OpenEditor(int instanceId, int line)
+    {
+        Items itm = EditorUtility.InstanceIDToObject(instanceId) as Items;
+
+        if (itm != null)
+        {
+            ItemsWindowEditor.Open(itm);
+            return true;
+        }{}
+
+        return false;
+    }
+    
+} */
+
+
+[Serializable]
 [CustomEditor(typeof(Items))] 
 public class ItemsEditor : Editor
 {
+    
     public override void OnInspectorGUI()
     {
         Items items = (Items) target;
@@ -51,7 +74,9 @@ public class ItemsEditor : Editor
                 items.augmentation = (Items.Augmentation) EditorGUILayout.EnumPopup("Variable List", items.augmentation);
                 items.onCurrent = EditorGUILayout.Toggle("On Current Value", items.onCurrent);
                 items.modAmount = EditorGUILayout.IntField("Amount modification", items.modAmount);
-                items.rate = EditorGUILayout.FloatField("Activation rate", items.rate);
+                GUILayout.Space(10);
+                GUILayout.Label("Activation Rate");
+                items.rate = EditorGUILayout.Slider(items.rate, 0, 100, GUILayout.Width(300));
                 break;
             
             case Items.Effect.Object:
@@ -70,7 +95,9 @@ public class ItemsEditor : Editor
                 GUILayout.Space(10);
                 items.onCurrent = EditorGUILayout.Toggle("On Current Value", items.onCurrent);
                 items.modAmount = EditorGUILayout.IntField("Amount modification", items.modAmount);
-                items.rate = EditorGUILayout.FloatField("Activation rate", items.rate);
+                GUILayout.Space(10);
+                GUILayout.Label("Activation Rate");
+                items.rate = EditorGUILayout.Slider(items.rate, 0, 100, GUILayout.Width(300));
                 items.activeOnlyOnIt = EditorGUILayout.Toggle("Active Effect Only On Object", items.activeOnlyOnIt);
                 items.spawnTime = EditorGUILayout.FloatField("Spawn Active Time", items.spawnTime);
                 break;
@@ -97,11 +124,12 @@ public class ItemsEditor : Editor
             items.overTimeDuration = EditorGUILayout.FloatField("Overtime Duration", items.overTimeDuration);
         }
 
-        if (GUILayout.Button("Generate Item ! WIP"))
+        
+        GUILayout.Space(50);
+        if (GUILayout.Button("Open Editor Window"))
         {
-            Items itemInstantiate = items;
-            itemInstantiate.name = itemInstantiate.itemID + "_" + itemInstantiate.itemName;
-            AssetDatabase.CreateAsset(items, "Assets/Resources");
+            ItemsWindowEditor.Open((Items)target);
         }
+        GUILayout.Label("Fenêtre non fonctionnel");
     }
 }

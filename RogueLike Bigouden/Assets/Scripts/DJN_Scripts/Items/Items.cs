@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObject/Item", order = 1)]
+[Serializable]
+[CreateAssetMenu(fileName = "new Item", menuName = "Item", order = 1)]
 public class Items : ScriptableObject
 {
     public int itemID;
@@ -46,12 +46,12 @@ public class Items : ScriptableObject
 
         public enum Condition { None, Action, Value, State }
 
-        public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death }
+        public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death, KillOrDestroy }
 
         public enum Value
         { Health, Energy, Money }
 
-        public enum Target{Player, Enemy}
+        public enum Target{Player, Enemy, Props}
         
         public enum Player {Everyone, CurrentPlayer}
 
@@ -62,6 +62,6 @@ public class Items : ScriptableObject
         public enum Alteration { Creation, Destruction }
         
         public enum State{ Alive, Dead }
-
+    
 }
 

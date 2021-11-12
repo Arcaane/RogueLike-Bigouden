@@ -1078,7 +1078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1839915143
 Transform:
   m_ObjectHideFlags: 0
@@ -1585,6 +1585,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: == Game Manager ==
       objectReference: {fileID: 0}
+    - target: {fileID: 4466577913259297033, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: itemList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4466577913259297033, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: itemList.Array.data[0].listName
+      value: Items
+      objectReference: {fileID: 0}
+    - target: {fileID: 4466577913259297033, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: itemList.Array.data[1].listName
+      value: Shop
+      objectReference: {fileID: 0}
     - target: {fileID: 4466577913259297034, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1668,7 +1680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: 83a2cf848a9d4e44ba8f33af038a9699, type: 2}
+  - {fileID: 0}
   itemOnTheFloor: {fileID: 0}
   conditionActivate: 0
   currentMoney: 0
