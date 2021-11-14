@@ -123,7 +123,7 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Start()
     {
-        if (!_launchDebug)
+        if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
             {
@@ -341,6 +341,8 @@ public class PlayerAttribut : MonoBehaviour
                 attackPath.launchSecondAttack = false;
                 attackPath.progress = 0f;
                 timerAttack = 0f;
+                Vector2 velocity = Vector2.zero;
+                rb.velocity = velocity;
             }
         }
     }
