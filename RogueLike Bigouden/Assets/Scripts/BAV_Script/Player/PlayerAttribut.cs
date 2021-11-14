@@ -131,7 +131,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-
+    
     public void Move()
     {
         transform.Translate(_move * speed * Time.deltaTime);
@@ -235,12 +235,18 @@ public class PlayerAttribut : MonoBehaviour
 
         if (canDash)
         {
-            Vector2 velocity = Vector2.zero;
-            Vector2 dir = _lastPosition;
-            velocity += dir.normalized * (dashSpeed * dashIntValue);
-            rb.velocity = velocity;
-            StartCoroutine(DashWait());
+            rb.velocity = Vector2.zero;
+            launchDash();
         }
+    }
+
+    void launchDash()
+    {
+        Vector2 velocity = Vector2.zero;
+        Vector2 dir = _lastPosition;
+        velocity += dir.normalized * (dashSpeed * dashIntValue);
+        rb.velocity = velocity;
+        StartCoroutine(DashWait());
     }
 
     IEnumerator DashWait()
@@ -296,6 +302,7 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
+            rb.velocity = Vector2.zero; 
             SmallMovementFirst();
         }
 
@@ -307,6 +314,7 @@ public class PlayerAttribut : MonoBehaviour
             launchFirstAttack = false;
             launchSecondAttack = true;
             isAttacking = true;
+            rb.velocity = Vector2.zero; 
             SmallMovementSecond();
         }
         else
