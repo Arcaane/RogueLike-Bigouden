@@ -75,8 +75,7 @@ MonoBehaviour:
   rb: {fileID: 7746348269042350852}
   speed: 5
   dashSpeed: 5
-  hasDashed: 0
-  isDashing: 0
+  durationDash: 1
   splinePivot: {fileID: 7396767306142687770}
   attackSpline: {fileID: 5328878512671455108}
   attackPath: {fileID: 3405388577385850937}
@@ -88,6 +87,11 @@ MonoBehaviour:
   playerMesh: {fileID: 356031037205739849}
   animatorPlayer: {fileID: 3517321643038554502}
   playerFeedBack: {fileID: 6722423303255095001}
+  _playerStatsManager: {fileID: 7428929022978721337}
+  _attackPath: {fileID: 3405388577385850937}
+  _lastPosition: {x: 0, y: 0, z: 0}
+  _move: {x: 0, y: 0, z: 0}
+  _look: {x: 0, y: 0, z: 0}
 --- !u!114 &7428929022978721337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  maxLifePoint: 0
   actualUltPoint: 0
   ultMaxPoint: 0
   lifePoint: 0
@@ -288,8 +293,8 @@ MonoBehaviour:
   progress: 0
   isAttacking: 0
   speed: 2
-  mode: 0
-  goingForward: 0
+  mode: 1
+  launchAttack: 0
 --- !u!1 &5401484947978832480
 GameObject:
   m_ObjectHideFlags: 0
