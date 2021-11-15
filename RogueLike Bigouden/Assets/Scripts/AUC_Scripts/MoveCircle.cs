@@ -10,8 +10,6 @@ public class MoveCircle : MonoBehaviour
     public Transform objectToRotate;
     public Transform objectTarget;
 
-
-    public float speed = 1;
     public float radius = 1;
 
     private void Start()

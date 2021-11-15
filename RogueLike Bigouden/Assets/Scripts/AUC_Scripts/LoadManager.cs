@@ -95,8 +95,8 @@ public class LoadManager : MonoBehaviour
          
          finalList.Add(utilityRoom[0]); // UtilityRoom1
          
-         finalList.Add(roomLevel2[randomIndex[2]]); // RandomRoom
-         finalList.Add(roomLevel2[randomIndex[1]]); // RandomRoom
+         finalList.Add(roomLevel1[randomIndex[2]]); // RandomRoom
+         finalList.Add(roomLevel1[randomIndex[1]]); // RandomRoom
          
          finalList.Add(bossRoom[0]);
      }
