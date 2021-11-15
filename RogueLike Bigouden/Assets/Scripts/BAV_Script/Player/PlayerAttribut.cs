@@ -131,7 +131,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-    
+
     public void Move()
     {
         transform.Translate(_move * speed * Time.deltaTime);
@@ -140,38 +140,58 @@ public class PlayerAttribut : MonoBehaviour
 
     public void MoveAnimation()
     {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+        if (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
-            case true:
+            {
                 animatorPlayer.SetFloat("Horizontal", lookAxis.x);
                 animatorPlayer.SetFloat("Vertical", lookAxis.y);
                 animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                break;
-            case false:
-                if (movementInput != Vector2.zero)
-                {
-                    animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                    animatorPlayer.SetFloat("Vertical", movementInput.y);
-                }
+            }
+        }
+        else
+        {
+            if (movementInput != Vector2.zero)
+            {
+                animatorPlayer.SetFloat("Horizontal", movementInput.x);
+                animatorPlayer.SetFloat("Vertical", movementInput.y);
+            }
 
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                break;
+            animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
+        }
+
+        if (launchFirstAttack)
+        {
+            animatorPlayer.SetBool("AttackX1", true);
+            if (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+            {
+                animatorPlayer.SetFloat("Horizontal", lookAxis.y);
+                animatorPlayer.SetFloat("Vertical", lookAxis.y);
+            }
+            else if (movementInput != Vector2.zero)
+            {
+                animatorPlayer.SetFloat("Horizontal", movementInput.x);
+                animatorPlayer.SetFloat("Vertical", movementInput.y);
+            }
+        }
+        else
+        {
+            animatorPlayer.SetBool("AttackX1", false);
         }
     }
 
+
+    /*
     public void AttackAnimation()
     {
         switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
             case true:
-                animatorPlayer.SetBool("isAttacking", isAttacking);
-                animatorPlayer.SetFloat("Horizontal", lookAxis.x);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
+
                 break;
             case false:
                 if (movementInput != Vector2.zero)
                 {
-                    animatorPlayer.SetBool("isAttacking", isAttacking);
+                    animatorPlayer.SetBool("AttackX1", true);
                     animatorPlayer.SetFloat("Horizontal", movementInput.x);
                     animatorPlayer.SetFloat("Vertical", movementInput.y);
                 }
@@ -179,6 +199,7 @@ public class PlayerAttribut : MonoBehaviour
                 break;
         }
     }
+    */
 
 
     public void Attack(bool look)
@@ -269,6 +290,8 @@ public class PlayerAttribut : MonoBehaviour
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         MoveAnimation();
+
+
         if (isDash || isAttacking)
         {
             Reset();
@@ -302,7 +325,7 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
-            rb.velocity = Vector2.zero; 
+            rb.velocity = Vector2.zero;
             SmallMovementFirst();
         }
 
@@ -314,12 +337,8 @@ public class PlayerAttribut : MonoBehaviour
             launchFirstAttack = false;
             launchSecondAttack = true;
             isAttacking = true;
-            rb.velocity = Vector2.zero; 
+            rb.velocity = Vector2.zero;
             SmallMovementSecond();
-        }
-        else
-        {
-            launchFirstAttack = false;
         }
     }
 
@@ -463,7 +482,6 @@ public class PlayerAttribut : MonoBehaviour
         TextMeshProUGUI numberOfAttackText = elementOfTextMeshPro[6].GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI timeBeforeAttack = elementOfTextMeshPro[7].GetComponent<TextMeshProUGUI>();
 
-        Vector3 imagePosition = elementOfTextMeshPro[0].transform.position;
         pointColor.color = Color.white;
         switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
         {
