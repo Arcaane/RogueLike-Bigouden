@@ -25,6 +25,7 @@ public class ProjectilePath : MonoBehaviour
     public float speed = 4f;
 
     private bool lookForward;
+    public int countAttack = 0;
     public SplineWalkerMode mode;
     public bool launchAttack;
     public bool launchSecondAttack;
@@ -77,6 +78,7 @@ public class ProjectilePath : MonoBehaviour
                         launchAttack = false;
                         break;
                     case SplineWalkerMode.FirstAttack:
+
                         progress = 1f;
                         projectile.SetActive(false);
                         launchAttack = false;

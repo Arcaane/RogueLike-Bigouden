@@ -82,7 +82,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             if (obj.performed)
             {
-                playerAttribut.attackPath.launchAttack = true;
+                playerAttribut.AttackType();
             }
         }
 
@@ -91,7 +91,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             if (obj.performed)
             {
-                playerAttribut.AttackType();
+                //playerAttribut.AttackType();
             }
         }
 
@@ -118,7 +118,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             if (obj.performed)
             {
-                playerAttribut.Dash();
+                //playerAttribut.Dash();
             }
         }
     }
