@@ -72,22 +72,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023590b7490f65047b397e4a44efa437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerDash: 0
+  timerAttack: 0
+  timerDelayAttack: 0
   rb: {fileID: 7746348269042350852}
   speed: 5
   dashSpeed: 5
-  hasDashed: 0
-  isDashing: 0
-  splinePivot: {fileID: 7396767306142687770}
-  attackSpline: {fileID: 5328878512671455108}
-  attackPath: {fileID: 3405388577385850937}
-  launchAttack: 0
+  durationDash: 1
+  durationCooldownDash: 4
+  attackMoveSmall: 2
+  dashCount: 3
+  isDash: 0
+  canDash: 0
+  dashCounter: 0
+  splinePivot: {fileID: 0}
+  attackSpline: {fileID: 0}
+  attackPath: {fileID: 0}
+  valueBeforeResetAttack: 0.5
+  attackType: 0
+  isAttacking: 0
+  launchFirstAttack: 0
   launchSecondAttack: 0
-  delayForSecondAttack: 4
-  timer: 0
-  incrementValue: 0
-  playerMesh: {fileID: 356031037205739849}
-  animatorPlayer: {fileID: 3517321643038554502}
-  playerFeedBack: {fileID: 6722423303255095001}
+  delayBeforeResetAttack: 2
+  delayForSecondAttack: 1
+  playerMesh: {fileID: 0}
+  animatorPlayer: {fileID: 0}
+  playerFeedBack: {fileID: 0}
+  _playerStatsManager: {fileID: 0}
+  _attackPath: {fileID: 0}
+  _lastPosition: {x: 0, y: 0, z: 0}
+  _lastPositionForRotor: {x: 0, y: 0, z: 0}
+  _directionNormalized: {x: 0, y: 0, z: 0}
+  _move: {x: 0, y: 0, z: 0}
+  _look: {x: 0, y: 0, z: 0}
+  _launchDebug: 1
+  positionStick: {x: -800, y: 400, z: 0}
+  elementOfTextMeshPro:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &7428929022978721337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  maxLifePoint: 0
   actualUltPoint: 0
   ultMaxPoint: 0
   lifePoint: 0
@@ -139,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vibrationForce: {x: 0, y: 0}
+  vibrationForce: {x: 0, y: 0, z: 0}
 --- !u!61 &7912807079348135131
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -288,8 +317,10 @@ MonoBehaviour:
   progress: 0
   isAttacking: 0
   speed: 2
-  mode: 0
-  goingForward: 0
+  countAttack: 0
+  mode: 1
+  launchAttack: 0
+  launchSecondAttack: 0
 --- !u!1 &5401484947978832480
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7396767306142687770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalPosition: {x: -0.5, y: 1.133333, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5286572086096753784}

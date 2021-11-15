@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player1UI.SetActive(true);
+        player1UI.SetActive(false);
         if (GameObject.FindGameObjectWithTag("Player"))
         {
             inventory = FindObjectOfType<Inventory>();
