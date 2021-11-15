@@ -72,13 +72,17 @@ public class ItemsEditor : Editor
                 items._operator = (Items.Operator) EditorGUILayout.EnumPopup("Operator", items._operator);
                 items.onCurrent = EditorGUILayout.Toggle("On Current Value", items.onCurrent);
                 items.modIsAnotherVariable = EditorGUILayout.Toggle("Is Mod Amount is From Another Variable ?", items.modIsAnotherVariable);
-
+                
                 if (items.modIsAnotherVariable)
-                {
+                { 
                     items.variableTarget = (Items.VariableTarget) EditorGUILayout.EnumPopup("Variable Target", items.variableTarget);
-
+                    GUILayout.Label("Pourcentage");
+                    items.anotherVariableModPourcentage = EditorGUILayout.Slider(items.anotherVariableModPourcentage, 0, 1);
                 }
-                items.modAmount = EditorGUILayout.IntField("Amount modification", items.modAmount);
+                else
+                {
+                    items.modAmount = EditorGUILayout.IntField("Amount modification", items.modAmount);
+                }
 
                 GUILayout.Space(10);
 
@@ -99,7 +103,24 @@ public class ItemsEditor : Editor
             case Items.Effect.Object:
                 items.alteration = (Items.Alteration) EditorGUILayout.EnumPopup("Object List", items.alteration);
                 items.objectPrefab = (GameObject) EditorGUILayout.ObjectField(items.objectPrefab, typeof(GameObject), true);
-                items.spawnPoint = (Transform) EditorGUILayout.ObjectField(items.spawnPoint, typeof(Transform), true);
+                items.spawnPoint = (Items.SpawnPoint) EditorGUILayout.EnumPopup("Spawn Point", items.spawnPoint);
+
+                switch (items.spawnPoint)
+                {
+
+                    case Items.SpawnPoint.Player:
+                        items.playerSpawn = (Items.PlayerSpawn) EditorGUILayout.EnumPopup("Player Spawn", items.playerSpawn);
+                        break;
+                    
+                    case Items.SpawnPoint.Enemy:
+                        items.enemySpawn = (Items.EnemySpawn) EditorGUILayout.EnumPopup("Enemy Spawn", items.enemySpawn);
+                         break;
+                    
+                    case Items.SpawnPoint.Special:
+                        items.specialSpawnPoint = (Transform) EditorGUILayout.ObjectField(items.specialSpawnPoint, typeof(Transform), true);
+                        break;
+                }
+                
                 items.spawnAmount = EditorGUILayout.IntField("Spawn Amount", items.spawnAmount);
                 items.spawnTime = EditorGUILayout.FloatField("Spawn Active Time", items.spawnTime);
                 break;

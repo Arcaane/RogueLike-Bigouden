@@ -204,7 +204,26 @@ public class Inventory : MonoBehaviour
 
     void ApplyItemEffect(Items i)
     {
+
         roll = UnityEngine.Random.Range(0, 100);
+
+        if (i.modIsAnotherVariable)
+        {
+            switch (i.variableTarget)
+            {
+                case Items.VariableTarget.Money:
+                    i.modAmount = Mathf.FloorToInt(currentMoney * i.anotherVariableModPourcentage);
+                    break;
+                
+                case Items.VariableTarget.Health:
+                    i.modAmount = Mathf.FloorToInt(playerStats.lifePoint * i.anotherVariableModPourcentage);
+                    break;
+                
+                case Items.VariableTarget.Energy:
+                    i.modAmount = Mathf.FloorToInt(playerStats.actualUltPoint * i.anotherVariableModPourcentage);
+                    break;
+            }
+        }
         
         switch (i.effectOn)
         {
@@ -212,6 +231,39 @@ public class Inventory : MonoBehaviour
 
                 switch (i.augmentation)
                 {
+                    case Items.Augmentation.Damage:
+                        
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseDamageX = playerStats.damageX;
+                                    float baseDamageY = playerStats.damageY;
+                                    float baseDamageB = playerStats.damageProjectile;
+                                    playerStats.damageX += i.modAmount;
+                                    playerStats.damageY += i.modAmount;
+                                    playerStats.damageProjectile += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    playerStats.damageY = Mathf.FloorToInt(baseDamageY);
+                                    playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
+                                }    
+
+                            }
+                            else
+                            {
+                                playerStats.damageX += i.modAmount;
+                                playerStats.damageY += i.modAmount;
+                                playerStats.damageProjectile += i.modAmount;
+                            }
+                        }
+                        
+                        break;
+                    
                     case Items.Augmentation.DamageX:
 
                         if (roll <= i.rate)
@@ -670,7 +722,29 @@ public class Inventory : MonoBehaviour
                             for (int j = 0; j < i.spawnAmount; j++)
                             {
                                 GameObject objectSpawn = Instantiate(i.objectPrefab);
-                                objectSpawn.transform.localPosition = i.spawnPoint.transform.localPosition;
+
+                                switch(i.spawnPoint)
+                                {
+                                    case Items.SpawnPoint.Player:
+                                        switch (i.playerSpawn)
+                                        {
+                                            
+                                        }
+                                        break;
+                                    
+                                    case Items.SpawnPoint.Enemy:
+                                        switch (i.enemySpawn)
+                                        {
+                                            case Items.EnemySpawn.Target:
+                                                //objectSpawn.transform.localPosition = lastEnemyHit;
+                                                break;
+                                            case Items.EnemySpawn.All:
+                                                //objectSpawn.transform.localPosition =  enemyTargetCondition;
+                                                break;
+                                        }
+                                        break;
+                                }
+                                objectSpawn.transform.localPosition = i.specialSpawnPoint.transform.localPosition;
                                 StartCoroutine(DelayToDestroy(i.spawnTime, objectSpawn));
                             }
                             

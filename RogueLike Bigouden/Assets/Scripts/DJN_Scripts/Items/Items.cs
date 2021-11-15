@@ -31,6 +31,10 @@ public class Items : ScriptableObject
     public ActionEnemy actionEnemy;
     public VariableTarget variableTarget;
     public Operator _operator;
+    public SpawnPoint spawnPoint;
+    public PlayerSpawn playerSpawn;
+    public EnemySpawn enemySpawn;
+    
     
     public bool conditionActionMustBeDone;
     public int conditionValueToReach;
@@ -38,11 +42,11 @@ public class Items : ScriptableObject
     public bool onCurrent;
     public int modAmount;
     public bool modIsAnotherVariable;
-    
+    [Range(0,1)] public float anotherVariableModPourcentage;
     [Range(0,100)] public float rate;
     
     public GameObject objectPrefab;
-    public Transform spawnPoint;
+    public Transform specialSpawnPoint;
     public int spawnAmount;
     public bool mustBeActivated;
     public float spawnTime;
@@ -69,7 +73,10 @@ public class Items : ScriptableObject
         public enum ActionPlayer{ CurrentPlayer, Everyone}
         public enum ActionEnemy{All, Barman, Cac, Rush, Tir}
     
-        
+        public enum SpawnPoint{ Own, Player, Enemy, Special}
+        public enum PlayerSpawn{ CurrentPlayer, Everyone}
+        public enum EnemySpawn{Target, All, Barman, Cac, Rush, Tir}
+
         public enum Value
         { Health, Energy, Money }
 
@@ -81,7 +88,7 @@ public class Items : ScriptableObject
 
         public enum Augmentation { Shield, Damage, DamageX, DamageY, DamageB, DamageUlt, AttackRange, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeed, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
 
-        public enum VariableTarget{Shield, Damage, DamageX, DamageY, DamageB, DamageUlt, AttackRange, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeed, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy}
+        public enum VariableTarget{Health, Energy, Money}
         public enum Alteration { Creation, Destruction }
         
         public enum State{ Alive, Dead }
