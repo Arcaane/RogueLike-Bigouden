@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
@@ -13,12 +16,17 @@ public class WaveSpawner : MonoBehaviour
     public class Wave 
     {
         public string name;
-        public Transform enemy;
-        public int count;
+        public Transform[] enemy;
+        public int[] count;
         public float rate;
+        public int bonusLife;
+        public int bonusDamage;
+        public int bonusShield;
+        public float bonusMovementSpeed;
 
     }
 
+    public List<GameObject> EnnemiesSpawned;
     public Wave[] waves;
     public int nextWave;
 
@@ -28,13 +36,14 @@ public class WaveSpawner : MonoBehaviour
     public float waveCountDown;
     private float searchCountDown = 1f;
     public SpawnState State = SpawnState.COUNTING;
+
+    public GameObject _roomLoader;
     private void Start()
     {
         if (spawnPoints.Length == 0)
         {
             Debug.Log("No spawn points assigned!");
         }
-        waveCountDown = timeBetweenWave;
     }
 
     void Update()
@@ -68,42 +77,62 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    void WaveCompleted()
+    public void WaveCompleted()
     {
-        Debug.Log("Wave Completed!");
-        State = SpawnState.COUNTING;
-        waveCountDown = timeBetweenWave;
-
-        if (nextWave + 1 > waves.Length - 1)
+        if (State == SpawnState.FINISHED)
         {
-            nextWave = 0;
-            Debug.Log("All waves completed");
-            State = SpawnState.FINISHED;
+            _roomLoader.GetComponent<RoomLoader>().ClearedRoom();
+            Debug.Log("WTF BRO IT'S OVER");
+            return;
         }
-        else
-        {
-            nextWave++;
+        else {
+            Debug.Log("Wave Completed!");
+            State = SpawnState.COUNTING;
+            waveCountDown = timeBetweenWave;
+
+            if (nextWave + 1 > waves.Length - 1)
+            {
+                nextWave = 0;
+                Debug.Log("All waves completed");
+                State = SpawnState.FINISHED;
+            }
+            else
+            {
+                nextWave++;
+            }
         }
     }
     IEnumerator SpawnWave(Wave _wave)
     {
         Debug.Log("Spawning wave: " + _wave.name);
         State = SpawnState.SPAWNING;
-        for (int i = 0; i < _wave.count; i++)
+
+        for (int i = _wave.enemy.Length - 1; i >= 0; i--)
         {
-           SpawnEnemy(_wave.enemy);
-           yield return new WaitForSeconds(1f / _wave.rate);
+            int nbEnemies = _wave.count[i];
+            for (int j = nbEnemies - 1; j >= 0; j--)
+            {
+                SpawnEnemy(_wave.enemy[i], _wave);
+                yield return new WaitForSeconds(1f / _wave.rate);
+            }
         }
+        
+        
         State = SpawnState.WAINTING;
         yield break;
     }
 
-    void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(Transform _enemy, Wave _wave)
     {
         Debug.Log("Spawning Ennemy: " + _enemy.name);
 
         Transform sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(_enemy, transform.position, transform.rotation);
+        Transform _esp = Instantiate(_enemy, sp.transform.position, sp.transform.rotation);
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().TakeHeal(_wave.bonusLife);
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage; 
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield; 
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().movementSpeed += _wave.bonusMovementSpeed; 
+        EnnemiesSpawned.Add(_esp.gameObject);
     }
 
     bool IsEnemyAlive()
@@ -120,3 +149,5 @@ public class WaveSpawner : MonoBehaviour
         return true;
     }
 }
+
+
