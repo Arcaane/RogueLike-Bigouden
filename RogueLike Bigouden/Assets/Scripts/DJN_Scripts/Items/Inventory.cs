@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        uiManager = GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<UIManager>();
+        uiManager = FindObjectOfType<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
     }
 

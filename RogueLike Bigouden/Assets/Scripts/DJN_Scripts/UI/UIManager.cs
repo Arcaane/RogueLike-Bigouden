@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour
         player1UI.SetActive(true);
         if (GameObject.FindGameObjectWithTag("Player"))
         {
-            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+            inventory = FindObjectOfType<Inventory>();
         }
         searchInventory = false;
         imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
