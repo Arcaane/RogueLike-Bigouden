@@ -616,8 +616,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1480764426}
   - component: {fileID: 1480764425}
-  - component: {fileID: 1480764427}
   - component: {fileID: 1480764424}
+  - component: {fileID: 1480764427}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -725,14 +725,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1480764423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9756fa898e250ac4cb6f47c1a27977a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ba3035144c28a14381f78599e5b168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRoomClear: 1
-  numberOfEnnemies: 0
-  isEnnemy:
-    serializedVersion: 2
-    m_Bits: 0
+  isRoomClear: 1
 --- !u!1001 &5313670429311380331
 PrefabInstance:
   m_ObjectHideFlags: 0
