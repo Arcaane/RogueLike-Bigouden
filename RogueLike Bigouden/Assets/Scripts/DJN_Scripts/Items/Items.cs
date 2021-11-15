@@ -7,19 +7,26 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new Item", menuName = "Item", order = 1)]
 public class Items : ScriptableObject
 {
+    //items informations
     public int itemID;
     public string itemName;
     public string description;
     public Sprite image;
     public int price;
     public Rarity rarity;
+    
+    //items conditon to active
+    public Condition condition;
+    public enum Condition { None, Action, Value, State }
+    public Action action;
+
+  
     public enum Rarity { Commun, Rare, Epic }
     
     public Target target;
     public Type type;
-    public Condition condition;
+
     public Effect effectOn;
-    public Action action;
     public Augmentation augmentation;
     public Value value;
     public State state;
@@ -64,7 +71,6 @@ public class Items : ScriptableObject
     public enum Effect { Variable, Object }
         public enum Type { Bonus, Malus }
 
-        public enum Condition { None, Action, Value, State }
 
         public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death, KillOrDestroy }
 
