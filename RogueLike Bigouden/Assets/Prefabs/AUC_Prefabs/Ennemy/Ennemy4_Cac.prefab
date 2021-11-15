@@ -143,12 +143,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1279852816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8292904c89606b24887c8eb7a339f305, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a2b43d0b11faea46ad49d9805c02f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectToRotate: {fileID: 1535599463}
   objectTarget: {fileID: 0}
-  radius: 0.62
+  speed: 1
+  radius: 1
 --- !u!1 &1535599462
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,9 +193,10 @@ GameObject:
   - component: {fileID: 904281287}
   - component: {fileID: 904281285}
   - component: {fileID: 904281288}
+  - component: {fileID: 3405178358806904449}
   m_Layer: 10
   m_Name: Ennemy4_Cac
-  m_TagString: Untagged
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -299,19 +301,55 @@ MonoBehaviour:
   target: {fileID: 0}
   agent: {fileID: 904281285}
   hitPoint: {fileID: 1535599463}
-  isPlayerInAggroRange: 0
-  isPlayerInAttackRange: 0
   isRdyMove: 0
-  isReadyToHit: 0
-  isAggro: 0
-  lifePoint: 10
-  damageDealt: 2
-  detectZone: 3.4
-  attackRange: 0.62
-  timeBeforeAggro: 1
-  delayAttack: 0.7
-  movementSpeed: 1.6
-  hitRadius: 0.22
   isPlayer:
     serializedVersion: 2
     m_Bits: 256
+  _damageDealt: 0
+  _detectZone: 0
+  _attackRange: 0
+  _attackDelay: 0
+  _timeBeforeAggro: 0
+  _movementSpeed: 0
+  _isPlayerInAggroRange: 0
+  _isPlayerInAttackRange: 0
+  _isReadyToShoot: 0
+  _isAggro: 0
+  _isAttacking: 0
+  hitRadius: 0.22
+--- !u!114 &3405178358806904449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5445882489520437768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9676b47b3e6530449eee59611a2c456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ennemyData: {fileID: 11400000, guid: 67b63b7c8b18b1f4b80f53e6fb9000dc, type: 2}
+  lifePoint: 0
+  shieldPoint: 0
+  damageDealt: 0
+  detectZone: 0
+  attackRange: 0
+  attackDelay: 0
+  timeBeforeAggro: 0
+  movementSpeed: 0
+  isPlayerInAggroRange: 0
+  isPlayerInAttackRange: 0
+  isReadyToShoot: 0
+  isAggro: 0
+  isAttacking: 0
+  isStun: 0
+  damageAoe: 0
+  damageAoeAfterExplosion: 0
+  rangeAoe: 0
+  bulletSpread: {x: 0, y: 0}
+  bulletSpeed: {x: 0, y: 0}
+  dashSpeed: 0
+  stunDuration: 0
+  rushDelay: 0
+  isReadyToDash: 0

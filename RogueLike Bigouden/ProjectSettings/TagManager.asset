@@ -8,7 +8,8 @@ TagManager:
   - Ennemy
   - Exit
   - Border
-  - Obstacle
+  - GameManager
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -19,11 +20,11 @@ TagManager:
   - BlockingLayer
   - WhatIsGround
   - WhatISPlayer
-  - WhatIsProjectile
   - WhatIsEnnemy
+  - Weapon
+  - Projectile
   - 
   - 
-  - Floor
   - 
   - 
   - 
@@ -43,18 +44,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Items
+    uniqueID: 2055736351
+    locked: 0
+  - name: Units
+    uniqueID: 1348969417
+    locked: 0
   - name: Floor
     uniqueID: 249001467
     locked: 0
   - name: Walls
-    uniqueID: 1834791739
+    uniqueID: 2692518115
+    locked: 0
+  - name: Props_Background
+    uniqueID: 527449573
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Characters
-    uniqueID: 972198343
-    locked: 0
-  - name: Asset
-    uniqueID: 1261364433
+  - name: Props_Foreground
+    uniqueID: 1520021615
     locked: 0

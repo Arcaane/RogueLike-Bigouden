@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 714226103}
   - component: {fileID: 714226101}
   - component: {fileID: 714226104}
+  - component: {fileID: 2113810249869975031}
   - component: {fileID: 746324009}
   m_Layer: 10
   m_Name: Ennemy3_Barman
@@ -89,7 +90,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5855351862581302078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.606739, y: 7.993739, z: -3.9095883}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2474231656876761719}
@@ -182,23 +183,56 @@ MonoBehaviour:
   shootPoint: {fileID: 1686039387387410387}
   angularPointBezier: {fileID: 327830608}
   cocktail: {fileID: 5994295236203681702, guid: aaa0331ea97e8484081f4adb0a101938, type: 3}
-  lifePoint: 10
-  shieldPoint: 1
-  detectZone: 4
-  attackRange: 3.7
-  delayAttack: 4
-  timeBeforeAggro: 1
-  movementSpeed: 1
-  rangeAoe: 1
-  damageAoe: 1
-  damageAoeBeforeExplosion: 1
+  _detectZone: 0
+  _attackRange: 0
+  _delayAttack: 0
+  _timeBeforeAggro: 0
+  _movementSpeed: 0
+  _rangeAoe: 0
+  _damageAoe: 0
+  _damageAoeAfterExplosion: 0
+  _isPlayerInAggroRange: 0
+  _isPlayerInAttackRange: 0
+  _isReadyToShoot: 0
+  _isAggro: 0
+  _isAttacking: 0
+  _isRdyMove: 0
+--- !u!114 &2113810249869975031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5855351862581302078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9676b47b3e6530449eee59611a2c456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ennemyData: {fileID: 11400000, guid: cdd02baa08efef04c9243999b6140b85, type: 2}
+  lifePoint: 0
+  shieldPoint: 0
+  damageDealt: 0
+  detectZone: 0
+  attackRange: 0
+  attackDelay: 0
+  timeBeforeAggro: 0
+  movementSpeed: 0
   isPlayerInAggroRange: 0
   isPlayerInAttackRange: 0
   isReadyToShoot: 0
   isAggro: 0
   isAttacking: 0
   isStun: 0
-  isRdyMove: 0
+  damageAoe: 0
+  damageAoeAfterExplosion: 0
+  rangeAoe: 0
+  bulletSpread: {x: 0, y: 0}
+  bulletSpeed: {x: 0, y: 0}
+  dashSpeed: 0
+  stunDuration: 0
+  rushDelay: 0
+  isReadyToDash: 0
 --- !u!120 &746324009
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -339,12 +373,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7651013353207929560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8292904c89606b24887c8eb7a339f305, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a2b43d0b11faea46ad49d9805c02f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectToRotate: {fileID: 1686039387387410387}
   objectTarget: {fileID: 0}
-  radius: 0.75
+  speed: 1
+  radius: 1
 --- !u!1 &8277547673949575507
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +452,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1306724151452704851, guid: 49a967e42a656de4d9e58912d84eedde, type: 3}
+  m_Sprite: {fileID: 914841263681006940, guid: dc870f55ea4fba746afc9b8604733db6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

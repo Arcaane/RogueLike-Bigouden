@@ -112,10 +112,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3323860257783470425}
   - component: {fileID: 1379514262}
-  - component: {fileID: 1379514261}
   - component: {fileID: 1379514263}
   - component: {fileID: 6451809306382090528}
-  m_Layer: 10
+  - component: {fileID: 1379514261}
+  - component: {fileID: 5930435314255698863}
+  m_Layer: 9
   m_Name: Ennemy2 _ Runner
   m_TagString: Ennemy
   m_Icon: {fileID: 0}
@@ -130,7 +131,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3323860257783470426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.74, y: 2.59, z: -446.11945}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1215839415126635670}
@@ -164,32 +165,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4215331, y: 0.71880066}
   m_EdgeRadius: 0
---- !u!114 &1379514261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3323860257783470426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6394d0472e3d42b42a2a0229238edc12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ennemyData: {fileID: 11400000, guid: c7400d994f495fe4ba950480b7fab0cb, type: 2}
-  target: {fileID: 0}
-  agent: {fileID: 1379514263}
-  isPlayerInAggroRange: 0
-  isRdyMove: 0
-  isPlayerInAttackRange: 0
-  isReadyToShoot: 0
-  isStun: 0
-  isCharging: 0
-  isRushing: 0
-  isAggro: 0
-  dashSpeed: 4.9
-  isReadyToDash: 0
-  isDashing: 0
 --- !u!195 &1379514263
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -233,6 +208,77 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1379514261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323860257783470426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6394d0472e3d42b42a2a0229238edc12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ennemyData: {fileID: 11400000, guid: c7400d994f495fe4ba950480b7fab0cb, type: 2}
+  target: {fileID: 0}
+  agent: {fileID: 1379514263}
+  isPlayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _damageDealt: 0
+  _detectZone: 0
+  _attackRange: 0
+  _timeBeforeAggro: 0
+  _movementSpeed: 0
+  _isPlayerInAggroRange: 0
+  _isRdyMove: 0
+  _isPlayerInAttackRange: 0
+  _isAggro: 0
+  _isDashing: 0
+  _isCharging: 0
+  _isRushing: 0
+  _dashSpeed: 0
+  _isReadyToDash: 0
+  _stunDuration: 0
+  _rushDelay: 0
+  _moveSpeedCharge: 0
+--- !u!114 &5930435314255698863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323860257783470426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9676b47b3e6530449eee59611a2c456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ennemyData: {fileID: 11400000, guid: c7400d994f495fe4ba950480b7fab0cb, type: 2}
+  lifePoint: 0
+  shieldPoint: 0
+  damageDealt: 0
+  detectZone: 0
+  attackRange: 0
+  attackDelay: 0
+  timeBeforeAggro: 0
+  movementSpeed: 0
+  isPlayerInAggroRange: 0
+  isPlayerInAttackRange: 0
+  isReadyToShoot: 0
+  isAggro: 0
+  isAttacking: 0
+  isStun: 0
+  damageAoe: 0
+  damageAoeAfterExplosion: 0
+  rangeAoe: 0
+  bulletSpread: {x: 0, y: 0}
+  bulletSpeed: {x: 0, y: 0}
+  dashSpeed: 0
+  stunDuration: 0
+  rushDelay: 0
+  isReadyToDash: 0
 --- !u!1 &3768575731919962421
 GameObject:
   m_ObjectHideFlags: 0

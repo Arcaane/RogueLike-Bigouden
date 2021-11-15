@@ -7,7 +7,6 @@ public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
     
-
     #region Player Variable Assignation
     private string name
     {
@@ -151,6 +150,7 @@ public class PlayerStatsManager : MonoBehaviour
     }
     
     //Ints 
+    public int maxLifePoint;
     public int actualUltPoint; // Point d'ultimate collecté par le joueur
     public int ultMaxPoint; // Point d'ultime pour lancer l'ult
     public int lifePoint; // Point de vie du joueur
@@ -186,17 +186,13 @@ public class PlayerStatsManager : MonoBehaviour
         
     #endregion
     
-    private void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
-
     private void Start()
     {
         // Set int
         actualUltPoint = actualUltPointSO; 
         ultMaxPoint = ultMaxPointSO; 
-        lifePoint = lifePointSO; 
+        lifePoint = lifePointSO;
+        maxLifePoint = lifePoint;
         shieldPoint = shieldPointSO; 
         damageX = damageXSO; 
         damageY = damageYSO; 
@@ -227,7 +223,29 @@ public class PlayerStatsManager : MonoBehaviour
         readyToDash = readyToDashSO;
         onButter = onButterSO;
     }
+
+    #region Ennemy Damage Gestion 
+    public void TakeDamage(int damage)
+    {
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
+
+        if (lifePoint <= 0)
+            Death();
+    }
     
+    private void Death()
+    {
+        // Play Death Animation
+        Debug.Log(gameObject.name + " is Dead !");
+    }
+    #endregion
 }
 
 

@@ -20,23 +20,7 @@ public class GreenCocktailBehaviour : MonoBehaviour
         // Heal Them
         foreach (var ennemy in ennemyInRadius)
         {
-            switch (ennemy.name)
-            {
-                case "Ennemy1 _ Shooter":
-                    ennemy.GetComponent<IAShooter>().lifePoint += 1;
-                    break;
-                case "Ennemy2 _ Runner":
-                    ennemy.GetComponent<IARunner>().lifePoint += 1;
-                    break;
-                case "Ennemy3_Barman":
-                    ennemy.GetComponent<IABarman>().lifePoint += 1;
-                    break;
-                case "Ennemy4_Cac":
-                    ennemy.GetComponent<IACac>().lifePoint += 1;
-                    break;
-                default:
-                    break;
-            }
+           ennemy.GetComponent<EnnemyStatsManager>().TakeHeal(1);
             Debug.Log("Ennemy healed : " + ennemy.name);
         }
     }

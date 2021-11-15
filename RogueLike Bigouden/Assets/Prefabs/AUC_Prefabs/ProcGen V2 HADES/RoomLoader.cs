@@ -4,43 +4,33 @@ using UnityEngine;
 public class RoomLoader : MonoBehaviour
 {
     // Scene State
-    public bool isRoomClear;
+    public bool IsRoomClear;
     public int numberOfEnnemies;
     public LayerMask isEnnemy;
-    
+
     private void Start()
     {
-        Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 20f, isEnnemy);
-        foreach (var ctx in ennemyInRoom)
-        {
-            numberOfEnnemies++;
-        }
-
-        if (numberOfEnnemies == 0)
-        {
-            isRoomClear = true;
-        }
-        
-        InvokeRepeating(nameof(CheckforEnnemies), 5, 1.5f);
-        isRoomClear = true;
+        CheckforEnnemies();
+        InvokeRepeating(nameof(CheckforEnnemies), 5, 1.3f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player") 
-        
-        if (isRoomClear)
+        if (other.gameObject.tag == "Player")
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (IsRoomClear)
             {
-                LoadManager.LoadManagerInstance.ChangeRoom();
-            }
-                
+                if (other.gameObject.CompareTag("Player"))
+                {
+                    LoadManager.LoadManagerInstance.ChangeRoom();
+                }
+            } 
         }
     }
-
+    
     private void CheckforEnnemies()
     {
+        numberOfEnnemies = 0;
         Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 20f, isEnnemy);
         foreach (var ctx in ennemyInRoom)
         {
@@ -49,7 +39,7 @@ public class RoomLoader : MonoBehaviour
 
         if (numberOfEnnemies == 0)
         {
-            isRoomClear = true;
+            IsRoomClear = true;
         }
     }
 }

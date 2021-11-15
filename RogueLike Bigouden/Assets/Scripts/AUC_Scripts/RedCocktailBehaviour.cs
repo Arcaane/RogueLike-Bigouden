@@ -17,7 +17,7 @@ public class RedCocktailBehaviour : MonoBehaviour
         Collider2D[] playerCircleAll = Physics2D.OverlapCircleAll(transform.position, 2, isPlayer);
         foreach (var p in playerCircleAll)
         {
-            p.GetComponent<PlayerStatsManager>().lifePoint -= 3;
+            p.GetComponent<PlayerStatsManager>().TakeDamage(2);
             Debug.Log("Player hit : " + p.name + " by red cocktail");
         }
     }

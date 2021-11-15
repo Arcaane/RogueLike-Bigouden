@@ -8,98 +8,34 @@ using Random = UnityEngine.Random;
 
 public class IAShooter : MonoBehaviour
 {
-    
-    #region Variables
+    #region Variables Shooter Assignation
     //Utilities
-    public EnnemyData ennemyData;
     [SerializeField] private Transform target;
-    public Transform shootPoint;
-    public NavMeshAgent agent;
-    private Rigidbody2D rb;
-    public Animator shooterAnimator;
+    [SerializeField] private Transform shootPoint;
+    [SerializeField] private  NavMeshAgent agent;
+    [SerializeField] private Animator shooterAnimator;
     private Vector2 shootPosRef;
-
-    // Bools
-    [SerializeField] private bool isPlayerInAggroRange;
-    [SerializeField] private bool isPlayerInAttackRange;
-    [SerializeField] private bool isReadyToShoot;
-    [SerializeField] private bool isAggro;
-    public LayerMask isPlayer;
-
-    string name // Nom de l'unité
-    {
-        get { return ennemyData.nameSO; }
-        set { ennemyData.nameSO = name; }
-    }
-     string description // Description de l'unité
-    {
-        get { return ennemyData.descriptionSO; }
-        set { ennemyData.descriptionSO = description; }
-    }
-    private int lifePointSO // Point de vie de l'unité
-    {
-        get { return ennemyData.lifePointSO; }
-        set { ennemyData.lifePointSO = lifePointSO; }
-    }
-    private int shieldPoint // Point de l'armure de l'unité
-    {
-        get { return ennemyData.shieldPointSO; }
-        set { ennemyData.shieldPointSO = shieldPoint; }
-    }
-    [SerializeField] int damage // Nombre de dégats
-    {
-        get { return ennemyData.damageSO; }
-        set { ennemyData.damageSO = damage; }
-    }
-    [SerializeField] float detectZone // Fov
-    {
-        get { return ennemyData.detectZoneSO; }
-        set { ennemyData.detectZoneSO = detectZone; }
-    }
-    [SerializeField] float attackRange // Portée de l'attaque
-    {
-        get { return ennemyData.attackRangeSO; }
-        set { ennemyData.attackRangeSO = attackRange; }
-    }
-    [SerializeField] float delayAttack // Delay entre les attack des ennemis
-    {
-        get { return ennemyData.delayAttackSO; }
-        set { ennemyData.delayAttackSO = delayAttack; }
-    }
-    [SerializeField] float timeBeforeAggro // Delay avant que les ennemis aggro le joueur
-    {
-        get { return ennemyData.timeBeforeAggroSO; }
-        set { ennemyData.timeBeforeAggroSO = timeBeforeAggro; }
-    }
-    [SerializeField] float movementSpeed // Vitesse de déplacement de l'unité
-    {
-        get { return ennemyData.movementSpeedSO; }
-        set { ennemyData.movementSpeedSO = movementSpeed; }
-    }
-    [SerializeField] Vector2 bulletSpread // Random sur la trajectoire des balles (Faible)
-    {
-        get { return ennemyData.bulletSpreadSO; }
-        set { ennemyData.bulletSpreadSO = bulletSpread; }
-    }
-    [SerializeField] Vector2 bulletSpeed // Random sur la vitesse des balles (Faible) 
-    {
-        get { return ennemyData.bulletSpeedSO; }
-        set { ennemyData.bulletSpeedSO = bulletSpeed; }
-    }
-    
-    [SerializeField] bool isStun // L'unité est stun ?
-    {
-        get { return ennemyData.isStunSO; }
-        set { ennemyData.isStunSO = isStun; }
-    }
-
-    public int lifePoint;
-    private bool isLock;
+    private Rigidbody2D rb;
     private bool isRdyMove;
-    private Vector3 pos;
-    public bool isAttack;
-    private Vector2 fwd;
     
+    // Attack Variables 
+
+    [SerializeField] private float _detectZone;
+    [SerializeField] private float _attackRange;
+    [SerializeField] private float _attackDelay;
+    [SerializeField] private float _timeBeforeAggro;
+    [SerializeField] private float _movementSpeed;
+    
+    [SerializeField] private bool _isPlayerInAggroRange;
+    [SerializeField] private bool _isPlayerInAttackRange;
+    [SerializeField] private bool _isReadyToShoot;
+    [SerializeField] private bool _isAggro;
+    [SerializeField] private bool _isAttacking;
+    
+    
+    public LayerMask isPlayer;
+    private Vector3 pos;
+    private Vector2 fwd;
     #endregion
     private void Awake()
     {
@@ -109,43 +45,47 @@ public class IAShooter : MonoBehaviour
 
     private void Start()
     {
-        lifePoint = lifePointSO;
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        target = GameObject.FindWithTag("Player").transform;
+        
+        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
+        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
+        _attackDelay = GetComponent<EnnemyStatsManager>().attackDelay;
+        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
+        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
         
         // Parametres de l'agent
         agent.updateRotation = false; 
         agent.updateUpAxis = false;
-        agent.speed = movementSpeed;
+        agent.speed = _movementSpeed;
         
         // Set Bools
-        isLock = false;
-        isAggro = false;
-        isReadyToShoot = true;
+        _isAggro = false;
+        _isReadyToShoot = true;
         isRdyMove = true;
         
-        isPlayerInAggroRange = false;
-        isPlayerInAttackRange = false;
+        _isPlayerInAggroRange = false;
+        _isPlayerInAttackRange = false;
 
-        Invoke(nameof(WaitToGo), timeBeforeAggro);
+        Invoke(nameof(WaitToGo), _timeBeforeAggro);
     }
 
     private void Update()
     {
-        isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < attackRange;
-        isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < detectZone;
+        _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
+        _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         
-        if (!isPlayerInAggroRange && !isPlayerInAttackRange) 
+        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             Patrolling();
-        if (isPlayerInAggroRange && !isPlayerInAttackRange) 
+        if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             ChasePlayer();
-        if (isPlayerInAttackRange && isPlayerInAggroRange) 
+        if (_isPlayerInAttackRange && _isPlayerInAggroRange) 
             Attacking();
     }
 
     #region PatrollingState
     private void Patrolling()
     {
-        WalkAnimation(agent);
+       // WalkAnimation(agent);
         if (isRdyMove)
         {
             StartCoroutine(ResetPath());
@@ -177,17 +117,15 @@ public class IAShooter : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(target.position);
-        WalkAnimation(agent);
-        isLock = true;
-        isAttack = false;
+        //WalkAnimation(agent);
+        _isAttacking = false;
     }
-
     #endregion
 
     #region AttackState
     private void Attacking()
     {
-        if (isReadyToShoot) VerifyShoot();
+        if (_isReadyToShoot) VerifyShoot();
         
         agent.SetDestination(transform.position);
         Debug.DrawRay(transform.position, new Vector3(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f), Color.green);
@@ -198,7 +136,7 @@ public class IAShooter : MonoBehaviour
         // Raycast pour vérifier si le joueur est en cible 
         fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f, 0);
 
-        if (Physics2D.Raycast(transform.position, fwd, attackRange, isPlayer))
+        if (Physics2D.Raycast(transform.position, fwd, _attackRange, isPlayer))
         {
             Debug.Log("Player dans le viseur !");
             Shoot();
@@ -207,34 +145,32 @@ public class IAShooter : MonoBehaviour
 
     private void Shoot()
     {
-        isReadyToShoot = false;
+        _isReadyToShoot = false;
         StartCoroutine(BulletShoot());
     }
     
     IEnumerator BulletShoot()
     {
-        isAttack = true;
-        AttackAnimation(agent);
+        _isAttacking = true;
+        //AttackAnimation(agent);
         for (int i = 0; i < 5; i++)
         {
             ObjectPooler.Instance.SpawnFromPool("Bullet", shootPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(.3f);
         }
-        isAttack = false;
+        _isAttacking = false;
         yield return new WaitForSeconds(1f);
-        isReadyToShoot = true;
+        _isReadyToShoot = true;
     }
     #endregion
     
     
     private void WaitToGo()
     {
-        Debug.Log(isAggro);
-        isAggro = true;
-        Debug.Log(isAggro);
+        _isAggro = true;
     }
 
-    #region Animations
+   /* #region Animations
     public void WalkAnimation(NavMeshAgent agent)
     {
         if (agent.velocity != Vector3.zero)
@@ -249,39 +185,18 @@ public class IAShooter : MonoBehaviour
     {
         shooterAnimator.SetFloat("Vertical", fwd.y);
         shooterAnimator.SetFloat("Horizontal", fwd.x);
-        shooterAnimator.SetBool("isAttack", isAttack);
+        shooterAnimator.SetBool("isAttack", _isAttacking);
     }
 
-    #endregion
+    #endregion  */
     
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectZone);
+        Gizmos.DrawWireSphere(transform.position, _detectZone);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
-    }
-    
-    public void TakeDamage(int damage)
-    {
-        if (shieldPoint > 0)
-        {
-            shieldPoint -= damage;
-            if (shieldPoint < 0)
-                shieldPoint = 0;
-        }
-        else
-            lifePoint -= damage;
-        
-        if (lifePoint <= 0)
-            Death();
-    }
-
-    private void Death()
-    {
-        // Play Death Animation
-        Destroy(gameObject);
     }
 }
