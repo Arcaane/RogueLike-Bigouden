@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7189817047672958596}
-  - component: {fileID: 7189817047672958599}
+  - component: {fileID: 1097826211700517903}
   - component: {fileID: 7189817047672958598}
   - component: {fileID: 7189817047672958593}
   m_Layer: 17
@@ -126,7 +126,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7189817047672958599
+--- !u!114 &1097826211700517903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,39 +135,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7189817047672958597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a080d5dca47e834bbfe0869def1674c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bc4ee41307154a4a8bee3a0380ec12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EnnemiesSpawned: []
-  waves:
-  - name: Wave 1
-    enemy:
-    - {fileID: 0}
-    - {fileID: 0}
-    count: 0200000003000000
-    rate: 0.5
-    bonusLife: 10
-    bonusDamage: 2
-    bonusShield: 2
-    bonusMovementSpeed: 2
-  - name: Wave 2
-    enemy: []
-    count: 
-    rate: 1
-    bonusLife: 0
-    bonusDamage: 0
-    bonusShield: 0
-    bonusMovementSpeed: 0
+  waves: []
   nextWave: 0
-  spawnPoints:
-  - {fileID: 7189817047138352293}
-  - {fileID: 7189817045791788957}
+  spawnPoints: []
   timeBetweenWave: 5
   waveCountDown: 0
   State: 2
-  isEnemy:
-    serializedVersion: 2
-    m_Bits: 0
+  _roomLoader: {fileID: 0}
 --- !u!114 &7189817047672958598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3239a2156fef57f4b84979010a470cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveSpawner: {fileID: 7189817047672958599}
+  waveSpawner: {fileID: 1097826211700517903}
 --- !u!58 &7189817047672958593
 CircleCollider2D:
   m_ObjectHideFlags: 0

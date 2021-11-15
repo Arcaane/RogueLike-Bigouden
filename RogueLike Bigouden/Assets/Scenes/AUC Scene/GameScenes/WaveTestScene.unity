@@ -588,7 +588,6 @@ GameObject:
   - component: {fileID: 1419909928}
   - component: {fileID: 1419909931}
   - component: {fileID: 1419909930}
-  - component: {fileID: 1419909929}
   m_Layer: 0
   m_Name: DoorLeft
   m_TagString: Untagged
@@ -610,24 +609,6 @@ Transform:
   m_Father: {fileID: 1925647221}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1419909929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419909927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9756fa898e250ac4cb6f47c1a27977a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRoomClear: 1
-  numberOfEnnemies: 0
-  isEnnemy:
-    serializedVersion: 2
-    m_Bits: 0
-  _waveManager: {fileID: 0}
 --- !u!61 &1419909930
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1030,6 +1011,7 @@ GameObject:
   - component: {fileID: 1925647221}
   - component: {fileID: 1925647220}
   - component: {fileID: 1925647222}
+  - component: {fileID: 1925647223}
   m_Layer: 0
   m_Name: Room3
   m_TagString: Untagged
@@ -1119,6 +1101,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 64138942}
   isCoop: 0
+--- !u!114 &1925647223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925647219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9756fa898e250ac4cb6f47c1a27977a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 2014682160}
+  - {fileID: 1419909927}
+  numberOfEnnemies: 0
+  isEnnemy:
+    serializedVersion: 2
+    m_Bits: 512
+  _waveManager: {fileID: 7189817047059349806}
 --- !u!1001 &1964370426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1227,7 +1229,6 @@ GameObject:
   - component: {fileID: 2014682164}
   - component: {fileID: 2014682163}
   - component: {fileID: 2014682162}
-  - component: {fileID: 2014682161}
   m_Layer: 0
   m_Name: DoorUp
   m_TagString: Untagged
@@ -1235,24 +1236,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2014682161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2014682160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9756fa898e250ac4cb6f47c1a27977a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRoomClear: 1
-  numberOfEnnemies: 0
-  isEnnemy:
-    serializedVersion: 2
-    m_Bits: 0
-  _waveManager: {fileID: 0}
 --- !u!61 &2014682162
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1399,6 +1382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaveManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7189817047672958598, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+      propertyPath: waveSpawner
+      value: 
+      objectReference: {fileID: 7189817047059349807}
     - target: {fileID: 7189817047672958599, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: waves.Array.data[0].enemy.Array.data[0]
       value: 
@@ -1407,5 +1394,63 @@ PrefabInstance:
       propertyPath: waves.Array.data[0].enemy.Array.data[1]
       value: 
       objectReference: {fileID: 1499854049}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7189817047672958599, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+    - {fileID: 1097826211700517903, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+--- !u!1 &7189817047059349806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7189817047672958597, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+  m_PrefabInstance: {fileID: 7189817047059349805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7189817047059349807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189817047059349806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc4ee41307154a4a8bee3a0380ec12d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnnemiesSpawned: []
+  waves:
+  - name: Wave 1
+    enemy:
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    count: 0200000003000000
+    rate: 1
+    bonusLife: 2
+    bonusDamage: 1
+    bonusShield: 1
+    bonusMovementSpeed: 0.5
+  - name: Wave 2
+    enemy:
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    count: 01000000
+    rate: 1
+    bonusLife: 0
+    bonusDamage: 0
+    bonusShield: 0
+    bonusMovementSpeed: 1
+  nextWave: 0
+  spawnPoints:
+  - {fileID: 7189817047059349809}
+  - {fileID: 7189817047059349808}
+  timeBetweenWave: 5
+  waveCountDown: 5
+  State: 2
+  _roomLoader: {fileID: 1925647219}
+--- !u!4 &7189817047059349808 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7189817045791788957, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+  m_PrefabInstance: {fileID: 7189817047059349805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7189817047059349809 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7189817047138352293, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+  m_PrefabInstance: {fileID: 7189817047059349805}
+  m_PrefabAsset: {fileID: 0}
