@@ -6405,8 +6405,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15.550781, y: -257}
-  m_SizeDelta: {x: -1022.69995, y: -880.1}
+  m_AnchoredPosition: {x: 0, y: -424}
+  m_SizeDelta: {x: -1347.676, y: -888.9723}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4466577912684476637
 CanvasRenderer:
@@ -6948,24 +6948,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  inventory: {fileID: 0}
   imageItemPanel: []
   itemPanelParent: {fileID: 0}
-  itemInformationPanel: {fileID: 4466577912684476610}
-  itemDescriptionText: {fileID: 4466577911664510545}
-  itemNameText: {fileID: 4466577912463337236}
-  itemPriceText: {fileID: 4466577913226729893}
-  rarityText: {fileID: 1576550256}
-  itemImage: {fileID: 4466577911724103380}
   dialogueBox: {fileID: 975080749}
   dialogueText: {fileID: 725918780}
   player1UI: {fileID: 4466577911730189052}
-  healthBarImage: {fileID: 4466577912113592656}
-  healthText: {fileID: 3243614801508482785}
-  energyBarImage: {fileID: 4466577912635900134}
-  moneyText: {fileID: 4466577911577714399}
+  p1_healthBarImg: {fileID: 4466577912113592656}
+  p1_healthText: {fileID: 3243614801508482785}
+  p1_energyBarImage: {fileID: 4466577912635900134}
+  p1_moneyText: {fileID: 4466577911577714399}
   enemyUI: {fileID: 8206668585605018785}
-  enemyHealthBarObject: {fileID: 0}
+  enemyHealthBarObject: {fileID: 2432111204100044610}
   healthBarEnemy: {fileID: 4846021965237210199}
   enemyHealthText: {fileID: 730761608314199345}
   enemyName: {fileID: 0}
