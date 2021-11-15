@@ -419,7 +419,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
+        velocity += dir.normalized * (attackMoveSmall * 20);
         rb.velocity = velocity;
     }
 
@@ -427,7 +427,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
+        velocity += dir.normalized * (attackMoveSmall * 20);
         rb.velocity = velocity;
     }
 
