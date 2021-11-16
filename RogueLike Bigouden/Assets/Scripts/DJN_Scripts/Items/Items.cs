@@ -4,62 +4,62 @@ using UnityEditor.VersionControl;
 using UnityEngine;
 
 [Serializable]
-[CreateAssetMenu(fileName = "new Item", menuName = "Item", order = 1)]
+[CreateAssetMenu(fileName = "items", menuName = "items", order = 1)]
 public class Items : ScriptableObject
 {
     //items informations
-    [HideInInspector] public int itemID;
-    [HideInInspector]public string itemName;
-    [HideInInspector]public string description;
-    [HideInInspector]public Sprite image;
-    [HideInInspector]public int price;
-    [HideInInspector]public Rarity rarity;
+    [HideInInspector][SerializeField]public int itemID;
+    [HideInInspector][SerializeField]public string itemName;
+    [HideInInspector][SerializeField]public string description;
+    [HideInInspector][SerializeField]public Sprite image;
+    [HideInInspector][SerializeField]public int price;
+    [HideInInspector][SerializeField]public Rarity rarity;
     
     //items conditon to active
-    [HideInInspector]public Condition condition;
+    [HideInInspector][SerializeField]public Condition condition;
     public enum Condition { None, Action, Value, State }
-    [HideInInspector] public Action action;
+    [HideInInspector] [SerializeField]public Action action;
 
   
     public enum Rarity { Commun, Rare, Epic }
     
-    [HideInInspector] public Target target;
-    [HideInInspector] public Type type;
+    [HideInInspector] [SerializeField]public Target target;
+    [HideInInspector][SerializeField] public Type type;
 
-    [HideInInspector] public Effect effectOn;
-    [HideInInspector] public Augmentation augmentation;
-    [HideInInspector]public Value value;
-    [HideInInspector] public State state;
-    [HideInInspector] public Player player;
-    [HideInInspector] public Enemy enemy;
-    [HideInInspector] public Alteration alteration;
-    [HideInInspector]public ActionTarget actionTarget;
-    [HideInInspector]public ActionPlayer actionPlayer;
-    [HideInInspector] public ActionEnemy actionEnemy;
-    [HideInInspector]public VariableTarget variableTarget;
-    [HideInInspector] public Operator _operator;
-    [HideInInspector] public SpawnPoint spawnPoint;
-    [HideInInspector] public PlayerSpawn playerSpawn;
-    [HideInInspector]public EnemySpawn enemySpawn;
+    [HideInInspector][SerializeField] public Effect effectOn;
+    [HideInInspector] [SerializeField]public Augmentation augmentation;
+    [HideInInspector][SerializeField]public Value value;
+    [HideInInspector][SerializeField] public State state;
+    [HideInInspector][SerializeField] public Player player;
+    [HideInInspector][SerializeField] public Enemy enemy;
+    [HideInInspector][SerializeField] public Alteration alteration;
+    [HideInInspector][SerializeField]public ActionTarget actionTarget;
+    [HideInInspector][SerializeField]public ActionPlayer actionPlayer;
+    [HideInInspector][SerializeField] public ActionEnemy actionEnemy;
+    [HideInInspector][SerializeField]public VariableTarget variableTarget;
+    [HideInInspector][SerializeField] public Operator _operator;
+    [HideInInspector] [SerializeField]public SpawnPoint spawnPoint;
+    [HideInInspector][SerializeField] public PlayerSpawn playerSpawn;
+    [HideInInspector][SerializeField]public EnemySpawn enemySpawn;
     
     
-    [HideInInspector]public bool conditionActionMustBeDone;
-    [HideInInspector] public int conditionValueToReach;
+    [HideInInspector][SerializeField]public bool conditionActionMustBeDone;
+    [HideInInspector] [SerializeField]public int conditionValueToReach;
     
-    [HideInInspector]public bool onCurrent;
-    [HideInInspector] public int modAmount;
-    [HideInInspector] public bool modIsAnotherVariable;
-    [HideInInspector] [Range(0,1)] public float anotherVariableModPourcentage;
-    [HideInInspector] [Range(0,100)] public float rate;
+    [HideInInspector][SerializeField]public bool onCurrent;
+    [HideInInspector][SerializeField] public int modAmount;
+    [HideInInspector] [SerializeField]public bool modIsAnotherVariable;
+    [HideInInspector][SerializeField] [Range(0,1)] public float anotherVariableModPourcentage;
+    [HideInInspector][SerializeField] [Range(0,100)] public float rate;
     
-    [HideInInspector]public GameObject objectPrefab;
-    [HideInInspector] public Transform specialSpawnPoint;
-    [HideInInspector] public int spawnAmount;
-    [HideInInspector] public bool mustBeActivated;
-    [HideInInspector] public float spawnTime;
+    [HideInInspector][SerializeField]public GameObject objectPrefab;
+    [HideInInspector][SerializeField] public Transform specialSpawnPoint;
+    [HideInInspector][SerializeField] public int spawnAmount;
+    [HideInInspector][SerializeField] public bool mustBeActivated;
+    [HideInInspector][SerializeField] public float spawnTime;
     
-    [HideInInspector] public bool overTime; 
-    [HideInInspector]public float overTimeDuration;
+    [HideInInspector][SerializeField] public bool overTime; 
+    [HideInInspector][SerializeField]public float overTimeDuration;
 
     public enum Operator
     {
@@ -100,4 +100,5 @@ public class Items : ScriptableObject
         public enum State{ Alive, Dead }
     
 }
+
 

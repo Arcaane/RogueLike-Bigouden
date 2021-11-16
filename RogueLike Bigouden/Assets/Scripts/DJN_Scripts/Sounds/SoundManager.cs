@@ -7,7 +7,6 @@ using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private Sound[] sounds;
-
     [SerializeField] private Sound[] musics;
     [SerializeField] private string lowLevelMusic;
     [SerializeField] private string mediumLevelMusic;
@@ -23,6 +22,8 @@ public class SoundManager : MonoBehaviour
                 s.source.loop = s.loop;
                 s.source.outputAudioMixerGroup = s.mixerGroup;
         }
+        
+        //MusicZone();
     }
 
     public void PlaySound(string name)

@@ -11,6 +11,7 @@ public class ExtentedEditorWindow : EditorWindow
     protected void DrawProperties(SerializedProperty prop, bool drawChildren)
     {
         string lastPropPath = string.Empty;
+        
         foreach (SerializedProperty p in prop)
         {
             if (p.isArray && p.propertyType == SerializedPropertyType.Generic)

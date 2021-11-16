@@ -6,9 +6,11 @@ using UnityEngine;
 [CustomEditor(typeof(Items))] 
 public class ItemsEditor : Editor
 {
+    public Items items;
+    
     public override void OnInspectorGUI()
     {
-        Items items = (Items)target;
+        items = (Items) target;
 
         items.itemID = EditorGUILayout.IntField("Item ID", items.itemID);
         items.itemName = EditorGUILayout.TextField("Item name", items.itemName);
@@ -136,11 +138,11 @@ public class ItemsEditor : Editor
             items.overTimeDuration = EditorGUILayout.FloatField("Overtime Duration", items.overTimeDuration);
         }
         
+        
         if (GUI.changed)
         {
             EditorUtility.SetDirty(items);
         }
     }
-
 
 }

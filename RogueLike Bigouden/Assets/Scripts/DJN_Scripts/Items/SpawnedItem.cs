@@ -8,45 +8,49 @@ public class SpawnedItem : MonoBehaviour
     public Sprite spawnedSprite;
 
     [Header("Effect")]
-    public float amountChange;
+    public float modAmount;
     public ValueToMod valueToMod;
     public Target target;
-    public Type type;
+    public Operator _operator;
     
     [Header("Overtime")]
     public bool onTime;
     public float onTimeDuration;
-    private bool onTimeStart;
-    private float overtimeDurationActual;
-    
-    private bool onCD;
-    public float onCdDuration;
-    private float cd;
-    
-   
-    
+
+    private bool onTrigger;
+
     public enum ValueToMod{ Health, ShieldPoint, DamageX, DamageY, DamageProjectile, BonusSpeed}
     public enum Target{Player, Enemy}
-    public enum Type {Bonus, Malus}
+    //player target valueToMod enum
+    //enemy target valueToMod enum
+    
+    public enum Operator{Add, Substract, Multiplie}
 
     private PlayerStatsManager playerStats;
     private EnnemyStatsManager enemyStats;
 
     private void Awake()
     {
-        overtimeDurationActual = onTimeDuration;
-        cd = onCdDuration;
-        
-        switch (type)
+
+        switch (_operator)
         {
-            case Type.Bonus:
-                amountChange = amountChange;
+            case Operator.Add:
+                modAmount = modAmount;
                 break;
-                            
-            case Type.Malus:
-                amountChange = -amountChange;
+            
+            case Operator.Substract:
+                modAmount = -modAmount;
+                break;
+            
+            case Operator.Multiplie:
+                //à voir
                 break;
         }
+    }
+
+    private void OnEnable()
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = spawnedSprite;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -56,49 +60,34 @@ public class SpawnedItem : MonoBehaviour
             Debug.Log("Player on it");
             Debug.Log(other.name);
             playerStats = other.GetComponent<PlayerStatsManager>();
+            onTrigger = true;
         }
 
         if (other.GetComponent<EnnemyStatsManager>())
         {
             Debug.Log("Enemy on it");
             enemyStats = other.GetComponent<EnnemyStatsManager>();
+            onTrigger = true;
         }
 
         ItemObjectEffect();
     }
 
-    private void Update()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (onTimeStart)
+        if (other.GetComponent<PlayerStatsManager>())
         {
-            overtimeDurationActual -= Time.deltaTime;
-
-            if (overtimeDurationActual <= 0)
-            {
-                overtimeDurationActual = onTimeDuration;
-                onTimeStart = false;
-                onCD = true;
-                ItemObjectEffect();
-            }
-
-            
+            onTrigger = false;
         }
 
-        if (onCD)
+        if (other.GetComponent<EnnemyStatsManager>())
         {
-            cd -= Time.deltaTime;
-
-            if (cd <= 0)
-            {
-                onCD = false;
-                cd = onCdDuration;
-            }
+            onTrigger = false;
         }
     }
 
     void ItemObjectEffect()
     {
-        
         switch (target)
                     {
                     case Target.Player:
@@ -106,131 +95,160 @@ public class SpawnedItem : MonoBehaviour
                         switch (valueToMod)
                         {
                             case ValueToMod.Health:
+                               
+                                float currentHealth = playerStats.lifePoint;
+                                if (!onTrigger)
+                                {
+                                    playerStats.lifePoint = Mathf.FloorToInt(currentHealth);
+                                }
+                                
                                 if (onTime)
                                 {
-                                    if (!onTimeStart && !onCD)
+                                    
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        onTimeStart = true;
-                                        playerStats.lifePoint += Mathf.FloorToInt(amountChange);
-
+                                        playerStats.lifePoint += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.lifePoint = Mathf.FloorToInt(currentHealth);
                                     }
-
-                                    if (!onTimeStart && onCD)
-                                    {
-                                        playerStats.lifePoint = playerStats.playerData.lifePointsSO;
-                                    }
+                                
                                 }
                                 else
                                 {
-                                    playerStats.lifePoint += Mathf.FloorToInt(amountChange);
+                                    playerStats.lifePoint += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
                             case ValueToMod.BonusSpeed:
+                                
+                                float currentBonusSpeed = playerStats.bonusSpeed;
+                                if (!onTrigger)
+                                {
+                                    playerStats.bonusSpeed = Mathf.FloorToInt(currentBonusSpeed);
+                                }
                                 if (onTime)
                                 {
-                                    if (!onTimeStart && !onCD)
-                                    {
-                                        onTimeStart = true;
-                                        playerStats.bonusSpeed += Mathf.FloorToInt(amountChange);
 
-                                    }
-
-                                    if (!onTimeStart && onCD)
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        playerStats.bonusSpeed = playerStats.playerData.bonusSpeedSO;
+                                        playerStats.bonusSpeed += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.bonusSpeed = Mathf.FloorToInt(currentBonusSpeed);
                                     }
                                 }
                                 else
                                 {
-                                    playerStats.bonusSpeed += amountChange;
+                                    playerStats.bonusSpeed += modAmount;
                                 }
                                 break;
                             
                             case ValueToMod.ShieldPoint:
+                               
+                                float currentShieldPoint = playerStats.shieldPoint;
+                                if (!onTrigger)
+                                {
+                                    playerStats.shieldPoint = Mathf.FloorToInt(currentShieldPoint);
+                                }
+                                
                                 if (onTime)
                                 {
 
-                                    if (!onTimeStart && !onCD)
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        onTimeStart = true;
-                                        playerStats.shieldPoint += Mathf.FloorToInt(amountChange);
-
+                                        playerStats.shieldPoint += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.shieldPoint = Mathf.FloorToInt(currentShieldPoint);
                                     }
-
-                                    if (!onTimeStart && onCD)
-                                    {
-                                        playerStats.shieldPoint = playerStats.playerData.shieldPointSO;
-                                    }
+                                
 
                                 }
                                 else
                                 {
-                                    playerStats.shieldPoint += Mathf.FloorToInt(amountChange);
+                                    playerStats.shieldPoint += Mathf.FloorToInt(modAmount);
                                 }
         
                                 break;
                             
                             case ValueToMod.DamageX:
+                                float currentDamageX = playerStats.damageX;
+                                if (!onTrigger)
+                                {
+                                    playerStats.damageX = Mathf.FloorToInt(currentDamageX);
+                                }
+                                
                                 if (onTime)
                                 {
-                                    if (!onTimeStart && !onCD)
-                                    {
-                                        onTimeStart = true;
-                                        playerStats.damageX += Mathf.FloorToInt(amountChange);
 
-                                    }
-
-                                    if (!onTimeStart && onCD)
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        playerStats.damageX = playerStats.playerData.damageXSO;
+                                        playerStats.damageX += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.damageX = Mathf.FloorToInt(currentDamageX);
                                     }
                                 }
                                 else
                                 {
-                                    playerStats.damageX += Mathf.FloorToInt(amountChange);
+                                    playerStats.damageX += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
                             case ValueToMod.DamageY:
+                                
+                                float currentDamageY = playerStats.damageY;
+
+                                if (!onTrigger)
+                                {
+                                    playerStats.damageY = Mathf.FloorToInt(currentDamageY);
+                                }
+                                
                                 if (onTime)
                                 {
-                                    if (!onTimeStart && !onCD)
-                                    {
-                                        onTimeStart = true;
-                                        playerStats.damageY += Mathf.FloorToInt(amountChange);
 
-                                    }
-
-                                    if (!onTimeStart && onCD)
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        playerStats.damageY = playerStats.playerData.damageYSO;
+                                        playerStats.damageY += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.damageY = Mathf.FloorToInt(currentDamageY);
                                     }
                                 }
                                 else
                                 {
-                                    playerStats.damageY += Mathf.FloorToInt(amountChange);
+                                    playerStats.damageY += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                                 
                             case ValueToMod.DamageProjectile:
+                                float currentDamageB = playerStats.damageProjectile;
+                                if (!onTrigger)
+                                {
+                                    playerStats.damageProjectile = Mathf.FloorToInt(currentDamageB);
+                                }
+                                
                                 if (onTime)
                                 {
-                                    if (!onTimeStart && !onCD)
-                                    {
-                                        onTimeStart = true;
-                                        playerStats.damageProjectile += Mathf.FloorToInt(amountChange);
 
-                                    }
-
-                                    if (!onTimeStart && onCD)
+                                    StartCoroutine(OnTimeEffect());
+                                    
+                                    IEnumerator OnTimeEffect()
                                     {
-                                        playerStats.damageProjectile = playerStats.playerData.damageProjectileSO;
+                                        playerStats.damageProjectile += Mathf.FloorToInt(modAmount);
+                                        yield return new WaitForSeconds(onTimeDuration);
+                                        playerStats.damageProjectile = Mathf.FloorToInt(currentDamageB);
                                     }
                                 }
                                 else
                                 {
-                                    playerStats.damageProjectile += Mathf.FloorToInt(amountChange);
+                                    playerStats.damageProjectile += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
@@ -246,10 +264,11 @@ public class SpawnedItem : MonoBehaviour
                             case ValueToMod.Health:
                                 if (onTime)
                                 {
+                                    
                                 }
                                 else
                                 {
-                                    enemyStats.lifePoint += Mathf.FloorToInt(amountChange);
+                                    enemyStats.lifePoint += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
@@ -259,7 +278,7 @@ public class SpawnedItem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    enemyStats.movementSpeed += amountChange;
+                                    enemyStats.movementSpeed += modAmount;
                                 }
                                 break;
                             
@@ -269,7 +288,7 @@ public class SpawnedItem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    enemyStats.shieldPoint += Mathf.FloorToInt(amountChange);
+                                    enemyStats.shieldPoint += Mathf.FloorToInt(modAmount);
                                 }
         
                                 break;
@@ -280,7 +299,7 @@ public class SpawnedItem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    enemyStats.damageDealt += Mathf.FloorToInt(amountChange);
+                                    enemyStats.damageDealt += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
@@ -290,7 +309,7 @@ public class SpawnedItem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    enemyStats.damageAoe += Mathf.FloorToInt(amountChange);
+                                    enemyStats.damageAoe += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                                 
@@ -300,7 +319,7 @@ public class SpawnedItem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    enemyStats.damageAoeAfterExplosion += Mathf.FloorToInt(amountChange);
+                                    enemyStats.damageAoeAfterExplosion += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             
@@ -314,10 +333,6 @@ public class SpawnedItem : MonoBehaviour
     public IEnumerator DestroyObject(float duration)
     {
         yield return new WaitForSeconds(duration);
-        onTimeStart = false;
-        onCD = true;
-        ItemObjectEffect();
-        yield return new WaitForSeconds(0.001f);
         Destroy(gameObject);
     }
     
