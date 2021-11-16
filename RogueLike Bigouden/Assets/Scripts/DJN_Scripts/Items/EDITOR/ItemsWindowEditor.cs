@@ -5,6 +5,7 @@ using UnityEngine;
 [CustomEditor(typeof(Items))]
 public class ItemsWindowEditor : ExtentedEditorWindow
 {
+    [MenuItem("Items Window Editor")]
     public static void Open(Items items)
     {
         ItemsWindowEditor window = GetWindow<ItemsWindowEditor>("Items Window Editor");
@@ -16,5 +17,6 @@ public class ItemsWindowEditor : ExtentedEditorWindow
         currentProperty = serializedObject.FindProperty("items");
         DrawProperties(currentProperty, true);
     }
+    
 }
 

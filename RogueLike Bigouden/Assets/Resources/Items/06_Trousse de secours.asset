@@ -12,32 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
   m_Name: 06_Trousse de secours
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: 
-  description: 
+  itemID: 6
+  itemName: Trousse de secours
+  description: Briser un objet offre une chance de regagner des points de vie
   image: {fileID: 0}
   price: 0
   rarity: 0
+  condition: 1
+  action: 7
   target: 0
   type: 0
-  condition: 0
   effectOn: 0
-  action: 0
-  augmentation: 0
+  augmentation: 18
   value: 0
   state: 0
   player: 0
   enemy: 0
   alteration: 0
+  actionTarget: 3
+  actionPlayer: 0
+  actionEnemy: 0
+  variableTarget: 0
+  _operator: 0
+  spawnPoint: 0
+  playerSpawn: 0
+  enemySpawn: 0
   conditionActionMustBeDone: 0
   conditionValueToReach: 0
-  onCurrent: 0
-  modAmount: 0
-  rate: 0
+  onCurrent: 1
+  modAmount: 3
+  modIsAnotherVariable: 0
+  anotherVariableModPourcentage: 0
+  rate: 20
   objectPrefab: {fileID: 0}
-  spawnPoint: {fileID: 0}
+  specialSpawnPoint: {fileID: 0}
   spawnAmount: 0
-  activeOnlyOnIt: 0
   mustBeActivated: 0
   spawnTime: 0
   overTime: 0

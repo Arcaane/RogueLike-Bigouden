@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour
 
         //trouver le script player statistiques
     }
-
+    
     void UpdateItemPlayer()
     {
         if (inventory)
@@ -117,11 +117,12 @@ public class UIManager : MonoBehaviour
 
     public void RefreshUI()
     {
-
-
+        #region Update Players
+        
         for (int i = 0; i < playerList.Count; i++)
         {
             _playerStatsManager = playerList[i].GetComponent<PlayerStatsManager>();
+            inventory = playerList[i].GetComponent<Inventory>();
             float rlifePoint = (float) Math.Round(_playerStatsManager.lifePoint * 100f) / 100f;
             float rmaxLifePoint = (float) Math.Round(_playerStatsManager.maxLifePoint * 100f) / 100f;
             float rUltPoint = (float) Math.Round(_playerStatsManager.actualUltPoint * 100f) / 100f;
@@ -147,6 +148,13 @@ public class UIManager : MonoBehaviour
 
         }
 
+        #endregion
+        
+        #region Update Enemy
+        
+        
+        
+        #endregion
 
 
     }

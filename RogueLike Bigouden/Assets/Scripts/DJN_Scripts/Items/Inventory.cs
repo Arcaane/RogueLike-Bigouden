@@ -207,6 +207,21 @@ public class Inventory : MonoBehaviour
 
         roll = UnityEngine.Random.Range(0, 100);
 
+        switch (i._operator)
+        {
+            case Items.Operator.Add:
+                i.modAmount = i.modAmount;
+                break;
+            
+            case Items.Operator.Multiplie:
+                //à voir
+                break;
+            
+            case Items.Operator.Substract:
+                i.modAmount = -i.modAmount;
+                break;
+        }
+        
         if (i.modIsAnotherVariable)
         {
             switch (i.variableTarget)
@@ -728,7 +743,9 @@ public class Inventory : MonoBehaviour
                                     case Items.SpawnPoint.Player:
                                         switch (i.playerSpawn)
                                         {
-                                            
+                                            case Items.PlayerSpawn.CurrentPlayer:
+                                                objectSpawn.transform.localPosition = gameObject.transform.localPosition;
+                                                break;
                                         }
                                         break;
                                     
@@ -756,6 +773,8 @@ public class Inventory : MonoBehaviour
                 }
                 break;
         }
+        
+        uiManager.RefreshUI();
     }
     
     IEnumerator DelayToDestroy(float duration, GameObject spawnObject)

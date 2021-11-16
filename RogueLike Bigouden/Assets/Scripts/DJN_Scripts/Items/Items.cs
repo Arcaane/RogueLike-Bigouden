@@ -8,58 +8,58 @@ using UnityEngine;
 public class Items : ScriptableObject
 {
     //items informations
-    public int itemID;
-    public string itemName;
-    public string description;
-    public Sprite image;
-    public int price;
-    public Rarity rarity;
+    [HideInInspector] public int itemID;
+    [HideInInspector]public string itemName;
+    [HideInInspector]public string description;
+    [HideInInspector]public Sprite image;
+    [HideInInspector]public int price;
+    [HideInInspector]public Rarity rarity;
     
     //items conditon to active
-    public Condition condition;
+    [HideInInspector]public Condition condition;
     public enum Condition { None, Action, Value, State }
-    public Action action;
+    [HideInInspector] public Action action;
 
   
     public enum Rarity { Commun, Rare, Epic }
     
-    public Target target;
-    public Type type;
+    [HideInInspector] public Target target;
+    [HideInInspector] public Type type;
 
-    public Effect effectOn;
-    public Augmentation augmentation;
-    public Value value;
-    public State state;
-    public Player player;
-    public Enemy enemy;
-    public Alteration alteration;
-    public ActionTarget actionTarget;
-    public ActionPlayer actionPlayer;
-    public ActionEnemy actionEnemy;
-    public VariableTarget variableTarget;
-    public Operator _operator;
-    public SpawnPoint spawnPoint;
-    public PlayerSpawn playerSpawn;
-    public EnemySpawn enemySpawn;
+    [HideInInspector] public Effect effectOn;
+    [HideInInspector] public Augmentation augmentation;
+    [HideInInspector]public Value value;
+    [HideInInspector] public State state;
+    [HideInInspector] public Player player;
+    [HideInInspector] public Enemy enemy;
+    [HideInInspector] public Alteration alteration;
+    [HideInInspector]public ActionTarget actionTarget;
+    [HideInInspector]public ActionPlayer actionPlayer;
+    [HideInInspector] public ActionEnemy actionEnemy;
+    [HideInInspector]public VariableTarget variableTarget;
+    [HideInInspector] public Operator _operator;
+    [HideInInspector] public SpawnPoint spawnPoint;
+    [HideInInspector] public PlayerSpawn playerSpawn;
+    [HideInInspector]public EnemySpawn enemySpawn;
     
     
-    public bool conditionActionMustBeDone;
-    public int conditionValueToReach;
+    [HideInInspector]public bool conditionActionMustBeDone;
+    [HideInInspector] public int conditionValueToReach;
     
-    public bool onCurrent;
-    public int modAmount;
-    public bool modIsAnotherVariable;
-    [Range(0,1)] public float anotherVariableModPourcentage;
-    [Range(0,100)] public float rate;
+    [HideInInspector]public bool onCurrent;
+    [HideInInspector] public int modAmount;
+    [HideInInspector] public bool modIsAnotherVariable;
+    [HideInInspector] [Range(0,1)] public float anotherVariableModPourcentage;
+    [HideInInspector] [Range(0,100)] public float rate;
     
-    public GameObject objectPrefab;
-    public Transform specialSpawnPoint;
-    public int spawnAmount;
-    public bool mustBeActivated;
-    public float spawnTime;
+    [HideInInspector]public GameObject objectPrefab;
+    [HideInInspector] public Transform specialSpawnPoint;
+    [HideInInspector] public int spawnAmount;
+    [HideInInspector] public bool mustBeActivated;
+    [HideInInspector] public float spawnTime;
     
-    public bool overTime; 
-    public float overTimeDuration;
+    [HideInInspector] public bool overTime; 
+    [HideInInspector]public float overTimeDuration;
 
     public enum Operator
     {

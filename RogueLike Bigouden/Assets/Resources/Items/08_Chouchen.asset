@@ -12,33 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
   m_Name: 08_Chouchen
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: 
-  description: 
+  itemID: 8
+  itemName: Chouchen
+  description: "Quand un ennemi meurt, il explose et inflige des d\xE9g\xE2ts autour
+    de lui"
   image: {fileID: 0}
-  price: 0
-  rarity: 0
+  price: 15
+  rarity: 2
+  condition: 1
+  action: 6
   target: 0
   type: 0
-  condition: 0
-  effectOn: 0
-  action: 0
+  effectOn: 1
   augmentation: 0
   value: 0
   state: 0
   player: 0
   enemy: 0
   alteration: 0
+  actionTarget: 2
+  actionPlayer: 0
+  actionEnemy: 0
+  variableTarget: 0
+  _operator: 0
+  spawnPoint: 2
+  playerSpawn: 0
+  enemySpawn: 1
   conditionActionMustBeDone: 0
   conditionValueToReach: 0
   onCurrent: 0
   modAmount: 0
-  rate: 0
+  modIsAnotherVariable: 0
+  anotherVariableModPourcentage: 0
+  rate: 100
   objectPrefab: {fileID: 0}
-  spawnPoint: {fileID: 0}
-  spawnAmount: 0
-  activeOnlyOnIt: 0
+  specialSpawnPoint: {fileID: 0}
+  spawnAmount: 1
   mustBeActivated: 0
-  spawnTime: 0
+  spawnTime: 3
   overTime: 0
   overTimeDuration: 0
