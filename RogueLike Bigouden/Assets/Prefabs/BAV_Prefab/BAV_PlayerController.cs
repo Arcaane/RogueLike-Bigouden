@@ -75,17 +75,33 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""LeftTrigger"",
+                    ""name"": ""Left_Top_Trigger"",
                     ""type"": ""Button"",
-                    ""id"": ""a108a7c0-857d-4e8f-8f60-373596350010"",
+                    ""id"": ""43040b97-782b-4436-88b0-18e185e4a340"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""RightTrigger"",
+                    ""name"": ""Left_Bottom_Trigger"",
                     ""type"": ""Button"",
                     ""id"": ""f979e8c2-b712-4c1b-96b0-a967f205247f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Right_Top_Trigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbafb034-bb52-4c6c-ba0d-9d78c4059419"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Right_Bottom_Trigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""a108a7c0-857d-4e8f-8f60-373596350010"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -303,23 +319,45 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d28e37ac-5021-4755-b6bf-def163d4b39a"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LeftTrigger"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""81987cff-8700-4185-a73e-a6c4a49fa4b1"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""RightTrigger"",
+                    ""action"": ""Left_Bottom_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d28e37ac-5021-4755-b6bf-def163d4b39a"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Right_Bottom_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""726c3b38-d536-4df3-8f8a-fa134ada6c8d"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right_Top_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00499730-e44d-4c0a-a9cf-7f25e2edf054"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left_Top_Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -557,8 +595,10 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
         m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
-        m_Player_LeftTrigger = m_Player.FindAction("LeftTrigger", throwIfNotFound: true);
-        m_Player_RightTrigger = m_Player.FindAction("RightTrigger", throwIfNotFound: true);
+        m_Player_Left_Top_Trigger = m_Player.FindAction("Left_Top_Trigger", throwIfNotFound: true);
+        m_Player_Left_Bottom_Trigger = m_Player.FindAction("Left_Bottom_Trigger", throwIfNotFound: true);
+        m_Player_Right_Top_Trigger = m_Player.FindAction("Right_Top_Trigger", throwIfNotFound: true);
+        m_Player_Right_Bottom_Trigger = m_Player.FindAction("Right_Bottom_Trigger", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -620,8 +660,10 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_AButton;
     private readonly InputAction m_Player_BButton;
     private readonly InputAction m_Player_Select;
-    private readonly InputAction m_Player_LeftTrigger;
-    private readonly InputAction m_Player_RightTrigger;
+    private readonly InputAction m_Player_Left_Top_Trigger;
+    private readonly InputAction m_Player_Left_Bottom_Trigger;
+    private readonly InputAction m_Player_Right_Top_Trigger;
+    private readonly InputAction m_Player_Right_Bottom_Trigger;
     public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
@@ -633,8 +675,10 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         public InputAction @AButton => m_Wrapper.m_Player_AButton;
         public InputAction @BButton => m_Wrapper.m_Player_BButton;
         public InputAction @Select => m_Wrapper.m_Player_Select;
-        public InputAction @LeftTrigger => m_Wrapper.m_Player_LeftTrigger;
-        public InputAction @RightTrigger => m_Wrapper.m_Player_RightTrigger;
+        public InputAction @Left_Top_Trigger => m_Wrapper.m_Player_Left_Top_Trigger;
+        public InputAction @Left_Bottom_Trigger => m_Wrapper.m_Player_Left_Bottom_Trigger;
+        public InputAction @Right_Top_Trigger => m_Wrapper.m_Player_Right_Top_Trigger;
+        public InputAction @Right_Bottom_Trigger => m_Wrapper.m_Player_Right_Bottom_Trigger;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -665,12 +709,18 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
-                @LeftTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @LeftTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @LeftTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @RightTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
-                @RightTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
-                @RightTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @Left_Top_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Bottom_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Right_Top_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Top_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Top_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Bottom_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -696,12 +746,18 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
-                @LeftTrigger.started += instance.OnLeftTrigger;
-                @LeftTrigger.performed += instance.OnLeftTrigger;
-                @LeftTrigger.canceled += instance.OnLeftTrigger;
-                @RightTrigger.started += instance.OnRightTrigger;
-                @RightTrigger.performed += instance.OnRightTrigger;
-                @RightTrigger.canceled += instance.OnRightTrigger;
+                @Left_Top_Trigger.started += instance.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.performed += instance.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.canceled += instance.OnLeft_Top_Trigger;
+                @Left_Bottom_Trigger.started += instance.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.performed += instance.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.canceled += instance.OnLeft_Bottom_Trigger;
+                @Right_Top_Trigger.started += instance.OnRight_Top_Trigger;
+                @Right_Top_Trigger.performed += instance.OnRight_Top_Trigger;
+                @Right_Top_Trigger.canceled += instance.OnRight_Top_Trigger;
+                @Right_Bottom_Trigger.started += instance.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.performed += instance.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.canceled += instance.OnRight_Bottom_Trigger;
             }
         }
     }
@@ -791,8 +847,10 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
-        void OnLeftTrigger(InputAction.CallbackContext context);
-        void OnRightTrigger(InputAction.CallbackContext context);
+        void OnLeft_Top_Trigger(InputAction.CallbackContext context);
+        void OnLeft_Bottom_Trigger(InputAction.CallbackContext context);
+        void OnRight_Top_Trigger(InputAction.CallbackContext context);
+        void OnRight_Bottom_Trigger(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

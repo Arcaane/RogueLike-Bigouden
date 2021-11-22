@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 169730412182787720}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5824827212ffd6f4193305e87c979cea, type: 2}
+  m_Controller: {fileID: 9100000, guid: c8079cd2e5891564ba613841eb507b78, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -62774
+  m_InstanceId: -62184
 --- !u!1 &248319774036480339
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,8 +679,8 @@ GameObject:
   - component: {fileID: 7819042521647142494}
   - component: {fileID: 2452023907972587575}
   - component: {fileID: 196231488297106870}
-  - component: {fileID: 1596659460653790531}
   - component: {fileID: 8566386508675894911}
+  - component: {fileID: 8016546298223309459}
   m_Layer: 8
   m_Name: PlayerGA
   m_TagString: Player
@@ -865,14 +865,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerDash: 0
+  timerBetweenDash: 0
   timerAttack: 0
   timerDelayAttack: 0
+  timerDodgeEffect: 0
   rb: {fileID: 2452023907972587575}
-  speed: 5
-  dashSpeed: 5
-  durationDash: 1
-  durationCooldownDash: 4
-  attackMoveSmall: 2
+  speed: 4
+  dashSpeed: 80
+  durationDash: 0.2
+  durationCooldownDash: 0.5
+  attackMoveSmall: 0.2
   dashCount: 3
   isDash: 0
   canDash: 0
@@ -880,26 +882,44 @@ MonoBehaviour:
   splinePivot: {fileID: 3396066895120054569}
   attackSpline: {fileID: 32689252768541879}
   attackPath: {fileID: 7405473233702630154}
-  valueBeforeResetAttack: 2
+  valueBeforeResetAttack: 0.5
   attackType: 0
   isAttacking: 0
   launchFirstAttack: 0
   launchSecondAttack: 0
+  launchAOEAttack: 0
   delayBeforeResetAttack: 1
   delayForSecondAttack: 0.5
+  radiusDodge: 0
+  durationEffect: 5
+  speedModification: 2
+  useDodgeAbility: 0
+  dodgeAbility: 0
+  bulletIn: 0
   playerMesh: {fileID: 5581991982909809274}
   animatorPlayer: {fileID: 8743687084786098869}
+  m_maskCanape:
+    serializedVersion: 2
+    m_Bits: 262144
+  m_isColliding: 0
+  lastVelocity: {x: 0, y: 0, z: 0}
   playerFeedBack: {fileID: 8566386508675894911}
   _playerStatsManager: {fileID: 0}
   _attackPath: {fileID: 7405473233702630154}
-  _lastPosition: {x: 0, y: 0, z: 0}
-  _lastPositionForRotor: {x: 0, y: 0, z: 0}
   _directionNormalized: {x: 0, y: 0, z: 0}
   _move: {x: 0, y: 0, z: 0}
   _look: {x: 0, y: 0, z: 0}
   _launchDebug: 1
   positionStick: {x: -900, y: 400, z: 0}
-  elementOfTextMeshPro: []
+  elementOfTextMeshPro:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!50 &2452023907972587575
 Rigidbody2D:
   serializedVersion: 4
@@ -947,32 +967,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.06}
   m_EdgeRadius: 0.03
---- !u!61 &1596659460653790531
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6358295701396264003}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.005302757, y: 0.45735955}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5075324, y: 0.59964514}
-  m_EdgeRadius: 0
 --- !u!114 &8566386508675894911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,4 +979,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vibrationForce: {x: 0, y: 0, z: 0}
+  vibrationForce: {x: 0.25, y: 0.75, z: 0}
+--- !u!70 &8016546298223309459
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358295701396264003}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.02, y: 0.4}
+  m_Size: {x: 0.5, y: 0.7}
+  m_Direction: 0

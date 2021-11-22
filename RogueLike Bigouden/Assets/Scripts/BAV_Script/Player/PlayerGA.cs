@@ -44,33 +44,15 @@ public class PlayerGA : MonoBehaviour
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
         playerConfig.Input.onActionTriggered += Input_MoveTrigger;
-
-        AButton(true);
-        BButton(true);
-        XButton(true);
-        YButton(true);
-        RightTrigger(true);
     }
 
     public void OnEnable()
     {
-        /*
-        AButton(true);
-        BButton(true);
-        XButton(true);
-        YButton(true);
-        RightTrigger(true);
-        */
         controls.Enable();
     }
 
     public void OnDisable()
     {
-        AButton(false);
-        BButton(false);
-        XButton(false);
-        YButton(false);
-        RightTrigger(false);
         controls.Disable();
     }
 
@@ -117,108 +99,6 @@ public class PlayerGA : MonoBehaviour
                 break;
         }
     }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input A
-    /// </summary>
-    /// <param name="isAEnable"></param>
-    private void AButton(bool isAEnable)
-    {
-        switch (isAEnable)
-        {
-            case true:
-                controls.Player.AButton.Enable();
-                controls.Player.AButton.started += Input_AButton;
-                controls.Player.AButton.performed += Input_AButton;
-                controls.Player.AButton.canceled += Input_AButton;
-                break;
-            case false:
-                controls.Player.AButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input B
-    /// </summary>
-    /// <param name="isBEnable"></param>
-    private void BButton(bool isBEnable)
-    {
-        switch (isBEnable)
-        {
-            case true:
-
-                controls.Player.BButton.Enable();
-                controls.Player.BButton.started += Input_BButton;
-                controls.Player.BButton.performed += Input_BButton;
-                controls.Player.BButton.canceled += Input_BButton;
-                break;
-            case false:
-                controls.Player.BButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input X
-    /// </summary>
-    /// <param name="isXEnable"></param>
-    private void XButton(bool isXEnable)
-    {
-        switch (isXEnable)
-        {
-            case true:
-                controls.Player.XButton.Enable();
-                controls.Player.XButton.started += Input_XButton;
-                controls.Player.XButton.performed += Input_XButton;
-                controls.Player.XButton.canceled += Input_XButton;
-                break;
-            case false:
-                controls.Player.XButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input Y
-    /// </summary>
-    /// <param name="isYEnable"></param>
-    private void YButton(bool isYEnable)
-    {
-        switch (isYEnable)
-        {
-            case true:
-                controls.Player.YButton.Enable();
-                controls.Player.YButton.started += Input_YButton;
-                controls.Player.YButton.performed += Input_YButton;
-                controls.Player.YButton.canceled += Input_YButton;
-                break;
-            case false:
-                controls.Player.YButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats de la gachette Droite.
-    /// </summary>
-    /// <param name="isRightTriggerEnable"></param>
-    private void RightTrigger(bool isRightTriggerEnable)
-    {
-        switch (isRightTriggerEnable)
-        {
-            case true:
-                controls.Player.RightTrigger.Enable();
-                controls.Player.RightTrigger.started += Input_RightTrigger;
-                controls.Player.RightTrigger.performed += Input_RightTrigger;
-                controls.Player.RightTrigger.canceled += Input_RightTrigger;
-                break;
-            case false:
-                controls.Player.RightTrigger.Disable();
-                break;
-        }
-    }
-
 
     #region Appel des différentes Inputs
 

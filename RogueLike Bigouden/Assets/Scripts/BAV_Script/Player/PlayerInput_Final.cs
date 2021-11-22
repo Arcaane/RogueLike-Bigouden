@@ -57,108 +57,7 @@ public class PlayerInput_Final : MonoBehaviour
     {
         controls.Disable();
     }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input A
-    /// </summary>
-    /// <param name="isAEnable"></param>
-    void AButton(bool isAEnable)
-    {
-        switch (isAEnable)
-        {
-            case true:
-                controls.Player.AButton.Enable();
-                controls.Player.AButton.started += Input_AButton;
-                controls.Player.AButton.performed += Input_AButton;
-                controls.Player.AButton.canceled += Input_AButton;
-                break;
-            case false:
-                controls.Player.AButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input B
-    /// </summary>
-    /// <param name="isBEnable"></param>
-    void BButton(bool isBEnable)
-    {
-        switch (isBEnable)
-        {
-            case true:
-
-                controls.Player.BButton.Enable();
-                controls.Player.BButton.started += Input_BButton;
-                controls.Player.BButton.performed += Input_BButton;
-                controls.Player.BButton.canceled += Input_BButton;
-                break;
-            case false:
-                controls.Player.BButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input X
-    /// </summary>
-    /// <param name="isXEnable"></param>
-    void XButton(bool isXEnable)
-    {
-        switch (isXEnable)
-        {
-            case true:
-                controls.Player.XButton.Enable();
-                controls.Player.XButton.started += Input_XButton;
-                controls.Player.XButton.performed += Input_XButton;
-                controls.Player.XButton.canceled += Input_XButton;
-                break;
-            case false:
-                controls.Player.XButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input Y
-    /// </summary>
-    /// <param name="isYEnable"></param>
-    void YButton(bool isYEnable)
-    {
-        switch (isYEnable)
-        {
-            case true:
-                controls.Player.YButton.Enable();
-                controls.Player.YButton.started += Input_YButton;
-                controls.Player.YButton.performed += Input_YButton;
-                controls.Player.YButton.canceled += Input_YButton;
-                break;
-            case false:
-                controls.Player.YButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats de la gachette Droite.
-    /// </summary>
-    /// <param name="isRightTriggerEnable"></param>
-    void RightTrigger(bool isRightTriggerEnable)
-    {
-        switch (isRightTriggerEnable)
-        {
-            case true:
-                controls.Player.RightTrigger.Enable();
-                controls.Player.RightTrigger.started += Input_RightTrigger;
-                controls.Player.RightTrigger.performed += Input_RightTrigger;
-                controls.Player.RightTrigger.canceled += Input_RightTrigger;
-                break;
-            case false:
-                controls.Player.RightTrigger.Disable();
-                break;
-        }
-    }
-
+    
     /// <summary>
     /// Permet d'appeler l'input du Boutton A
     /// </summary>
@@ -166,32 +65,20 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
-        switch (buttonA.started)
+        if (buttonA.started)
         {
-            case true:
-                Debug.Log("Button A Started" + buttonAValue);
-                break;
-            case false:
-                break;
+            Debug.Log("Button A Started" + buttonAValue);
         }
 
-        switch (buttonA.performed)
+        if (buttonA.performed)
         {
-            case true:
                 playerAttribut.Dash();
                 Debug.Log("Button A performed");
-                break;
-            case false:
-                break;
         }
 
-        switch (buttonA.canceled)
+        if (buttonA.canceled)
         {
-            case true:
-                Debug.Log("Button A Canceled");
-                break;
-            case false:
-                break;
+            Debug.Log("Button A Canceled");
         }
     }
 
@@ -203,31 +90,19 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        switch (buttonB.started)
+        if (buttonB.started)
         {
-            case true:
-                Debug.Log("Button B Started");
-                break;
-            case false:
-                break;
+            Debug.Log("Button B Started");
         }
 
-        switch (buttonB.performed)
+        if (buttonB.performed)
         {
-            case true:
-                Debug.Log("Button B Performed");
-                break;
-            case false:
-                break;
+            Debug.Log("Button B Performed");
         }
 
-        switch (buttonB.canceled)
+        if (buttonB.canceled)
         {
-            case true:
-                Debug.Log("Button B Canceled");
-                break;
-            case false:
-                break;
+            Debug.Log("Button B Canceled");
         }
     }
 
@@ -238,32 +113,20 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_XButton(CallbackContext buttonX)
     {
         buttonXValue = buttonX.ReadValue<float>();
-        switch (buttonX.started)
+        if (buttonX.started)
         {
-            case true:
-                Debug.Log("Button X Started");
-                break;
-            case false:
-                break;
+            Debug.Log("Button X Started");
         }
 
-        switch (buttonX.performed)
+        if (buttonX.performed)
         {
-            case true:
-                playerAttribut.AttackTypeX();
-                Debug.Log("Button X Performed");
-                break;
-            case false:
-                break;
+            playerAttribut.AttackTypeX();
+            Debug.Log("Button X Performed");
         }
 
-        switch (buttonX.canceled)
+        if (buttonX.canceled)
         {
-            case true:
-                Debug.Log("Button X Canceled");
-                break;
-            case false:
-                break;
+            Debug.Log("Button X Canceled");
         }
     }
 
@@ -274,70 +137,113 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_YButton(CallbackContext buttonY)
     {
         buttonYValue = buttonY.ReadValue<float>();
-        switch (buttonY.started)
+        if (buttonY.started)
         {
-            case true:
-                Debug.Log("Button Y Started");
-                break;
-            case false:
-                break;
+            Debug.Log("Button Y Started");
         }
 
-        switch (buttonY.performed)
+        if (buttonY.performed)
         {
-            case true:
-                Debug.Log("Button Y Performed");
-                break;
-            case false:
-                break;
+            Debug.Log("Button Y Performed");
         }
 
-        switch (buttonY.canceled)
+        if (buttonY.canceled)
         {
-            case true:
-                Debug.Log("Button Y Canceled");
-                break;
-            case false:
-                break;
+            Debug.Log("Button Y Canceled");
+        }
+    }
+    
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette en Haut à Gauche
+    /// </summary>
+    /// <param name="LeftTopTrigger"></param>
+    public void LeftTopTrigger(CallbackContext LeftTopTrigger)
+    {
+        rightPressTrigger = LeftTopTrigger.ReadValue<float>();
+        if (LeftTopTrigger.started)
+        {
+            Debug.Log("Button LeftTopTrigger Started");
+        }
+
+        if (LeftTopTrigger.performed)
+        {
+            Debug.Log("Button LeftTopTrigger Performed");
+        }
+
+        if (LeftTopTrigger.canceled)
+        {
+            Debug.Log("Button LeftTopTrigger Canceled");
         }
     }
 
     /// <summary>
-    /// Permet d'appeler l'input de la Gachette Droite
+    /// Permet d'appeler l'input de la Gachette en Bas à Gauche
     /// </summary>
-    /// <param name="rightTrigger"></param>
-    public void Input_RightTrigger(CallbackContext rightTrigger)
+    /// <param name="LeftBottomTrigger"></param>
+    public void LeftBottomTrigger(CallbackContext LeftBottomTrigger)
     {
-        rightPressTrigger = rightTrigger.ReadValue<float>();
-        switch (rightTrigger.started)
+        rightPressTrigger = LeftBottomTrigger.ReadValue<float>();
+        if (LeftBottomTrigger.started)
         {
-            case true:
-                Debug.Log("Button Left Trigger Started");
-                break;
-            case false:
-                break;
+            Debug.Log("Button LeftBottomTrigger Started");
         }
 
-        switch (rightTrigger.performed)
+        if (LeftBottomTrigger.performed)
         {
-            case true:
-                Debug.Log("Button Left Trigger Performed");
-                break;
-            case false:
-                break;
+            Debug.Log("Button LeftBottomTrigger Performed");
         }
 
-        switch (rightTrigger.canceled)
+        if (LeftBottomTrigger.canceled)
         {
-            case true:
-                Debug.Log("Button Left Trigger Canceled");
-                break;
-            case false:
-                break;
+            Debug.Log("Button LeftBottomTrigger Canceled");
         }
     }
-
     
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette en Haut à Droite
+    /// </summary>
+    /// <param name="RightTopTrigger"></param>
+    public void RightTopTrigger(CallbackContext RightTopTrigger)
+    {
+        rightPressTrigger = RightTopTrigger.ReadValue<float>();
+        if (RightTopTrigger.started)
+        {
+            Debug.Log("Button RightTopTrigger Started");
+        }
+
+        if (RightTopTrigger.performed)
+        {
+            Debug.Log("Button RightTopTrigger Performed");
+        }
+
+        if (RightTopTrigger.canceled)
+        {
+            Debug.Log("Button RightTopTrigger Canceled");
+        }
+    }
+    
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="RightBottomTrigger"></param>
+    public void RightBottomTrigger(CallbackContext RightBottomTrigger)
+    {
+        rightPressTrigger = RightBottomTrigger.ReadValue<float>();
+        if (RightBottomTrigger.started)
+        {
+            Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (RightBottomTrigger.performed)
+        {
+            Debug.Log("Button RightBottomTrigger Performed");
+        }
+
+        if (RightBottomTrigger.canceled)
+        {
+            Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
     
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche

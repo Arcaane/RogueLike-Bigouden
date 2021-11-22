@@ -62,17 +62,33 @@
                     "interactions": ""
                 },
                 {
-                    "name": "LeftTrigger",
+                    "name": "Left_Top_Trigger",
                     "type": "Button",
-                    "id": "a108a7c0-857d-4e8f-8f60-373596350010",
+                    "id": "43040b97-782b-4436-88b0-18e185e4a340",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "RightTrigger",
+                    "name": "Left_Bottom_Trigger",
                     "type": "Button",
                     "id": "f979e8c2-b712-4c1b-96b0-a967f205247f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_Top_Trigger",
+                    "type": "Button",
+                    "id": "bbafb034-bb52-4c6c-ba0d-9d78c4059419",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_Bottom_Trigger",
+                    "type": "Button",
+                    "id": "a108a7c0-857d-4e8f-8f60-373596350010",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -290,23 +306,45 @@
                 },
                 {
                     "name": "",
-                    "id": "d28e37ac-5021-4755-b6bf-def163d4b39a",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "LeftTrigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "81987cff-8700-4185-a73e-a6c4a49fa4b1",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "RightTrigger",
+                    "action": "Left_Bottom_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d28e37ac-5021-4755-b6bf-def163d4b39a",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Right_Bottom_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "726c3b38-d536-4df3-8f8a-fa134ada6c8d",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right_Top_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00499730-e44d-4c0a-a9cf-7f25e2edf054",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left_Top_Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
