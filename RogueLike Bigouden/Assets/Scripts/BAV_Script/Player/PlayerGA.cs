@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using static UnityEngine.InputSystem.InputAction;
 
-public class PlayerGA: MonoBehaviour
+public class PlayerGA : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
 
@@ -44,7 +44,7 @@ public class PlayerGA: MonoBehaviour
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
         playerConfig.Input.onActionTriggered += Input_MoveTrigger;
-        
+
         AButton(true);
         BButton(true);
         XButton(true);
@@ -94,6 +94,15 @@ public class PlayerGA: MonoBehaviour
         {
             case true:
                 OnLook(obj);
+                break;
+            case false:
+                break;
+        }
+
+        switch (obj.action.name == controls.Player.XButton.name)
+        {
+            case true:
+
                 break;
             case false:
                 break;
@@ -233,6 +242,7 @@ public class PlayerGA: MonoBehaviour
         {
             case true:
                 playerAttribut.Dash();
+                //playerAttribut.DodgeAttack();
                 Debug.Log("Button A performed");
                 break;
             case false:
@@ -304,7 +314,7 @@ public class PlayerGA: MonoBehaviour
         switch (buttonX.performed)
         {
             case true:
-                playerAttribut.AttackType();
+                playerAttribut.AttackTypeX();
                 Debug.Log("Button X Performed");
                 break;
             case false:
@@ -395,7 +405,6 @@ public class PlayerGA: MonoBehaviour
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>
     /// <param name="leftStick"></param>
-
     /// <summary>
     /// Permet d'appeler l'input du Stick Droit
     /// </summary>
@@ -404,7 +413,7 @@ public class PlayerGA: MonoBehaviour
     {
         playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
-    
+
     public void OnMove(CallbackContext leftStick)
     {
         playerAttribut.SetInputVector(leftStick.ReadValue<Vector2>(), false);

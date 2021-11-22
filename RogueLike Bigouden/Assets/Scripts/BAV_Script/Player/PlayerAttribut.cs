@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,8 +13,10 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField]
     private float timerDash;
 
+    [SerializeField] private float timerBetweenDash;
     [SerializeField] private float timerAttack;
     [SerializeField] private float timerDelayAttack;
+    [SerializeField] private float timerDodgeEffect;
 
     [Header("Component Rigidbody")] [SerializeField]
     private Rigidbody2D rb;
@@ -60,9 +64,22 @@ public class PlayerAttribut : MonoBehaviour
     public bool isAttacking;
     public bool launchFirstAttack;
     public bool launchSecondAttack;
+    public bool launchAOEAttack;
     public float delayBeforeResetAttack = 1f;
     public float delayForSecondAttack = 4f;
 
+    [Header("Dogdge Ability")]
+    //float-----------------------------------
+    [SerializeField]
+    private float radiusDodge;
+
+    [SerializeField] private float durationEffect;
+    [SerializeField] private float speedModification;
+
+    ////bool-----------------------------------
+    [SerializeField] public bool useDodgeAbility;
+    [SerializeField] private bool dodgeAbility;
+    [SerializeField] private bool bulletIn;
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -138,71 +155,60 @@ public class PlayerAttribut : MonoBehaviour
     }
 
 
-    public void MoveAnimation()
-    {
-        if (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
-        {
-            {
-                animatorPlayer.SetFloat("Horizontal", lookAxis.x);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-            }
-        }
-        else
-        {
-            if (movementInput != Vector2.zero)
-            {
-                animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                animatorPlayer.SetFloat("Vertical", movementInput.y);
-            }
+    #region AnimatorProcess
 
-            animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-        }
+    public void Animation()
+    {
+        bool moving = lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero;
+
+        SetJoystickValue(moving);
+        animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
 
         if (launchFirstAttack)
         {
-            animatorPlayer.SetBool("AttackX1", true);
-            if (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
-            {
-                animatorPlayer.SetFloat("Horizontal", lookAxis.y);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
-            }
-            else if (movementInput != Vector2.zero)
-            {
-                animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                animatorPlayer.SetFloat("Vertical", movementInput.y);
-            }
+            SetJoystickValue(moving);
+            SetAttackValue(true);
+        }
+        else if (launchSecondAttack)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attack2: true);
+        }
+        else if (launchAOEAttack)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attack3: true);
         }
         else
         {
-            animatorPlayer.SetBool("AttackX1", false);
+            SetAttackValue();
         }
     }
 
-
-    /*
-    public void AttackAnimation()
+    void SetJoystickValue(bool moving)
     {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+        if (moving)
         {
-            case true:
-
-                break;
-            case false:
-                if (movementInput != Vector2.zero)
-                {
-                    animatorPlayer.SetBool("AttackX1", true);
-                    animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                    animatorPlayer.SetFloat("Vertical", movementInput.y);
-                }
-
-                break;
+            animatorPlayer.SetFloat("Horizontal", lookAxis.x);
+            animatorPlayer.SetFloat("Vertical", lookAxis.y);
+        }
+        else if (movementInput != Vector2.zero)
+        {
+            animatorPlayer.SetFloat("Horizontal", movementInput.x);
+            animatorPlayer.SetFloat("Vertical", movementInput.y);
         }
     }
-    */
 
+    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false)
+    {
+        animatorPlayer.SetBool("AttackX1", attack1);
+        animatorPlayer.SetBool("AttackX2", attack2);
+        animatorPlayer.SetBool("AttackY", attack3);
+    }
 
-    public void Attack(bool look)
+    #endregion AnimatorProcess
+
+    void Attack(bool look)
     {
         switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 ||
                 lookAxis.y < 0 && lookAxis != Vector2.zero && !isAttacking)
@@ -237,17 +243,16 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-
     #region DashAttribut
 
     public void Dash()
     {
-        dashCounter++;
         canDash = true;
+        dashCounter++;
         if (dashCounter >= 1)
         {
             isDash = true;
-            if (dashCounter >= dashCount + 1)
+            if (dashCounter >= dashCount)
             {
                 dashCounter = dashCount;
                 canDash = false;
@@ -256,21 +261,29 @@ public class PlayerAttribut : MonoBehaviour
 
         if (canDash)
         {
-            rb.velocity = Vector2.zero;
-            launchDash();
+            LaunchDash();
         }
     }
 
-    void launchDash()
+    void LaunchDash()
     {
-        Vector2 velocity = Vector2.zero;
-        Vector2 dir = _lastPosition;
-        velocity += dir.normalized * (dashSpeed * dashIntValue);
-        rb.velocity = velocity;
-        StartCoroutine(DashWait());
+        SmallMovement(dashSpeed);
+        StartCoroutine(DashWaitCorou());
     }
 
-    IEnumerator DashWait()
+    void DashWait()
+    {
+        playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        timerBetweenDash += Time.deltaTime;
+        if (durationDash >= timerBetweenDash)
+        {
+            timerBetweenDash = 0;
+            playerFeedBack.MovingRumble(Vector2.zero);
+            rb.velocity = Vector2.zero;
+        }
+    }
+
+    IEnumerator DashWaitCorou()
     {
         //playerFeedBack.MovingRumble(CheckPosition(_lastPositionForRotor));
         playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
@@ -283,32 +296,33 @@ public class PlayerAttribut : MonoBehaviour
 
     #endregion DashAttribut
 
+    private void Update()
+    {
+        if (isDash || isAttacking)
+        {
+            DashWait();
+            Reset();
+        }
+
+        switch (attackType)
+        {
+            case 1:
+                ResetMovement(0);
+                break;
+            case 2:
+                ResetMovement(1);
+                break;
+        }
+    }
+
+
     public void FixedUpdate()
     {
         SaveLastPosition();
         _attackPath.Path();
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
-        MoveAnimation();
-
-
-        if (isDash || isAttacking)
-        {
-            Reset();
-        }
-
-        if (attackType > 0)
-        {
-            switch (attackType)
-            {
-                case 1:
-                    ResetMovement(0);
-                    break;
-                case 2:
-                    ResetMovement(1);
-                    break;
-            }
-        }
+        Animation();
 
         if (_launchDebug)
         {
@@ -316,7 +330,7 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    public void AttackType()
+    public void AttackTypeX()
     {
         if (attackType < 2)
         {
@@ -326,19 +340,17 @@ public class PlayerAttribut : MonoBehaviour
             launchFirstAttack = true;
             launchSecondAttack = false;
             rb.velocity = Vector2.zero;
-            SmallMovementFirst();
-        }
-
-
-        if (attackType >= 2 && delayForSecondAttack >= timerAttack)
-        {
-            attackType = 2;
-            attackPath.launchSecondAttack = true;
-            launchFirstAttack = false;
-            launchSecondAttack = true;
-            isAttacking = true;
-            rb.velocity = Vector2.zero;
-            SmallMovementSecond();
+            SmallMovement(attackMoveSmall);
+            if (attackType >= 2 && delayForSecondAttack >= timerAttack)
+            {
+                attackType = 2;
+                isAttacking = true;
+                attackPath.launchSecondAttack = true;
+                launchFirstAttack = false;
+                launchSecondAttack = true;
+                rb.velocity = Vector2.zero;
+                SmallMovement(attackMoveSmall);
+            }
         }
     }
 
@@ -414,21 +426,10 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-
-    public void SmallMovementFirst()
+    public void SmallMovement(float speed)
     {
-        Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
-        rb.velocity = velocity;
-    }
-
-    public void SmallMovementSecond()
-    {
-        Vector2 velocity = Vector2.zero;
-        Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
-        rb.velocity = velocity;
+        rb.AddForce(dir.normalized * (speed * 100));
     }
 
     Vector3 CheckPosition(Vector3 direction)
@@ -513,14 +514,12 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isDash)
         {
-            isDashingText.color = Color.blue;
             pointColor.color = dashCounter >= dashCount ? Color.red : Color.green;
             dashCountText.color = dashCounter >= dashCount ? Color.red : Color.green;
             timeBeforeDashText.color = dashCount >= 3 ? Color.red : Color.green;
         }
         else
         {
-            isDashingText.color = Color.red;
             dashCountText.color = Color.green;
             timeBeforeDashText.color = Color.green;
         }
@@ -551,6 +550,26 @@ public class PlayerAttribut : MonoBehaviour
         axisCoord.text = "X : " + Mathf.Round(movementInput.x * 10) * 0.1 + "  " + "Y : " +
                          Mathf.Round(movementInput.y * 10) * 0.1;
     }
+
+    public void DodgeAttack()
+    {
+        Vector3 playerPos = transform.position;
+        Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
+        float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
+        /*if (radiusDodge <= distPlayerRadius)
+        {
+        }*/
+        useDodgeAbility = true;
+        speed *= speedModification;
+        Time.timeScale = 0.3f;
+        timerDodgeEffect += Time.deltaTime;
+        if (timerAttack >= durationEffect)
+        {
+            Time.timeScale = 1f;
+            useDodgeAbility = false;
+        }
+    }
+
 
     private void OnDrawGizmos()
     {

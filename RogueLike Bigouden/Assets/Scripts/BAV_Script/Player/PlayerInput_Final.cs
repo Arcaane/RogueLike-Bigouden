@@ -250,7 +250,7 @@ public class PlayerInput_Final : MonoBehaviour
         switch (buttonX.performed)
         {
             case true:
-                playerAttribut.AttackType();
+                playerAttribut.AttackTypeX();
                 Debug.Log("Button X Performed");
                 break;
             case false:
