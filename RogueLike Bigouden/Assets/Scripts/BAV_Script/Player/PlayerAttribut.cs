@@ -21,8 +21,6 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Component Rigidbody")] [SerializeField]
     private Rigidbody2D rb;
 
-    //Permet de relier ces vecteurs au Joystick dans le InputHandler.
-    private Vector2 movementInput, lookAxis;
 
     [Header("Vitesse du joueur")]
     //Vitesse de déplacement du joueur.
@@ -86,6 +84,10 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] private Animator animatorPlayer;
 
+    [Header("Collision")] [SerializeField] private LayerMask m_maskCanape;
+    [SerializeField] private bool m_isColliding;
+    [SerializeField] private Vector3 lastVelocity;
+
 
     [Header("FeedBack (Vibrations, etc)")]
     //Script permettant d'ajouter des FeedBack dans le jeu.
@@ -106,8 +108,10 @@ public class PlayerAttribut : MonoBehaviour
 
 
     //Vector3
-    [SerializeField] Vector3 _lastPosition;
-    [SerializeField] Vector3 _lastPositionForRotor;
+    //Permet de relier ces vecteurs au Joystick dans le InputHandler.
+    Vector2 movementInput, lookAxis;
+    Vector3 _lastPosition;
+    Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
     [SerializeField] Vector3 _move;
     [SerializeField] Vector3 _look;
@@ -313,6 +317,11 @@ public class PlayerAttribut : MonoBehaviour
                 ResetMovement(1);
                 break;
         }
+
+        if (m_isColliding)
+        {
+            lastVelocity = rb.velocity;
+        }
     }
 
 
@@ -326,7 +335,7 @@ public class PlayerAttribut : MonoBehaviour
 
         if (_launchDebug)
         {
-            Debug();
+            DebugUI();
         }
     }
 
@@ -394,13 +403,13 @@ public class PlayerAttribut : MonoBehaviour
         _look = look;
         if (movementInput.x != 0 || movementInput.y != 0)
         {
-            _lastPosition = _move;
+            _lastPosition = _move.normalized;
             _lastPositionForRotor = _lastPosition;
         }
 
         if (lookAxis.x != 0 || lookAxis.y != 0)
         {
-            _lastPosition = _look;
+            _lastPosition = _look.normalized;
             _lastPositionForRotor = _lastPosition;
         }
     }
@@ -428,7 +437,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void SmallMovement(float speed)
     {
-        Vector2 dir = _lastPosition.normalized;
+        Vector2 dir = _lastPosition;
         rb.AddForce(dir.normalized * (speed * 100));
     }
 
@@ -469,7 +478,29 @@ public class PlayerAttribut : MonoBehaviour
         return direction;
     }
 
-    public void Debug()
+    public void OnCollisionEnter2D(Collision2D collider)
+    {
+        
+        if (collider.gameObject.layer == 18)
+        {
+            m_isColliding = true;
+            /*
+            var speed = lastVelocity.magnitude;
+            var direction = Vector3.Reflect(lastVelocity.normalized, collider.contacts[0].normal);
+
+            rb.velocity = direction * Mathf.Max(speed, 0f);
+            Debug.Log("Hello");
+            */
+        }
+    }
+
+    public void OnCollisionExit2D(Collision2D other)
+    {
+        m_isColliding = false;
+        Debug.Log("Au revoir");
+    }
+
+    public void DebugUI()
     {
         ////For Stick Only
         Image pointColor = elementOfTextMeshPro[0].GetComponent<Image>();
