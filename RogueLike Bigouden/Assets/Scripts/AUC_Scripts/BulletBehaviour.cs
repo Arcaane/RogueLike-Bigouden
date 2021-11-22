@@ -1,15 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    public Transform target;
-    void Start()
+    private Rigidbody2D rb;
+    public float b_speed = 8f;
+    private void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(target.position.x, target.position.y), ForceMode2D.Impulse);
+        rb=GetComponent<Rigidbody2D>();
+    }
+
+    public void GoDirection(Vector2 direction)
+    {
+        rb.velocity =(direction * b_speed);
     }
     
     private void OnCollisionEnter2D(Collision2D other)

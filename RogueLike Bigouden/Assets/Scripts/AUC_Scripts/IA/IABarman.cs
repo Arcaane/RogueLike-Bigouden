@@ -10,8 +10,8 @@ public class IABarman : MonoBehaviour
     // Utilities
     [SerializeField] private Transform target;
     private NavMeshAgent agent;
-    public Transform shootPoint;
     private Vector2 pos;
+    private Vector3 shootPointPos;
 
     // Bezier Param
     public Transform angularPointBezier;
@@ -58,7 +58,7 @@ public class IABarman : MonoBehaviour
         _damageAoe = GetComponent<EnnemyStatsManager>().damageAoe;
         _damageAoeAfterExplosion = GetComponent<EnnemyStatsManager>().damageAoeAfterExplosion;
         
-        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer = GetComponentInChildren<LineRenderer>();
         _lineRenderer.positionCount = numPoints;
         agent.speed = _movementSpeed;
         
@@ -75,9 +75,6 @@ public class IABarman : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        angularPointBezier.position = new Vector3((target.position.x + shootPoint.position.x) / 2,
-            (target.position.y + shootPoint.position.y) / 2 + 3, 0);
-        
         DrawQuadraticCurve();
             
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
@@ -98,7 +95,7 @@ public class IABarman : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
+        Gizmos.DrawWireSphere(shootPointPos, 0.2f);
     }
 
     #region PatrollingState
@@ -144,16 +141,23 @@ public class IABarman : MonoBehaviour
         if (_isReadyToShoot)
             StartCoroutine(Shoot());
     }
-
+    
+    private const float radiusShootPoint = 0.75f;
     private IEnumerator Shoot()
     {
         _isReadyToShoot = false;
         // Play an attack animation
-    
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
+        
+        angularPointBezier.position = new Vector3((target.position.x + shootPointPos.x) / 2,
+            (target.position.y + shootPointPos.y) / 2 + 3, 0);
+        
+        
         int cocktailRand = Random.Range(1, 4);
         // 1 = Dmg (+) / 2 = Dmg (-) / 3 = Vie + aux ennemis
 
-        var projectile = Instantiate(cocktail, shootPoint);
+        var projectile = Instantiate(cocktail, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
         for (int i = 0; i < positions.Length; i++)
         {
             yield return new WaitForSeconds(0.01f);
@@ -204,7 +208,7 @@ public class IABarman : MonoBehaviour
         {
             float t = i / (float) numPoints;
             positions[i] =
-                CalculateQuadraticBezierCurve(t, shootPoint.position, angularPointBezier.position, target.position);
+                CalculateQuadraticBezierCurve(t, shootPointPos, angularPointBezier.position, target.position);
         }
         _lineRenderer.SetPositions(positions);
     }

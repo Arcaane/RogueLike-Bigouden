@@ -15,7 +15,7 @@ public class MoveCircle : MonoBehaviour
     private void Start()
     {
         objectToRotate.position = new Vector3(radius, 0, 0);
-        objectTarget = GameObject.FindWithTag("Player").transform;
+        objectTarget = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void FixedUpdate()
@@ -32,14 +32,14 @@ public class MoveCircle : MonoBehaviour
         
         Vector3 lookPos = posTarget - rotPos;
         
-        /*
+        
         float rotationXObj = Mathf.Atan2(posTarget.y, posTarget.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(rotationXObj, Vector3.forward);
-        */
-        
+
+        /*
         float rotationX = Mathf.Atan2(lookPos.y, lookPos.x) * Mathf.Rad2Deg;
         objectToRotate.rotation = Quaternion.AngleAxis(rotationX, Vector3.forward);
-        
+        */
         //objectToRotate.position = new Vector3(radius,0 ,0);
         Debug.DrawRay(rotPos, posTarget - rotPos, Color.red);
     }

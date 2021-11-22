@@ -9,15 +9,9 @@ public class DoorInteractions : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player") && isRoomClear)
         {
-            if (isRoomClear)
-            {
-                if (other.gameObject.CompareTag("Player"))
-                {
-                    LoadManager.LoadManagerInstance.ChangeRoom();
-                }
-            } 
+            LoadManager.LoadManagerInstance.ChangeRoom();
         }
     }
 }

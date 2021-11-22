@@ -11,13 +11,16 @@ public class IAShooter : MonoBehaviour
     #region Variables Shooter Assignation
     //Utilities
     [SerializeField] private Transform target;
-    [SerializeField] private Transform shootPoint;
     [SerializeField] private  NavMeshAgent agent;
     [SerializeField] private Animator shooterAnimator;
+    
     private Vector2 shootPosRef;
     private Rigidbody2D rb;
     private bool isRdyMove;
-    
+
+    private Vector3 lastPos;
+    private Vector3 shootDir;
+    public Vector3 shootPointPos;
     // Attack Variables 
 
     [SerializeField] private float _detectZone;
@@ -45,7 +48,7 @@ public class IAShooter : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         
         _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
         _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
@@ -78,13 +81,14 @@ public class IAShooter : MonoBehaviour
             Patrolling();
         if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             ChasePlayer();
-        if (_isPlayerInAttackRange && _isPlayerInAggroRange) 
+        if (_isPlayerInAttackRange && _isPlayerInAggroRange)
             Attacking();
     }
 
     #region PatrollingState
     private void Patrolling()
     {
+        fct();
        // WalkAnimation(agent);
         if (isRdyMove)
         {
@@ -116,6 +120,7 @@ public class IAShooter : MonoBehaviour
     #region ChaseState
     private void ChasePlayer()
     {
+        fct();
         agent.SetDestination(target.position);
         //WalkAnimation(agent);
         _isAttacking = false;
@@ -148,22 +153,37 @@ public class IAShooter : MonoBehaviour
         _isReadyToShoot = false;
         StartCoroutine(BulletShoot());
     }
-    
+
+    private const float radiusShootPoint = 0.75f;
     IEnumerator BulletShoot()
     {
         _isAttacking = true;
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
+        
         //AttackAnimation(agent);
+        
         for (int i = 0; i < 5; i++)
         {
-            ObjectPooler.Instance.SpawnFromPool("Bullet", shootPoint.position, Quaternion.identity);
-            yield return new WaitForSeconds(.3f);
+            GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
+            obj.GetComponent<BulletBehaviour>().GoDirection(shootDir);
+            yield return new WaitForSeconds(0.3f);
         }
-        _isAttacking = false;
-        yield return new WaitForSeconds(1f);
+
+        yield return new WaitForSeconds(0.7f);
         _isReadyToShoot = true;
+        
     }
     #endregion
-    
+
+    private void fct()
+    {
+        shootDir = agent.velocity;
+        if (shootDir == Vector3.zero) {
+            shootDir = lastPos;
+        }
+        shootDir.Normalize();
+    }
     
     private void WaitToGo()
     {
@@ -197,6 +217,6 @@ public class IAShooter : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(shootPoint.position, 0.2f);
+        Gizmos.DrawWireSphere(transform.position, radiusShootPoint);
     }
 }
