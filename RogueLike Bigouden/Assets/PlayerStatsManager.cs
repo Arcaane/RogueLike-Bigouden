@@ -245,6 +245,12 @@ public class PlayerStatsManager : MonoBehaviour
         // Play Death Animation
         Debug.Log(gameObject.name + " is Dead !");
     }
+    
+    public void TakeShield(int shield)
+    {
+        shieldPoint += shield;
+        // Play TakeShield Animation
+    }
     #endregion
 }
 

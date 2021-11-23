@@ -223,5 +223,11 @@ public class EnnemyStatsManager : MonoBehaviour
             // Animation Heal Particles
         }
     }
+
+    public void TakeShield(int shield)
+    {
+        shieldPoint += shield;
+        // Play TakeShield Animation
+    }
     #endregion
 }

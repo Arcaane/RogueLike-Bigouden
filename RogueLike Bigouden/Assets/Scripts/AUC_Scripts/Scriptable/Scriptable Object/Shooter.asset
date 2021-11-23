@@ -12,28 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8748f3b880ae38a4e90a9406f065c969, type: 3}
   m_Name: Shooter
   m_EditorClassIdentifier: 
-  nameSO: Shooter
-  descriptionSO: 'Ennemy who can shoot '
   lifePointSO: 10
   shieldPointSO: 0
   damageSO: 1
-  detectZoneSO: 5
-  damageAoeSO: 0
-  damageAoeBeforeExplosionSO: 0
-  attackRangeSO: 3
-  delayAttackSO: 1
+  detectZoneSO: 5.74
+  attackRangeSO: 4.07
+  attackDelaySO: 0
   timeBeforeAggroSO: 0.54
-  attackSpeedSO: 0.7
   movementSpeedSO: 2
-  rangeAoeSO: 0
-  numberBulletShotSO: 0
-  moveSpeedChargeSO: 0
-  chargeDurationSO: 0
-  bulletSpreadSO: {x: -0.4, y: 0.4}
-  bulletSpeedSO: {x: 2, y: 4}
   isPlayerInAttackRangeSO: 0
+  isPlayerInAggroRangeSO: 0
   isReadyToShootSO: 1
   isAggroSO: 1
   isAttackingSO: 0
   isStunSO: 0
-  isChargingSO: 0
+  damageAoeSO: 0
+  damageAoeAfterExplosionSO: 0
+  rangeAoeSO: 0
+  bulletSpreadSO: {x: -0.4, y: 0.4}
+  bulletSpeedSO: {x: 2, y: 4}
+  dashSpeedSO: 0
+  stunDurationSO: 0
+  rushDelaySO: 0
+  isReadyToDashSO: 0

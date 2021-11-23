@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.Controls;
@@ -14,28 +15,30 @@ public class IAShooter : MonoBehaviour
     [SerializeField] private  NavMeshAgent agent;
     [SerializeField] private Animator shooterAnimator;
     
-    private Vector2 shootPosRef;
     private Rigidbody2D rb;
     private bool isRdyMove;
 
     private Vector3 lastPos;
-    private Vector3 shootDir;
     public Vector3 shootPointPos;
 
     private EnnemyStatsManager shooterEnnemy;
     // Attack Variables 
-
     [SerializeField] private float _detectZone;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackDelay;
     [SerializeField] private float _timeBeforeAggro;
     [SerializeField] private float _movementSpeed;
+    [SerializeField] private float tooClose = 1.1f;
     
     [SerializeField] private bool _isPlayerInAggroRange;
     [SerializeField] private bool _isPlayerInAttackRange;
     [SerializeField] private bool _isReadyToShoot;
     [SerializeField] private bool _isAggro;
-    [SerializeField] private bool _isAttacking;
+    // Ennemy State
+    [SerializeField] private bool _isAttack;
+    [SerializeField] private bool _isWalk;
+
+    [SerializeField] private bool isSpot;
     
     
     public LayerMask isPlayer;
@@ -44,6 +47,7 @@ public class IAShooter : MonoBehaviour
 
     private Vector2 enemyPos;
     private Vector2 targetPos;
+    public Vector2 agentVelocity; // Debug Velocity
     
     #endregion
     private void Awake()
@@ -56,12 +60,13 @@ public class IAShooter : MonoBehaviour
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        
+        tooClose = 0.82f;
         _detectZone = shooterEnnemy.detectZone;
         _attackRange = shooterEnnemy.attackRange;
         _attackDelay = shooterEnnemy.attackDelay;
         _timeBeforeAggro = shooterEnnemy.timeBeforeAggro;
         _movementSpeed = shooterEnnemy.movementSpeed;
+        isSpot = false;
         
         // Parametres de l'agent
         agent.updateRotation = false; 
@@ -72,6 +77,8 @@ public class IAShooter : MonoBehaviour
         _isAggro = false;
         _isReadyToShoot = true;
         isRdyMove = true;
+        _isAttack = false;
+        _isWalk = false;
         
         _isPlayerInAggroRange = false;
         _isPlayerInAttackRange = false;
@@ -83,25 +90,35 @@ public class IAShooter : MonoBehaviour
     {
         enemyPos = transform.position;
         targetPos = target.position;
+        
         _isPlayerInAttackRange = Vector2.Distance(enemyPos, targetPos) < _attackRange;
         _isPlayerInAggroRange = Vector2.Distance(enemyPos, targetPos) < _detectZone;
+        bool _isPlayerTooClose = Vector2.Distance(enemyPos, targetPos) < tooClose;
         
-        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
+        if (_isPlayerTooClose)
+        {
+            Flee();
+            _isPlayerInAttackRange = false;
+            _isPlayerInAggroRange = false;
+        }
+        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange && !_isPlayerTooClose) 
             Patrolling();
         if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             ChasePlayer();
         if (_isPlayerInAttackRange && _isPlayerInAggroRange)
             Attacking();
+        
+            
 
-        if (agent.velocity == Vector3.zero)
-        {
-            IdleAnimation(agent);
-        }
+        agentVelocity = agent.velocity;
+        agentVelocity.Normalize();
+        Animations(agent);
 
-        if (_isAttacking)
+        if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
         {
-            agent.velocity = Vector3.zero;
+            _isWalk = false;
         }
+        else { _isWalk = true; }
     }
 
     #region PatrollingState
@@ -109,7 +126,6 @@ public class IAShooter : MonoBehaviour
     {
         if (isRdyMove)
         {
-            WalkAnimation(agent);
             StartCoroutine(ResetPath());
         }
     }
@@ -125,12 +141,16 @@ public class IAShooter : MonoBehaviour
     {
         pos = GetNewRandomPosition();
         agent.SetDestination(pos);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
     }
     IEnumerator ResetPath()
     {
         isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
+        _isWalk = false; // Anim
+        _isAttack = false; // Anim
         isRdyMove = true;
     }
     #endregion
@@ -139,98 +159,103 @@ public class IAShooter : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(target.position);
-        WalkAnimation(agent);
-        _isAttacking = false;
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
+        
+        if(!isSpot)
+            SpottedPlayer();
     }
     #endregion
 
     #region AttackState
     private void Attacking()
     {
-        if (_isReadyToShoot) Shoot();
+        _isWalk = false; // Anim
         
+        if (_isReadyToShoot)
+        {
+            Collider2D[] toi = Physics2D.OverlapCircleAll(enemyPos, _attackRange, isPlayer);
+            if (toi != null)
+            {
+                _isAttack = true;
+                Shoot();
+            }
+        }
         agent.SetDestination(enemyPos);
         Debug.DrawRay(enemyPos, new Vector3(targetPos.x - rb.transform.position.x, targetPos.y - rb.transform.position.y -0.17f), Color.green);
     }
-
-    /*private void VerifyShoot()
-    {
-        // Raycast pour vérifier si le joueur est en cible 
-        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f, 0);
-
-        if (Physics2D.Raycast(transform.position, fwd, _attackRange, isPlayer))
-        {
-            Debug.Log("Player dans le viseur !");
-            Shoot();
-        }
-    }
-    */
+    
     private void Shoot()
     {
-        _isAttacking = true;
         _isReadyToShoot = false;
+        _isWalk = false; // Anim
         StartCoroutine(BulletShoot());
     }
 
     private const float radiusShootPoint = 0.75f;
+    private const float upTofitPlayer = 0.18f;
     IEnumerator BulletShoot()
     {
-        shootPointPos = (target.position - transform.position);
-        shootPointPos.Normalize();
-        fct();
-        AttackAnimation(agent); // Attack Animation
         for (int i = 0; i < 5; i++)
         {
-            GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
-            obj.GetComponent<BulletBehaviour>().GoDirection(shootDir);
+            shootPointPos = (target.position - transform.position);
+            shootPointPos.Normalize();
             yield return new WaitForSeconds(0.2f);
+            GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
+            obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 10f); // Direction puis Speed des balles
         }
 
-        _isAttacking = false;
-        yield return new WaitForSeconds(0.7f);
+        _isAttack = false;
+        yield return new WaitForSeconds(1f);
         _isReadyToShoot = true;
     }
     #endregion
 
-    private void fct()
+    #region FleeState
+    private void Flee()
     {
-        shootDir = agent.velocity;
-        if (shootDir == Vector3.zero) {
-            shootDir = lastPos;
-        }
-        shootDir.Normalize();
+        _isAttack = false;
+        _isWalk = true;
+        
+        StartCoroutine(ResetPath());;
     }
+    #endregion
     
     private void WaitToGo()
     {
         _isAggro = true;
     }
 
-   #region Animations
-    public void WalkAnimation(NavMeshAgent agent)
+    private void Animations(NavMeshAgent agent)
     {
-        if (agent.velocity != Vector3.zero)
+        if (_isAttack)
         {
-            shooterAnimator.SetFloat("Vertical", agent.velocity.y);
-            shooterAnimator.SetFloat("Horizontal", agent.velocity.x);
-            shooterAnimator.SetFloat("Magnitude", agent.velocity.magnitude); 
+            shooterAnimator.SetFloat("Vertical", shootPointPos.x);
+            shooterAnimator.SetFloat("Horizontal", shootPointPos.y);
+            shooterAnimator.SetBool("isAttack", _isAttack);
+            shooterAnimator.SetBool("isWalk", _isWalk);
+        }
+        else
+        {
+            shooterAnimator.SetFloat("Vertical", agent.velocity.x);
+            shooterAnimator.SetFloat("Horizontal", agent.velocity.y);
+            shooterAnimator.SetBool("isAttack", _isAttack);
+            shooterAnimator.SetBool("isWalk", _isWalk);
+        }
+        
+        Debug.Log("is attack " + _isAttack);           
+        Debug.Log("is Walk " + _isWalk);
+        
+    }
+
+    private void SpottedPlayer()
+    {
+        isSpot = true;
+        if (isSpot)
+        {
+            _detectZone *= 2;
         }
     }
-
-    public void AttackAnimation(NavMeshAgent agent)
-    {
-        shooterAnimator.SetFloat("Vertical", shootPointPos.y);
-        shooterAnimator.SetFloat("Horizontal", shootPointPos.x);
-        shooterAnimator.SetBool("isAttack", _isAttacking);
-    }
-
-    public void IdleAnimation(NavMeshAgent agent)
-    {
-        shooterAnimator.SetFloat("Vertical", agent.velocity.y);
-        shooterAnimator.SetFloat("Horizontal", agent.velocity.x);
-    }
-    #endregion
-    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -239,5 +264,7 @@ public class IAShooter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, radiusShootPoint);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, tooClose);
     }
 }

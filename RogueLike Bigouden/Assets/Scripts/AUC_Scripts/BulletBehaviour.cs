@@ -7,21 +7,22 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float b_speed = 8f;
+    public LayerMask isPlayer;
     private void Awake()
     {
         rb=GetComponent<Rigidbody2D>();
     }
 
-    public void GoDirection(Vector2 direction)
+    public void GoDirection(Vector2 direction, float b_Speed)
     {
-        rb.velocity =(direction * b_speed);
+        rb.velocity =(direction * b_Speed);
     }
     
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            other.GetComponent<PlayerStatsManager>().TakeDamage(1);
             gameObject.SetActive(false);
         }
 
