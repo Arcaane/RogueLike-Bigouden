@@ -21,6 +21,8 @@ public class IAShooter : MonoBehaviour
     private Vector3 lastPos;
     private Vector3 shootDir;
     public Vector3 shootPointPos;
+
+    private EnnemyStatsManager shooterEnnemy;
     // Attack Variables 
 
     [SerializeField] private float _detectZone;
@@ -39,22 +41,27 @@ public class IAShooter : MonoBehaviour
     public LayerMask isPlayer;
     private Vector3 pos;
     private Vector2 fwd;
+
+    private Vector2 enemyPos;
+    private Vector2 targetPos;
+    
     #endregion
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        agent = GetComponent<NavMeshAgent>();    
+        agent = GetComponent<NavMeshAgent>();
+        shooterEnnemy = GetComponent<EnnemyStatsManager>();
     }
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         
-        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
-        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
-        _attackDelay = GetComponent<EnnemyStatsManager>().attackDelay;
-        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
-        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
+        _detectZone = shooterEnnemy.detectZone;
+        _attackRange = shooterEnnemy.attackRange;
+        _attackDelay = shooterEnnemy.attackDelay;
+        _timeBeforeAggro = shooterEnnemy.timeBeforeAggro;
+        _movementSpeed = shooterEnnemy.movementSpeed;
         
         // Parametres de l'agent
         agent.updateRotation = false; 
@@ -74,8 +81,10 @@ public class IAShooter : MonoBehaviour
 
     private void Update()
     {
-        _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
-        _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
+        enemyPos = transform.position;
+        targetPos = target.position;
+        _isPlayerInAttackRange = Vector2.Distance(enemyPos, targetPos) < _attackRange;
+        _isPlayerInAggroRange = Vector2.Distance(enemyPos, targetPos) < _detectZone;
         
         if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             Patrolling();
@@ -83,15 +92,24 @@ public class IAShooter : MonoBehaviour
             ChasePlayer();
         if (_isPlayerInAttackRange && _isPlayerInAggroRange)
             Attacking();
+
+        if (agent.velocity == Vector3.zero)
+        {
+            IdleAnimation(agent);
+        }
+
+        if (_isAttacking)
+        {
+            agent.velocity = Vector3.zero;
+        }
     }
 
     #region PatrollingState
     private void Patrolling()
     {
-        fct();
-       // WalkAnimation(agent);
         if (isRdyMove)
         {
+            WalkAnimation(agent);
             StartCoroutine(ResetPath());
         }
     }
@@ -105,7 +123,7 @@ public class IAShooter : MonoBehaviour
     }
     private void GetNewPath()
     {
-        Vector2 pos = GetNewRandomPosition();
+        pos = GetNewRandomPosition();
         agent.SetDestination(pos);
     }
     IEnumerator ResetPath()
@@ -120,9 +138,8 @@ public class IAShooter : MonoBehaviour
     #region ChaseState
     private void ChasePlayer()
     {
-        fct();
         agent.SetDestination(target.position);
-        //WalkAnimation(agent);
+        WalkAnimation(agent);
         _isAttacking = false;
     }
     #endregion
@@ -130,13 +147,13 @@ public class IAShooter : MonoBehaviour
     #region AttackState
     private void Attacking()
     {
-        if (_isReadyToShoot) VerifyShoot();
+        if (_isReadyToShoot) Shoot();
         
-        agent.SetDestination(transform.position);
-        Debug.DrawRay(transform.position, new Vector3(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f), Color.green);
+        agent.SetDestination(enemyPos);
+        Debug.DrawRay(enemyPos, new Vector3(targetPos.x - rb.transform.position.x, targetPos.y - rb.transform.position.y -0.17f), Color.green);
     }
 
-    private void VerifyShoot()
+    /*private void VerifyShoot()
     {
         // Raycast pour vérifier si le joueur est en cible 
         fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y -0.17f, 0);
@@ -147,9 +164,10 @@ public class IAShooter : MonoBehaviour
             Shoot();
         }
     }
-
+    */
     private void Shoot()
     {
+        _isAttacking = true;
         _isReadyToShoot = false;
         StartCoroutine(BulletShoot());
     }
@@ -157,22 +175,20 @@ public class IAShooter : MonoBehaviour
     private const float radiusShootPoint = 0.75f;
     IEnumerator BulletShoot()
     {
-        _isAttacking = true;
         shootPointPos = (target.position - transform.position);
         shootPointPos.Normalize();
-        
-        //AttackAnimation(agent);
-        
+        fct();
+        AttackAnimation(agent); // Attack Animation
         for (int i = 0; i < 5; i++)
         {
             GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
             obj.GetComponent<BulletBehaviour>().GoDirection(shootDir);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
 
+        _isAttacking = false;
         yield return new WaitForSeconds(0.7f);
         _isReadyToShoot = true;
-        
     }
     #endregion
 
@@ -190,7 +206,7 @@ public class IAShooter : MonoBehaviour
         _isAggro = true;
     }
 
-   /* #region Animations
+   #region Animations
     public void WalkAnimation(NavMeshAgent agent)
     {
         if (agent.velocity != Vector3.zero)
@@ -203,12 +219,17 @@ public class IAShooter : MonoBehaviour
 
     public void AttackAnimation(NavMeshAgent agent)
     {
-        shooterAnimator.SetFloat("Vertical", fwd.y);
-        shooterAnimator.SetFloat("Horizontal", fwd.x);
+        shooterAnimator.SetFloat("Vertical", shootPointPos.y);
+        shooterAnimator.SetFloat("Horizontal", shootPointPos.x);
         shooterAnimator.SetBool("isAttack", _isAttacking);
     }
 
-    #endregion  */
+    public void IdleAnimation(NavMeshAgent agent)
+    {
+        shooterAnimator.SetFloat("Vertical", agent.velocity.y);
+        shooterAnimator.SetFloat("Horizontal", agent.velocity.x);
+    }
+    #endregion
     
     private void OnDrawGizmosSelected()
     {
