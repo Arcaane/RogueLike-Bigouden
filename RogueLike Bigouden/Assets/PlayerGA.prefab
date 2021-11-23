@@ -148,7 +148,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -62184
+  m_InstanceId: -1234
 --- !u!1 &248319774036480339
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,10 +677,10 @@ GameObject:
   - component: {fileID: 6358295701396264005}
   - component: {fileID: 6358295701396264004}
   - component: {fileID: 7819042521647142494}
-  - component: {fileID: 2452023907972587575}
-  - component: {fileID: 196231488297106870}
   - component: {fileID: 8566386508675894911}
+  - component: {fileID: 2452023907972587575}
   - component: {fileID: 8016546298223309459}
+  - component: {fileID: 196231488297106870}
   m_Layer: 8
   m_Name: PlayerGA
   m_TagString: Player
@@ -827,6 +827,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5b4492b5-fe60-40ff-bbac-e0637f0daeda
     m_ActionName: UI/PauseGame
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43040b97-782b-4436-88b0-18e185e4a340
+    m_ActionName: Player/Left_Top_Trigger[/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bbafb034-bb52-4c6c-ba0d-9d78c4059419
+    m_ActionName: Player/Right_Top_Trigger[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -920,6 +928,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &8566386508675894911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358295701396264003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vibrationForce: {x: 0.25, y: 0.75, z: 0}
 --- !u!50 &2452023907972587575
 Rigidbody2D:
   serializedVersion: 4
@@ -937,10 +958,26 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &8016546298223309459
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358295701396264003}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.02, y: 0.4}
+  m_Size: {x: 0.5, y: 0.7}
+  m_Direction: 0
 --- !u!61 &196231488297106870
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -967,32 +1004,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.06}
   m_EdgeRadius: 0.03
---- !u!114 &8566386508675894911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6358295701396264003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vibrationForce: {x: 0.25, y: 0.75, z: 0}
---- !u!70 &8016546298223309459
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6358295701396264003}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.02, y: 0.4}
-  m_Size: {x: 0.5, y: 0.7}
-  m_Direction: 0

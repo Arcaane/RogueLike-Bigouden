@@ -243,7 +243,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""60839f66-d277-4d60-bbe1-ad1a7d3f489f"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -258,6 +258,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""YButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b24f55aa-91ff-41ec-a0a2-30ff97f2fc69"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""YButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -280,6 +291,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""New control scheme"",
+                    ""action"": ""AButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5fe4139-504c-42d0-98c5-fb3d45b74d1f"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""AButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -313,6 +335,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2213a490-ff42-46c4-80be-b346f38a476a"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -568,6 +601,11 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }

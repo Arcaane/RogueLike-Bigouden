@@ -21,6 +21,9 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Component Rigidbody")] [SerializeField]
     private Rigidbody2D rb;
 
+    [Header("Utiliser le Clavier ?")] [SerializeField]
+    private bool useVibration;
+
 
     [Header("Vitesse du joueur")]
     //Vitesse de déplacement du joueur.
@@ -277,12 +280,20 @@ public class PlayerAttribut : MonoBehaviour
 
     void DashWait()
     {
-        playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        }
+
         timerBetweenDash += Time.deltaTime;
         if (durationDash >= timerBetweenDash)
         {
             timerBetweenDash = 0;
-            playerFeedBack.MovingRumble(Vector2.zero);
+            if (useVibration)
+            {
+                playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+            }
+
             rb.velocity = Vector2.zero;
         }
     }
@@ -290,10 +301,17 @@ public class PlayerAttribut : MonoBehaviour
     IEnumerator DashWaitCorou()
     {
         //playerFeedBack.MovingRumble(CheckPosition(_lastPositionForRotor));
-        playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        }
+
         _isDashing = true;
         yield return new WaitForSeconds(durationDash / 2);
-        playerFeedBack.MovingRumble(Vector2.zero);
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(Vector2.zero);
+        }
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
@@ -480,7 +498,6 @@ public class PlayerAttribut : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collider)
     {
-        
         if (collider.gameObject.layer == 18)
         {
             m_isColliding = true;

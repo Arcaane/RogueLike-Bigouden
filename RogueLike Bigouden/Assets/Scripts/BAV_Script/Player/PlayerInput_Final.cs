@@ -13,6 +13,12 @@ public class PlayerInput_Final : MonoBehaviour
     //PlayerController
     private BAV_PlayerController controls;
 
+    [Header("Utiliser Mouse Position ?")] [SerializeField]
+    bool kbMouse;
+
+    [SerializeField] Camera _Camera;
+    private Vector2 _MousePos;
+
     [SerializeField] PlayerAttribut playerAttribut;
     public bool isMoving;
 
@@ -57,7 +63,7 @@ public class PlayerInput_Final : MonoBehaviour
     {
         controls.Disable();
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input du Boutton A
     /// </summary>
@@ -67,18 +73,18 @@ public class PlayerInput_Final : MonoBehaviour
         buttonAValue = buttonA.ReadValue<float>();
         if (buttonA.started)
         {
-            Debug.Log("Button A Started" + buttonAValue);
+            //Debug.Log("Button A Started" + buttonAValue);
         }
 
         if (buttonA.performed)
         {
-                playerAttribut.Dash();
-                Debug.Log("Button A performed");
+            playerAttribut.Dash();
+            Debug.Log("Button A performed");
         }
 
         if (buttonA.canceled)
         {
-            Debug.Log("Button A Canceled");
+            //Debug.Log("Button A Canceled");
         }
     }
 
@@ -92,17 +98,17 @@ public class PlayerInput_Final : MonoBehaviour
         buttonBValue = buttonB.ReadValue<float>();
         if (buttonB.started)
         {
-            Debug.Log("Button B Started");
+            //Debug.Log("Button B Started");
         }
 
         if (buttonB.performed)
         {
-            Debug.Log("Button B Performed");
+            //Debug.Log("Button B Performed");
         }
 
         if (buttonB.canceled)
         {
-            Debug.Log("Button B Canceled");
+            //Debug.Log("Button B Canceled");
         }
     }
 
@@ -115,18 +121,18 @@ public class PlayerInput_Final : MonoBehaviour
         buttonXValue = buttonX.ReadValue<float>();
         if (buttonX.started)
         {
-            Debug.Log("Button X Started");
+            //Debug.Log("Button X Started");
         }
 
         if (buttonX.performed)
         {
             playerAttribut.AttackTypeX();
-            Debug.Log("Button X Performed");
+            //Debug.Log("Button X Performed");
         }
 
         if (buttonX.canceled)
         {
-            Debug.Log("Button X Canceled");
+            //Debug.Log("Button X Canceled");
         }
     }
 
@@ -139,20 +145,20 @@ public class PlayerInput_Final : MonoBehaviour
         buttonYValue = buttonY.ReadValue<float>();
         if (buttonY.started)
         {
-            Debug.Log("Button Y Started");
+            //Debug.Log("Button Y Started");
         }
 
         if (buttonY.performed)
         {
-            Debug.Log("Button Y Performed");
+            //Debug.Log("Button Y Performed");
         }
 
         if (buttonY.canceled)
         {
-            Debug.Log("Button Y Canceled");
+            //Debug.Log("Button Y Canceled");
         }
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input de la Gachette en Haut à Gauche
     /// </summary>
@@ -162,17 +168,17 @@ public class PlayerInput_Final : MonoBehaviour
         rightPressTrigger = LeftTopTrigger.ReadValue<float>();
         if (LeftTopTrigger.started)
         {
-            Debug.Log("Button LeftTopTrigger Started");
+            //Debug.Log("Button LeftTopTrigger Started");
         }
 
         if (LeftTopTrigger.performed)
         {
-            Debug.Log("Button LeftTopTrigger Performed");
+            //Debug.Log("Button LeftTopTrigger Performed");
         }
 
         if (LeftTopTrigger.canceled)
         {
-            Debug.Log("Button LeftTopTrigger Canceled");
+            //Debug.Log("Button LeftTopTrigger Canceled");
         }
     }
 
@@ -185,20 +191,20 @@ public class PlayerInput_Final : MonoBehaviour
         rightPressTrigger = LeftBottomTrigger.ReadValue<float>();
         if (LeftBottomTrigger.started)
         {
-            Debug.Log("Button LeftBottomTrigger Started");
+            //Debug.Log("Button LeftBottomTrigger Started");
         }
 
         if (LeftBottomTrigger.performed)
         {
-            Debug.Log("Button LeftBottomTrigger Performed");
+            //Debug.Log("Button LeftBottomTrigger Performed");
         }
 
         if (LeftBottomTrigger.canceled)
         {
-            Debug.Log("Button LeftBottomTrigger Canceled");
+            //Debug.Log("Button LeftBottomTrigger Canceled");
         }
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input de la Gachette en Haut à Droite
     /// </summary>
@@ -208,20 +214,21 @@ public class PlayerInput_Final : MonoBehaviour
         rightPressTrigger = RightTopTrigger.ReadValue<float>();
         if (RightTopTrigger.started)
         {
-            Debug.Log("Button RightTopTrigger Started");
+            //Debug.Log("Button RightTopTrigger Started");
         }
 
         if (RightTopTrigger.performed)
         {
+            playerAttribut.Dash();
             Debug.Log("Button RightTopTrigger Performed");
         }
 
         if (RightTopTrigger.canceled)
         {
-            Debug.Log("Button RightTopTrigger Canceled");
+            //Debug.Log("Button RightTopTrigger Canceled");
         }
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input de la Gachette Bas à Droite
     /// </summary>
@@ -231,20 +238,20 @@ public class PlayerInput_Final : MonoBehaviour
         rightPressTrigger = RightBottomTrigger.ReadValue<float>();
         if (RightBottomTrigger.started)
         {
-            Debug.Log("Button RightBottomTrigger Started");
+            //Debug.Log("Button RightBottomTrigger Started");
         }
 
         if (RightBottomTrigger.performed)
         {
-            Debug.Log("Button RightBottomTrigger Performed");
+            //Debug.Log("Button RightBottomTrigger Performed");
         }
 
         if (RightBottomTrigger.canceled)
         {
-            Debug.Log("Button RightBottomTrigger Canceled");
+            //Debug.Log("Button RightBottomTrigger Canceled");
         }
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>
@@ -261,6 +268,14 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="rightStick"></param>
     public void OnLook(CallbackContext rightStick)
     {
-        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
+        if (kbMouse)
+        {
+            _MousePos = _Camera.ScreenToWorldPoint(rightStick.ReadValue<Vector2>());
+            playerAttribut.SetInputVector(_MousePos, true);
+        }
+        else
+        {
+            playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
+        }
     }
 }
