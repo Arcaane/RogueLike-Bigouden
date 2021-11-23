@@ -25,6 +25,8 @@ public class Turret_Bullet : MonoBehaviour
 
         Vector2 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
+        float angle = GetAngleFromVectorFloat(dir);
+        transform.eulerAngles = new Vector3(0, 0, angle);
 
         if(dir.magnitude <= distanceThisFrame)
         {
@@ -43,5 +45,13 @@ public class Turret_Bullet : MonoBehaviour
         //Destroy(effectIns, 2f);
         //Destroy(target.gameObject);
         Destroy(gameObject);
+    }
+    
+    public float GetAngleFromVectorFloat(Vector3 dir) {
+        dir = dir.normalized;
+        float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (n < 0) n += 360;
+
+        return n;
     }
 }
