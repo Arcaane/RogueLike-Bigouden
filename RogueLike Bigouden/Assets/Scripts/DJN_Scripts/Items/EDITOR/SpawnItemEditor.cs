@@ -12,6 +12,7 @@ public class SpawnItemEditor : Editor
    {
       SpawnedItem spawnedItem = (SpawnedItem) target;
 
+      GUILayout.Label("Sprite");
       spawnedItem.spawnedSprite = (Sprite) EditorGUILayout.ObjectField(spawnedItem.spawnedSprite, typeof(Sprite), false);
       GUILayout.Label("Effect");
       spawnedItem.target = (SpawnedItem.Target) EditorGUILayout.EnumPopup("Target", spawnedItem.target);

@@ -11,7 +11,9 @@ public class DropSystem : MonoBehaviour
 {
     private ItemsManager itemManager;
     private GameObject gameManager;
+    private UIManager _uiManager;
     private CircleCollider2D collider;
+    
     public bool shop;
     public bool levelEnding;
     
@@ -27,10 +29,10 @@ public class DropSystem : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        itemManager = gameManager.GetComponent<ItemsManager>();
+        itemManager = FindObjectOfType<ItemsManager>();
         gameobjectSprite = GetComponent<SpriteRenderer>();
         collider = GetComponent<CircleCollider2D>();
+        _uiManager = FindObjectOfType<UIManager>();
         
         collider.enabled = false;
 
@@ -92,6 +94,20 @@ public class DropSystem : MonoBehaviour
                 //ShopItemGeneration();
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _uiManager.itemInformationPanel.SetActive(true);
+            _uiManager.InformationPanel(itemSelect);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _uiManager.itemInformationPanel.SetActive(false);
     }
 
     private void Roll()

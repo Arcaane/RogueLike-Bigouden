@@ -18,6 +18,15 @@ public class UIManager : MonoBehaviour
     [Header("DialogueBox")] public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
 
+    [Header("Common UI")] 
+    public GameObject itemInformationPanel;
+
+    public TextMeshProUGUI itemNameText;
+    public TextMeshProUGUI itemDescriptionText;
+    public TextMeshProUGUI itemPriceText;
+    public Image itemIconImage;
+    public TextMeshProUGUI itemRarityText;
+
     [Header("Player1 HUD")] public GameObject player1UI;
     public Image p1_healthBarImg;
     public TextMeshProUGUI p1_healthText;
@@ -38,6 +47,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI enemyHealthText;
     public TextMeshProUGUI enemyName;
 
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject pauseMenu;
+    private bool isPaused;
+    
     [Header("Test Information")] [Range(0, 10)]
     public float currentHealth;
 
@@ -45,6 +58,8 @@ public class UIManager : MonoBehaviour
     [Range(0, 999)] public int currentMoney;
     [Range(0, 100)] public float currentEnergy;
     public float maxEnergy;
+    
+    
 
     public bool searchInventory;
     private PlayerStatsManager _playerStatsManager;
@@ -65,12 +80,40 @@ public class UIManager : MonoBehaviour
         player2UI.SetActive(false);
         searchInventory = false;
         dialogueBox.SetActive(false);
-
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        
+        itemInformationPanel.SetActive(false);
+        
         //trouver le script player statistiques
     }
-    
+
+    private void Update()
+    {
+        Pause();
+        UpdateItemPlayer();
+    }
+
+    private void Pause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
     void UpdateItemPlayer()
     {
+        //ecart de 55 sur l'axe x
+        imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
+
         if (inventory)
         {
             foreach (Transform itemsImage in imageItemPanel)
@@ -79,7 +122,6 @@ public class UIManager : MonoBehaviour
                 {
                     if (imageItemPanel.Length > inventory.items.Count)
                         imageItemPanel[i].GetComponent<Image>().enabled = false;
-
                 }
 
                 for (int i = 0; i < inventory.items.Count; i++)
@@ -89,6 +131,15 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void InformationPanel(Items items)
+    {
+        itemIconImage.sprite = items.image;
+        itemNameText.text = items.itemName;
+        itemDescriptionText.text = items.description;
+        itemPriceText.text = items.price.ToString();
+        itemRarityText.text = items.rarity.ToString();
     }
 
     public void SearchPlayer(GameObject P)
