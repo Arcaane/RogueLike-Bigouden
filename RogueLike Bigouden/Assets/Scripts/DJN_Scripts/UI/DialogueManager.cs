@@ -45,7 +45,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            triggerFeedback.SetActive(true);
+            if(triggerFeedback)
+                triggerFeedback.SetActive(true);
 
             if (Input.GetKey(KeyCode.KeypadEnter))
             {

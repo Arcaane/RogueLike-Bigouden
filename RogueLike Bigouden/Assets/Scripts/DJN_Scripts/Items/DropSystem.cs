@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.InputSystem.Controls;
 using Random = System.Random;
 
 public class DropSystem : MonoBehaviour
@@ -13,6 +15,7 @@ public class DropSystem : MonoBehaviour
     private GameObject gameManager;
     private UIManager _uiManager;
     private CircleCollider2D collider;
+    public InputAction inputAction;
     
     public bool shop;
     public bool levelEnding;
@@ -47,6 +50,8 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
+        
         EndLevelItemDrop();
     }
 
@@ -102,8 +107,11 @@ public class DropSystem : MonoBehaviour
         {
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
+            
         }
+
     }
+    
 
     private void OnTriggerExit2D(Collider2D other)
     {
