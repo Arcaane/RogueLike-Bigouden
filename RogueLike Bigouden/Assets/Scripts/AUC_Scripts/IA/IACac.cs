@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking.Match;
 using Random = UnityEngine.Random;
 
 public class IACac : MonoBehaviour
@@ -12,10 +13,9 @@ public class IACac : MonoBehaviour
     // Utilities
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private Transform hitPoint;
     [SerializeField] private bool isRdyMove;
+    [SerializeField] private Animator cacAnimator;
     private Vector2 pos;
-    private Vector2 fwd;
     public LayerMask isPlayer;
     
     [SerializeField] private int _damageDealt;
@@ -28,8 +28,14 @@ public class IACac : MonoBehaviour
     [SerializeField] private bool _isPlayerInAttackRange;
     [SerializeField] private bool _isReadyToShoot;
     [SerializeField] private bool _isAggro;
-    [SerializeField] private bool _isAttacking;
+    [SerializeField] private bool isSpot;
     public float hitRadius;
+    
+    // Anims States
+    private bool _isWalk;
+    private bool _isAttack;
+
+    private Vector3 shootPointPos;
     
     #endregion
 
@@ -53,11 +59,13 @@ public class IACac : MonoBehaviour
         agent.updateUpAxis = false;
         agent.speed = _movementSpeed;
 
+        _isAttack = false;
+        _isWalk = false;
+        
         _isAggro = false;
         isRdyMove = false;
         _isPlayerInAggroRange = false;
         _isPlayerInAttackRange = false;
-        _isAttacking = false;
         _isReadyToShoot = true;
         Invoke(nameof(WaitToGo), _timeBeforeAggro);
     }
@@ -74,10 +82,17 @@ public class IACac : MonoBehaviour
             ChasePlayer();
         if(_isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro)
             Attacking();
+        
+        Animations(agent);
+
+        if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
+        {
+            _isWalk = false;
+        }
+        else { _isWalk = true; }
     }
 
     #region PatrollingState
-    
     void Patrolling()
     {
         if (isRdyMove)
@@ -88,6 +103,8 @@ public class IACac : MonoBehaviour
     { 
         Vector2 pos = GetNewRandomPosition(); 
         agent.SetDestination(pos);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
     }
 
     IEnumerator ResetPath()
@@ -95,6 +112,8 @@ public class IACac : MonoBehaviour
         isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
+        _isWalk = false; // Anim
+        _isAttack = false; // Anim
         isRdyMove = true;
     }
         
@@ -112,6 +131,11 @@ public class IACac : MonoBehaviour
     void ChasePlayer()
     {
         agent.SetDestination(target.position);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
+        
+        if(!isSpot)
+            SpottedPlayer();
     }
     
     #endregion
@@ -120,39 +144,85 @@ public class IACac : MonoBehaviour
 
     void Attacking()
     {
-        agent.SetDestination(transform.position);
+        _isWalk = false;
         if (_isReadyToShoot)
         {
-            Hit();
+            Collider2D[] detectPlayer = Physics2D.OverlapCircleAll(transform.position, _attackRange, isPlayer);
+            if (detectPlayer != null)
+            {
+                GoHit();
+                _isAttack = true;
+                _isReadyToShoot = false;
+            }
         }
+        agent.SetDestination(transform.position);
+        Debug.DrawRay(transform.position, new Vector3(target.position.x - transform.position.x, target.position.y - transform.position.y + upTofitPlayer), Color.green);
     }
-
-    private void Hit()
+    private const float radiusShootPoint = 0.75f;
+    private const float upTofitPlayer = 0.28f;
+    private void GoHit()
     {
-        _isReadyToShoot = false;
-        
-        // Play attack animation
-        
-        // Detect player 
-        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(hitPoint.position, hitRadius, isPlayer);
-        
-        // Damage them
-        foreach (var player in hitPlayers)
+        _isWalk = false; // Anim
+        StartCoroutine(Hit());
+    }
+    private bool paire = true;
+    IEnumerator Hit()
+    {
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
+        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position + shootPointPos * radiusShootPoint, hitRadius, isPlayer);
+        foreach (var _player in hitPlayers)
         {
-            player.GetComponent<PlayerStatsManager>().TakeDamage(_damageDealt);
-            Debug.Log("Player: " + player.name + " just hit!");
+            if (paire)
+            {
+                paire = false;
+                _player.GetComponent<PlayerStatsManager>().TakeDamage(_damageDealt);
+                Debug.Log("Player Hit : " + _player.name + " & receive : " + _damageDealt + " damage !");
+            }
+            else
+            {
+                paire = true;
+            }
         }
         
-        StartCoroutine(ResetHit());
-    }
-
-    IEnumerator ResetHit()
-    {
+        _isAttack = false;
         yield return new WaitForSeconds(_attackDelay);
         _isReadyToShoot = true;
     }
     #endregion
 
+    #region Anims
+    private void Animations(NavMeshAgent agent)
+    {
+        if (_isAttack)
+        {
+            cacAnimator.SetFloat("Horizontal", shootPointPos.x);
+            cacAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
+            cacAnimator.SetBool("isAttack", _isAttack);
+            cacAnimator.SetBool("isWalk", _isWalk);
+        }
+        else
+        {
+            cacAnimator.SetFloat("Vertical", agent.velocity.y);
+            cacAnimator.SetFloat("Horizontal", agent.velocity.x);
+            cacAnimator.SetBool("isAttack", _isAttack);
+            cacAnimator.SetBool("isWalk", _isWalk);
+        }
+        
+        Debug.Log("is attack " + _isAttack);           
+        Debug.Log("is Walk " + _isWalk);
+    }
+    #endregion
+    
+    private void SpottedPlayer()
+    {
+        isSpot = true;
+        if (isSpot)
+        {
+            _detectZone *= 2;
+        }
+    }
+    
     private void WaitToGo()
     {
         _isAggro = true;
@@ -167,6 +237,6 @@ public class IACac : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(hitPoint.position, hitRadius);
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, hitRadius);
     }
 }

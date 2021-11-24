@@ -125,9 +125,7 @@ public class IAShooter : MonoBehaviour
     private void Patrolling()
     {
         if (isRdyMove)
-        {
             StartCoroutine(ResetPath());
-        }
     }
     Vector3 GetNewRandomPosition()
     {
@@ -174,8 +172,8 @@ public class IAShooter : MonoBehaviour
         
         if (_isReadyToShoot)
         {
-            Collider2D[] toi = Physics2D.OverlapCircleAll(enemyPos, _attackRange, isPlayer);
-            if (toi != null)
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(enemyPos, _attackRange, isPlayer);
+            if (hitPlayers != null)
             {
                 _isAttack = true;
                 Shoot();
@@ -206,7 +204,7 @@ public class IAShooter : MonoBehaviour
         }
 
         _isAttack = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(_attackDelay);
         _isReadyToShoot = true;
     }
     #endregion
@@ -231,7 +229,7 @@ public class IAShooter : MonoBehaviour
         if (_isAttack)
         {
             shooterAnimator.SetFloat("Vertical", shootPointPos.x);
-            shooterAnimator.SetFloat("Horizontal", shootPointPos.y);
+            shooterAnimator.SetFloat("Horizontal", shootPointPos.y + upTofitPlayer);
             shooterAnimator.SetBool("isAttack", _isAttack);
             shooterAnimator.SetBool("isWalk", _isWalk);
         }
