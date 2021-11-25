@@ -15,12 +15,13 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
     [SerializeField]
-    private float timerDash;
+    private float _timerDash;
 
-    [SerializeField] private float timerBetweenDash;
-    [SerializeField] private float timerAttack;
-    [SerializeField] private float timerDelayAttack;
-    [SerializeField] private float timerDodgeEffect;
+    [SerializeField] private float _timerBetweenDash;
+    [SerializeField] private float _timerAttack;
+    [SerializeField] private float _timerDelayAttack;
+    [SerializeField] private float _timerDodgeEffect;
+    [SerializeField] private float _delayProjectile;
 
     [Header("Component Rigidbody")] [SerializeField]
     private Rigidbody2D rb;
@@ -55,10 +56,10 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float dashCounter;
 
 
-    [Header("Player Attack")] [SerializeField]
+    [Header("Player Attack X/Y")] [SerializeField]
     private GameObject splinePivot;
 
-    [SerializeField] private Transform offsetAttack;
+    [SerializeField] private Transform offsetAttackXY;
 
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
@@ -75,6 +76,23 @@ public class PlayerAttribut : MonoBehaviour
     public bool launchAOEAttack;
     public float delayBeforeResetAttack = 1f;
     public float delayForSecondAttack = 4f;
+
+    [Header("Player Attack Projectile")]
+    //Object Projectile
+    [SerializeField]
+    private GameObject projectileObj;
+
+    //Projectile Attack Position
+    [SerializeField] private Transform projectileAttack;
+    [SerializeField] private AnimationCurve animationCurve;
+    [SerializeField] private float speedProjectile;
+
+    //Offset of the end Position
+    [SerializeField] private float offsetEndPosProjectile;
+
+    //Projectile is launch
+    [SerializeField] public bool launchProjectile;
+
 
     [Header("Dogdge Ability")]
     //float-----------------------------------
@@ -113,10 +131,10 @@ public class PlayerAttribut : MonoBehaviour
     private float _durationResetDash;
     private float _smallMovementFloat;
 
+
     //int
     private int _dashCount;
     private int _dashCountMax;
-
 
     //Vector3
     //Permet de relier ces vecteurs au Joystick dans le InputHandler.
@@ -126,6 +144,7 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] Vector3 _directionNormalized;
     [SerializeField] Vector3 _move;
     [SerializeField] Vector3 _look;
+    [SerializeField] Vector3 _objPosition;
 
     //Bools
     private bool _readyToAttackX;
@@ -151,6 +170,10 @@ public class PlayerAttribut : MonoBehaviour
         _playerStatsManager = GetComponent<PlayerStatsManager>();
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
+
+        //Projectile-------------------
+        projectileObj.SetActive(false);
+        _delayProjectile = projectileObj.GetComponent<ProjectilePlayer>()._delayIncrementation;
     }
 
     private void Start()
@@ -162,6 +185,10 @@ public class PlayerAttribut : MonoBehaviour
                 elementOfTextMeshPro[i].SetActive(false);
             }
         }
+
+        _objPosition = projectileObj.gameObject.transform.position;
+        _objPosition.y = splinePivot.transform.position.y + offsetEndPosProjectile;
+        projectileAttack.position = _objPosition;
     }
 
     public void Move()
@@ -174,10 +201,6 @@ public class PlayerAttribut : MonoBehaviour
         {
             transform.Translate(_move * speed * Time.deltaTime);
         }
-    }
-
-    public void CompareTimer()
-    {
     }
 
 
@@ -304,10 +327,10 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        timerBetweenDash += Time.deltaTime;
-        if (durationDash >= timerBetweenDash)
+        _timerBetweenDash += Time.deltaTime;
+        if (durationDash >= _timerBetweenDash)
         {
-            timerBetweenDash = 0;
+            _timerBetweenDash = 0;
             if (useVibration)
             {
                 playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
@@ -346,7 +369,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         Vector2 dir = _lastPosition;
         transform.position =
-            Vector2.Lerp(transform.position, dir + (Vector2) offsetAttack.position, _smallMovementFloat);
+            Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
         Debug.Log(_smallMovementFloat);
     }
 
@@ -380,6 +403,15 @@ public class PlayerAttribut : MonoBehaviour
                 break;
         }
 
+        if (launchProjectile)
+        {
+            LaunchProjectile();
+        }
+        else if (!launchProjectile)
+        {
+            ResetLaunchProjectile();
+        }
+
         if (m_isColliding)
         {
             lastVelocity = rb.velocity;
@@ -410,7 +442,7 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
-            if (attackType >= 2 && delayForSecondAttack >= timerAttack)
+            if (attackType >= 2 && delayForSecondAttack >= _timerAttack)
             {
                 attackType = 2;
                 attackPath.launchSecondAttack = true;
@@ -425,27 +457,27 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (isDash)
         {
-            timerDash += Time.deltaTime;
-            if (timerDash >= durationCooldownDash)
+            _timerDash += Time.deltaTime;
+            if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
                 isDash = false;
                 dashCounter = 0f;
-                timerDash = 0f;
+                _timerDash = 0f;
             }
         }
 
         if (isAttacking)
         {
-            timerAttack += Time.deltaTime;
-            if (timerAttack >= delayBeforeResetAttack)
+            _timerAttack += Time.deltaTime;
+            if (_timerAttack >= delayBeforeResetAttack)
             {
                 attackType = 0;
                 isAttacking = false;
                 attackPath.launchAttack = false;
                 attackPath.launchSecondAttack = false;
                 attackPath.progress = 0f;
-                timerAttack = 0f;
+                _timerAttack = 0f;
                 Vector2 velocity = Vector2.zero;
                 rb.velocity = velocity;
             }
@@ -473,11 +505,11 @@ public class PlayerAttribut : MonoBehaviour
 
     void ResetMovement(int attack)
     {
-        timerDelayAttack += Time.deltaTime;
+        _timerDelayAttack += Time.deltaTime;
         float resetTimer = 0f;
-        if (timerDelayAttack >= valueBeforeResetAttack)
+        if (_timerDelayAttack >= valueBeforeResetAttack)
         {
-            timerDelayAttack = resetTimer;
+            _timerDelayAttack = resetTimer;
             if (attack == 0)
             {
                 launchFirstAttack = false;
@@ -488,6 +520,27 @@ public class PlayerAttribut : MonoBehaviour
                 launchSecondAttack = false;
             }
         }
+    }
+
+    public void LaunchProjectile()
+    {
+        projectileObj.SetActive(true);
+        _delayProjectile += speedProjectile * Time.deltaTime;
+        Vector2 posPlayer = transform.position;
+        _objPosition = Vector2.Lerp(posPlayer, projectileAttack.position, animationCurve.Evaluate(_delayProjectile));
+        projectileObj.transform.position = _objPosition;
+        if (_delayProjectile >= 1)
+        {
+            _delayProjectile = 1;
+            launchProjectile = false;
+            projectileObj.SetActive(false);
+        }
+    }
+
+    void ResetLaunchProjectile()
+    {
+        _delayProjectile = 0;
+        projectileObj.transform.position = transform.position;
     }
 
 
@@ -622,11 +675,11 @@ public class PlayerAttribut : MonoBehaviour
         dashCountText.text = "Dash Count : " + dashCounter;
         isDashingText.text = "Is Dashing: " + isDash;
         timeBeforeDashText.text =
-            "Time Before Next Dash: " + Mathf.Round((durationCooldownDash - timerDash) * 10) * 0.1;
+            "Time Before Next Dash: " + Mathf.Round((durationCooldownDash - _timerDash) * 10) * 0.1;
         numberOfAttackText.text = "Number Of Attack " + (2 - attackType);
         isAttackingText.text = "Is Attacking : " + isAttacking;
         timeBeforeAttack.text = "Time Before Reset Attack : " +
-                                Mathf.Round((delayBeforeResetAttack - timerAttack) * 10) * 0.1;
+                                Mathf.Round((delayBeforeResetAttack - _timerAttack) * 10) * 0.1;
         axisCoord.text = "X : " + Mathf.Round(movementInput.x * 10) * 0.1 + "  " + "Y : " +
                          Mathf.Round(movementInput.y * 10) * 0.1;
     }
@@ -638,18 +691,20 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         speed *= speedModification;
-        timerDodgeEffect += Time.deltaTime;
-        if (timerAttack >= durationEffect)
+        _timerDodgeEffect += Time.deltaTime;
+        if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
         }
     }
 
-
     private void OnDrawGizmos()
     {
+        Vector3 position = transform.position;
+        //float objPos = _objPosition.x > _objPosition.y ?_objPosition.x : _objPosition.y;
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed) / 2);
+        Gizmos.DrawRay(position, (_lastPosition.normalized * dashSpeed) / 2);
+        Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
     }
 }
 

@@ -103,6 +103,7 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonB.performed)
         {
+            playerAttribut.launchProjectile = true;
             //Debug.Log("Button B Performed");
         }
 
@@ -173,6 +174,7 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (LeftTopTrigger.performed)
         {
+            playerAttribut.AttackTypeX();
             //Debug.Log("Button LeftTopTrigger Performed");
         }
 

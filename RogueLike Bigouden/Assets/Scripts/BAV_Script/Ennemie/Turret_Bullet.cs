@@ -24,8 +24,8 @@ public class Turret_Bullet : MonoBehaviour
         }
 
         Vector2 dir = target.position - transform.position;
-        float distanceThisFrame = speed * Time.deltaTime;
         float angle = GetAngleFromVectorFloat(dir);
+        float distanceThisFrame = speed * Time.deltaTime;
         transform.eulerAngles = new Vector3(0, 0, angle);
 
         if(dir.magnitude <= distanceThisFrame)
