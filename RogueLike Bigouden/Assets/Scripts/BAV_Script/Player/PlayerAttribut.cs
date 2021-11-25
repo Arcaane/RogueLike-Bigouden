@@ -315,7 +315,12 @@ public class PlayerAttribut : MonoBehaviour
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
-
+    
+    public void SmallMovement(float speed)
+    {
+        Vector2 dir = _lastPosition;
+        rb.AddForce(dir.normalized * (speed * 100));
+    }
     #endregion DashAttribut
 
     private void Update()
@@ -453,11 +458,7 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    public void SmallMovement(float speed)
-    {
-        Vector2 dir = _lastPosition;
-        rb.AddForce(dir.normalized * (speed * 100));
-    }
+
 
     Vector3 CheckPosition(Vector3 direction)
     {
