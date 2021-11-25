@@ -31,6 +31,8 @@ public class BossEventManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             laserBeam.isActive = true;
+            laserBeam = laser[selectedPillard].GetComponent<Beam>();
+            laserBeam.ghostTarget.position = laserBeam.originTarget.position;
             
         }
 

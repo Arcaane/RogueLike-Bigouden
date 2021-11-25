@@ -23,8 +23,6 @@ public class Beam : MonoBehaviour
         
         isActive = false;
         line.enabled = false;
-        
-        
         originPoint.gameObject.layer = 2;
     }
 
@@ -36,8 +34,8 @@ public class Beam : MonoBehaviour
             line.enabled = true;
             Laser();
         }
-
-       
+        
+        
     }
 
     public void Laser()
@@ -51,9 +49,11 @@ public class Beam : MonoBehaviour
         {
             line.SetPosition(1, hit.point);
             //Debug.Log(hit.collider.name);
+            
             if (hit.collider.CompareTag("Player"))
             {
                 isActive = false;
+                line.enabled = false;
             }
             
             Debug.Log(hit.collider.name);
@@ -62,7 +62,7 @@ public class Beam : MonoBehaviour
         {
             line.SetPosition(1, ghostTarget.position);
         }
-
+        
         StartCoroutine(BeamMoving());
     }
 
@@ -71,5 +71,14 @@ public class Beam : MonoBehaviour
         yield return new WaitForSeconds(startingTime);
         ghostTarget.position = Vector2.MoveTowards(ghostTarget.position, newTarget.position, raySpeed * Time.deltaTime); //move the ghostTarget to the next point
 
+        if (ghostTarget.position == newTarget.position)
+        {
+            line.enabled = false;
+            isActive = false;
+        }
+
+       
+        
+        
     }
 }
