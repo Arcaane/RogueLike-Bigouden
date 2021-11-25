@@ -12,13 +12,14 @@ public class ApplyAttack : MonoBehaviour
     {
         _projectilePath = _projectilePathHolder.GetComponent<ProjectilePath>();
     }
-    
-    private void OnCollisionEnter2D(Collision2D other)
+
+    private void OnTriggerEnter2D(Collider2D trigger2D)
     {
-        if (_projectilePath.isAttacking && other.gameObject.CompareTag("Ennemy"))
+        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
         {
-            other.gameObject.GetComponent<EnnemyStatsManager>().TakeDamage(1);
-            Debug.Log("Ennemy damaged : " + other.gameObject.name);
+            GameObject o = trigger2D.gameObject;
+            o.GetComponent<EnnemyStatsManager>().TakeDamage(1);
+            Debug.Log("Ennemy damaged : " + o.name);
         }
     }
 }

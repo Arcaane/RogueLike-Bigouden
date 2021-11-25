@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Configuration;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static TimeManager;
 
 public class PlayerAttribut : MonoBehaviour
 {
+    [SerializeField] private TimeManager timerManager;
+
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
     [SerializeField]
@@ -54,12 +58,15 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Player Attack")] [SerializeField]
     private GameObject splinePivot;
 
+    [SerializeField] private Transform offsetAttack;
+
     [SerializeField] public AttackSystemSpline attackSpline;
     public ProjectilePath attackPath;
 
     //float-------------------
     [SerializeField] public float valueBeforeResetAttack;
     [SerializeField] public float attackType;
+    [SerializeField] public float attackMovingSpeed;
 
     //bool--------------------
     public bool isAttacking;
@@ -104,6 +111,7 @@ public class PlayerAttribut : MonoBehaviour
 
     //float
     private float _durationResetDash;
+    private float _smallMovementFloat;
 
     //int
     private int _dashCount;
@@ -158,7 +166,18 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(_move * speed * Time.deltaTime);
+        if (isRalenti)
+        {
+            transform.Translate(_move * speed * CustomDeltaTime);
+        }
+        else
+        {
+            transform.Translate(_move * speed * Time.deltaTime);
+        }
+    }
+
+    public void CompareTimer()
+    {
     }
 
 
@@ -274,7 +293,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
-        SmallMovement(dashSpeed);
+        DashTP(dashSpeed);
         StartCoroutine(DashWaitCorou());
     }
 
@@ -312,21 +331,41 @@ public class PlayerAttribut : MonoBehaviour
         {
             playerFeedBack.MovingRumble(Vector2.zero);
         }
+
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
-    
-    public void SmallMovement(float speed)
+
+    public void DashTP(float speed)
     {
         Vector2 dir = _lastPosition;
-        rb.AddForce(dir.normalized * (speed * 100));
+        rb.AddForce(dir * (speed * 100));
     }
+
+    public void SmallMovementAttack()
+    {
+        Vector2 dir = _lastPosition;
+        transform.position =
+            Vector2.Lerp(transform.position, dir + (Vector2) offsetAttack.position, _smallMovementFloat);
+        Debug.Log(_smallMovementFloat);
+    }
+
+    public void ResetSmallMovement()
+    {
+        _smallMovementFloat = attackMovingSpeed * Time.deltaTime;
+        if (_smallMovementFloat > 1)
+        {
+            _smallMovementFloat = 0;
+        }
+    }
+
     #endregion DashAttribut
 
     private void Update()
     {
         if (isDash || isAttacking)
         {
+            ResetSmallMovement();
             DashWait();
             Reset();
         }
@@ -371,17 +410,12 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
-            rb.velocity = Vector2.zero;
-            SmallMovement(attackMoveSmall);
             if (attackType >= 2 && delayForSecondAttack >= timerAttack)
             {
                 attackType = 2;
-                isAttacking = true;
                 attackPath.launchSecondAttack = true;
                 launchFirstAttack = false;
                 launchSecondAttack = true;
-                rb.velocity = Vector2.zero;
-                SmallMovement(attackMoveSmall);
             }
         }
     }
@@ -440,12 +474,10 @@ public class PlayerAttribut : MonoBehaviour
     void ResetMovement(int attack)
     {
         timerDelayAttack += Time.deltaTime;
-        Vector2 velocity = Vector2.zero;
         float resetTimer = 0f;
         if (timerDelayAttack >= valueBeforeResetAttack)
         {
             timerDelayAttack = resetTimer;
-            rb.velocity = velocity;
             if (attack == 0)
             {
                 launchFirstAttack = false;
@@ -457,7 +489,6 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-
 
 
     Vector3 CheckPosition(Vector3 direction)
@@ -602,19 +633,14 @@ public class PlayerAttribut : MonoBehaviour
 
     public void DodgeAttack()
     {
+        useDodgeAbility = true;
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
-        /*if (radiusDodge <= distPlayerRadius)
-        {
-        }*/
-        useDodgeAbility = true;
         speed *= speedModification;
-        Time.timeScale = 0.3f;
         timerDodgeEffect += Time.deltaTime;
         if (timerAttack >= durationEffect)
         {
-            Time.timeScale = 1f;
             useDodgeAbility = false;
         }
     }
@@ -624,5 +650,27 @@ public class PlayerAttribut : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed) / 2);
+    }
+}
+
+[System.Serializable]
+public class TimeManager
+{
+    private static float timeRalenti;
+    public const float DurationRalenti = 0.5f; // in real time ! Float to changer for the duration of the Slow Down
+
+    public static bool isRalenti =>
+        Time.time - timeRalenti < DurationRalenti; // did we ralenti more than 0.5f seconds ago ? so we are slown Down
+
+    public static float CustomDeltaTime =>
+        isRalenti
+            ? Time.deltaTime * speedRalenti
+            : 1f; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
+
+    public const float speedRalenti = 0.3f;
+
+    public static void SlowDownGame()
+    {
+        timeRalenti = Time.time;
     }
 }
