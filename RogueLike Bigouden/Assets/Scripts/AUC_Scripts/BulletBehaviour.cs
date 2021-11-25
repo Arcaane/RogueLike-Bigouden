@@ -15,7 +15,7 @@ public class BulletBehaviour : MonoBehaviour
 
     public void GoDirection(Vector2 direction, float b_Speed)
     {
-        rb.velocity =(direction * b_Speed);
+        rb.velocity = (direction * b_Speed);
     }
     
     private void OnTriggerEnter2D(Collider2D other)
