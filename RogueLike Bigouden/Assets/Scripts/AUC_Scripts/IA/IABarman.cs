@@ -14,7 +14,7 @@ public class IABarman : MonoBehaviour
     private Vector3 shootPointPos;
 
     // Bezier Param
-    public Transform angularPointBezier;
+    private Vector2 angularPointBezier;
     private LineRenderer _lineRenderer;
     private int numPoints = 20;
     private Vector3[] positions = new Vector3[20];
@@ -23,6 +23,8 @@ public class IABarman : MonoBehaviour
     private float tParam;
     private Vector2 projectilePosition;
     public GameObject cocktail;
+    public float testSpeed = 0.03f;
+    private Vector2 playerTransform;
     
     // Floats
     [SerializeField] private float _detectZone; // Fov
@@ -43,6 +45,11 @@ public class IABarman : MonoBehaviour
     [SerializeField] private bool _isAggro; // L'unité chase le joueur ?
     [SerializeField] private bool _isAttacking; // L'unité attaque ?
     [SerializeField] private bool _isRdyMove;
+
+    // Anims
+    private Animator barmanAnimator;
+    private bool _isAttack;
+    private bool _isWalk;
     #endregion
 
     // Start is called before the first frame update
@@ -64,6 +71,9 @@ public class IABarman : MonoBehaviour
         
         target = GameObject.FindGameObjectWithTag("Player").transform;
         
+        // Set bools
+        _isAttack = false;
+        _isWalk = false;        
         _isAggro = false;
         _isRdyMove = false;
         _isReadyToShoot = false;
@@ -86,6 +96,13 @@ public class IABarman : MonoBehaviour
             ChasePlayer();
         if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
             Attacking();
+        
+        //Animations(agent);
+        if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
+        {
+            _isWalk = false;
+        }
+        else { _isWalk = true; }
     }
 
     private void OnDrawGizmosSelected()
@@ -118,12 +135,16 @@ public class IABarman : MonoBehaviour
     {
         pos = GetNewRandomPosition();
         agent.SetDestination(pos);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
     }
     IEnumerator ResetPath()
     {
         _isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
+        _isWalk = false; // Anim
+        _isAttack = false; // Anim
         _isRdyMove = true;
     }
     #endregion
@@ -131,27 +152,40 @@ public class IABarman : MonoBehaviour
     #region ChaseState
 
     private void ChasePlayer()
-    { agent.SetDestination(target.position); }
+    {
+        agent.SetDestination(target.position);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
+    }
     #endregion
     
     #region AttackState
+
+    private const float radiusShootPoint = 0.5f;
+    private const float upTofitPlayer = 0.18f;
     private void Attacking()
     {
-        agent.SetDestination(transform.position);
+        _isWalk = false; // Anim
+
         if (_isReadyToShoot)
+        {
+            _isAttack = true;
             StartCoroutine(Shoot());
+        }
+        agent.SetDestination(transform.position);
+        Debug.DrawRay(transform.position, new Vector3(target.position.x - transform.position.x, target.position.y - transform.position.y + upTofitPlayer), Color.green);
     }
     
-    private const float radiusShootPoint = 0.75f;
     private IEnumerator Shoot()
     {
+        playerTransform = target.position;
         _isReadyToShoot = false;
-        // Play an attack animation
+        
         shootPointPos = (target.position - transform.position);
         shootPointPos.Normalize();
         
-        angularPointBezier.position = new Vector3((target.position.x + shootPointPos.x) / 2,
-            (target.position.y + shootPointPos.y) / 2 + 3, 0);
+        angularPointBezier = new Vector3((target.position.x + shootPointPos.x) / 2,
+            (target.position.y + shootPointPos.y) / 2 + 1.5f, 0);
         
         
         int cocktailRand = Random.Range(1, 4);
@@ -160,7 +194,7 @@ public class IABarman : MonoBehaviour
         var projectile = Instantiate(cocktail, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
         for (int i = 0; i < positions.Length; i++)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(testSpeed);
             projectile.transform.position = positions[i];
         }
 
@@ -168,14 +202,10 @@ public class IABarman : MonoBehaviour
         {
             projectilePosition = projectile.transform.position;
             BreakProjectile(cocktailRand);
-            Destroy(projectile);
+            projectile.SetActive(false);
         }
-        StartCoroutine(ResetShoot());
-    }
-        
-    
-    private IEnumerator ResetShoot()
-    {
+
+        _isAttack = false;
         yield return new WaitForSeconds(_delayAttack);
         _isReadyToShoot = true;
     }
@@ -187,9 +217,7 @@ public class IABarman : MonoBehaviour
         _isRdyMove = true;
         _isReadyToShoot = true;
     }
-
     
-
     #region ProjectileBehaviour
     public Vector3 CalculateQuadraticBezierCurve(float t, Vector3 p0, Vector3 p1, Vector3 p2) // Calculer la courbe du coktail
     {
@@ -207,8 +235,7 @@ public class IABarman : MonoBehaviour
         for (int i = 0; i < numPoints; i++)
         {
             float t = i / (float) numPoints;
-            positions[i] =
-                CalculateQuadraticBezierCurve(t, shootPointPos, angularPointBezier.position, target.position);
+            positions[i] = CalculateQuadraticBezierCurve(t, transform.position + shootPointPos * radiusShootPoint, angularPointBezier, new Vector2(playerTransform.x, playerTransform.y + upTofitPlayer));
         }
         _lineRenderer.SetPositions(positions);
     }
@@ -226,6 +253,30 @@ public class IABarman : MonoBehaviour
                 ObjectPooler.Instance.SpawnFromPool("ProjectileBarman3", projectilePosition, Quaternion.identity);
                 break;
         }
+    }
+    #endregion
+
+    #region Anims
+    private void Animations(NavMeshAgent agent)
+    {
+        if (_isAttack)
+        {
+            barmanAnimator.SetFloat("Horizontal", shootPointPos.x);
+            barmanAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
+            barmanAnimator.SetBool("isAttack", _isAttack);
+            barmanAnimator.SetBool("isWalk", _isWalk);
+        }
+        else
+        {
+            barmanAnimator.SetFloat("Horizontal", agent.velocity.x);
+            barmanAnimator.SetFloat("Vertical", agent.velocity.y);
+            barmanAnimator.SetBool("isAttack", _isAttack);
+            barmanAnimator.SetBool("isWalk", _isWalk);
+        }
+        
+        Debug.Log("is attack " + _isAttack);           
+        Debug.Log("is Walk " + _isWalk);
+        
     }
     #endregion
 }

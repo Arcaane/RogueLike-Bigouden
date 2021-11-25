@@ -17,6 +17,11 @@ public class IARunner : MonoBehaviour
     private Vector2 fwd;
     public LayerMask isPlayer;
     private Vector2 pos;
+
+    //Anims
+    [SerializeField] private Animator runnerAnimator;
+    private bool _isAttack;
+    private bool _isWalk;
     
     //Int
     [SerializeField] private int _damageDealt;
@@ -38,10 +43,14 @@ public class IARunner : MonoBehaviour
     [SerializeField] private bool _isRushing;
     
     [SerializeField] private float _dashSpeed;
+    [SerializeField] private Vector2 shootPointPos;
     [SerializeField] private bool _isReadyToDash;
     [SerializeField] private float _stunDuration;
     [SerializeField] private float _rushDelay;
     [SerializeField] private float _moveSpeedCharge;
+    [SerializeField] private bool isSpot;
+    [SerializeField] private bool _isStun;
+    
     #endregion
     
     private void Awake()
@@ -62,11 +71,14 @@ public class IARunner : MonoBehaviour
         _stunDuration = GetComponent<EnnemyStatsManager>().stunDuration;
         _rushDelay = GetComponent<EnnemyStatsManager>().rushDelay;
         _moveSpeedCharge = _movementSpeed * 3;
+        isSpot = false;
         
         // Set bools 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = _movementSpeed;
+        _isAttack = false;
+        _isWalk = false;
         _isAggro = false;
         _isReadyToDash = true;
         _isRushing = false;
@@ -87,6 +99,13 @@ public class IARunner : MonoBehaviour
             ChasePlayer();
         if (_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
             Attacking();
+        
+        //Animations(agent);
+        if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
+        {
+            _isWalk = false;
+        }
+        else { _isWalk = true; }
     }
 
     #region PatrollingState
@@ -101,6 +120,8 @@ public class IARunner : MonoBehaviour
     {
         Vector2 pos = GetNewRandomPosition();
         agent.SetDestination(pos);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
     }
 
     IEnumerator ResetPath()
@@ -108,6 +129,8 @@ public class IARunner : MonoBehaviour
         _isRdyMove = false;
         GetNewPath();
         yield return new WaitForSeconds(3f);
+        _isWalk = false; // Anim
+        _isAttack = false; // Anim
         _isRdyMove = true;
     }
     
@@ -126,51 +149,55 @@ public class IARunner : MonoBehaviour
     {
         _isCharging = true;
         agent.SetDestination(target.position);
+        _isWalk = true; // Anim
+        _isAttack = false; // Anim
         var accelaration = (_moveSpeedCharge - _movementSpeed) / 3;
         agent.speed += accelaration * Time.deltaTime;
+        
+        if(!isSpot)
+            SpottedPlayer();
     }
     #endregion
 
     #region AttackState
     private void Attacking()
     {
+        _isWalk = false;
         _isCharging = false;
         agent.SetDestination(transform.position);
         if (_isReadyToDash)
         {
             StartCoroutine(nameof(Dash));
+            _isAttack = true;
         }
     }
     
+    private const float upTofitPlayer = 0.1f;
     IEnumerator Dash()
     {
+        // Prepare Variables
         _isReadyToDash = false;
         rb.velocity = Vector2.zero;
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
         
-        fwd = transform.TransformDirection(target.position.x - rb.transform.position.x, target.position.y - rb.transform.position.y, 0);
-        Physics2D.Raycast(transform.position, fwd, _attackRange, isPlayer);
-        Debug.DrawRay(transform.position, fwd, Color.green);
-        
-        yield return new WaitForSeconds(0f);
-        rb.velocity = fwd.normalized * _dashSpeed;
+        // Dash
+        yield return new WaitForSeconds(0.2f);
         _isDashing = true;
-        agent.speed = _movementSpeed;
-        StartCoroutine(DashWait());
-    }
-
-    IEnumerator DashWait()
-    {
-        yield return new WaitForSeconds(.5f);
+        rb.velocity =  new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer) * _dashSpeed;
+       
+        // StopDash
+        yield return new WaitForSeconds(.6f);
         rb.velocity = Vector2.zero;
         _isDashing = false;
-        Vector2 dir = Vector2.zero;
+        agent.speed = _movementSpeed;
+        _isAttack = false;
         
+        //Wait next dash
         yield return new WaitForSeconds(_rushDelay);
         _isReadyToDash = true;
-        agent.speed = _movementSpeed;
-        StopCoroutine(nameof(Dash));
     }
-    /*
+    
     private IEnumerator TakeObstacle()
     {
         StopCoroutine(nameof(Dash));
@@ -187,7 +214,7 @@ public class IARunner : MonoBehaviour
         _isStun = false;
         Debug.Log("NO MORE STUN");
     }
-    */
+    
     #endregion
     
     private void OnDrawGizmosSelected()
@@ -206,15 +233,46 @@ public class IARunner : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        /* if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.CompareTag("Obstacle") && _isDashing)
         {
             StartCoroutine(nameof(TakeObstacle));
-        } */
+        }
         
-        if (other.gameObject.layer == isPlayer)
+        if (other.gameObject.CompareTag("Player") && _isDashing)
         {
             other.gameObject.GetComponent<PlayerStatsManager>().TakeDamage(_damageDealt);
+            other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
+    }
+    
+    private void SpottedPlayer()
+    {
+        isSpot = true;
+        if (isSpot)
+        {
+            _detectZone *= 2;
+        }
+    }
+    
+    private void Animations(NavMeshAgent agent)
+    {
+        if (_isAttack)
+        {
+            runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
+            runnerAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
+            runnerAnimator.SetBool("isAttack", _isAttack);
+            runnerAnimator.SetBool("isWalk", _isWalk);
+        }
+        else
+        {
+            runnerAnimator.SetFloat("Horizontal", agent.velocity.x);
+            runnerAnimator.SetFloat("Vertical", agent.velocity.y);
+            runnerAnimator.SetBool("isAttack", _isAttack);
+            runnerAnimator.SetBool("isWalk", _isWalk);
+        }
+        
+        Debug.Log("is attack " + _isAttack);           
+        Debug.Log("is Walk " + _isWalk);
     }
     
 }

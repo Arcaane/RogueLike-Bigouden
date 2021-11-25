@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3323860257783470425}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1886598576
 SpriteRenderer:
@@ -134,7 +134,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1215839415126635670}
   - {fileID: 1886598574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -226,6 +225,7 @@ MonoBehaviour:
   isPlayer:
     serializedVersion: 2
     m_Bits: 256
+  runnerAnimator: {fileID: 0}
   _damageDealt: 0
   _detectZone: 0
   _attackRange: 0
@@ -239,10 +239,13 @@ MonoBehaviour:
   _isCharging: 0
   _isRushing: 0
   _dashSpeed: 0
+  shootPointPos: {x: 0, y: 0}
   _isReadyToDash: 0
   _stunDuration: 0
   _rushDelay: 0
   _moveSpeedCharge: 0
+  isSpot: 0
+  _isStun: 0
 --- !u!114 &5930435314255698863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,33 +282,3 @@ MonoBehaviour:
   stunDuration: 0
   rushDelay: 0
   isReadyToDash: 0
---- !u!1 &3768575731919962421
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1215839415126635670}
-  m_Layer: 0
-  m_Name: AttackPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1215839415126635670
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3768575731919962421}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.31, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3323860257783470425}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
