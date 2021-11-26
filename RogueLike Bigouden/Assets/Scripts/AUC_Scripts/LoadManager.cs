@@ -57,8 +57,9 @@ public class LoadManager : MonoBehaviour
 
      public void Start()
      {
-         GetRandomNumber();
-         CreateFinalList();
+        // GetRandomNumber();
+        // CreateFinalList();
+        AlgoCompliquer();
      }
 
      private void Update()
@@ -131,13 +132,13 @@ public class LoadManager : MonoBehaviour
      
      private void CreatingRoomPath()
      {
-         AlgoCompliqué();
+         AlgoCompliquer();
      }
      
      private void AddRoomLevel1()
      {
          isLevel1 = true;
-         if (finalList.Count == numberOfRoomToCreate)
+         if (finalList.Count == numberOfRoomToCreate / 2)
          {
              if (shopApparitionValue != 0)
              {
@@ -156,7 +157,6 @@ public class LoadManager : MonoBehaviour
 
      private void AddRoomLevel2()
      {
-         
          if (finalList.Count == numberOfRoomToCreate)
          {
              if (shopApparitionValue != 0)
@@ -173,7 +173,7 @@ public class LoadManager : MonoBehaviour
          }
      }
 
-     private void AlgoCompliqué()
+     private void AlgoCompliquer()
      {
          for (int i = 0; i < numberOfRoomToCreate * 2; i++)
          { 
@@ -245,16 +245,9 @@ public class LoadManager : MonoBehaviour
              return;
          }
 
-         if (finalList.Count >= 2 && finalList.Count <= roomBeforeBoss)
+         if (finalList.Count >= 3 && finalList.Count <= roomBeforeBoss)
          {
-             if (shopApparitionValue == 0)
-             {
-                return;
-             }
-             else
-             {
-                 shopApparitionValue += valeurVariationApparition;
-             }
+             shopApparitionValue += valeurVariationApparition;
          }
      }
 }
