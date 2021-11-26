@@ -148,7 +148,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -62774
+  m_InstanceId: -32554
 --- !u!1 &248319774036480339
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +681,8 @@ GameObject:
   - component: {fileID: 196231488297106870}
   - component: {fileID: 1596659460653790531}
   - component: {fileID: 8566386508675894911}
+  - component: {fileID: 1180402516}
+  - component: {fileID: 214497301996217831}
   m_Layer: 8
   m_Name: PlayerGA
   m_TagString: Player
@@ -828,7 +830,7 @@ MonoBehaviour:
     m_ActionId: 5b4492b5-fe60-40ff-bbac-e0637f0daeda
     m_ActionName: UI/PauseGame
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -897,7 +899,7 @@ MonoBehaviour:
   _directionNormalized: {x: 0, y: 0, z: 0}
   _move: {x: 0, y: 0, z: 0}
   _look: {x: 0, y: 0, z: 0}
-  _launchDebug: 1
+  _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
 --- !u!50 &2452023907972587575
@@ -986,3 +988,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vibrationForce: {x: 0, y: 0, z: 0}
+--- !u!114 &1180402516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358295701396264003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad7ab0972969c14f8b35b803451aade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  maxLifePoint: 0
+  actualUltPoint: 0
+  ultMaxPoint: 0
+  lifePoint: 0
+  shieldPoint: 0
+  damageX: 0
+  damageY: 0
+  damageProjectile: 0
+  movementSpeed: 0
+  attackRangeX: 0
+  attackCdX: 0
+  attackRangeY: 0
+  attackCdY: 0
+  attackRangeProjectile: 0
+  attackCdB: 0
+  dashRange: 0
+  dashCooldown: 0
+  ultDuration: 0
+  bonusSpeed: 0
+  firstAttackReset: {x: 0, y: 0}
+  secondAttackReset: {x: 0, y: 0}
+  readyToAttackX: 0
+  readyToAttackY: 0
+  readyToAttackB: 0
+  isDashing: 0
+  readyToDash: 0
+  onButter: 0
+--- !u!114 &214497301996217831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358295701396264003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde6b4b5797f3b6468bb5564e0c0aa8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  itemOnTheFloor: {fileID: 0}
+  conditionActivate: 0
+  currentMoney: 0
+  roll: 0

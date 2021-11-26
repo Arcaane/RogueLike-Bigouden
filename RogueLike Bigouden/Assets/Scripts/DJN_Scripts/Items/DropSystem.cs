@@ -15,7 +15,6 @@ public class DropSystem : MonoBehaviour
     private GameObject gameManager;
     private UIManager _uiManager;
     private CircleCollider2D collider;
-    public InputAction inputAction;
     
     public bool shop;
     public bool levelEnding;
@@ -38,20 +37,16 @@ public class DropSystem : MonoBehaviour
         _uiManager = FindObjectOfType<UIManager>();
         
         collider.enabled = false;
-
     }
 
     void Start()
     {
         ShopItemGeneration();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-        
         EndLevelItemDrop();
     }
 

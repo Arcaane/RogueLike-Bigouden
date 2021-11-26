@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 7189817047672958596}
   - component: {fileID: 7189817047672958598}
   - component: {fileID: 7189817047672958593}
+  - component: {fileID: 7189817047059349807}
   m_Layer: 17
   m_Name: WaveManager
   m_TagString: Untagged
@@ -137,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3239a2156fef57f4b84979010a470cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveSpawner: {fileID: 0}
+  waveSpawner: {fileID: 7189817047059349807}
 --- !u!58 &7189817047672958593
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -154,3 +155,44 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7189817047059349807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189817047672958597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc4ee41307154a4a8bee3a0380ec12d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnnemiesSpawned: []
+  waves:
+  - name: Wave 1
+    enemy:
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    count: 0200000003000000
+    rate: 1
+    bonusLife: 2
+    bonusDamage: 1
+    bonusShield: 1
+    bonusMovementSpeed: 0.5
+  - name: Wave 2
+    enemy:
+    - {fileID: 5855351862581302076, guid: 4b107bb72fc30d7468b4792a88ea7727, type: 3}
+    count: 01000000
+    rate: 1
+    bonusLife: 0
+    bonusDamage: 0
+    bonusShield: 0
+    bonusMovementSpeed: 1
+  nextWave: 0
+  spawnPoints:
+  - {fileID: 7189817047138352293}
+  - {fileID: 7189817045791788957}
+  timeBetweenWave: 5
+  waveCountDown: 5
+  State: 2
+  _roomLoader: {fileID: 0}

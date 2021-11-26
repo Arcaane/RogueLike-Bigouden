@@ -6498,7 +6498,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4466577912684476611}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -7406,7 +7406,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4466577912684476611}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -7689,8 +7689,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4466577911664510544}
   - {fileID: 4466577912463337243}
+  - {fileID: 4466577911664510544}
   - {fileID: 4466577913226729892}
   - {fileID: 4466577911724103387}
   - {fileID: 1576550255}
@@ -8244,15 +8244,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   imageItemPanel: []
-  itemPanelParent: {fileID: 0}
+  itemPanelParent: {fileID: 8994877016858793656}
   dialogueBox: {fileID: 975080749}
   dialogueText: {fileID: 725918780}
-  itemInformationPanel: {fileID: 0}
-  itemNameText: {fileID: 0}
-  itemDescriptionText: {fileID: 0}
-  itemPriceText: {fileID: 0}
-  itemIconImage: {fileID: 0}
-  itemRarityText: {fileID: 0}
+  itemInformationPanel: {fileID: 4466577912684476610}
+  itemNameText: {fileID: 4466577912463337236}
+  itemDescriptionText: {fileID: 4466577911664510545}
+  itemPriceText: {fileID: 4466577913226729893}
+  itemIconImage: {fileID: 4466577911724103380}
+  itemRarityText: {fileID: 1576550256}
   player1UI: {fileID: 4466577911730189052}
   p1_healthBarImg: {fileID: 4466577912113592656}
   p1_healthText: {fileID: 3243614801508482785}
@@ -8268,7 +8268,7 @@ MonoBehaviour:
   healthBarEnemy: {fileID: 0}
   enemyHealthText: {fileID: 0}
   enemyName: {fileID: 0}
-  pauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 4466577912363013822}
   currentHealth: 0
   maxHealth: 10
   currentMoney: 0
