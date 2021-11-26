@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    public LayerMask isPlayer;
+    private Rigidbody2D rb; 
     private void Awake()
     {
         rb=GetComponent<Rigidbody2D>();
