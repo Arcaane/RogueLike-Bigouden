@@ -236,6 +236,8 @@ public class PlayerStatsManager : MonoBehaviour
         else
             lifePoint -= damage;
 
+        Debug.Log("Player took " + damage + " damage");
+        
         if (lifePoint <= 0)
             Death();
     }
