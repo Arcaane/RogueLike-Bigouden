@@ -499,7 +499,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29048
+  m_InstanceId: -1234
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,16 +883,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa882ff1df28a5499d36760942e74e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kbMouse: 1
+  kbMouse: 0
   _Camera: {fileID: 2615098121277431213}
   playerAttribut: {fileID: 6216360794947180622}
   isMoving: 0
   buttonAValue: 0
+  _A_isDash: 1
+  _A_isAttack: 0
+  _A_isProjectile: 0
   buttonBValue: 0
+  _B_isDash: 0
+  _B_isAttack: 0
+  _B_isProjectile: 1
   buttonXValue: 0
+  _X_isDash: 0
+  _X_isAttack: 1
+  _X_isProjectile: 0
   buttonYValue: 0
-  leftPressTrigger: 0
-  rightPressTrigger: 0
+  _Y_isDash: 0
+  _Y_isAttack: 0
+  _Y_isProjectile: 0
+  trigger_LeftTopValue: 0
+  _LeftTop_isDash: 0
+  _LeftTop_isAttack: 0
+  _LeftTop_isProjectile: 0
+  trigger_RightTopValue: 0
+  _RightTop_isDash: 0
+  _RightTop_isAttack: 0
+  _RightTop_isProjectile: 1
+  trigger_LeftBottomValue: 0
+  _LeftBottom_isDash: 0
+  _LeftBottom_isAttack: 1
+  _LeftBottom_isProjectile: 0
+  trigger_RightBottomValue: 0
+  _RightBottom_isDash: 1
+  _RightBottom_isAttack: 0
+  _RightBottom_isProjectile: 0
 --- !u!114 &6216360794947180622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,18 +931,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023590b7490f65047b397e4a44efa437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDash: 0
-  timerBetweenDash: 0
-  timerAttack: 0
-  timerDelayAttack: 0
-  timerDodgeEffect: 0
+  _timerDash: 0
+  _timerBetweenDash: 0
+  _timerAttack: 0
+  _timerDelayAttack: 0
+  _timerDodgeEffect: 0
+  _delayProjectile: 0
   rb: {fileID: 1783834791804055079}
   useVibration: 0
   speed: 4
+  useRBDash: 1
   dashSpeed: 80
   durationDash: 0.2
   durationCooldownDash: 0.5
-  attackMoveSmall: 0.2
   dashCount: 3
   isDash: 0
   canDash: 0
@@ -934,8 +961,33 @@ MonoBehaviour:
   launchAOEAttack: 0
   delayBeforeResetAttack: 1
   delayForSecondAttack: 0.5
-  projectileObj: {fileID: 0}
+  projectileObj: {fileID: 2681544814209610897}
   projectileAttack: {fileID: 1651925998017502410}
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedProjectile: 0.2
   offsetEndPosProjectile: 2
   launchProjectile: 0
   radiusDodge: 0
@@ -1192,12 +1244,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5331149923905852773, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
+      propertyPath: delayBeforeInactive
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
       propertyPath: m_Name
       value: ProjectileJoueur
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
+--- !u!1 &2681544814209610897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
+  m_PrefabInstance: {fileID: 5339554732197335947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6080621099509229233 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}

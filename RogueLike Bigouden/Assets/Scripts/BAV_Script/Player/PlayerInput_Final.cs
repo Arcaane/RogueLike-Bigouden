@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,21 +23,85 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] PlayerAttribut playerAttribut;
     public bool isMoving;
 
-    [Header("Boutton Value")]
-    //Concerne les valeurs des Inputs renvoyer par les bouttons
+    [Header("Boutton Value A")]
+    //Concerne la valeur d'input de A
     [SerializeField]
     private float buttonAValue;
 
-    [SerializeField] private float buttonBValue;
-    [SerializeField] private float buttonXValue;
-    [SerializeField] private float buttonYValue;
+    //Can be delete for the Final Build
+    [SerializeField] private bool _A_isDash;
+    [SerializeField] private bool _A_isAttack;
+    [SerializeField] private bool _A_isProjectile;
 
-    [Header("Trigger Value")]
-    //Concerne les Inputs des trigger
+    [Header("Boutton Value B")]
+    //Concerne la valeur d'input de B
     [SerializeField]
-    private float leftPressTrigger;
+    private float buttonBValue;
 
-    [SerializeField] private float rightPressTrigger;
+    //Can be delete for the Final Build
+    [SerializeField] private bool _B_isDash;
+    [SerializeField] private bool _B_isAttack;
+    [SerializeField] private bool _B_isProjectile;
+
+    [Header("Boutton Value X")]
+    //Concerne la valeur d'input de X
+    [SerializeField]
+    private float buttonXValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _X_isDash;
+    [SerializeField] private bool _X_isAttack;
+    [SerializeField] private bool _X_isProjectile;
+
+    [Header("Boutton Value Y")]
+    //Concerne la valeur d'input de Y
+    [SerializeField]
+    private float buttonYValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _Y_isDash;
+    [SerializeField] private bool _Y_isAttack;
+    [SerializeField] private bool _Y_isProjectile;
+
+    [Header("Boutton Value Top Left ")]
+    //Concerne la valeur d'input de Top Left Trigger
+    [SerializeField]
+    private float trigger_LeftTopValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftTop_isDash;
+    [SerializeField] private bool _LeftTop_isAttack;
+    [SerializeField] private bool _LeftTop_isProjectile;
+
+    [Header("Boutton Value Top Right ")]
+    //Concerne la valeur d'input de Top Right Trigger
+    [SerializeField]
+    private float trigger_RightTopValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _RightTop_isDash;
+    [SerializeField] private bool _RightTop_isAttack;
+    [SerializeField] private bool _RightTop_isProjectile;
+
+    [Header("Boutton Value Bottom Left ")]
+    //Concerne la valeur d'input de Bottom Left Trigger
+    [SerializeField]
+    private float trigger_LeftBottomValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftBottom_isDash;
+    [SerializeField] private bool _LeftBottom_isAttack;
+    [SerializeField] private bool _LeftBottom_isProjectile;
+
+
+    [Header("Boutton Value Bottom Right ")]
+    //Concerne la valeur d'input de Bottom Right Trigger
+    [SerializeField]
+    private float trigger_RightBottomValue;
+
+    [SerializeField] private bool _RightBottom_isDash;
+    [SerializeField] private bool _RightBottom_isAttack;
+    [SerializeField] private bool _RightBottom_isProjectile;
 
     private float duration = 0.2f;
     private int inputPerformed = 0;
@@ -78,7 +143,21 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonA.performed)
         {
-            playerAttribut.Dash();
+            if (_A_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_A_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_A_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
+
             Debug.Log("Button A performed");
         }
 
@@ -103,6 +182,21 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonB.performed)
         {
+            if (_B_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_B_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_B_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
+
             playerAttribut.launchProjectile = true;
             //Debug.Log("Button B Performed");
         }
@@ -127,7 +221,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonX.performed)
         {
-            playerAttribut.AttackTypeX();
+            if (_X_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_X_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_X_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
             //Debug.Log("Button X Performed");
         }
 
@@ -151,6 +258,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonY.performed)
         {
+            if (_Y_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_Y_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_Y_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
             //Debug.Log("Button Y Performed");
         }
 
@@ -166,7 +287,7 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="LeftTopTrigger"></param>
     public void LeftTopTrigger(CallbackContext LeftTopTrigger)
     {
-        rightPressTrigger = LeftTopTrigger.ReadValue<float>();
+        trigger_LeftTopValue = LeftTopTrigger.ReadValue<float>();
         if (LeftTopTrigger.started)
         {
             //Debug.Log("Button LeftTopTrigger Started");
@@ -174,7 +295,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (LeftTopTrigger.performed)
         {
-            playerAttribut.AttackTypeX();
+            if (_LeftTop_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftTop_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftTop_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
             //Debug.Log("Button LeftTopTrigger Performed");
         }
 
@@ -190,7 +324,7 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="LeftBottomTrigger"></param>
     public void LeftBottomTrigger(CallbackContext LeftBottomTrigger)
     {
-        rightPressTrigger = LeftBottomTrigger.ReadValue<float>();
+        trigger_LeftBottomValue = LeftBottomTrigger.ReadValue<float>();
         if (LeftBottomTrigger.started)
         {
             //Debug.Log("Button LeftBottomTrigger Started");
@@ -198,6 +332,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (LeftBottomTrigger.performed)
         {
+            if (_LeftBottom_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftBottom_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftBottom_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
             //Debug.Log("Button LeftBottomTrigger Performed");
         }
 
@@ -213,7 +361,7 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="RightTopTrigger"></param>
     public void RightTopTrigger(CallbackContext RightTopTrigger)
     {
-        rightPressTrigger = RightTopTrigger.ReadValue<float>();
+        trigger_RightTopValue = RightTopTrigger.ReadValue<float>();
         if (RightTopTrigger.started)
         {
             //Debug.Log("Button RightTopTrigger Started");
@@ -221,8 +369,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (RightTopTrigger.performed)
         {
-            playerAttribut.Dash();
-            Debug.Log("Button RightTopTrigger Performed");
+            if (_RightTop_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightTop_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightTop_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
         }
 
         if (RightTopTrigger.canceled)
@@ -237,7 +397,7 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="RightBottomTrigger"></param>
     public void RightBottomTrigger(CallbackContext RightBottomTrigger)
     {
-        rightPressTrigger = RightBottomTrigger.ReadValue<float>();
+        trigger_RightBottomValue = RightBottomTrigger.ReadValue<float>();
         if (RightBottomTrigger.started)
         {
             //Debug.Log("Button RightBottomTrigger Started");
@@ -245,6 +405,20 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (RightBottomTrigger.performed)
         {
+            if (_RightBottom_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightBottom_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightBottom_isProjectile)
+            {
+                playerAttribut.launchProjectile = true;
+            }
             //Debug.Log("Button RightBottomTrigger Performed");
         }
 
@@ -275,9 +449,33 @@ public class PlayerInput_Final : MonoBehaviour
             _MousePos = _Camera.ScreenToWorldPoint(rightStick.ReadValue<Vector2>());
             playerAttribut.SetInputVector(_MousePos, true);
         }
-        else
-        {
-            playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
-        }
+        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
+
+    public void Reset()
+    {
+        //Begin----------
+        kbMouse = false;
+        playerAttribut = GetComponent<PlayerAttribut>();
+        _Camera = GetComponentInChildren<Camera>();
+
+        //Dash Attribut----------
+        _A_isDash = true;
+        _RightBottom_isDash = true;
+        //Attack----------
+        _X_isAttack = true;
+        _LeftBottom_isAttack = true;
+        //Projectile----------
+        _B_isProjectile = true;
+        _RightTop_isProjectile = true;
+    }
+}
+
+[System.Serializable]
+public class ArrayInput
+{
+    public string name;
+    public bool isDash;
+    public bool isAttack;
+    public bool isProjectile;
 }
