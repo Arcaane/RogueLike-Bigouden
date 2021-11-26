@@ -42,6 +42,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField]
     private bool useRBDash;
 
+    [SerializeField] public float dashSpeedRB = 5;
+
     //float--------------------
     public float dashSpeed = 5;
 
@@ -320,6 +322,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (useRBDash)
         {
+            rb.velocity = Vector2.zero;
             LaunchDash();
             StartCoroutine(DashWaitCorou());
         }
@@ -345,8 +348,6 @@ public class PlayerAttribut : MonoBehaviour
             {
                 playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
             }
-
-            rb.velocity = Vector2.zero;
         }
     }
 
@@ -354,7 +355,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
-        velocity += dir.normalized * (dashSpeed * dashIntValue);
+        velocity += dir.normalized * (dashSpeedRB * dashIntValue);
         rb.velocity = velocity;
         StartCoroutine(DashWaitCorou());
     }
@@ -373,11 +374,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             playerFeedBack.MovingRumble(Vector2.zero);
         }
-
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
-
+    
     public void DashTP(float speed)
     {
         Vector2 dir = _lastPosition;

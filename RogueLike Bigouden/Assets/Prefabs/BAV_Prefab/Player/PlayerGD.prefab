@@ -499,7 +499,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1234
+  m_InstanceId: 28146
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 698276956986049679}
   - component: {fileID: 6216360794947180622}
   - component: {fileID: 5487576422725533807}
-  - component: {fileID: 1783834791804055079}
+  - component: {fileID: 8813504909552388345}
   - component: {fileID: 6162715293737860227}
   - component: {fileID: 4070979141107708838}
   m_Layer: 8
@@ -937,10 +937,11 @@ MonoBehaviour:
   _timerDelayAttack: 0
   _timerDodgeEffect: 0
   _delayProjectile: 0
-  rb: {fileID: 1783834791804055079}
+  rb: {fileID: 8813504909552388345}
   useVibration: 0
   speed: 4
   useRBDash: 1
+  dashSpeedRB: 1e+37
   dashSpeed: 80
   durationDash: 0.2
   durationCooldownDash: 0.5
@@ -1026,7 +1027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vibrationForce: {x: 0.25, y: 0.75, z: 0}
---- !u!50 &1783834791804055079
+--- !u!50 &8813504909552388345
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -1041,11 +1042,11 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!70 &6162715293737860227
 CapsuleCollider2D:
