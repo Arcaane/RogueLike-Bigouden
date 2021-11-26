@@ -162,6 +162,7 @@ public class IAShooter : MonoBehaviour
         
         if(!isSpot)
             SpottedPlayer();
+
     }
     #endregion
 
@@ -175,7 +176,6 @@ public class IAShooter : MonoBehaviour
             Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(enemyPos, _attackRange, isPlayer);
             if (hitPlayers != null)
             {
-                _isAttack = true;
                 Shoot();
             }
         }
@@ -187,6 +187,7 @@ public class IAShooter : MonoBehaviour
     {
         _isReadyToShoot = false;
         _isWalk = false; // Anim
+        _isAttack = true;
         StartCoroutine(BulletShoot());
     }
 
@@ -194,13 +195,19 @@ public class IAShooter : MonoBehaviour
     private const float upTofitPlayer = 0.18f;
     IEnumerator BulletShoot()
     {
+        
         for (int i = 0; i < 5; i++)
         {
-            shootPointPos = (target.position - transform.position);
-            shootPointPos.Normalize();
-            yield return new WaitForSeconds(0.2f);
-            GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
-            obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 10f); // Direction puis Speed des balles
+            if (!_isWalk)
+            {
+                shootPointPos = (target.position - transform.position);
+                shootPointPos.Normalize();
+                yield return new WaitForSeconds(0.2f);
+                GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
+                obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 10f); // Direction puis Speed des balles
+            }
+
+            yield return new WaitForSeconds(0.05f);
         }
 
         _isAttack = false;
