@@ -10,59 +10,66 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public GameObject player;
-    
-    public Inventory inventory;
+
+    private Inventory inventory;
     public Transform[] imageItemPanel;
     public Transform itemPanelParent;
-    
-    [Header("Item Information Panel")] 
-    public GameObject itemInformationPanel;
-    public TextMeshProUGUI itemDescriptionText;
-    public TextMeshProUGUI itemNameText;
-    public TextMeshProUGUI itemPriceText;
-    public TextMeshProUGUI rarityText;
-    public Image itemImage;
-    
-    
-    [Header("DialogueBox")] 
-    public GameObject dialogueBox;
+
+    [Header("DialogueBox")] public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
-    
-    [Header("Player1 HUD")] 
-    public GameObject player1UI;
-    public Image healthBarImage;
-    public TextMeshProUGUI healthText;
-    public Image energyBarImage;
-    public TextMeshProUGUI moneyText;
+
+    [Header("Common UI")] 
+    public GameObject itemInformationPanel;
+
+    public TextMeshProUGUI itemNameText;
+    public TextMeshProUGUI itemDescriptionText;
+    public TextMeshProUGUI itemPriceText;
+    public Image itemIconImage;
+    public TextMeshProUGUI itemRarityText;
+
+    [Header("Player1 HUD")] public GameObject player1UI;
+    public Image p1_healthBarImg;
+    public TextMeshProUGUI p1_healthText;
+    public Image p1_energyBarImage;
+
+    public TextMeshProUGUI p1_moneyText;
     //insérer script statistique player
 
-    [Header("Enemy HUD")] 
-    public GameObject enemyUI;
+    [Header("Player2 HUD")] public GameObject player2UI;
+    public Image p2_healthBarImg;
+    public TextMeshProUGUI p2_healthText;
+    public Image p2_energyBarImage;
+    public TextMeshProUGUI p2_moneyText;
+
+    [Header("Enemy HUD")] public GameObject enemyUI;
     public GameObject enemyHealthBarObject;
     public Image healthBarEnemy;
     public TextMeshProUGUI enemyHealthText;
     public TextMeshProUGUI enemyName;
-    private GameObject lastEnemyHit;
 
-    [Header("Test Information")] 
-    [Range(0, 10)]
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject pauseMenu;
+    private bool isPaused;
+    
+    [Header("Test Information")] [Range(0, 10)]
     public float currentHealth;
+
     public float maxHealth;
-    [Range(0, 999)]
-    public int currentMoney;
-    [Range(0, 100)]
-    public float currentEnergy;
+    [Range(0, 999)] public int currentMoney;
+    [Range(0, 100)] public float currentEnergy;
     public float maxEnergy;
     
+    
+
     public bool searchInventory;
     private PlayerStatsManager _playerStatsManager;
-
+    public List<GameObject> playerList;
 
     private void Awake()
     {
         if (instance != null && instance != this)
-            Destroy(gameObject);    // Suppression d'une instance précédente (sécurité...sécurité...)
- 
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
         instance = this;
     }
 
@@ -70,101 +77,137 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player1UI.SetActive(false);
-        if (GameObject.FindGameObjectWithTag("Player"))
-        {
-            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        }
+        player2UI.SetActive(false);
         searchInventory = false;
-        imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
+        dialogueBox.SetActive(false);
+        isPaused = false;
+        pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
         
-        dialogueBox.SetActive(false);
-        
         //trouver le script player statistiques
     }
-    
+
+    private void Update()
+    {
+        Pause();
+        UpdateItemPlayer();
+    }
+
+    private void Pause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
     void UpdateItemPlayer()
     {
+        //ecart de 55 sur l'axe x
+        imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
+
         if (inventory)
         {
             foreach (Transform itemsImage in imageItemPanel)
             {
                 for (int i = 1; i < imageItemPanel.Length; i++)
                 {
-                    if(imageItemPanel.Length > inventory.items.Count)
+                    if (imageItemPanel.Length > inventory.items.Count)
                         imageItemPanel[i].GetComponent<Image>().enabled = false;
-                
                 }
 
                 for (int i = 0; i < inventory.items.Count; i++)
                 {
-                    imageItemPanel[i +1].GetComponent<Image>().enabled = true;
+                    imageItemPanel[i + 1].GetComponent<Image>().enabled = true;
                     imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
                 }
             }
         }
     }
 
-    public void ItemPanelInformation()
+    public void InformationPanel(Items items)
     {
-        itemInformationPanel.SetActive(true);
-
-        if (inventory)
-        {
-            itemImage.sprite = inventory.itemOnTheFloor.image;
-            itemDescriptionText.text = inventory.itemOnTheFloor.description;
-            itemNameText.text = inventory.itemOnTheFloor.itemName;
-            itemPriceText.text = inventory.itemOnTheFloor.price.ToString();
-            rarityText.text = inventory.itemOnTheFloor.rarity.ToString();
-        }
-        
+        itemIconImage.sprite = items.image;
+        itemNameText.text = items.itemName;
+        itemDescriptionText.text = items.description;
+        itemPriceText.text = items.price.ToString();
+        itemRarityText.text = items.rarity.ToString();
     }
-    
+
     public void SearchPlayer(GameObject P)
     {
         player = P;
-        Debug.Log(_playerStatsManager);
-        _playerStatsManager = player.GetComponent<PlayerStatsManager>();
-        Debug.Log(_playerStatsManager);
-        inventory = player.GetComponent<Inventory>();
-        searchInventory = true;
-        player1UI.SetActive(true);
+        playerList.Add(player);
+
+        foreach (GameObject pGameObject in playerList)
+        {
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                if (i == 0)
+                {
+                    player1UI.SetActive(true);
+                }
+
+                if (i == 1)
+                {
+                    player2UI.SetActive(true);
+                }
+            }
+        }
+
         Invoke(nameof(RefreshUI), 1);
     }
 
     public void RefreshUI()
     {
-        Debug.Log(_playerStatsManager.maxLifePoint);
-        Debug.Log(_playerStatsManager.lifePoint);
+        #region Update Players
         
-        float rlifePoint = (float)Math.Round(_playerStatsManager.lifePoint * 100f) / 100f;
-        float rmaxLifePoint = (float)Math.Round(_playerStatsManager.maxLifePoint * 100f) / 100f;
-        float rUltPoint = (float)Math.Round(_playerStatsManager.actualUltPoint * 100f) / 100f;
-        float rmaxUltPoint = (float)Math.Round(_playerStatsManager.ultMaxPoint * 100f) / 100f;
-        
-        healthBarImage.fillAmount = rlifePoint / rmaxLifePoint;
-        energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
-        healthText.text = rlifePoint + "/" + rmaxLifePoint;
-        moneyText.text = currentMoney.ToString();
-
-        UpdateItemPlayer();
-    }
-
-    public void EnemyHealthBar()
-    {
-        //récupérer le dernier enemy touché dans le script de la collision enemy avec n'importe quel attaque (x,y,b) seulement si il reçoit des dégâts (dans tout les cas il est censé en prendre)
-        
-        if (lastEnemyHit)
+        for (int i = 0; i < playerList.Count; i++)
         {
-            enemyName.text = lastEnemyHit.name;
-            //enemyHealthText.text = lastEnemyHit.healthActual + "/" + lastEnemyHit.maxHealth;
-            //energyBarImage.fillAmount = lastEnemyHit.healthActual / lastEnemyHit.maxHealth;
-        }
-    }
+            _playerStatsManager = playerList[i].GetComponent<PlayerStatsManager>();
+            inventory = playerList[i].GetComponent<Inventory>();
+            float rlifePoint = (float) Math.Round(_playerStatsManager.lifePoint * 100f) / 100f;
+            float rmaxLifePoint = (float) Math.Round(_playerStatsManager.maxLifePoint * 100f) / 100f;
+            float rUltPoint = (float) Math.Round(_playerStatsManager.actualUltPoint * 100f) / 100f;
+            float rmaxUltPoint = (float) Math.Round(_playerStatsManager.ultMaxPoint * 100f) / 100f;
 
-    public void ClosePanel()
-    {
-        itemInformationPanel.SetActive(false);
+            if (i == 0)
+            {
+
+                p1_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
+                p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
+                p1_healthText.text = rlifePoint + "/" + rmaxLifePoint;
+                p1_moneyText.text = currentMoney.ToString();
+            }
+
+            if (i == 1)
+            {
+                p2_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
+                p2_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
+                p2_healthText.text = rlifePoint + "/" + rmaxLifePoint;
+                p2_moneyText.text = currentMoney.ToString();
+
+            }
+
+        }
+
+        #endregion
+        
+        #region Update Enemy
+        
+        
+        
+        #endregion
+
+
     }
 }
+

@@ -45,7 +45,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            triggerFeedback.SetActive(true);
+            if(triggerFeedback)
+                triggerFeedback.SetActive(true);
 
             if (Input.GetKey(KeyCode.KeypadEnter))
             {
@@ -69,4 +70,5 @@ public class DialogueManager : MonoBehaviour
         selectDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
         Debug.Log("Dialogue selected is " + selectDialogue.name);
     }
+    
 }

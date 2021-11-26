@@ -1,140 +1,104 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObject/Item", order = 1)]
+[Serializable]
+[CreateAssetMenu(fileName = "items", menuName = "items", order = 1)]
 public class Items : ScriptableObject
 {
-    public string itemName;
-    public string description;
-    public Sprite image;
-    public int price;
-    public Rarity rarity;
+    //items informations
+    [HideInInspector][SerializeField]public int itemID;
+    [HideInInspector][SerializeField]public string itemName;
+    [HideInInspector][SerializeField]public string description;
+    [HideInInspector][SerializeField]public Sprite image;
+    [HideInInspector][SerializeField]public int price;
+    [HideInInspector][SerializeField]public Rarity rarity;
+    
+    //items conditon to active
+    [HideInInspector][SerializeField]public Condition condition;
+    public enum Condition { None, Action, Value, State }
+    [HideInInspector] [SerializeField]public Action action;
 
-    public enum Rarity
+  
+    public enum Rarity { Commun, Rare, Epic }
+    
+    [HideInInspector] [SerializeField]public Target target;
+    [HideInInspector][SerializeField] public Type type;
+
+    [HideInInspector][SerializeField] public Effect effectOn;
+    [HideInInspector] [SerializeField]public Augmentation augmentation;
+    [HideInInspector][SerializeField]public Value value;
+    [HideInInspector][SerializeField] public State state;
+    [HideInInspector][SerializeField] public Player player;
+    [HideInInspector][SerializeField] public Enemy enemy;
+    [HideInInspector][SerializeField] public Alteration alteration;
+    [HideInInspector][SerializeField]public ActionTarget actionTarget;
+    [HideInInspector][SerializeField]public ActionPlayer actionPlayer;
+    [HideInInspector][SerializeField] public ActionEnemy actionEnemy;
+    [HideInInspector][SerializeField]public VariableTarget variableTarget;
+    [HideInInspector][SerializeField] public Operator _operator;
+    [HideInInspector] [SerializeField]public SpawnPoint spawnPoint;
+    [HideInInspector][SerializeField] public PlayerSpawn playerSpawn;
+    [HideInInspector][SerializeField]public EnemySpawn enemySpawn;
+    
+    
+    [HideInInspector][SerializeField]public bool conditionActionMustBeDone;
+    [HideInInspector] [SerializeField]public int conditionValueToReach;
+    
+    [HideInInspector][SerializeField]public bool onCurrent;
+    [HideInInspector][SerializeField] public int modAmount;
+    [HideInInspector] [SerializeField]public bool modIsAnotherVariable;
+    [HideInInspector][SerializeField] [Range(0,1)] public float anotherVariableModPourcentage;
+    [HideInInspector][SerializeField] [Range(0,100)] public float rate;
+    
+    [HideInInspector][SerializeField]public GameObject objectPrefab;
+    [HideInInspector][SerializeField] public Transform specialSpawnPoint;
+    [HideInInspector][SerializeField] public int spawnAmount;
+    [HideInInspector][SerializeField] public bool mustBeActivated;
+    [HideInInspector][SerializeField] public float spawnTime;
+    
+    [HideInInspector][SerializeField] public bool overTime; 
+    [HideInInspector][SerializeField]public float overTimeDuration;
+
+    public enum Operator
     {
-        Commun,
-        Rare,
-        Epic
+        Add,
+        Substract,
+        Multiplie
     }
 
-    public ItemEffect[] itemEffects;
+    public enum Effect { Variable, Object }
+        public enum Type { Bonus, Malus }
 
-    [Serializable]
-    public struct ItemEffect
-    {
 
-        [Header("Configuration")]
-        [Tooltip("Choisissez sur qui va s'effectuer la modification")]
-        public Target target;
-        [Tooltip("Choisissez si cela altére positivement ou négativement la cible")]
-        public Type type;
-        [Tooltip("Choisissez le type de condition à remplir pour l'activer")]
-        public Condition condition;
-        [Tooltip("Choisissez sur quel élement de la cible s'effectue l'effet")]
-        public Effect effectOn;
+        public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death, KillOrDestroy }
+
+        public enum ActionTarget{ None, Player, Enemy, Props}
         
-        [Header("Action Condition")]
-        [Tooltip("Selectionnez l'action a effectué")]
-        public Action action;
-        [Tooltip("Est-ce que la condition doit avoir lui ou non ?")]
-        public bool conditionActionMustBeDone;
-        
-        [Header("Value Condition")]
-        [Tooltip("Selectionnez la valeur à atteindre")]
-        public Value value;
-        [Tooltip("Quel montant cette valeur doit atteindre pour que l'effet s'active ?")]
-        public float conditionValueToReach;
-        
-        [Header("On Variable")]
-        [Tooltip("Choississez la valeur à modifier")]
-        public Augmentation augmentation;
-        [Tooltip("Est-ce que c'est sur le montant actuel ? Si faux, c'est sur le maximum")]
-        public bool onCurrent;
-        [Tooltip("De quel montant cette valeur est-elle modifié ?")]
-        public float amount;
-        
-        [Header("On Object")]
-        [Tooltip("Choisissez le type d'altération que subit la cible")]
-        public Alteration alteration;
-        [Tooltip("Choisissez l'objet de la cible qui subira la modification")]
-        public GameObject targetObject;
-        [Tooltip("Choisissez, le cas écheant, le point d'apparition de l'objet")]
-        public Transform pointOfAppear;
-        [Tooltip("Choisissez le nombre d'objet qui doit apparaître")]
-        public float appearAmount;
-        
-        [Header("Is Over Time ?")]
-        [Tooltip("L'effet est-il sur la durée ?")]
-        public bool overTime;
-        [Tooltip("Choisissez, le cas échéant, la durée de l'effet")]
-        public float overTimeDuration;
-
-   
-        public enum Effect
-        {
-            Variable,
-            Object
-        }
-        public enum Type
-        {
-            Bonus,
-            Malus
-        }
-
-        public enum Condition
-        {
-            None,
-            Action,
-            Value
-
-        }
-
-        public enum Action
-        {
-            AttackX,
-            AttackY,
-            AttackDistance,
-            AttackUltime,
-            Dash,
-            GetHurt
-        }
+        public enum ActionPlayer{ CurrentPlayer, Everyone}
+        public enum ActionEnemy{All, Barman, Cac, Rush, Tir}
+    
+        public enum SpawnPoint{ Own, Player, Enemy, Special}
+        public enum PlayerSpawn{ CurrentPlayer, Everyone}
+        public enum EnemySpawn{Target, All, Barman, Cac, Rush, Tir}
 
         public enum Value
-        {
-            Health,
-            Energy,
-            Money
-        }
+        { Health, Energy, Money }
 
-        public enum Target
-        {
-            Player,
-            Enemy,
-            PlayerProjectile,
-            EnemyProjectile
-        }
+        public enum Target{Player, Enemy, Props}
+        
+        public enum Player {CurrentPlayer, Everyone}
 
-        public enum Augmentation
-        {
-            None,
-            Damage,
-            Money,
-            Health,
-            Speed,
-            Dash,
-            Energy
-        }
+        public enum Enemy{All, Barman, Cac, Rush, Tir}
 
-        public enum Alteration
-        {
-            None,
-            Creation,
-            Destruction,
-            Multiplication
-        }
+        public enum Augmentation { Shield, Damage, DamageX, DamageY, DamageB, DamageUlt, AttackRange, AttackRangeX, AttackRangeY, AttackRangeB, AttackRangeUlt, AttackSpeed, AttackSpeedX, AttackSpeedY, AttackSpeedB, AttackSpeedUlt, AddMoney, MoreMoney, Health, Speed, DashRange, Energy }
 
-    }
+        public enum VariableTarget{Health, Energy, Money}
+        public enum Alteration { Creation, Destruction }
+        
+        public enum State{ Alive, Dead }
+    
 }
+
+

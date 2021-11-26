@@ -16,6 +16,8 @@ public class ItemsManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        
         //ajouter tous les items dans le dossier sur la liste.
         items = Resources.LoadAll<Items>("Items");
 
