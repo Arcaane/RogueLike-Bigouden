@@ -470,12 +470,3 @@ public class PlayerInput_Final : MonoBehaviour
         _RightTop_isProjectile = true;
     }
 }
-
-[System.Serializable]
-public class ArrayInput
-{
-    public string name;
-    public bool isDash;
-    public bool isAttack;
-    public bool isProjectile;
-}

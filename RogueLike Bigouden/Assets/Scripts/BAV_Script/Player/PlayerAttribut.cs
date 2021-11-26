@@ -197,14 +197,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (isRalenti)
-        {
-            transform.Translate(_move * speed * CustomDeltaTime);
-        }
-        else
-        {
-            transform.Translate(_move * speed * Time.deltaTime);
-        }
+        transform.Translate(_move * speed * Time.deltaTime);
     }
 
 
@@ -374,10 +367,11 @@ public class PlayerAttribut : MonoBehaviour
         {
             playerFeedBack.MovingRumble(Vector2.zero);
         }
+
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
-    
+
     public void DashTP(float speed)
     {
         Vector2 dir = _lastPosition;
@@ -435,6 +429,8 @@ public class PlayerAttribut : MonoBehaviour
         {
             lastVelocity = rb.velocity;
         }
+
+        animatorPlayer.speed = isRalenti ? CustomDeltaTime : 1f;
     }
 
 
@@ -734,7 +730,7 @@ public class PlayerAttribut : MonoBehaviour
 public class TimeManager
 {
     private static float timeRalenti;
-    public const float DurationRalenti = 0.5f; // in real time ! Float to changer for the duration of the Slow Down
+    public const float DurationRalenti = 2f; // in real time ! Float to changer for the duration of the Slow Down
 
     public static bool isRalenti =>
         Time.time - timeRalenti < DurationRalenti; // did we ralenti more than 0.5f seconds ago ? so we are slown Down
@@ -742,9 +738,9 @@ public class TimeManager
     public static float CustomDeltaTime =>
         isRalenti
             ? Time.deltaTime * speedRalenti
-            : 1f; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
+            : Time.deltaTime; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
 
-    public const float speedRalenti = 0.3f;
+    public const float speedRalenti = 0f;
 
     public static void SlowDownGame()
     {

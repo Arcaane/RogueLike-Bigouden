@@ -37,13 +37,13 @@ public class ProjectilePath : MonoBehaviour
 
     private void Update()
     {
-        if (progress < 1)
+        if ( progress < 1 && progress > 0)
         {
-            projectile.GetComponent<BoxCollider2D>().isTrigger = false;
+            isAttacking = true;
         }
         else
         {
-            projectile.GetComponent<BoxCollider2D>().isTrigger = true;
+            isAttacking = false;
         }
     }
 

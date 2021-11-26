@@ -499,7 +499,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 28146
+  m_InstanceId: 27268
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +636,7 @@ GameObject:
   - component: {fileID: 698276956986049679}
   - component: {fileID: 6216360794947180622}
   - component: {fileID: 5487576422725533807}
+  - component: {fileID: 870858298318142803}
   - component: {fileID: 8813504909552388345}
   - component: {fileID: 6162715293737860227}
   - component: {fileID: 4070979141107708838}
@@ -1027,6 +1028,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vibrationForce: {x: 0.25, y: 0.75, z: 0}
+--- !u!114 &870858298318142803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132319494706305619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad7ab0972969c14f8b35b803451aade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  maxLifePoint: 0
+  actualUltPoint: 0
+  ultMaxPoint: 0
+  lifePoint: 0
+  shieldPoint: 0
+  damageX: 0
+  damageY: 0
+  damageProjectile: 0
+  movementSpeed: 0
+  attackRangeX: 0
+  attackCdX: 0
+  attackRangeY: 0
+  attackCdY: 0
+  attackRangeProjectile: 0
+  attackCdB: 0
+  dashRange: 0
+  dashCooldown: 0
+  ultDuration: 0
+  bonusSpeed: 0
+  firstAttackReset: {x: 0, y: 0}
+  secondAttackReset: {x: 0, y: 0}
+  readyToAttackX: 0
+  readyToAttackY: 0
+  readyToAttackB: 0
+  isDashing: 0
+  readyToDash: 0
+  onButter: 0
 --- !u!50 &8813504909552388345
 Rigidbody2D:
   serializedVersion: 4
