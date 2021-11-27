@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 2615098121277431214}
   m_Father: {fileID: 4800419525701653385}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1578338303392233273
 GameObject:
@@ -530,7 +530,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 33276
+  m_InstanceId: 41012
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +654,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectilePathHolder: {fileID: 3863209497884959310}
+  current: 0
+  _target: 0
+  duration: 0.5
+  isDetect: 0
 --- !u!1 &7132319494706305619
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +696,6 @@ Transform:
   - {fileID: 6925816683957587373}
   - {fileID: 5870951213560685521}
   - {fileID: 1057192474537647579}
-  - {fileID: 6080621099509229233}
   - {fileID: 1602556636844619806}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -898,6 +901,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bbafb034-bb52-4c6c-ba0d-9d78c4059419
     m_ActionName: Player/Right_Top_Trigger[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a33f2d1-e242-4996-912c-151150ceeaf3
+    m_ActionName: Player/Left_Stick_Press[/XInputControllerWindows/leftStickPress,/XInputControllerWindows/leftStickPress]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cc363f83-64ca-4311-9a1b-8f43b905e88c
+    m_ActionName: Player/Right_Stick_Press[/XInputControllerWindows/rightStickPress,/XInputControllerWindows/rightStickPress]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -951,6 +962,16 @@ MonoBehaviour:
   _RightBottom_isDash: 1
   _RightBottom_isAttack: 0
   _RightBottom_isProjectile: 0
+  stick_LeftPressValue: 0
+  _LeftPress_isDash: 0
+  _LeftPress_isAttack: 0
+  _LeftPress_isProjectile: 0
+  _LeftPress_IsUlt: 0
+  stick_RightPressValue: 0
+  _RightPress_isDash: 0
+  _RightPress_isAttack: 0
+  _RightPress_isProjectile: 0
+  _RightPress_IsUlt: 0
 --- !u!114 &6216360794947180622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,18 +984,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023590b7490f65047b397e4a44efa437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerStatsManager: {fileID: 0}
   _timerDash: 0
   _timerBetweenDash: 0
   _timerAttack: 0
   _timerDelayAttack: 0
   _timerDodgeEffect: 0
   _delayProjectile: 0
+  _timerUltimate: 0
   rb: {fileID: 8813504909552388345}
   useVibration: 0
   speed: 4
   useRBDash: 1
   dashSpeedRB: 1e+37
-  dashSpeed: 80
+  _dashSpeed: 0
   durationDash: 0.2
   durationCooldownDash: 0.5
   dashCount: 3
@@ -994,7 +1017,7 @@ MonoBehaviour:
   launchAOEAttack: 0
   delayBeforeResetAttack: 1
   delayForSecondAttack: 0.5
-  projectileObj: {fileID: 2681544814209610897}
+  projectileObj: {fileID: 0}
   projectileAttack: {fileID: 1651925998017502410}
   animationCurve:
     serializedVersion: 2
@@ -1023,6 +1046,10 @@ MonoBehaviour:
   speedProjectile: 0.2
   offsetEndPosProjectile: 2
   launchProjectile: 0
+  numberOfBullet: 0
+  incrementValue: 0
+  ultDuration: 0
+  isUlting: 0
   radiusDodge: 0
   durationEffect: 5
   speedModification: 2
@@ -1031,18 +1058,12 @@ MonoBehaviour:
   bulletIn: 0
   playerMesh: {fileID: 8624704071328394346}
   animatorPlayer: {fileID: 4868940514308041893}
-  m_maskCanape:
-    serializedVersion: 2
-    m_Bits: 262144
-  m_isColliding: 0
-  lastVelocity: {x: 0, y: 0, z: 0}
   playerFeedBack: {fileID: 5487576422725533807}
-  _playerStatsManager: {fileID: 0}
   _attackPath: {fileID: 6630323540485487898}
   _directionNormalized: {x: 0, y: 0, z: 0}
-  _move: {x: 0, y: 0, z: 0}
   _look: {x: 0, y: 0, z: 0}
   _objPosition: {x: 0, y: 0, z: 0}
+  _move: {x: 0, y: 0, z: 0}
   _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
@@ -1101,8 +1122,8 @@ MonoBehaviour:
   playerStat: {fileID: 6216360794947180622}
   vibrationForce: {x: 0.25, y: 0.75, z: 0}
   pivotCam: {fileID: 0}
+  multiplicatorEffect: 5
   cam: {fileID: 0}
-  moveCam: {x: -5, y: 5}
   curveAnim:
     serializedVersion: 2
     m_Curve: []
@@ -1276,74 +1297,3 @@ MonoBehaviour:
   - {x: 0.33408967, y: 0.8590245, z: -0.0000016391277}
   - {x: 0.26694214, y: 0.91490775, z: 0}
   - {x: -0.15553701, y: 0.66198295, z: 0}
---- !u!1001 &5339554732197335947
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4800419525701653385}
-    m_Modifications:
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5331149923905852773, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: delayBeforeInactive
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-      propertyPath: m_Name
-      value: ProjectileJoueur
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
---- !u!1 &2681544814209610897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-  m_PrefabInstance: {fileID: 5339554732197335947}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6080621099509229233 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2196450473347577146, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
-  m_PrefabInstance: {fileID: 5339554732197335947}
-  m_PrefabAsset: {fileID: 0}

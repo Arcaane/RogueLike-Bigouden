@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Timers;
 using Cinemachine.Utility;
 using UnityEngine;
@@ -106,9 +107,22 @@ public class PlayerFeedBack : MonoBehaviour
         }
     }
 
+    public void MoveCameraInput(int isDetect, Vector3 posPlayer, Vector3 posTarget, float current)
+    {
+        /*float target = 0, duration = 0;
+        if (isDetect)
+        {
+            target = target == 0 ? 1 : 0;
+        }
+        Debug.Log("Target : " + target);
+        Debug.Log("Current : " + current);*/
+        //current = Mathf.MoveTowards(current, target, duration * TimeManager.CustomDeltaTimeAttack);
+        CameraMovement(posPlayer, posTarget, current);
+    }
+
     public void ResetPosCam(float current)
     {
-        //pivotCam.position = oldPivotCamPos;
-        pivotCam.position = Vector3.Lerp(transform.position, oldPivotCamPos, curveAnim.Evaluate(current));
+        pivotCam.position = oldPivotCamPos;
+        //pivotCam.position = Vector3.Lerp(transform.position, oldPivotCamPos, curveAnim.Evaluate(current));
     }
 }

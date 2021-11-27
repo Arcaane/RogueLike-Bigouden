@@ -251,9 +251,9 @@ public class MannequinStatsManager : MonoBehaviour
 
     public void Update()
     {
-        SpriteSwap();
         if (hurt)
         {
+            SpriteSwap();
             CounterBeforeReset();
         }
     }
@@ -262,7 +262,7 @@ public class MannequinStatsManager : MonoBehaviour
     {
         if (hurt)
         {
-            TimeManager.SlowDownGame();
+            //TimeManager.SlowDownGame();
             gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
         }
         else

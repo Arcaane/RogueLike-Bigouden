@@ -94,14 +94,31 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftBottom_isProjectile;
 
 
-    [Header("Boutton Value Bottom Right ")]
-    //Concerne la valeur d'input de Bottom Right Trigger
-    [SerializeField]
+    [Header("Boutton Value Bottom Right ")] [SerializeField]
     private float trigger_RightBottomValue;
 
+    //Can be delete for the Final Build
     [SerializeField] private bool _RightBottom_isDash;
     [SerializeField] private bool _RightBottom_isAttack;
     [SerializeField] private bool _RightBottom_isProjectile;
+
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_LeftPressValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftPress_isDash;
+    [SerializeField] private bool _LeftPress_isAttack;
+    [SerializeField] private bool _LeftPress_isProjectile;
+    [SerializeField] private bool _LeftPress_IsUlt;
+
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_RightPressValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _RightPress_isDash;
+    [SerializeField] private bool _RightPress_isAttack;
+    [SerializeField] private bool _RightPress_isProjectile;
+    [SerializeField] private bool _RightPress_IsUlt;
 
     private float duration = 0.2f;
     private int inputPerformed = 0;
@@ -155,7 +172,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_A_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
 
             Debug.Log("Button A performed");
@@ -194,7 +211,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_B_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
 
             playerAttribut.launchProjectile = true;
@@ -233,7 +250,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_X_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button X Performed");
         }
@@ -270,7 +287,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_Y_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button Y Performed");
         }
@@ -307,7 +324,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_LeftTop_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button LeftTopTrigger Performed");
         }
@@ -344,7 +361,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_LeftBottom_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button LeftBottomTrigger Performed");
         }
@@ -381,7 +398,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightTop_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
         }
 
@@ -417,12 +434,95 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightBottom_isProjectile)
             {
-                playerAttribut.launchProjectile = true;
+                playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button RightBottomTrigger Performed");
         }
 
         if (RightBottomTrigger.canceled)
+        {
+            //Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="LeftStickPress"></param>
+    public void LeftStickPress(CallbackContext LeftStickPresss)
+    {
+        stick_LeftPressValue = LeftStickPresss.ReadValue<float>();
+        if (LeftStickPresss.started)
+        {
+            //Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (LeftStickPresss.performed)
+        {
+            if (_LeftPress_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftPress_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftPress_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            
+            if (_LeftPress_IsUlt)
+            {
+                playerAttribut.LaunchUltimate();
+            }
+            //Debug.Log("Button RightBottomTrigger Performed");
+        }
+
+        if (LeftStickPresss.canceled)
+        {
+            //Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="RightStickPress"></param>
+    public void RightStickPress(CallbackContext RightStickPress)
+    {
+        stick_RightPressValue = RightStickPress.ReadValue<float>();
+        if (RightStickPress.started)
+        {
+            //Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (RightStickPress.performed)
+        {
+            if (_RightPress_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightPress_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightPress_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+
+            if (_RightPress_IsUlt)
+            {
+                playerAttribut.LaunchUltimate();
+            }
+        }
+
+        if (RightStickPress.canceled)
         {
             //Debug.Log("Button RightBottomTrigger Canceled");
         }
@@ -449,6 +549,7 @@ public class PlayerInput_Final : MonoBehaviour
             _MousePos = _Camera.ScreenToWorldPoint(rightStick.ReadValue<Vector2>());
             playerAttribut.SetInputVector(_MousePos, true);
         }
+
         playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
     }
 

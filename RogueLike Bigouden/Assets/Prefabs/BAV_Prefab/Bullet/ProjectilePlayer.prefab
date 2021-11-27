@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 5331149923905852773}
   - component: {fileID: 2703854054342021343}
   m_Layer: 0
-  m_Name: ProjectileJoueur
+  m_Name: ProjectilePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,7 +165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayBeforeInactive: 0
   damage: 0
+  speed: 20
   radiusDamage: 0
+  deploy: 0
   animator: {fileID: 0}
   _delayIncrementation: 0
 --- !u!58 &2703854054342021343

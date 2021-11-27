@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ProjectilePlayer : MonoBehaviour
@@ -8,6 +9,7 @@ public class ProjectilePlayer : MonoBehaviour
     public float delayBeforeInactive;
 
     [SerializeField] public float damage;
+    [SerializeField] public float speed;
     [SerializeField] public float radiusDamage;
     [SerializeField] public bool deploy;
 
@@ -15,42 +17,33 @@ public class ProjectilePlayer : MonoBehaviour
 
     //Private Value
     //float---------------------------
-    [Header("Incrementation de float")] [SerializeField]
-    public float _delayIncrementation;
+    private Vector3 shootDir;
 
-    [SerializeField] private Transform target;
-    
-    public void Seek(Transform _target)
+    [Header("Incrementation de float")] 
+    [SerializeField] public float _delayIncrementation;
+
+    public void PosShooter(Vector3 shootDir)
     {
-        target = _target;
+        this.shootDir = shootDir;
+        transform.eulerAngles = new Vector3(0, 0, UtilsMath.GetAngleFromVectorFloat(shootDir));
     }
 
     // Update is called once per frame
     void Update()
     {
         Damage();
-        //Direction();
+        MoveBullet();
     }
 
     void Damage()
     {
+        
     }
 
-    /*
-    void Direction()
+    void MoveBullet()
     {
-        Vector2 dir = target.position - transform.position;
-        float angle = GetAngleFromVectorFloat(dir);
-        transform.eulerAngles = new Vector3(0, 0, angle);
-    }
-    */
-
-    public float GetAngleFromVectorFloat(Vector3 dir)
-    {
-        dir = dir.normalized;
-        float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        if (n < 0) n += 360;
-
-        return n;
+        Vector3 moveDir = shootDir * speed * TimeManager.CustomDeltaTimeAttack;
+        transform.position += moveDir;
+        Debug.Log(moveDir);
     }
 }
