@@ -60,7 +60,7 @@ public class ProjectilePath : MonoBehaviour
         if (launchAttack)
         {
             projectile.SetActive(true);
-            progress += (Time.deltaTime / (speed / 10));
+            progress += (TimeManager.CustomDeltaTimeAttack/ (speed / 10));
             if (progress > 1f)
             {
                 switch (mode)
@@ -89,7 +89,7 @@ public class ProjectilePath : MonoBehaviour
         else if (launchSecondAttack)
         {
             projectile.SetActive(true);
-            progress -= (Time.deltaTime / (speed / 10));
+            progress -= (TimeManager.CustomDeltaTimeAttack / (speed / 10));
             if (progress < 0f)
             {
                 progress = 0f;
@@ -118,35 +118,3 @@ public class ProjectilePath : MonoBehaviour
         speed = 1f;
     }
 }
-/*public void Path()
-{
-    if (goingForward)
-    {
-        progress += (Time.deltaTime / duration) * speed;
-        if (progress > 1f)
-        {
-            if (mode == SplineWalkerMode.Once)
-            {
-                progress = 1f;
-            }
-            else if (mode == SplineWalkerMode.Loop)
-            {
-                progress -= 1f;
-            }
-            else
-            {
-                progress = 2f - progress;
-                goingForward = false;
-            }
-        }
-    }
-    else
-    {
-        progress -= (Time.deltaTime / duration) * speed;
-        if (progress < 0f)
-        {
-            progress = -progress;
-            goingForward = true;
-        }
-    }
-}*/

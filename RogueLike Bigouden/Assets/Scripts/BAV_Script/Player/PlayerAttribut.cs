@@ -146,9 +146,10 @@ public class PlayerAttribut : MonoBehaviour
     Vector3 _lastPosition;
     Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
-    [SerializeField] Vector3 _move;
     [SerializeField] Vector3 _look;
     [SerializeField] Vector3 _objPosition;
+
+    [HideInInspector] public Vector3 _move;
 
     //Bools
     private bool _readyToAttackX;
@@ -197,7 +198,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        transform.Translate(_move * speed * Time.deltaTime);
+        transform.Translate(_move * speed * CustomDeltaTimeAttack);
     }
 
 
@@ -333,7 +334,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _timerBetweenDash += Time.deltaTime;
+        _timerBetweenDash += CustomDeltaTimeAttack;
         if (durationDash >= _timerBetweenDash)
         {
             _timerBetweenDash = 0;
@@ -388,7 +389,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void ResetSmallMovement()
     {
-        _smallMovementFloat = attackMovingSpeed * Time.deltaTime;
+        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimeAttack;
         if (_smallMovementFloat > 1)
         {
             _smallMovementFloat = 0;
@@ -429,8 +430,6 @@ public class PlayerAttribut : MonoBehaviour
         {
             lastVelocity = rb.velocity;
         }
-
-        animatorPlayer.speed = isRalenti ? CustomDeltaTime : 1f;
     }
 
 
@@ -469,7 +468,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void ResetAttackX(int attack)
     {
-        _timerDelayAttack += Time.deltaTime;
+        _timerDelayAttack += CustomDeltaTimeAttack;
         if (_timerDelayAttack >= valueBeforeResetAttack)
         {
             _timerDelayAttack = 0f;
@@ -491,7 +490,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (isDash)
         {
-            _timerDash += Time.deltaTime;
+            _timerDash += CustomDeltaTimeAttack;
             if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
@@ -503,7 +502,16 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isAttacking)
         {
-            _timerAttack += Time.deltaTime;
+            _timerAttack += CustomDeltaTimeAttack;
+            if (_timerAttack >= _playerStatsManager.firstAttackReset.x ||
+                _timerAttack <= _playerStatsManager.firstAttackReset.y)
+            {
+                animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                if (_timerAttack > _playerStatsManager.firstAttackReset.y)
+                {
+                    animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
             if (_timerAttack >= delayBeforeResetAttack)
             {
                 attackType = 0;
@@ -541,7 +549,7 @@ public class PlayerAttribut : MonoBehaviour
     public void LaunchProjectile()
     {
         projectileObj.SetActive(true);
-        _delayProjectile += speedProjectile * Time.deltaTime;
+        _delayProjectile += speedProjectile * CustomDeltaTimeAttack;
         Vector2 posPlayer = transform.position;
         _objPosition = Vector2.Lerp(posPlayer, projectileAttack.position, animationCurve.Evaluate(_delayProjectile));
         projectileObj.transform.position = _objPosition;
@@ -709,7 +717,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         speed *= speedModification;
-        _timerDodgeEffect += Time.deltaTime;
+        _timerDodgeEffect += CustomDeltaTimeAttack;
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
@@ -735,12 +743,20 @@ public class TimeManager
     public static bool isRalenti =>
         Time.time - timeRalenti < DurationRalenti; // did we ralenti more than 0.5f seconds ago ? so we are slown Down
 
-    public static float CustomDeltaTime =>
+    public static float CustomDeltaTimeEnnemy =>
         isRalenti
-            ? Time.deltaTime * speedRalenti
+            ? Time.deltaTime * speedRalentiEnnemy
             : Time.deltaTime; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
 
-    public const float speedRalenti = 0f;
+
+    public static float CustomDeltaTimeAttack =>
+        isRalenti
+            ? Time.deltaTime * speedRalentiProj
+            : Time.deltaTime; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
+
+    public const float speedRalentiEnnemy = 0.1f;
+    public const float speedRalentiProj = 0.1f;
+    public const float stopTime = 0f;
 
     public static void SlowDownGame()
     {
