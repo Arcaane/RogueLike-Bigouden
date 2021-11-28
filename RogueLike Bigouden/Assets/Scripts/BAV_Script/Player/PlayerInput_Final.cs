@@ -133,7 +133,22 @@ public class PlayerInput_Final : MonoBehaviour
     {
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
+        
+        //Use Button----------
+        controls.Player.AButton.performed += Input_AButton;
+        controls.Player.BButton.performed += Input_BButton;
+        controls.Player.XButton.performed += Input_XButton;
+        controls.Player.YButton.performed += Input_YButton;
+        controls.Player.Left_Stick_Press.performed += Input_YButton;
+        controls.Player.Right_Stick_Press.performed += Input_YButton;
+        //Use Trigger----------
+        controls.Player.Left_Top_Trigger.performed += LeftTopTrigger;
+        controls.Player.Left_Bottom_Trigger.performed += LeftBottomTrigger;
+        controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
+        controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
+        //Use Stick----------
         controls.Player.Move.performed += OnMove;
+        controls.Player.Look.performed += OnLook;
     }
 
     public void OnEnable()

@@ -491,7 +491,8 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
-            if (attackType >= 2 && delayForSecondAttack >= _timerAttack)
+            if (attackType >= 2 && _timerAttack > _playerStatsManager.firstAttackReset.x &&
+                _timerAttack < _playerStatsManager.firstAttackReset.y + 0.1f)
             {
                 attackType = 2;
                 attackPath.launchSecondAttack = true;
@@ -539,7 +540,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             _timerAttack += CustomDeltaTimeAttack;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
-                _timerAttack < _playerStatsManager.firstAttackReset.y)
+                _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
                 animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
             }
