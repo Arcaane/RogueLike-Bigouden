@@ -82,7 +82,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             if (obj.performed)
             {
-                playerAttribut.AttackType();
+                playerAttribut.AttackTypeX();
             }
         }
 

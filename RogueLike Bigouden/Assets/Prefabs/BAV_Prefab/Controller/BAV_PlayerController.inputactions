@@ -27,7 +27,7 @@
                     "id": "72633990-087c-4c5c-9117-e9a44f392cbb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "YButton",
@@ -43,7 +43,7 @@
                     "id": "9821e560-b080-4584-8264-ce58fc5bf2a4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "BButton",
@@ -62,7 +62,31 @@
                     "interactions": ""
                 },
                 {
-                    "name": "LeftTrigger",
+                    "name": "Left_Top_Trigger",
+                    "type": "Button",
+                    "id": "43040b97-782b-4436-88b0-18e185e4a340",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Left_Bottom_Trigger",
+                    "type": "Button",
+                    "id": "f979e8c2-b712-4c1b-96b0-a967f205247f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_Top_Trigger",
+                    "type": "Button",
+                    "id": "bbafb034-bb52-4c6c-ba0d-9d78c4059419",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_Bottom_Trigger",
                     "type": "Button",
                     "id": "a108a7c0-857d-4e8f-8f60-373596350010",
                     "expectedControlType": "Button",
@@ -70,9 +94,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "RightTrigger",
+                    "name": "Left_Stick_Press",
                     "type": "Button",
-                    "id": "f979e8c2-b712-4c1b-96b0-a967f205247f",
+                    "id": "9a33f2d1-e242-4996-912c-151150ceeaf3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_Stick_Press",
+                    "type": "Button",
+                    "id": "cc363f83-64ca-4311-9a1b-8f43b905e88c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -214,7 +246,7 @@
                 {
                     "name": "",
                     "id": "60839f66-d277-4d60-bbe1-ad1a7d3f489f",
-                    "path": "<Keyboard>/z",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -229,6 +261,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "YButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b24f55aa-91ff-41ec-a0a2-30ff97f2fc69",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "YButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -251,6 +294,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "New control scheme",
+                    "action": "AButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5fe4139-504c-42d0-98c5-fb3d45b74d1f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "AButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -290,12 +344,12 @@
                 },
                 {
                     "name": "",
-                    "id": "d28e37ac-5021-4755-b6bf-def163d4b39a",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "2213a490-ff42-46c4-80be-b346f38a476a",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "LeftTrigger",
+                    "groups": "Keyboard",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -306,7 +360,84 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "RightTrigger",
+                    "action": "Left_Bottom_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d28e37ac-5021-4755-b6bf-def163d4b39a",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Right_Bottom_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "726c3b38-d536-4df3-8f8a-fa134ada6c8d",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Right_Top_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00499730-e44d-4c0a-a9cf-7f25e2edf054",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Left_Top_Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62870cb6-88a8-43c9-954a-1cd7ab66383e",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Left_Stick_Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2902b950-65af-4d3e-bca7-7ce0245881ee",
+                    "path": "<XInputController>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left_Stick_Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "792d45e9-0193-489c-b15e-4fb20f9ef410",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Right_Stick_Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3273b646-00ac-4f03-a334-237f9c83bc7d",
+                    "path": "<XInputController>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right_Stick_Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -517,6 +648,11 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

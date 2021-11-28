@@ -40,7 +40,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""YButton"",
@@ -56,7 +56,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""id"": ""9821e560-b080-4584-8264-ce58fc5bf2a4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""BButton"",
@@ -75,7 +75,31 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""LeftTrigger"",
+                    ""name"": ""Left_Top_Trigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""43040b97-782b-4436-88b0-18e185e4a340"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Left_Bottom_Trigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""f979e8c2-b712-4c1b-96b0-a967f205247f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Right_Top_Trigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbafb034-bb52-4c6c-ba0d-9d78c4059419"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Right_Bottom_Trigger"",
                     ""type"": ""Button"",
                     ""id"": ""a108a7c0-857d-4e8f-8f60-373596350010"",
                     ""expectedControlType"": ""Button"",
@@ -83,9 +107,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""RightTrigger"",
+                    ""name"": ""Left_Stick_Press"",
                     ""type"": ""Button"",
-                    ""id"": ""f979e8c2-b712-4c1b-96b0-a967f205247f"",
+                    ""id"": ""9a33f2d1-e242-4996-912c-151150ceeaf3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Right_Stick_Press"",
+                    ""type"": ""Button"",
+                    ""id"": ""cc363f83-64ca-4311-9a1b-8f43b905e88c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -227,7 +259,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""60839f66-d277-4d60-bbe1-ad1a7d3f489f"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -242,6 +274,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""YButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b24f55aa-91ff-41ec-a0a2-30ff97f2fc69"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""YButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -264,6 +307,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""New control scheme"",
+                    ""action"": ""AButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5fe4139-504c-42d0-98c5-fb3d45b74d1f"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""AButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -303,12 +357,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d28e37ac-5021-4755-b6bf-def163d4b39a"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""2213a490-ff42-46c4-80be-b346f38a476a"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LeftTrigger"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -319,7 +373,84 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""RightTrigger"",
+                    ""action"": ""Left_Bottom_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d28e37ac-5021-4755-b6bf-def163d4b39a"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Right_Bottom_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""726c3b38-d536-4df3-8f8a-fa134ada6c8d"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Right_Top_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00499730-e44d-4c0a-a9cf-7f25e2edf054"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Left_Top_Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62870cb6-88a8-43c9-954a-1cd7ab66383e"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Left_Stick_Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2902b950-65af-4d3e-bca7-7ce0245881ee"",
+                    ""path"": ""<XInputController>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left_Stick_Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""792d45e9-0193-489c-b15e-4fb20f9ef410"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Right_Stick_Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3273b646-00ac-4f03-a334-237f9c83bc7d"",
+                    ""path"": ""<XInputController>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right_Stick_Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -532,6 +663,11 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
                 }
             ]
         },
@@ -557,8 +693,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
         m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
-        m_Player_LeftTrigger = m_Player.FindAction("LeftTrigger", throwIfNotFound: true);
-        m_Player_RightTrigger = m_Player.FindAction("RightTrigger", throwIfNotFound: true);
+        m_Player_Left_Top_Trigger = m_Player.FindAction("Left_Top_Trigger", throwIfNotFound: true);
+        m_Player_Left_Bottom_Trigger = m_Player.FindAction("Left_Bottom_Trigger", throwIfNotFound: true);
+        m_Player_Right_Top_Trigger = m_Player.FindAction("Right_Top_Trigger", throwIfNotFound: true);
+        m_Player_Right_Bottom_Trigger = m_Player.FindAction("Right_Bottom_Trigger", throwIfNotFound: true);
+        m_Player_Left_Stick_Press = m_Player.FindAction("Left_Stick_Press", throwIfNotFound: true);
+        m_Player_Right_Stick_Press = m_Player.FindAction("Right_Stick_Press", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -620,8 +760,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_AButton;
     private readonly InputAction m_Player_BButton;
     private readonly InputAction m_Player_Select;
-    private readonly InputAction m_Player_LeftTrigger;
-    private readonly InputAction m_Player_RightTrigger;
+    private readonly InputAction m_Player_Left_Top_Trigger;
+    private readonly InputAction m_Player_Left_Bottom_Trigger;
+    private readonly InputAction m_Player_Right_Top_Trigger;
+    private readonly InputAction m_Player_Right_Bottom_Trigger;
+    private readonly InputAction m_Player_Left_Stick_Press;
+    private readonly InputAction m_Player_Right_Stick_Press;
     public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
@@ -633,8 +777,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         public InputAction @AButton => m_Wrapper.m_Player_AButton;
         public InputAction @BButton => m_Wrapper.m_Player_BButton;
         public InputAction @Select => m_Wrapper.m_Player_Select;
-        public InputAction @LeftTrigger => m_Wrapper.m_Player_LeftTrigger;
-        public InputAction @RightTrigger => m_Wrapper.m_Player_RightTrigger;
+        public InputAction @Left_Top_Trigger => m_Wrapper.m_Player_Left_Top_Trigger;
+        public InputAction @Left_Bottom_Trigger => m_Wrapper.m_Player_Left_Bottom_Trigger;
+        public InputAction @Right_Top_Trigger => m_Wrapper.m_Player_Right_Top_Trigger;
+        public InputAction @Right_Bottom_Trigger => m_Wrapper.m_Player_Right_Bottom_Trigger;
+        public InputAction @Left_Stick_Press => m_Wrapper.m_Player_Left_Stick_Press;
+        public InputAction @Right_Stick_Press => m_Wrapper.m_Player_Right_Stick_Press;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -665,12 +813,24 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
-                @LeftTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @LeftTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @LeftTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
-                @RightTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
-                @RightTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
-                @RightTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @Left_Top_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Top_Trigger;
+                @Left_Bottom_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Bottom_Trigger;
+                @Right_Top_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Top_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Top_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Top_Trigger;
+                @Right_Bottom_Trigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Bottom_Trigger;
+                @Left_Stick_Press.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Stick_Press;
+                @Left_Stick_Press.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Stick_Press;
+                @Left_Stick_Press.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeft_Stick_Press;
+                @Right_Stick_Press.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
+                @Right_Stick_Press.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
+                @Right_Stick_Press.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -696,12 +856,24 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
-                @LeftTrigger.started += instance.OnLeftTrigger;
-                @LeftTrigger.performed += instance.OnLeftTrigger;
-                @LeftTrigger.canceled += instance.OnLeftTrigger;
-                @RightTrigger.started += instance.OnRightTrigger;
-                @RightTrigger.performed += instance.OnRightTrigger;
-                @RightTrigger.canceled += instance.OnRightTrigger;
+                @Left_Top_Trigger.started += instance.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.performed += instance.OnLeft_Top_Trigger;
+                @Left_Top_Trigger.canceled += instance.OnLeft_Top_Trigger;
+                @Left_Bottom_Trigger.started += instance.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.performed += instance.OnLeft_Bottom_Trigger;
+                @Left_Bottom_Trigger.canceled += instance.OnLeft_Bottom_Trigger;
+                @Right_Top_Trigger.started += instance.OnRight_Top_Trigger;
+                @Right_Top_Trigger.performed += instance.OnRight_Top_Trigger;
+                @Right_Top_Trigger.canceled += instance.OnRight_Top_Trigger;
+                @Right_Bottom_Trigger.started += instance.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.performed += instance.OnRight_Bottom_Trigger;
+                @Right_Bottom_Trigger.canceled += instance.OnRight_Bottom_Trigger;
+                @Left_Stick_Press.started += instance.OnLeft_Stick_Press;
+                @Left_Stick_Press.performed += instance.OnLeft_Stick_Press;
+                @Left_Stick_Press.canceled += instance.OnLeft_Stick_Press;
+                @Right_Stick_Press.started += instance.OnRight_Stick_Press;
+                @Right_Stick_Press.performed += instance.OnRight_Stick_Press;
+                @Right_Stick_Press.canceled += instance.OnRight_Stick_Press;
             }
         }
     }
@@ -791,8 +963,12 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
-        void OnLeftTrigger(InputAction.CallbackContext context);
-        void OnRightTrigger(InputAction.CallbackContext context);
+        void OnLeft_Top_Trigger(InputAction.CallbackContext context);
+        void OnLeft_Bottom_Trigger(InputAction.CallbackContext context);
+        void OnRight_Top_Trigger(InputAction.CallbackContext context);
+        void OnRight_Bottom_Trigger(InputAction.CallbackContext context);
+        void OnLeft_Stick_Press(InputAction.CallbackContext context);
+        void OnRight_Stick_Press(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
