@@ -89,39 +89,7 @@ public class LoadManager : MonoBehaviour
              ChangeRoom();
          }
      }
-
-     /*
-     void GetRandomNumber()
-     {
-         for (int i = 0; i < 3; i++)
-         {
-             int index = Random.Range(0, roomLevel1.Count);
-             if (!randomIndex.Contains(index))
-             {
-                 randomIndex.Add(index);
-             }
-             else
-             {
-                 i--;
-             }
-         }
-     }
-
-     void CreateFinalList()
-     {
-         finalList.Add(roomLevel1[randomIndex[0]]); // RandomRoom
-         finalList.Add(roomLevel1[randomIndex[2]]); // RandomRoom
-         finalList.Add(roomLevel1[randomIndex[0]]); // RandomRoom
-         finalList.Add(roomLevel1[randomIndex[1]]); // RandomRoom
-         
-         finalList.Add(utilityRoom[0]); // UtilityRoom1
-         
-         finalList.Add(roomLevel1[randomIndex[2]]); // RandomRoom
-         finalList.Add(roomLevel1[randomIndex[1]]); // RandomRoom
-         
-         finalList.Add(bossRoom[0]);
-     }
-    */
+     
      public void ChangeRoom()
      {
          SceneManager.LoadSceneAsync(finalList[currentRoom]);
@@ -135,16 +103,6 @@ public class LoadManager : MonoBehaviour
          finalList = new List<string>();
          currentRoom = 0;
          AlgoCompliquer();
-        
-         //GetRandomNumber();
-         //CreateFinalList();
-     }
-
-     private void SetPlayerPosition()
-     {
-         GameObject spawnPoint = GameObject.Find("SpawnPoint");
-         GameObject player = GameObject.FindGameObjectWithTag("Player");
-         player.transform.position = spawnPoint.transform.position;
      }
 
      private void AddRoomLevel1()
