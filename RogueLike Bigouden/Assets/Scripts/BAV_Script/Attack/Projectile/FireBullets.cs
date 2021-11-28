@@ -36,6 +36,8 @@ public class FireBullets : MonoBehaviour
     private float angleIncrement2;
     private bool changeSign;
     private const float tau = 6.28318548f;
+
+    private GameObject bul;
     
     private void OnEnable()
     {
@@ -88,10 +90,7 @@ public class FireBullets : MonoBehaviour
             Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
             Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-            GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-            bul.transform.position = transform.position;
-            bul.transform.rotation = transform.rotation;
-            bul.SetActive(true);
+            bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
             bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
             angle += angleStep;
         }
@@ -105,10 +104,7 @@ public class FireBullets : MonoBehaviour
         Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
         Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-        GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-        bul.transform.position = transform.position;
-        bul.transform.rotation = transform.rotation;
-        bul.SetActive(true);
+        bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
         bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
         angleIncrement += angle * speedAngle;
     }
@@ -125,10 +121,7 @@ public class FireBullets : MonoBehaviour
             Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
             Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-            GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-            bul.transform.position = transform.position;
-            bul.transform.rotation = transform.rotation;
-            bul.SetActive(true);
+            bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
             bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
         }
 
@@ -148,10 +141,7 @@ public class FireBullets : MonoBehaviour
         Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
         Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-        GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-        bul.transform.position = transform.position;
-        bul.transform.rotation = transform.rotation;
-        bul.SetActive(true);
+        bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
         bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
 
         angleIncrement += angle * speedAngle;
@@ -170,10 +160,7 @@ public class FireBullets : MonoBehaviour
         Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
         Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-        GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-        bul.transform.position = transform.position;
-        bul.transform.rotation = transform.rotation;
-        bul.SetActive(true);
+        bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
         bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
 
         angleIncrement2 -= angle * speedAngle;

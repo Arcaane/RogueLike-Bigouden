@@ -11,7 +11,7 @@ public class BulletForUlt : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("Destroy", lifeTime);
+        Invoke(("Destroy"), lifeTime);
     }
 
     private void Update()

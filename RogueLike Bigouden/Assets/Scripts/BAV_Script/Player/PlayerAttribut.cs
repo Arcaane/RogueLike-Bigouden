@@ -591,6 +591,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         Transform bulletTransform = Instantiate(projectileObj, transform.position + _lastPosition, Quaternion.identity);
         bulletTransform.GetComponent<ProjectilePlayer>().PosShooter(_lastPosition);
+        launchProjectile = false;
     }
 
 
