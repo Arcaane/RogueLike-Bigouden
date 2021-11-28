@@ -741,6 +741,38 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: bossRoom.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: numberOfRoomToCreate
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: storeRoom.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: bossRoom.Array.data[1]
+      value: L1BR
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: smallRoomMultiplicator
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: variationMultiplicator
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: storeRoom.Array.data[0]
+      value: Store
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: largeRoomApparitionValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: roomLevel1.Array.data[0]
       value: L1R1 - S
       objectReference: {fileID: 0}
@@ -751,6 +783,62 @@ PrefabInstance:
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: roomLevel1.Array.data[2]
       value: L1R3 - L
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: smallRoomApparitionValue
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: mediumRoomApparitionValue
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Large.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Small.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Large.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Small.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Medium.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Medium.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Large.Array.data[0]
+      value: L1R3 - L
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Small.Array.data[0]
+      value: L1R1 - S
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Large.Array.data[0]
+      value: L1R3 - L
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Small.Array.data[0]
+      value: L1R1 - S
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Medium.Array.data[0]
+      value: L1R2- M
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel2Medium.Array.data[0]
+      value: L1R2- M
       objectReference: {fileID: 0}
     - target: {fileID: 5313670428798600805, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: m_RootOrder
