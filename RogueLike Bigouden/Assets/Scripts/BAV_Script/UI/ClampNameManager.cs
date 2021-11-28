@@ -15,13 +15,14 @@ public class ClampNameManager : MonoBehaviour
 
 
     //Private Action
+    [SerializeField] bool returnTime;
     [SerializeField] bool isDying;
     [SerializeField] private float counterBeforeRespawn = 10f;
     [SerializeField] private float counterTimer;
-    [SerializeField] private float timerLimit = 3f;
+    [SerializeField] private float timerLimit = 2f;
 
-    private float timerCounterSlow;
-    private bool returnTime;
+
+    [SerializeField] float timerCounterSlow;
 
     //private
     private int lifePointObject;
@@ -35,13 +36,10 @@ public class ClampNameManager : MonoBehaviour
             LaunchRespawn();
         }
 
+
         Vector3 namePos = camera.WorldToScreenPoint(spawnRefUI[0].gameObject.transform.position + offsetPosition);
         showNumber[0].transform.position = namePos;
         TakeDamageUI();
-        if (returnTime)
-        {
-            CounterTimer();
-        }
     }
 
 
@@ -51,25 +49,23 @@ public class ClampNameManager : MonoBehaviour
         lifePoint.text = spawnRefUI[0].lifePoint.ToString();
         if (spawnRefUI[0].lifePoint == 0)
         {
-            Invoke(("Destroy"), 0.5f);
             isDying = true;
-        }
-
-        if (isDying)
-        {
-            returnTime = true;
+            Invoke(("Destroy"), 0.5f);
         }
     }
 
     public void LaunchRespawn()
     {
         counterTimer += Time.deltaTime;
+        if (counterTimer < timerLimit)
+        {
+            TimeManager.SlowDownGame();
+        }
         if (counterTimer > counterBeforeRespawn)
         {
             isDying = false;
             counterTimer = 0;
             Invoke(("Respawn"), 0.5f);
-            Debug.Log("Hello");
             spawnRefUI[0].lifePoint = spawnRefUI[0].ennemyData.lifePointSO;
         }
     }
@@ -84,16 +80,5 @@ public class ClampNameManager : MonoBehaviour
     {
         spawnRefUI[0].gameObject.SetActive(false);
         showNumber[0].gameObject.SetActive(false);
-    }
-
-    public void CounterTimer()
-    {
-        TimeManager.SlowDownGame();
-        timerCounterSlow += Time.time;
-        if (timerCounterSlow > timerLimit)
-        {
-            returnTime = false;
-            timerCounterSlow = 0;
-        }
     }
 }

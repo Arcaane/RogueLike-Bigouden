@@ -8,7 +8,7 @@ public class TimeManager
     public const float speedRalentiEnnemy = 0.3f;
     public const float speedRalentiProj = 0.3f;
     
-    private static float timeRalenti;
+    private static float timeRalenti = float.MinValue;
     public const float DurationRalenti = 2f; // in real time ! Float to changer for the duration of the Slow Down
 
     public static bool isRalenti =>

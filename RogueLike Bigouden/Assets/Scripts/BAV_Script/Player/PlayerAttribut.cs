@@ -87,8 +87,6 @@ public class PlayerAttribut : MonoBehaviour
     public bool launchFirstAttack;
     public bool launchSecondAttack;
     public bool launchAOEAttack;
-    public float delayBeforeResetAttack = 1f;
-    public float delayForSecondAttack = 4f;
 
     //Valor for detecting a hit
     private int isHurt;
@@ -551,7 +549,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
 
-        if (_timerAttack >= delayBeforeResetAttack)
+        if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
         {
             attackType = 0;
             isAttacking = false;
