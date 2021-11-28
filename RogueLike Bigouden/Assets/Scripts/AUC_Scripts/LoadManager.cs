@@ -22,9 +22,9 @@ public class LoadManager : MonoBehaviour
     
     [Space(10)]
     [Header("Valeur d'apparition des différant types de salles")]
-    public float smallRoomApparitionValue = 75;
-    public float mediumRoomApparitionValue = 22.5f;
-    public float largeRoomApparitionValue = 7.5f;
+    public float smallRoomApparitionValue = 7;
+    public float mediumRoomApparitionValue = 2;
+    public float largeRoomApparitionValue = 1;
     
     [Space(10)]
     [Header("Apparition Value Multiplicator")]
@@ -58,6 +58,8 @@ public class LoadManager : MonoBehaviour
     [Header("Liste des Salles pour cette partie")]
     public List<string> finalList = new List<string>();
 
+    public const int RoomLevel1BeforeBoss = 9;
+    public const int RoomLevel2BeforeBoss = 19;
     private float x;
     private float y;
     private float z;
@@ -165,7 +167,7 @@ public class LoadManager : MonoBehaviour
 
          Debug.Log("Oui ?");
          
-         if (finalList.Count == 9)
+         if (finalList.Count == RoomLevel1BeforeBoss)
          {
              if (shopApparitionValue != 0)
              {
@@ -174,8 +176,13 @@ public class LoadManager : MonoBehaviour
 
              finalList.Add(bossRoom[0]);
              isLevel1 = false;
+             
+             smallRoomApparitionValue = 5;
+             mediumRoomApparitionValue = 2.5f;
+             smallRoomApparitionValue = 2.5f;
+
          }
-         else if (finalList.Count != 9 && finalList.Count > 0)
+         else if (finalList.Count != RoomLevel1BeforeBoss && finalList.Count > 0)
           // Add une salle normalement selon l'algo. La vache j'ai cho
          {
              LaMoulinette(smallRoomApparitionValue, mediumRoomApparitionValue, largeRoomApparitionValue);
@@ -185,7 +192,7 @@ public class LoadManager : MonoBehaviour
      private void AddRoomLevel2()
      {
          Debug.Log("Level2");
-         if (finalList.Count == 19) // Add le shop avant le boss
+         if (finalList.Count == RoomLevel2BeforeBoss) // Add le shop avant le boss
          {
              if (shopApparitionValue != 0)
              {
@@ -193,7 +200,8 @@ public class LoadManager : MonoBehaviour
              }
              finalList.Add(bossRoom[1]);
          }
-         else // Add une salle normalement selon l'algo. La vache j'ai cho
+         else if (finalList.Count != RoomLevel2BeforeBoss && finalList.Count > 0)
+             // Add une salle normalement selon l'algo. La vache j'ai cho
          {
              LaMoulinette(smallRoomApparitionValue, mediumRoomApparitionValue, largeRoomApparitionValue);
          }
@@ -208,9 +216,10 @@ public class LoadManager : MonoBehaviour
              else
                  AddRoomLevel2();
 
-             if (numberOfRoomToCreate == 3 || numberOfRoomToCreate == 13)
+             if (i == 3 || i == 13)
              {
                  shopApparitionValue = 3;
+                 Debug.Log("Shop apparition value : " + shopApparitionValue);
              }
              
             CheckShop(); // Check si on met un shop ou pas
@@ -324,7 +333,7 @@ public class LoadManager : MonoBehaviour
                  finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel1Medium.Count - 1)]);
                  Debug.Log("Salle choisie : Medium");
              }
-             else if (rand >= z && roomLevel1Large != null)
+             else if (rand > y && roomLevel1Large != null)
              {
                  finalList.Add(roomLevel1Large[Random.Range(0, roomLevel1Large.Count - 1)]);
                  Debug.Log("Salle choisie : Large");
@@ -342,7 +351,7 @@ public class LoadManager : MonoBehaviour
                  finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel2Medium.Count - 1)]);
                  Debug.Log("Salle choisie : Medium");
              }
-             else if (rand >= z && roomLevel2Large != null)
+             else if (rand > y && roomLevel2Large != null)
              {
                  finalList.Add(roomLevel2Large[Random.Range(0, roomLevel2Large.Count - 1)]);
                  Debug.Log("Salle choisie : Large");
