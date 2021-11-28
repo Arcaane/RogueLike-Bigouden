@@ -27,14 +27,8 @@ public class FireBullets : MonoBehaviour
     [SerializeField] private float angle = 0f;
 
     [SerializeField] private float speedAngle = 0f;
-
-    //Pattern1----------
-    [Header("Pattern1")] [SerializeField] private float startAngle = 90f, endAngle = 270f;
     private Vector2 bulletMoveDirection;
-
-
-    //Pattern4----------
-    [Header("Pattern4")] [SerializeField] private Vector2 limitAngle = new Vector2(90f, 270f);
+    [SerializeField] private Vector2 limitAngle = new Vector2(90f, 270f);
     private float angleIncrement;
     private bool changeSign;
 
@@ -67,8 +61,8 @@ public class FireBullets : MonoBehaviour
 
     private void FirePattern1()
     {
-        float angleStep = (endAngle - startAngle) / bulletsAmount;
-        float angle = startAngle;
+        float angleStep = (limitAngle.y - limitAngle.x) / bulletsAmount;
+        float angle = limitAngle.x;
 
         for (int i = 0; i < bulletsAmount; i++)
         {
@@ -132,31 +126,23 @@ public class FireBullets : MonoBehaviour
 
     public void FirePattern4()
     {
-        for (int i = 0; i <= numberOfSpline; i++)
+        float bulDirX = transform.position.x + Mathf.Sin((angleIncrement * Mathf.PI) / 180f);
+        float bulDirY = transform.position.y + Mathf.Cos((angleIncrement * Mathf.PI) / 180f);
+
+        Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
+        Vector2 bulDir = (bulMoveVector - transform.position).normalized;
+
+        GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
+        bul.transform.position = transform.position;
+        bul.transform.rotation = transform.rotation;
+        bul.SetActive(true);
+        bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
+
+        angleIncrement += angle * speedAngle;
+        if (angleIncrement > limitAngle.y)
         {
-            float bulDirX = transform.position.x -
-                            Mathf.Sin(((angleIncrement + (360f / numberOfSpline) * i) * Mathf.PI) / 180f);
-            float bulDirY = transform.position.y -
-                            Mathf.Cos(((angleIncrement + (360f / numberOfSpline) * i) * Mathf.PI) / 180f);
-
-            Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
-            Vector2 bulDir = (bulMoveVector - transform.position).normalized;
-
-            GameObject bul = BulletPoolUlt.bulletPoolIntance.GetBullet();
-            bul.transform.position = transform.position;
-            bul.transform.rotation = transform.rotation;
-            bul.SetActive(true);
-            bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
-        }
-
-
-        if (angleIncrement >= 360f)
-        {
-            angleIncrement -= angle * speedAngle;
-        }
-        else if (angleIncrement <= 360f)
-        {
-            angleIncrement += angle * speedAngle;
+            angleIncrement = 0;
+            angleIncrement = limitAngle.x;
         }
     }
 }

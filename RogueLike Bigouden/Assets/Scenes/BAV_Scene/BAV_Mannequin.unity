@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
       propertyPath: angle
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
       propertyPath: myPattern
@@ -160,11 +160,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
       propertyPath: speedAngle
-      value: 0.1
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
+      propertyPath: startAngle
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
+      propertyPath: limitAngle.x
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
+      propertyPath: limitAngle.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
+      propertyPath: bulletsAmount
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
       propertyPath: numberOfSpline
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3190346727137952504, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
+      propertyPath: notEnoughBulletsInPool
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4058050016553290133, guid: 587ffbd674774cc458e83ed96955baf2, type: 3}
       propertyPath: m_Mesh
