@@ -538,27 +538,29 @@ public class PlayerAttribut : MonoBehaviour
         if (isAttacking)
         {
             _timerAttack += CustomDeltaTimeAttack;
-            if (_timerAttack >= _playerStatsManager.firstAttackReset.x ||
-                _timerAttack <= _playerStatsManager.firstAttackReset.y)
+            if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
+                _timerAttack < _playerStatsManager.firstAttackReset.y)
             {
                 animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-                if (_timerAttack > _playerStatsManager.firstAttackReset.y)
-                {
-                    animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                }
             }
 
-            if (_timerAttack >= delayBeforeResetAttack)
+            if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
-                attackType = 0;
-                isAttacking = false;
-                attackPath.launchAttack = false;
-                attackPath.launchSecondAttack = false;
-                attackPath.progress = 0f;
-                _timerAttack = 0f;
+                animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
+
+        if (_timerAttack >= delayBeforeResetAttack)
+        {
+            attackType = 0;
+            isAttacking = false;
+            attackPath.launchAttack = false;
+            attackPath.launchSecondAttack = false;
+            attackPath.progress = 0f;
+            _timerAttack = 0f;
+        }
     }
+    
 
     public void SaveLastPosition()
     {

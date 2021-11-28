@@ -58,16 +58,14 @@ public class FireBullets : MonoBehaviour
             case Pattern.Pattern4:
                 InvokeRepeating("FirePattern4", TimeManager.CustomDeltaTimeAttack,
                     notEnoughBulletsInPool);
-                InvokeRepeating("FirePattern5", TimeManager.CustomDeltaTimeAttack,
-                    notEnoughBulletsInPool);
                 break;
             case Pattern.Pattern5:
-                InvokeRepeating("FirePattern1", TimeManager.CustomDeltaTimeAttack,
-                    1f);
+                /*InvokeRepeating("FirePattern1", TimeManager.CustomDeltaTimeAttack,
+                    notEnoughBulletsInPool);*/
                 InvokeRepeating("FirePattern4", TimeManager.CustomDeltaTimeAttack,
-                    Random.Range(notEnoughBulletsInPoolRandom.x * tau, notEnoughBulletsInPoolRandom.y * tau));
+                    Random.Range(notEnoughBulletsInPoolRandom.x, notEnoughBulletsInPoolRandom.y));
                 InvokeRepeating("FirePattern5", TimeManager.CustomDeltaTimeAttack,
-                    Random.Range(notEnoughBulletsInPoolRandom.x * tau, notEnoughBulletsInPoolRandom.y * tau));
+                    Random.Range(notEnoughBulletsInPoolRandom.x, notEnoughBulletsInPoolRandom.y));
                 break;
         }
     }

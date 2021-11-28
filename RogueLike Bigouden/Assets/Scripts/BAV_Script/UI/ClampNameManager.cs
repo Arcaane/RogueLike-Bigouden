@@ -40,7 +40,6 @@ public class ClampNameManager : MonoBehaviour
         TakeDamageUI();
         if (returnTime)
         {
-            TimeManager.SlowDownGame();
             CounterTimer();
         }
     }
@@ -52,7 +51,7 @@ public class ClampNameManager : MonoBehaviour
         lifePoint.text = spawnRefUI[0].lifePoint.ToString();
         if (spawnRefUI[0].lifePoint == 0)
         {
-            Invoke("Destroy", 0.5f);
+            Invoke(("Destroy"), 0.5f);
             isDying = true;
         }
 
@@ -69,7 +68,7 @@ public class ClampNameManager : MonoBehaviour
         {
             isDying = false;
             counterTimer = 0;
-            Invoke("Respawn", 0.5f);
+            Invoke(("Respawn"), 0.5f);
             Debug.Log("Hello");
             spawnRefUI[0].lifePoint = spawnRefUI[0].ennemyData.lifePointSO;
         }
@@ -90,8 +89,8 @@ public class ClampNameManager : MonoBehaviour
     public void CounterTimer()
     {
         TimeManager.SlowDownGame();
-        timerCounterSlow += Time.deltaTime;
-        if (timerCounterSlow >= timerLimit)
+        timerCounterSlow += Time.time;
+        if (timerCounterSlow > timerLimit)
         {
             returnTime = false;
             timerCounterSlow = 0;

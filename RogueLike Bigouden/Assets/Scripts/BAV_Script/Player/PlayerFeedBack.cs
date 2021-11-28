@@ -107,6 +107,7 @@ public class PlayerFeedBack : MonoBehaviour
         }
     }
 
+    private const float radiusClamp = 0.76f;
     public void MoveCameraInput(int isDetect, Vector3 posPlayer, Vector3 posTarget, float current)
     {
         /*float target = 0, duration = 0;
@@ -117,7 +118,7 @@ public class PlayerFeedBack : MonoBehaviour
         Debug.Log("Target : " + target);
         Debug.Log("Current : " + current);*/
         //current = Mathf.MoveTowards(current, target, duration * TimeManager.CustomDeltaTimeAttack);
-        CameraMovement(posPlayer, posTarget, current);
+        CameraMovement(posPlayer, posTarget * radiusClamp, current);
     }
 
     public void ResetPosCam(float current)
