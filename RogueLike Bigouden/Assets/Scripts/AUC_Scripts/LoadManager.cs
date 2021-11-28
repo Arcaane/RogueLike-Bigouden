@@ -13,10 +13,7 @@ public class LoadManager : MonoBehaviour
     [Header("Variables indicatives sur la salle actuelle et les salles visités")]
     public int currentRoom;
     public int numberOfRoomToCreate;
-    public int numberOfLevel;
-    public List<string> roomVisited = new List<string>();
     
-    public float visitedRooms;
     public int roomBeforeBoss;
     public float shopApparitionValue;
     
@@ -129,11 +126,6 @@ public class LoadManager : MonoBehaviour
      {
          SceneManager.LoadSceneAsync(finalList[currentRoom]);
          currentRoom++;
-
-         if (currentRoom == 11)
-         {
-             ResetProcedural();
-         }
      }
 
      void ResetProcedural()
