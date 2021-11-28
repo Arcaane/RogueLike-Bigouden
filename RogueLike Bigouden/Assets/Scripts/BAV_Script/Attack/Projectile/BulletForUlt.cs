@@ -6,11 +6,12 @@ using UnityEngine;
 public class BulletForUlt : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float lifeTime;
     private Vector2 moveDirection;
 
     private void OnEnable()
     {
-        Invoke("Destroy", 3f);
+        Invoke("Destroy", lifeTime);
     }
 
     private void Update()

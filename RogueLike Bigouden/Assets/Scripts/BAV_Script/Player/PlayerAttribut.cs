@@ -113,7 +113,9 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Player Ultimate")]
     //float--------------------
     [SerializeField]
-    private float numberOfBullet;
+    private GameObject ultBulletSpawner;
+
+    [SerializeField] private float numberOfBullet;
 
     [SerializeField] private float incrementValue;
     [SerializeField] private float ultDuration;
@@ -204,6 +206,7 @@ public class PlayerAttribut : MonoBehaviour
         _playerStatsManager = GetComponent<PlayerStatsManager>();
         _playerInput = GetComponent<PlayerInput_Final>();
         cam = _playerInput.GetComponent<Camera>();
+        ultBulletSpawner.SetActive(false);
         posCam = PlayerFeedBack.instance.pivotCam;
 
         //_isDashing = _playerStatsManager.isDashing;
@@ -586,7 +589,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void MovementProjectile()
     {
-        Transform bulletTransform = Instantiate(projectileObj, _lastPosition, Quaternion.identity);
+        Transform bulletTransform = Instantiate(projectileObj, transform.position + _lastPosition, Quaternion.identity);
         bulletTransform.GetComponent<ProjectilePlayer>().PosShooter(_lastPosition);
     }
 
@@ -607,6 +610,7 @@ public class PlayerAttribut : MonoBehaviour
     public void LaunchUltimate()
     {
         isUlting = true;
+        ultBulletSpawner.SetActive(true);
     }
 
     //Ultimate Delay when he is Activate.
@@ -616,6 +620,7 @@ public class PlayerAttribut : MonoBehaviour
         if (_timerUltimate >= ultDuration)
         {
             _timerUltimate = 0;
+            ultBulletSpawner.SetActive(false);
             isUlting = false;
         }
     }

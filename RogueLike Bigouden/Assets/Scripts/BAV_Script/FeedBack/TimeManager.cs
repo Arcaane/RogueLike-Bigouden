@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,12 +21,13 @@ public class TimeManager
             ? Time.deltaTime * speedRalentiProj
             : Time.deltaTime; // is ralenti => delta Time * 0.3f ( on ralenti la speed * 0.3f sinon full speed )
 
-    public const float speedRalentiEnnemy = 0.1f;
-    public const float speedRalentiProj = 0.1f;
+    public const float speedRalentiEnnemy = 0.3f;
+    public const float speedRalentiProj = 0.3f;
     public const float stopTime = 0f;
     
     public static void SlowDownGame()
     {
         timeRalenti = Time.time;
+        Debug.Log(timeRalenti);
     }
 }
