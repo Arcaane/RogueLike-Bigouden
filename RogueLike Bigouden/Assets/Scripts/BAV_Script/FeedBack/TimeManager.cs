@@ -9,7 +9,7 @@ public class TimeManager
     public const float speedRalentiProj = 0.3f;
     
     private static float timeRalenti = float.MinValue;
-    public const float DurationRalenti = 2f; // in real time ! Float to changer for the duration of the Slow Down
+    public const float DurationRalenti = 0.75f; // in real time ! Float to changer for the duration of the Slow Down
 
     public static bool isRalenti =>
         Time.time - timeRalenti < DurationRalenti; // did we ralenti more than 0.5f seconds ago ? so we are slown Down

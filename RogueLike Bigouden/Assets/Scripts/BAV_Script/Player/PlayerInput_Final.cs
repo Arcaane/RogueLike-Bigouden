@@ -150,6 +150,7 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Move.performed += OnMove;
         controls.Player.Look.performed += OnLook;
     }
+    
 
     public void OnEnable()
     {

@@ -14,7 +14,8 @@ public class PlayerAttribut : MonoBehaviour
 {
     private TimeManager timerManager;
 
-    [Header("Component Stats Manager")] [SerializeField]
+    [Header("Component Stats Manager")] 
+    [SerializeField]
     private PlayerStatsManager _playerStatsManager;
 
     [SerializeField] private PlayerInput_Final _playerInput;
@@ -69,8 +70,10 @@ public class PlayerAttribut : MonoBehaviour
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
 
-    [Header("Player Attack X/Y")] [SerializeField]
-    private GameObject splinePivot;
+    [Header("Player Attack X/Y")] 
+    [SerializeField]
+    private SpriteRenderer spriteRendererFrame;
+    [SerializeField] private GameObject splinePivot;
 
     [SerializeField] private Transform offsetAttackXY;
 
@@ -200,12 +203,11 @@ public class PlayerAttribut : MonoBehaviour
 
     void Awake()
     {
+        _playerInput = GetComponent<PlayerInput_Final>();
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
-        _playerInput = GetComponent<PlayerInput_Final>();
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
-        posCam = PlayerFeedBack.instance.pivotCam;
 
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
@@ -213,6 +215,7 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Start()
     {
+        posCam = PlayerFeedBack.instance.pivotCam;
         if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
@@ -339,7 +342,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
 
-        if (canDash)
+        if (canDash && !isUlting)
         {
             StartDash();
         }
@@ -540,12 +543,13 @@ public class PlayerAttribut : MonoBehaviour
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
-                animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                Debug.Log("Hello");
+                spriteRendererFrame.material.color = Color.black;
             }
 
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
-                animatorPlayer.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                spriteRendererFrame.material.color = Color.white;
             }
         }
 
@@ -559,7 +563,7 @@ public class PlayerAttribut : MonoBehaviour
             _timerAttack = 0f;
         }
     }
-    
+
 
     public void SaveLastPosition()
     {

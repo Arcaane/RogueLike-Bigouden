@@ -61,8 +61,10 @@ public class ClampNameManager : MonoBehaviour
         {
             TimeManager.SlowDownGame();
         }
+
         if (counterTimer > counterBeforeRespawn)
         {
+            TimeManager.SlowDownGame();
             isDying = false;
             counterTimer = 0;
             Invoke(("Respawn"), 0.5f);
