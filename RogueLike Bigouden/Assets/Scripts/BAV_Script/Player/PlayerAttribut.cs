@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor.ShaderGraph.Drawing;
+using UnityEngine.InputSystem;
 using static TimeManager;
 
 public class PlayerAttribut : MonoBehaviour
@@ -15,6 +16,8 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Component Stats Manager")] [SerializeField]
     private PlayerStatsManager _playerStatsManager;
+
+    [SerializeField] private PlayerInput_Final _playerInput;
 
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
@@ -143,11 +146,19 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField]
     private PlayerFeedBack playerFeedBack;
 
-    [SerializeField] private float _timerBeforeResetPosCamera;
+    [SerializeField] private Transform posCam;
 
+    [SerializeField] private Camera cam;
+    [SerializeField] private float _timerBeforeResetPosCamera;
+    [SerializeField] private float durationMove;
+    [SerializeField] Vector3 offset;
+    [SerializeField] Vector2 limitationArray;
+
+    [Space(10)]
 
     // Private Valor use just for this script----------------------------------
-    [SerializeField] private ProjectilePath _attackPath;
+    [SerializeField]
+    private ProjectilePath _attackPath;
 
     //float
     private float _durationResetDash;
@@ -191,6 +202,10 @@ public class PlayerAttribut : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
+        _playerInput = GetComponent<PlayerInput_Final>();
+        cam = _playerInput.GetComponent<Camera>();
+        posCam = PlayerFeedBack.instance.pivotCam;
+
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
     }
@@ -445,9 +460,6 @@ public class PlayerAttribut : MonoBehaviour
         {
             UltimateDelay();
         }
-
-
-
     }
 
 
@@ -458,6 +470,8 @@ public class PlayerAttribut : MonoBehaviour
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         Animation();
+        SmoothJoystickCamera();
+        //MoveCameraRightStick();
 
         if (_launchDebug)
         {
@@ -638,9 +652,28 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    public void MoveCameraRightStick()
+    public void SmoothJoystickCamera()
     {
-        
+        Vector3 aim = new Vector3(lookAxis.x, lookAxis.y, 0.0f);
+        Vector3 lookAxisNor = lookAxis.normalized;
+        Vector3 target;
+        if (_playerInput.kbMouse)
+        {
+            target = posCam.position + aim.normalized;
+        }
+        else
+        {
+            target = posCam.position + aim.normalized * 10;
+        }
+
+        float roundAxis = 0;
+        Vector2 posObj = transform.position.normalized;
+        roundAxis = Vector2.Distance(posObj, lookAxisNor);
+        roundAxis = roundAxis / 5;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, target, (roundAxis <= 0 ? -roundAxis : roundAxis));
+        posCam.position = new Vector2(
+            Mathf.Clamp(smoothedPosition.x, -limitationArray.x, limitationArray.x),
+            Mathf.Clamp(smoothedPosition.y, -limitationArray.y, limitationArray.y));
     }
 
     #endregion

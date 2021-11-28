@@ -15,7 +15,7 @@ public class PlayerInput_Final : MonoBehaviour
     private BAV_PlayerController controls;
 
     [Header("Utiliser Mouse Position ?")] [SerializeField]
-    bool kbMouse;
+    public bool kbMouse;
 
     [SerializeField] Camera _Camera;
     private Vector2 _MousePos;
@@ -473,7 +473,7 @@ public class PlayerInput_Final : MonoBehaviour
             {
                 playerAttribut.LaunchProjectile();
             }
-            
+
             if (_LeftPress_IsUlt)
             {
                 playerAttribut.LaunchUltimate();
