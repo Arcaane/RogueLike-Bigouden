@@ -94,23 +94,29 @@ public class PlayerAttribut : MonoBehaviour
     //Valor for detecting a hit
     private int isHurt;
     private Vector3 targetPos;
-
+    
+    [Space(10)]
     [Header("Player Attack Projectile")]
     //Object Projectile
-    [SerializeField]
-    private Transform projectileObj;
-
+    // [SerializeField] private Transform projectileObj;
+    private Vector3 shootPointPos;
     //Projectile Attack Position
-    [SerializeField] private Transform projectileAttack;
-    [SerializeField] private AnimationCurve animationCurve;
+    [SerializeField] private GameObject AttackProjectile;
     [SerializeField] private float speedProjectile;
+    [SerializeField] private float damageProjectile;
+    [SerializeField] public float delayProjectile;
+    [SerializeField] public float delayProjectileReduction;
+    [SerializeField] public float p_delay;
 
     //Offset of the end Position
     [SerializeField] private float offsetEndPosProjectile;
 
     //Projectile is launch
     [SerializeField] public bool launchProjectile;
+    [SerializeField] public bool canLaunchProjectile;
 
+    
+    [Space(10)]
     [Header("Player Ultimate")]
     //float--------------------
     [SerializeField]
@@ -211,6 +217,7 @@ public class PlayerAttribut : MonoBehaviour
 
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
+        canLaunchProjectile = true;
     }
 
     private void Start()
@@ -223,12 +230,69 @@ public class PlayerAttribut : MonoBehaviour
                 elementOfTextMeshPro[i].SetActive(false);
             }
         }
-
-        _objPosition = projectileObj.gameObject.transform.position;
-        _objPosition.y = splinePivot.transform.position.y + offsetEndPosProjectile;
-        projectileAttack.position = _objPosition;
     }
 
+     private void Update()
+    {
+        if (isDash || isAttacking)
+        {
+            ResetSmallMovement();
+            DetectAttackCamera();
+            DashWait();
+            Reset();
+        }
+        
+        switch (attackType)
+        {
+            case 1:
+                ResetAttackX(0);
+                break;
+            case 2:
+                ResetAttackX(1);
+                break;
+        }
+        
+        if (launchProjectile && canLaunchProjectile)
+        {
+            MovementProjectile();
+        }
+
+        if (isUlting)
+        {
+            UltimateDelay();
+        }
+
+        if (!canLaunchProjectile)
+        {
+            ResetLaunchProjectile();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (launchFirstAttack || launchSecondAttack)
+        {
+            movementInput = Vector2.zero;
+            lookAxis = Vector2.zero;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        SaveLastPosition();
+        _attackPath.Path();
+        _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
+        Move();
+        Animation();
+        SmoothJoystickCamera();
+        //MoveCameraRightStick();
+
+        if (_launchDebug)
+        {
+            //DebugUI();
+        }
+    }
+    
     public void Move()
     {
         if (!isUlting)
@@ -236,7 +300,6 @@ public class PlayerAttribut : MonoBehaviour
             transform.Translate(_move * speed * CustomDeltaTimeAttack);
         }
     }
-
 
     #region AnimatorProcess
 
@@ -306,7 +369,6 @@ public class PlayerAttribut : MonoBehaviour
                     float rotationXObjMove = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90f);
                     splinePivot.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
                 }
-
                 break;
         }
     }
@@ -435,54 +497,7 @@ public class PlayerAttribut : MonoBehaviour
 
     #endregion DashAttribut
 
-    private void Update()
-    {
-        if (isDash || isAttacking)
-        {
-            ResetSmallMovement();
-            DetectAttackCamera();
-            DashWait();
-            Reset();
-        }
-
-        switch (attackType)
-        {
-            case 1:
-                ResetAttackX(0);
-                break;
-            case 2:
-                ResetAttackX(1);
-                break;
-        }
-
-        if (launchProjectile)
-        {
-            MovementProjectile();
-        }
-
-        if (isUlting)
-        {
-            UltimateDelay();
-        }
-    }
-
-
-    public void FixedUpdate()
-    {
-        SaveLastPosition();
-        _attackPath.Path();
-        _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
-        Move();
-        Animation();
-        SmoothJoystickCamera();
-        //MoveCameraRightStick();
-
-        if (_launchDebug)
-        {
-            //DebugUI();
-        }
-    }
-
+    #region AttackAttribute
     public void AttackTypeX()
     {
         if (attackType < 2)
@@ -490,8 +505,10 @@ public class PlayerAttribut : MonoBehaviour
             attackType++;
             isAttacking = true;
             attackPath.launchAttack = true;
+            
             launchFirstAttack = true;
             launchSecondAttack = false;
+            
             if (attackType >= 2 && _timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < _playerStatsManager.firstAttackReset.y + 0.1f)
             {
@@ -509,16 +526,8 @@ public class PlayerAttribut : MonoBehaviour
         if (_timerDelayAttack >= valueBeforeResetAttack)
         {
             _timerDelayAttack = 0f;
-            if (attack == 0)
-            {
-                launchFirstAttack = false;
-            }
-
-            if (attack == 1)
-            {
-                launchFirstAttack = false;
-                launchSecondAttack = false;
-            }
+            launchFirstAttack = false;
+            launchSecondAttack = false;
         }
     }
 
@@ -539,17 +548,19 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isAttacking)
         {
+            
             _timerAttack += CustomDeltaTimeAttack;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
-                Debug.Log("Hello");
                 spriteRendererFrame.material.color = Color.black;
+                spriteRendererFrame.color = Color.black;
             }
 
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
                 spriteRendererFrame.material.color = Color.white;
+                spriteRendererFrame.color = Color.white;
             }
         }
 
@@ -563,7 +574,7 @@ public class PlayerAttribut : MonoBehaviour
             _timerAttack = 0f;
         }
     }
-
+    #endregion
 
     public void SaveLastPosition()
     {
@@ -587,6 +598,8 @@ public class PlayerAttribut : MonoBehaviour
 
     #region Projectile
 
+    private const float radiusShootPoint = 0.9f;
+    
     public void LaunchProjectile()
     {
         launchProjectile = true;
@@ -594,24 +607,31 @@ public class PlayerAttribut : MonoBehaviour
 
     public void MovementProjectile()
     {
-        Transform bulletTransform = Instantiate(projectileObj, transform.position + _lastPosition, Quaternion.identity);
-        bulletTransform.GetComponent<ProjectilePlayer>().PosShooter(_lastPosition);
         launchProjectile = false;
+        p_delay = delayProjectile;
+        canLaunchProjectile = false;
+        
+        shootPointPos = (_lastPosition);
+        shootPointPos.Normalize();
+        GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
+        obj.GetComponent<ProjectilePlayer>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, 1f); // Direction puis Speed des balles
+        Destroy(obj, delayProjectile);
     }
-
-
-    /*
-    void ResetLaunchProjectile()
+    
+    private void ResetLaunchProjectile()
     {
-        _delayProjectile = 0;
-        projectileObj.transform.position = transform.position;
+        canLaunchProjectile = false;
+        Debug.Log("pls sir");
+        p_delay -= Time.deltaTime;
+        if (p_delay <= 0)
+        {
+            p_delay = 0;
+            canLaunchProjectile = true;
+        }
     }
-    */
-
     #endregion
 
     #region Ultimate
-
     //Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
@@ -637,8 +657,7 @@ public class PlayerAttribut : MonoBehaviour
     }
 
     #endregion
-
-
+    
     #region CameraController
 
     public void DetectAttackCamera()
@@ -710,9 +729,10 @@ public class PlayerAttribut : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(position, (_lastPosition.normalized * _dashSpeed) / 2);
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
     }
 }
-
 
 /*
 Vector3 CheckPosition(Vector3 direction)
@@ -751,8 +771,6 @@ Vector3 CheckPosition(Vector3 direction)
 
     return direction;
 }*/
-
-
 /*public void DebugUI()
 {
     ////For Stick Only

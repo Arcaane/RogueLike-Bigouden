@@ -1,49 +1,61 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
 public class ProjectilePlayer : MonoBehaviour
 {
-    [Header("Projectile Rouleau")] [SerializeField]
-    public float delayBeforeInactive;
+    [Header("Projectile Rouleau")]
+    [SerializeField] private int damage;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private bool isDeploy;
+    
+    [Header("Component")] 
+    [SerializeField] private Animator animator;
 
-    [SerializeField] public float damage;
-    [SerializeField] public float speed;
-    [SerializeField] public float radiusDamage;
-    [SerializeField] public bool deploy;
 
-    [Header("Component")] [SerializeField] private Animator animator;
-
-    //Private Value
-    //float---------------------------
-    private Vector3 shootDir;
-
-    [Header("Incrementation de float")] 
-    [SerializeField] public float _delayIncrementation;
-
-    public void PosShooter(Vector3 shootDir)
+    private void Awake()
     {
-        this.shootDir = shootDir;
-        transform.eulerAngles = new Vector3(0, 0, UtilsMath.GetAngleFromVectorFloat(shootDir));
+        rb = GetComponent<Rigidbody2D>();
+        isDeploy = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GoDirection(Vector2 direction, float p_speed, int p_dmg, float p_delay)
     {
-        Damage();
-        MoveBullet();
+        rb.velocity = (direction * p_speed);
+        damage = p_dmg;
+        Invoke(nameof(ProjectileStop), p_delay);
     }
 
-    void Damage()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.gameObject.CompareTag("Ennemy") && !isDeploy)
+        {
+            Debug.Log("Ennemy here");
+            ProjectileStop();
+            other.GetComponent<MannequinStatsManager>().TakeDamage(damage);
+            other.GetComponent<EnnemyStatsManager>().TakeDamage(damage);
+        }
+
+        if (other.gameObject.CompareTag("Border") && !isDeploy)
+        {
+            Debug.Log("Border here");
+            ProjectileStop();
+        }
+
+        if (other.gameObject.CompareTag("Player") && isDeploy)
+        {
+            other.gameObject.GetComponent<PlayerAttribut>().p_delay -= other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
+            Destroy(gameObject, 0.5f);
+        }
     }
 
-    void MoveBullet()
+    private void ProjectileStop()
     {
-        Vector3 moveDir = shootDir * speed * TimeManager.CustomDeltaTimeAttack;
-        transform.position += moveDir;
-        Debug.Log(moveDir);
+        rb.velocity = Vector2.zero;
+        isDeploy = true;
+        Debug.Log(isDeploy);
     }
 }
