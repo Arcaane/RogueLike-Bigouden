@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomLoader : MonoBehaviour
@@ -9,6 +10,8 @@ public class RoomLoader : MonoBehaviour
     public LayerMask isEnnemy;
     public GameObject _waveManager;
     private bool stopCheckEnemies;
+    
+    public List<GameObject> enemyList = new List<GameObject>();
 
     private void Awake()
     {
@@ -33,14 +36,11 @@ public class RoomLoader : MonoBehaviour
             Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnnemy);
             foreach (var ctx in ennemyInRoom)
             {
+                enemyList.Add(ctx.gameObject);
                 numberOfEnnemies++;
             }
 
-            if (numberOfEnnemies == 0)
-            {
-                stopCheckEnemies = true;
-                _waveManager.SetActive(true);
-            }
+            stopCheckEnemies = true;
         }
         
     }
