@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class TimeManager
 {
-    public const float speedRalentiEnnemy = 0.3f;
+    public const float speedRalentiEnnemy = 0.6f;
     public const float speedRalentiProj = 0.3f;
     
     private static float timeRalenti = float.MinValue;

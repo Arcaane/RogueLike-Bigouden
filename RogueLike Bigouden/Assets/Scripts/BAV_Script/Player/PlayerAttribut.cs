@@ -14,8 +14,7 @@ public class PlayerAttribut : MonoBehaviour
 {
     private TimeManager timerManager;
 
-    [Header("Component Stats Manager")] 
-    [SerializeField]
+    [Header("Component Stats Manager")] [SerializeField]
     private PlayerStatsManager _playerStatsManager;
 
     [SerializeField] private PlayerInput_Final _playerInput;
@@ -70,9 +69,9 @@ public class PlayerAttribut : MonoBehaviour
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
 
-    [Header("Player Attack X/Y")] 
-    [SerializeField]
+    [Header("Player Attack X/Y")] [SerializeField]
     private SpriteRenderer spriteRendererFrame;
+
     [SerializeField] private GameObject splinePivot;
 
     [SerializeField] private Transform offsetAttackXY;
@@ -94,12 +93,12 @@ public class PlayerAttribut : MonoBehaviour
     //Valor for detecting a hit
     private int isHurt;
     private Vector3 targetPos;
-    
-    [Space(10)]
-    [Header("Player Attack Projectile")]
+
+    [Space(10)] [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
     private Vector3 shootPointPos;
+
     //Projectile Attack Position
     [SerializeField] private GameObject AttackProjectile;
     [SerializeField] private float speedProjectile;
@@ -115,7 +114,7 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] public bool launchProjectile;
     [SerializeField] public bool canLaunchProjectile;
 
-    
+
     [Space(10)]
     [Header("Player Ultimate")]
     //float--------------------
@@ -232,7 +231,7 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-     private void Update()
+    private void Update()
     {
         if (isDash || isAttacking)
         {
@@ -241,17 +240,7 @@ public class PlayerAttribut : MonoBehaviour
             DashWait();
             Reset();
         }
-        
-        switch (attackType)
-        {
-            case 1:
-                ResetAttackX(0);
-                break;
-            case 2:
-                ResetAttackX(1);
-                break;
-        }
-        
+
         if (launchProjectile && canLaunchProjectile)
         {
             MovementProjectile();
@@ -265,15 +254,6 @@ public class PlayerAttribut : MonoBehaviour
         if (!canLaunchProjectile)
         {
             ResetLaunchProjectile();
-        }
-    }
-
-    private void LateUpdate()
-    {
-        if (launchFirstAttack || launchSecondAttack)
-        {
-            movementInput = Vector2.zero;
-            lookAxis = Vector2.zero;
         }
     }
 
@@ -292,12 +272,17 @@ public class PlayerAttribut : MonoBehaviour
             //DebugUI();
         }
     }
-    
+
     public void Move()
     {
         if (!isUlting)
         {
-            transform.Translate(_move * speed * CustomDeltaTimeAttack);
+            if (launchFirstAttack || launchSecondAttack)
+            {
+                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimeAttack);
+            }
+            else
+                transform.Translate(_move * speed * CustomDeltaTimeAttack);
         }
     }
 
@@ -315,16 +300,19 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(true);
         }
-        else if (launchSecondAttack)
+        else if (launchSecondAttack && !launchFirstAttack)
+
         {
             SetJoystickValue(moving);
             SetAttackValue(attack2: true);
         }
+
         else if (launchAOEAttack)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
+
         else
         {
             SetAttackValue();
@@ -369,6 +357,7 @@ public class PlayerAttribut : MonoBehaviour
                     float rotationXObjMove = (Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg - 90f);
                     splinePivot.transform.rotation = Quaternion.AngleAxis(rotationXObjMove, Vector3.forward);
                 }
+
                 break;
         }
     }
@@ -477,14 +466,14 @@ public class PlayerAttribut : MonoBehaviour
         rb.AddForce(dir * (speed * 100));
     }
 
-    /*
-    public void SmallMovementAttack()
-    {
-        Vector2 dir = _lastPosition;
-        transform.position =
-            Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
-        Debug.Log(_smallMovementFloat);
-    }*/
+/*
+public void SmallMovementAttack()
+{
+    Vector2 dir = _lastPosition;
+    transform.position =
+        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
+    Debug.Log(_smallMovementFloat);
+}*/
 
     public void ResetSmallMovement()
     {
@@ -498,39 +487,29 @@ public class PlayerAttribut : MonoBehaviour
     #endregion DashAttribut
 
     #region AttackAttribute
+
     public void AttackTypeX()
     {
+        isAttacking = true;
         if (attackType < 2)
         {
             attackType++;
-            isAttacking = true;
             attackPath.launchAttack = true;
-            
             launchFirstAttack = true;
             launchSecondAttack = false;
-            
-            if (attackType >= 2 && _timerAttack > _playerStatsManager.firstAttackReset.x &&
-                _timerAttack < _playerStatsManager.firstAttackReset.y + 0.1f)
+            animatorPlayer.speed = speedRalentiEnnemy;
+
+            if (attackType >= 2 &&
+                _timerAttack > _playerStatsManager.firstAttackReset.x &&
+                _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
             {
                 attackType = 2;
-                attackPath.launchSecondAttack = true;
                 launchFirstAttack = false;
                 launchSecondAttack = true;
+                attackPath.launchSecondAttack = true;
             }
         }
     }
-
-    void ResetAttackX(int attack)
-    {
-        _timerDelayAttack += CustomDeltaTimeAttack;
-        if (_timerDelayAttack >= valueBeforeResetAttack)
-        {
-            _timerDelayAttack = 0f;
-            launchFirstAttack = false;
-            launchSecondAttack = false;
-        }
-    }
-
 
     public void Reset()
     {
@@ -548,13 +527,12 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isAttacking)
         {
-            
             _timerAttack += CustomDeltaTimeAttack;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
-                spriteRendererFrame.material.color = Color.black;
-                spriteRendererFrame.color = Color.black;
+                spriteRendererFrame.material.color = Color.magenta;
+                spriteRendererFrame.color = Color.magenta;
             }
 
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
@@ -562,18 +540,32 @@ public class PlayerAttribut : MonoBehaviour
                 spriteRendererFrame.material.color = Color.white;
                 spriteRendererFrame.color = Color.white;
             }
-        }
 
-        if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
-        {
-            attackType = 0;
-            isAttacking = false;
-            attackPath.launchAttack = false;
-            attackPath.launchSecondAttack = false;
-            attackPath.progress = 0f;
-            _timerAttack = 0f;
+            if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
+            {
+                attackType = 0;
+                isAttacking = false;
+                launchFirstAttack = false;
+                attackPath.launchAttack = false;
+                _timerAttack = 0f;
+            }
+            else if (launchSecondAttack)
+            {
+                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
+                {
+                    attackType = 0;
+                    isAttacking = false;
+                    launchFirstAttack = false;
+                    launchSecondAttack = false;
+                    attackPath.launchAttack = false;
+                    attackPath.launchSecondAttack = false;
+                    attackPath.progress = 0f;
+                    _timerAttack = 0f;
+                }
+            }
         }
     }
+
     #endregion
 
     public void SaveLastPosition()
@@ -599,7 +591,7 @@ public class PlayerAttribut : MonoBehaviour
     #region Projectile
 
     private const float radiusShootPoint = 0.9f;
-    
+
     public void LaunchProjectile()
     {
         launchProjectile = true;
@@ -610,14 +602,16 @@ public class PlayerAttribut : MonoBehaviour
         launchProjectile = false;
         p_delay = delayProjectile;
         canLaunchProjectile = false;
-        
+
         shootPointPos = (_lastPosition);
         shootPointPos.Normalize();
-        GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
-        obj.GetComponent<ProjectilePlayer>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, 1f); // Direction puis Speed des balles
+        GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
+            Quaternion.identity);
+        obj.GetComponent<ProjectilePlayer>()
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, 1f); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
     }
-    
+
     private void ResetLaunchProjectile()
     {
         canLaunchProjectile = false;
@@ -629,17 +623,19 @@ public class PlayerAttribut : MonoBehaviour
             canLaunchProjectile = true;
         }
     }
+
     #endregion
 
     #region Ultimate
-    //Launch the function to activate Ultimate
+
+//Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
         isUlting = true;
         ultBulletSpawner.SetActive(true);
     }
 
-    //Ultimate Delay when he is Activate.
+//Ultimate Delay when he is Activate.
     public void UltimateDelay()
     {
         _timerUltimate += CustomDeltaTimeAttack;
@@ -651,13 +647,13 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    //Capacity bar of the Ultimate.
+//Capacity bar of the Ultimate.
     public void UltimateBar()
     {
     }
 
     #endregion
-    
+
     #region CameraController
 
     public void DetectAttackCamera()

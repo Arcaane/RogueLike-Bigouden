@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Turret : MonoBehaviour {
 
+public class Turret : MonoBehaviour
+{
     private Transform target;
     public float range = 15f;
 
@@ -17,10 +18,11 @@ public class Turret : MonoBehaviour {
     public GameObject bulletPrefab;
     public Transform firePoint;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
-	}
+    }
 
     void UpdateTarget()
     {
@@ -31,14 +33,14 @@ public class Turret : MonoBehaviour {
         foreach (GameObject enemy in ennemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if(distanceToEnemy < shortestDistance)
+            if (distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
             }
         }
 
-        if(nearestEnemy != null && shortestDistance <= range)
+        if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
         }
@@ -47,34 +49,37 @@ public class Turret : MonoBehaviour {
             target = null;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		if(target == null)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (target == null)
         {
             return;
         }
 
         Vector3 dir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f, 0f, rotation.z);
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed)
+            .eulerAngles;
+        partToRotate.SetEulerZ(rotation.z);
 
-        if(fireCountdown <= 0f)
+        if (fireCountdown <= 0f)
         {
             Shoot();
             fireCountdown = 1 / fireRate;
         }
 
         fireCountdown -= Time.deltaTime;
-	}
+        transform.SetPosX(0);
+    }
 
     void Shoot()
     {
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bulletGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Turret_Bullet bullet = bulletGO.GetComponent<Turret_Bullet>();
 
-        if(bullet != null)
+        if (bullet != null)
         {
             bullet.Seek(target);
         }
