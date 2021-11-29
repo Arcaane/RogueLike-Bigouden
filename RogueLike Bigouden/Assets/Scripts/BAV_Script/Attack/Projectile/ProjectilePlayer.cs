@@ -48,7 +48,7 @@ public class ProjectilePlayer : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && isDeploy)
         {
             other.gameObject.GetComponent<PlayerAttribut>().p_delay -= other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.2f);
         }
     }
 
