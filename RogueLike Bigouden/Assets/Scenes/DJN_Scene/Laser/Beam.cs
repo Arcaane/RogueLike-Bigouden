@@ -28,14 +28,11 @@ public class Beam : MonoBehaviour
 
     private void Update()
     {
-        
         if (isActive)
         {
             line.enabled = true;
             Laser();
         }
-        
-        
     }
 
     public void Laser()
@@ -55,8 +52,6 @@ public class Beam : MonoBehaviour
                 isActive = false;
                 line.enabled = false;
             }
-            
-            Debug.Log(hit.collider.name);
         }
         else
         {

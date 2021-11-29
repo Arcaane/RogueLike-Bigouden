@@ -11,61 +11,48 @@ public class BossEventManager : MonoBehaviour
 
     [Header("Flame Strike")]
     public int groupCount;
-    public int selectedPillard;
     public bool stopPillard;
     public float waitTime;
 
-    private void Start()
+  
+    public void LoadBeam(int pillardSelect)
     {
-        laserBeam = laser[selectedPillard].GetComponent<Beam>();
+        laserBeam = laser[pillardSelect].GetComponent<Beam>();
         laserBeam.ghostTarget.position = laserBeam.originTarget.position;
+        laserBeam.isActive = true;
+       
     }
 
-    private void Update()
+    public void LoadFS(int pillardSelect)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            stopPillard = !stopPillard;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            laserBeam.isActive = true;
-            laserBeam = laser[selectedPillard].GetComponent<Beam>();
-            laserBeam.ghostTarget.position = laserBeam.originTarget.position;
-            
-        }
-
-
-        if (stopPillard && groupCount < Pillars[selectedPillard].flameStrikes.Length)
-        {
-            StartCoroutine(FlameStrikeTimer());
-        }
-        
-        if (!stopPillard || groupCount == Pillars[selectedPillard].flameStrikes.Length)
-        {
-            groupCount = 0;
-            stopPillard = false;
-            StopCoroutine(FlameStrikeTimer());
-        }
-        
-        
+        StartCoroutine(FlameStrikeTimer(0, pillardSelect));
     }
 
-    IEnumerator FlameStrikeTimer()
+    IEnumerator FlameStrikeTimer(int toActive, int selectedPillard)
     {
-        StartFlameStrike();
+        StartFlameStrike(toActive, selectedPillard);
+        toActive++;
+        
         yield return new WaitForSeconds(waitTime);
-        groupCount++;
         
-
+        if (toActive >= Pillars[selectedPillard].flameStrikes.Length)
+        {
+            StopCoroutine(FlameStrikeTimer(toActive, selectedPillard));
+        }
+        
+        if (toActive < Pillars[selectedPillard].flameStrikes.Length)
+        {
+            StartCoroutine(FlameStrikeTimer(toActive, selectedPillard));
+        }
+        
+     
     }
 
-    void StartFlameStrike()
+    void StartFlameStrike(int toActive, int selectedPillard)
     {
-        for (int i = 0; i < Pillars[selectedPillard].flameStrikes[groupCount]._dalles.Length; i++)
+        for (int i = 0; i < Pillars[selectedPillard].flameStrikes[toActive]._dalles.Length; i++)
         {
-            Pillars[selectedPillard].flameStrikes[groupCount]._dalles[i].GetComponent<FlameStrike>().LoadTint();
+            Pillars[selectedPillard].flameStrikes[toActive]._dalles[i].GetComponent<FlameStrike>().LoadTint();
         }
     }
 
