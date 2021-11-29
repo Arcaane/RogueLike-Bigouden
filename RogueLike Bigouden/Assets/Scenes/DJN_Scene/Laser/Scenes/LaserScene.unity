@@ -2872,6 +2872,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1380354521}
   - component: {fileID: 1380354520}
+  - component: {fileID: 1380354523}
   - component: {fileID: 1380354522}
   m_Layer: 0
   m_Name: Boss Manager
@@ -3062,6 +3063,31 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1380354523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380354519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0491b404d4d7f4b9b08a2efba86378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer:
+  - timeCode: 0
+    bossParterns: 0
+    target: 0
+    phase2Timer: 0
+  - timeCode: 0.5
+    bossParterns: 0
+    target: 0
+    phase2Timer: 0
+  - timeCode: 1
+    bossParterns: 0
+    target: 0
+    phase2Timer: 0
 --- !u!1001 &1430709581
 PrefabInstance:
   m_ObjectHideFlags: 0
