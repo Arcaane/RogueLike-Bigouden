@@ -235,15 +235,15 @@ public class IAShooter : MonoBehaviour
     {
         if (_isAttack)
         {
-            shooterAnimator.SetFloat("Vertical", shootPointPos.x);
-            shooterAnimator.SetFloat("Horizontal", shootPointPos.y + upTofitPlayer);
+            shooterAnimator.SetFloat("Horizontal", shootPointPos.x);
+            shooterAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
             shooterAnimator.SetBool("isAttack", _isAttack);
             shooterAnimator.SetBool("isWalk", _isWalk);
         }
         else
         {
-            shooterAnimator.SetFloat("Vertical", agent.velocity.x);
-            shooterAnimator.SetFloat("Horizontal", agent.velocity.y);
+            shooterAnimator.SetFloat("Horizontal", agent.velocity.x);
+            shooterAnimator.SetFloat("Vertical", agent.velocity.y);
             shooterAnimator.SetBool("isAttack", _isAttack);
             shooterAnimator.SetBool("isWalk", _isWalk);
         }
