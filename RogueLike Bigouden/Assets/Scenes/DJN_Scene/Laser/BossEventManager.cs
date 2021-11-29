@@ -14,7 +14,17 @@ public class BossEventManager : MonoBehaviour
     public bool stopPillard;
     public float waitTime;
 
-  
+    private void Start()
+    {
+        foreach (Pillar p in Pillars)
+        {
+            for (int i = 0; i < p.flameStrikes.Length; i++)
+            {
+                p.flameStrikes[i]._dalles = p.pilarGO.GetComponentsInChildren<GameObject>();
+            }
+        }
+    }
+
     public void LoadBeam(int pillardSelect)
     {
         laserBeam = laser[pillardSelect].GetComponent<Beam>();
@@ -65,7 +75,9 @@ public class BossEventManager : MonoBehaviour
         [Serializable]
         public struct FSGroups
         {
+            public GameObject dalleParent;
             public GameObject[] _dalles;
+            
         }
         
     }
