@@ -228,11 +228,13 @@ public class MannequinStatsManager : MonoBehaviour
         if (shieldPoint > 0)
         {
             shieldPoint -= damage;
+            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
             if (shieldPoint < 0)
                 shieldPoint = 0;
         }
         else
         {
+            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
             lifePoint -= damage;
             hurt = true;
         }

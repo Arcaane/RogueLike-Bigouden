@@ -628,32 +628,38 @@ public void SmallMovementAttack()
 
     #region Ultimate
 
-//Launch the function to activate Ultimate
+    //Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
         isUlting = true;
         ultBulletSpawner.SetActive(true);
     }
 
-//Ultimate Delay when he is Activate.
+    //Ultimate Delay when he is Activate.
     public void UltimateDelay()
     {
+        ultDuration = (PlayerStatsManager.playerStatsInstance.actualUltPoint / 2) / 10;
+        
         _timerUltimate += CustomDeltaTimeAttack;
         if (_timerUltimate >= ultDuration)
         {
             _timerUltimate = 0;
             ultBulletSpawner.SetActive(false);
             isUlting = false;
+            PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
         }
     }
 
-//Capacity bar of the Ultimate.
+    //Capacity bar of the Ultimate.
     public void UltimateBar()
     {
+        
     }
 
     #endregion
 
+    
+    
     #region CameraController
 
     public void DetectAttackCamera()

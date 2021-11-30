@@ -17,6 +17,9 @@ public class PlayerData : ScriptableObject
     public int damageYSO; // Dégat de l'attaque spé
     public int damageProjectileSO; // Dégat du projectile
 
+    public int ultPointToAddPerHitSO;
+    public int ultPointToAddPerKillSO;
+
     //  Float
     public float movementSpeedSO;
     public float attackRangeXSO;
