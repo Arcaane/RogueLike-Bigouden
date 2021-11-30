@@ -25,19 +25,14 @@ public class ProjectilePath : MonoBehaviour
     public float speed = 4f;
 
     private bool lookForward;
-    public int countAttack = 0;
     public SplineWalkerMode mode;
-    public bool launchAttack;
+    public bool launchFirstAttack;
     public bool launchSecondAttack;
 
-    private void Start()
-    {
-        isAttacking = false;
-    }
 
     private void Update()
     {
-        if ( progress < 1 && progress > 0)
+        if (progress < 1 && progress > 0)
         {
             isAttacking = true;
         }
@@ -57,37 +52,38 @@ public class ProjectilePath : MonoBehaviour
     /// /// </summary>
     public void Path()
     {
-        if (launchAttack)
+        if (launchFirstAttack)
         {
             projectile.SetActive(true);
-            progress += (TimeManager.CustomDeltaTimeAttack/ (speed / 10));
+            progress += (TimeManager.CustomDeltaTimeAttack / (speed / 10));
             if (progress > 1f)
             {
                 switch (mode)
                 {
                     case SplineWalkerMode.Once:
                         progress = 1f;
-                        launchAttack = false;
+                        launchFirstAttack = false;
                         break;
                     case SplineWalkerMode.Loop:
                         progress = 0f;
-                        launchAttack = false;
+                        launchFirstAttack = false;
                         break;
                     case SplineWalkerMode.PingPong:
                         progress = 2f - progress;
-                        launchAttack = false;
+                        launchFirstAttack = false;
                         break;
                     case SplineWalkerMode.FirstAttack:
-
                         progress = 1f;
                         projectile.SetActive(false);
-                        launchAttack = false;
+                        launchFirstAttack = false;
                         break;
                 }
             }
         }
-        else if (launchSecondAttack)
+
+        if (launchSecondAttack)
         {
+            launchFirstAttack = false;
             projectile.SetActive(true);
             progress -= (TimeManager.CustomDeltaTimeAttack / (speed / 10));
             if (progress < 0f)
@@ -95,8 +91,12 @@ public class ProjectilePath : MonoBehaviour
                 progress = 0f;
                 projectile.SetActive(false);
                 launchSecondAttack = false;
-                launchAttack = false;
             }
+        }
+
+        if (!launchFirstAttack && !launchSecondAttack)
+        {
+            progress = 0;
         }
     }
 

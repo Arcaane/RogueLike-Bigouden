@@ -494,7 +494,7 @@ public void SmallMovementAttack()
         if (attackType < 2)
         {
             attackType++;
-            attackPath.launchAttack = true;
+            attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
             animatorPlayer.speed = speedRalentiEnnemy;
@@ -504,9 +504,9 @@ public void SmallMovementAttack()
                 _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
             {
                 attackType = 2;
+                attackPath.launchSecondAttack = true;
                 launchFirstAttack = false;
                 launchSecondAttack = true;
-                attackPath.launchSecondAttack = true;
             }
         }
     }
@@ -546,7 +546,7 @@ public void SmallMovementAttack()
                 attackType = 0;
                 isAttacking = false;
                 launchFirstAttack = false;
-                attackPath.launchAttack = false;
+                attackPath.launchFirstAttack = false;
                 _timerAttack = 0f;
             }
             else if (launchSecondAttack)
@@ -557,7 +557,7 @@ public void SmallMovementAttack()
                     isAttacking = false;
                     launchFirstAttack = false;
                     launchSecondAttack = false;
-                    attackPath.launchAttack = false;
+                    attackPath.launchFirstAttack = false;
                     attackPath.launchSecondAttack = false;
                     attackPath.progress = 0f;
                     _timerAttack = 0f;
