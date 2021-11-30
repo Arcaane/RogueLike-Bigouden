@@ -233,6 +233,7 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Update()
     {
+        _attackPath.Path();
         if (isDash || isAttacking)
         {
             ResetSmallMovement();
@@ -260,7 +261,6 @@ public class PlayerAttribut : MonoBehaviour
     public void FixedUpdate()
     {
         SaveLastPosition();
-        _attackPath.Path();
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         Animation();
