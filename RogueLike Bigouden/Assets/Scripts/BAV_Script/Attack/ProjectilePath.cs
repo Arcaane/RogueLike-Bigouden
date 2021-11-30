@@ -30,19 +30,6 @@ public class ProjectilePath : MonoBehaviour
     public bool launchFirstAttack;
     public bool launchSecondAttack;
 
-
-    private void Update()
-    {
-        if (progress < 1 && progress > 0)
-        {
-            isAttacking = true;
-        }
-        else
-        {
-            isAttacking = false;
-        }
-    }
-
     private void FixedUpdate()
     {
         OnMovement(spline.arrayVector[0].pointAttack);
@@ -53,8 +40,9 @@ public class ProjectilePath : MonoBehaviour
     /// /// </summary>
     public void Path()
     {
-        if (launchFirstAttack)
+        if (launchFirstAttack && progress != 0)
         {
+            isAttacking = true;
             projectile.SetActive(true);
             progress += (TimeManager.CustomDeltaTimeAttack / (speed / 10));
             if (progress > 1f)
@@ -65,8 +53,9 @@ public class ProjectilePath : MonoBehaviour
             }
         }
 
-        if (launchSecondAttack && progress != 0 && !launchFirstAttack)
+        if (launchSecondAttack && progress != 0)
         {
+            isAttacking = true;
             projectile.SetActive(true);
             progress -= (TimeManager.CustomDeltaTimeAttack / (speed / 10));
             if (progress < 0f)
@@ -76,8 +65,10 @@ public class ProjectilePath : MonoBehaviour
                 launchSecondAttack = false;
             }
         }
-        else if (!launchFirstAttack && !launchSecondAttack && progress != 0)
+
+        if (!launchFirstAttack && !launchSecondAttack && progress != 0)
         {
+            isAttacking = false;
             progress = 0;
         }
     }

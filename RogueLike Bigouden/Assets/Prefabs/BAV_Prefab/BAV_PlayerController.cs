@@ -51,7 +51,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Tap"",
                     ""initialStateCheck"": true
                 },
                 {

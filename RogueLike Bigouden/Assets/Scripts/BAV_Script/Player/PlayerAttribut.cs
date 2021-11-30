@@ -491,23 +491,23 @@ public void SmallMovementAttack()
     public void AttackTypeX()
     {
         isAttacking = true;
-        if (attackType < 2)
+        if (attackType < 2 && !launchSecondAttack)
         {
             attackType++;
             attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
             launchSecondAttack = false;
             animatorPlayer.speed = speedRalentiEnnemy;
+        }
 
-            if (attackType >= 2 &&
-                _timerAttack > _playerStatsManager.firstAttackReset.x &&
-                _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
-            {
-                attackType = 2;
-                attackPath.launchSecondAttack = true;
-                launchFirstAttack = false;
-                launchSecondAttack = true;
-            }
+        if (attackType >= 2 &&
+            _timerAttack > _playerStatsManager.firstAttackReset.x &&
+            _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
+        {
+            attackType = 2;
+            attackPath.launchSecondAttack = true;
+            launchFirstAttack = false;
+            launchSecondAttack = true;
         }
     }
 
@@ -541,7 +541,8 @@ public void SmallMovementAttack()
                 spriteRendererFrame.color = Color.white;
             }
 
-            if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
+            if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f &&
+                !launchSecondAttack)
             {
                 attackType = 0;
                 isAttacking = false;
@@ -549,7 +550,8 @@ public void SmallMovementAttack()
                 attackPath.launchFirstAttack = false;
                 _timerAttack = 0f;
             }
-            else if (launchSecondAttack)
+
+            if (!launchFirstAttack && launchSecondAttack)
             {
                 if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
                 {
