@@ -233,6 +233,7 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Update()
     {
+        _attackPath.Path();
         if (isDash || isAttacking)
         {
             ResetSmallMovement();
@@ -260,7 +261,6 @@ public class PlayerAttribut : MonoBehaviour
     public void FixedUpdate()
     {
         SaveLastPosition();
-        _attackPath.Path();
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
         Animation();
@@ -305,6 +305,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             SetJoystickValue(moving);
             SetAttackValue(attack2: true);
+            attackPath.launchSecondAttack = true;
         }
 
         else if (launchAOEAttack)
@@ -491,24 +492,22 @@ public void SmallMovementAttack()
     public void AttackTypeX()
     {
         isAttacking = true;
-        if (attackType < 2)
+        attackType++;
+        if (attackType == 1)
         {
-            attackType++;
-            attackPath.launchAttack = true;
+            attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            launchSecondAttack = false;
             animatorPlayer.speed = speedRalentiEnnemy;
+        }
 
-            if (attackType >= 2 &&
-                _timerAttack > _playerStatsManager.firstAttackReset.x &&
-                _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
+        if (attackType == 2 &&
+            _timerAttack > _playerStatsManager.firstAttackReset.x &&
+            _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
             {
                 attackType = 2;
                 launchFirstAttack = false;
                 launchSecondAttack = true;
-                attackPath.launchSecondAttack = true;
             }
-        }
     }
 
     public void Reset()
@@ -546,10 +545,12 @@ public void SmallMovementAttack()
                 attackType = 0;
                 isAttacking = false;
                 launchFirstAttack = false;
-                attackPath.launchAttack = false;
+                attackPath.launchFirstAttack = false;
+                attackPath.progress = 0f;
                 _timerAttack = 0f;
             }
-            else if (launchSecondAttack)
+            
+            if (launchSecondAttack)
             {
                 if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
                 {
@@ -557,7 +558,7 @@ public void SmallMovementAttack()
                     isAttacking = false;
                     launchFirstAttack = false;
                     launchSecondAttack = false;
-                    attackPath.launchAttack = false;
+                    attackPath.launchFirstAttack = false;
                     attackPath.launchSecondAttack = false;
                     attackPath.progress = 0f;
                     _timerAttack = 0f;
@@ -638,15 +639,30 @@ public void SmallMovementAttack()
     //Ultimate Delay when he is Activate.
     public void UltimateDelay()
     {
-        ultDuration = (PlayerStatsManager.playerStatsInstance.actualUltPoint / 2) / 10;
-        
-        _timerUltimate += CustomDeltaTimeAttack;
-        if (_timerUltimate >= ultDuration)
+        if (PlayerStatsManager.playerStatsInstance.actualUltPoint > 10)
         {
-            _timerUltimate = 0;
-            ultBulletSpawner.SetActive(false);
-            isUlting = false;
-            PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+            ultDuration = (PlayerStatsManager.playerStatsInstance.actualUltPoint / 2) / 10;
+
+            _timerUltimate += CustomDeltaTimeAttack;
+            if (_timerUltimate >= ultDuration)
+            {
+                _timerUltimate = 0;
+                ultBulletSpawner.SetActive(false);
+                isUlting = false;
+                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+            }
+        }
+        else
+        {
+            ultDuration = 0;
+            _timerUltimate += CustomDeltaTimeAttack;
+            if (_timerUltimate >= ultDuration)
+            {
+                _timerUltimate = 0;
+                ultBulletSpawner.SetActive(false);
+                isUlting = false;
+                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+            }
         }
     }
 
