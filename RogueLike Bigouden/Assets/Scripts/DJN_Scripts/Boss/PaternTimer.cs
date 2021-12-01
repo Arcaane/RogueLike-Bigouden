@@ -6,6 +6,8 @@ using UnityEngine;
 public class PaternTimer : MonoBehaviour
 {
     private BossEventManager _bossEventManager;
+    public float sensibility;
+    
     public int loop;
     public int loopCount;
     
@@ -69,13 +71,13 @@ public class PaternTimer : MonoBehaviour
             Debug.Log("this is over bro !");
             Time.timeScale = 0;
         }
-
-       
+        
+        
         
         //phases event 
         foreach (Timer t in timerPhase1)
         {
-            if (Math.Abs(timerP1 - t.timeCode) < 0.00275)
+            if (Math.Abs(timerP1 - t.timeCode) < sensibility)
             {
                 Debug.Log(t.bossParterns + " happen at " + t.timeCode + " on " + t.target);
                 isActive1 = true;
@@ -150,7 +152,7 @@ public class PaternTimer : MonoBehaviour
         
         foreach (Timer t in timerPhase2)
         {
-            if (Math.Abs(timerP2 - t.timeCode) < 0.00275)
+            if (Math.Abs(timerP2 - t.timeCode) < sensibility)
             {
                 Debug.Log(t.bossParterns + " happen at " + t.timeCode + " on " + t.target);
                 isActive2 = true;
@@ -233,7 +235,7 @@ public class PaternTimer : MonoBehaviour
 
     void LoadFS(int selectPillard)
     {
-        _bossEventManager.LoadFS(selectPillard);
+        _bossEventManager.LoadFS();
     }
     
     

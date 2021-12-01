@@ -5,81 +5,37 @@ using UnityEngine;
 
 public class BossEventManager : MonoBehaviour
 {
-    public Pillar[] Pillars;
+    [Header("Laser")]
     private Beam laserBeam;
     public GameObject[] laser;
 
-    [Header("Flame Strike")]
-    public int groupCount;
-    public bool stopPillard;
+    [Header("Flame Strike")] 
+    [SerializeField] private GameObject[] _dalles;
     public float waitTime;
-
-    private void Start()
-    {
-        foreach (Pillar p in Pillars)
-        {
-            for (int i = 0; i < p.flameStrikes.Length; i++)
-            {
-                p.flameStrikes[i]._dalles = p.pilarGO.GetComponentsInChildren<GameObject>();
-            }
-        }
-    }
-
+    
     public void LoadBeam(int pillardSelect)
     {
         laserBeam = laser[pillardSelect].GetComponent<Beam>();
         laserBeam.ghostTarget.position = laserBeam.originTarget.position;
         laserBeam.isActive = true;
-       
     }
 
-    public void LoadFS(int pillardSelect)
+    public void LoadFS()
     {
-        StartCoroutine(FlameStrikeTimer(0, pillardSelect));
+        StartCoroutine(FlameStrikeTimer());
     }
 
-    IEnumerator FlameStrikeTimer(int toActive, int selectedPillard)
+    IEnumerator FlameStrikeTimer()
     {
-        StartFlameStrike(toActive, selectedPillard);
-        toActive++;
-        
+        StartFlameStrike();
         yield return new WaitForSeconds(waitTime);
-        
-        if (toActive >= Pillars[selectedPillard].flameStrikes.Length)
-        {
-            StopCoroutine(FlameStrikeTimer(toActive, selectedPillard));
-        }
-        
-        if (toActive < Pillars[selectedPillard].flameStrikes.Length)
-        {
-            StartCoroutine(FlameStrikeTimer(toActive, selectedPillard));
-        }
-        
-     
     }
 
-    void StartFlameStrike(int toActive, int selectedPillard)
+    void StartFlameStrike()
     {
-        for (int i = 0; i < Pillars[selectedPillard].flameStrikes[toActive]._dalles.Length; i++)
-        {
-            Pillars[selectedPillard].flameStrikes[toActive]._dalles[i].GetComponent<FlameStrike>().LoadTint();
-        }
-    }
-
-    [Serializable]
-    public struct Pillar
-    {
-        public GameObject pilarGO;
-        public FSGroups[] flameStrikes;
-
-        [Serializable]
-        public struct FSGroups
-        {
-            public GameObject dalleParent;
-            public GameObject[] _dalles;
-            
-        }
+       int rFS = UnityEngine.Random.Range(0, _dalles.Length);
         
+       _dalles[rFS].GetComponent<FlameStrike>().LoadTint();
     }
     
 }

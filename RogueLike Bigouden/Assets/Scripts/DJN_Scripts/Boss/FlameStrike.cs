@@ -8,17 +8,17 @@ public class FlameStrike : MonoBehaviour
 {
   private Animator _animator;
   private BossEventManager _bossEventManager;
+
+  [SerializeField] private int damage;
+  private bool playerOnIt;
+  private GameObject player;
+  
   private void Awake()
   {
     _animator = GetComponent<Animator>();
     _bossEventManager = FindObjectOfType<BossEventManager>();
   }
-
-
-  private void Update()
-  {
-
-  }
+  
 
   public void LoadTint()
   {
@@ -36,5 +36,35 @@ public class FlameStrike : MonoBehaviour
   {
     _animator.SetBool("disactive", true);
     _animator.SetBool("activeBurst", false);
+  }
+
+
+  public void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.transform.GetComponent<PlayerStatsManager>())
+    {
+      playerOnIt = true;
+      player = other.gameObject;
+      
+      Debug.Log("There is player");
+    }
+  }
+
+  private void OnTriggerExit2D(Collider2D other)
+  {
+    if (other.gameObject.CompareTag("Player"))
+    {
+      playerOnIt = false;
+      player = null;
+    }
+  }
+
+  public void ApplyDamage()
+  {
+    if (playerOnIt)
+    {
+      player.GetComponent<PlayerStatsManager>().TakeDamage(damage);
+      Debug.Log(player.name + " take " + damage + " damage.");
+    }
   }
 }
