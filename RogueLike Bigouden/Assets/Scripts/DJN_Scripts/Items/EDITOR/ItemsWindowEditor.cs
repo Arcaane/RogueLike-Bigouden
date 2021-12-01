@@ -288,7 +288,17 @@ public class ItemsWindowEditor : EditorWindow
         if (GUILayout.Button("Create Item"))
         {
             Debug.Log(items.description);
-            AssetDatabase.CreateAsset(itemsData, "Assets/Resources/Items/"+ itemsData.itemID + "_" + itemsData.itemName + ".asset");
+            switch (itemsData.type)
+            {
+                case Items.Type.Bonus:
+                    AssetDatabase.CreateAsset(itemsData, "Assets/Resources/Items/"+ itemsData.itemID + "_" + itemsData.itemName + ".asset");
+                    break;
+                
+                case Items.Type.Malus:
+                    AssetDatabase.CreateAsset(itemsData, "Assets/Resources/Malus/"+ itemsData.itemID + "_" + itemsData.itemName + ".asset");
+                    break;
+            }
+            
         }
         
         if (GUI.changed)

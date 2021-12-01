@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
-  m_Name: items
+  m_Name: 1_Gueule de bois
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: gdfgfd
-  description: dfgdfg
-  image: {fileID: 0}
+  itemID: 1
+  itemName: Gueule de bois
+  description: Perd un montant de point de vie maximum pendant un certain temps
+  image: {fileID: 8862701587616323045, guid: 42dd7afa70790af4182d4fa5afacbbf2, type: 3}
   price: 0
   rarity: 0
   condition: 0
   action: 0
   target: 0
-  type: 0
+  type: 1
   effectOn: 0
-  augmentation: 0
+  augmentation: 18
   value: 0
   state: 0
   player: 0
@@ -33,21 +33,21 @@ MonoBehaviour:
   actionPlayer: 0
   actionEnemy: 0
   variableTarget: 0
-  _operator: 0
+  _operator: 1
   spawnPoint: 0
   playerSpawn: 0
   enemySpawn: 0
   conditionActionMustBeDone: 0
   conditionValueToReach: 0
   onCurrent: 0
-  modAmount: 0
+  modAmount: 5
   modIsAnotherVariable: 0
   anotherVariableModPourcentage: 0
-  rate: 0
+  rate: 100
   objectPrefab: {fileID: 0}
   specialSpawnPoint: {fileID: 0}
   spawnAmount: 0
   mustBeActivated: 0
   spawnTime: 0
-  overTime: 0
-  overTimeDuration: 0
+  overTime: 1
+  overTimeDuration: 60
