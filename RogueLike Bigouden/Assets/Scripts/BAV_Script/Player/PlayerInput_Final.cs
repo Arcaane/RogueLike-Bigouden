@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,24 +14,111 @@ public class PlayerInput_Final : MonoBehaviour
     //PlayerController
     private BAV_PlayerController controls;
 
+    [Header("Utiliser Mouse Position ?")] [SerializeField]
+    public bool kbMouse;
+
+    [SerializeField] Camera _Camera;
+    private Vector2 _MousePos;
+
     [SerializeField] PlayerAttribut playerAttribut;
     public bool isMoving;
 
-    [Header("Boutton Value")]
-    //Concerne les valeurs des Inputs renvoyer par les bouttons
+    [Header("Boutton Value A")]
+    //Concerne la valeur d'input de A
     [SerializeField]
     private float buttonAValue;
 
-    [SerializeField] private float buttonBValue;
-    [SerializeField] private float buttonXValue;
-    [SerializeField] private float buttonYValue;
+    //Can be delete for the Final Build
+    [SerializeField] private bool _A_isDash;
+    [SerializeField] private bool _A_isAttack;
+    [SerializeField] private bool _A_isProjectile;
 
-    [Header("Trigger Value")]
-    //Concerne les Inputs des trigger
+    [Header("Boutton Value B")]
+    //Concerne la valeur d'input de B
     [SerializeField]
-    private float leftPressTrigger;
+    private float buttonBValue;
 
-    [SerializeField] private float rightPressTrigger;
+    //Can be delete for the Final Build
+    [SerializeField] private bool _B_isDash;
+    [SerializeField] private bool _B_isAttack;
+    [SerializeField] private bool _B_isProjectile;
+
+    [Header("Boutton Value X")]
+    //Concerne la valeur d'input de X
+    [SerializeField]
+    private float buttonXValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _X_isDash;
+    [SerializeField] private bool _X_isAttack;
+    [SerializeField] private bool _X_isProjectile;
+
+    [Header("Boutton Value Y")]
+    //Concerne la valeur d'input de Y
+    [SerializeField]
+    private float buttonYValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _Y_isDash;
+    [SerializeField] private bool _Y_isAttack;
+    [SerializeField] private bool _Y_isProjectile;
+
+    [Header("Boutton Value Top Left ")]
+    //Concerne la valeur d'input de Top Left Trigger
+    [SerializeField]
+    private float trigger_LeftTopValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftTop_isDash;
+    [SerializeField] private bool _LeftTop_isAttack;
+    [SerializeField] private bool _LeftTop_isProjectile;
+
+    [Header("Boutton Value Top Right ")]
+    //Concerne la valeur d'input de Top Right Trigger
+    [SerializeField]
+    private float trigger_RightTopValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _RightTop_isDash;
+    [SerializeField] private bool _RightTop_isAttack;
+    [SerializeField] private bool _RightTop_isProjectile;
+
+    [Header("Boutton Value Bottom Left ")]
+    //Concerne la valeur d'input de Bottom Left Trigger
+    [SerializeField]
+    private float trigger_LeftBottomValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftBottom_isDash;
+    [SerializeField] private bool _LeftBottom_isAttack;
+    [SerializeField] private bool _LeftBottom_isProjectile;
+
+
+    [Header("Boutton Value Bottom Right ")] [SerializeField]
+    private float trigger_RightBottomValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _RightBottom_isDash;
+    [SerializeField] private bool _RightBottom_isAttack;
+    [SerializeField] private bool _RightBottom_isProjectile;
+
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_LeftPressValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _LeftPress_isDash;
+    [SerializeField] private bool _LeftPress_isAttack;
+    [SerializeField] private bool _LeftPress_isProjectile;
+    [SerializeField] private bool _LeftPress_IsUlt;
+
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_RightPressValue;
+
+    //Can be delete for the Final Build
+    [SerializeField] private bool _RightPress_isDash;
+    [SerializeField] private bool _RightPress_isAttack;
+    [SerializeField] private bool _RightPress_isProjectile;
+    [SerializeField] private bool _RightPress_IsUlt;
 
     private float duration = 0.2f;
     private int inputPerformed = 0;
@@ -45,8 +133,24 @@ public class PlayerInput_Final : MonoBehaviour
     {
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
+        
+        //Use Button----------
+        controls.Player.AButton.performed += Input_AButton;
+        controls.Player.BButton.performed += Input_BButton;
+        controls.Player.XButton.performed += Input_XButton;
+        controls.Player.YButton.performed += Input_YButton;
+        controls.Player.Left_Stick_Press.performed += Input_YButton;
+        controls.Player.Right_Stick_Press.performed += Input_YButton;
+        //Use Trigger----------
+        controls.Player.Left_Top_Trigger.performed += LeftTopTrigger;
+        controls.Player.Left_Bottom_Trigger.performed += LeftBottomTrigger;
+        controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
+        controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
+        //Use Stick----------
         controls.Player.Move.performed += OnMove;
+        controls.Player.Look.performed += OnLook;
     }
+    
 
     public void OnEnable()
     {
@@ -59,139 +163,40 @@ public class PlayerInput_Final : MonoBehaviour
     }
 
     /// <summary>
-    /// Permet de déclencher les Etats du boutton Input A
-    /// </summary>
-    /// <param name="isAEnable"></param>
-    void AButton(bool isAEnable)
-    {
-        switch (isAEnable)
-        {
-            case true:
-                controls.Player.AButton.Enable();
-                controls.Player.AButton.started += Input_AButton;
-                controls.Player.AButton.performed += Input_AButton;
-                controls.Player.AButton.canceled += Input_AButton;
-                break;
-            case false:
-                controls.Player.AButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input B
-    /// </summary>
-    /// <param name="isBEnable"></param>
-    void BButton(bool isBEnable)
-    {
-        switch (isBEnable)
-        {
-            case true:
-
-                controls.Player.BButton.Enable();
-                controls.Player.BButton.started += Input_BButton;
-                controls.Player.BButton.performed += Input_BButton;
-                controls.Player.BButton.canceled += Input_BButton;
-                break;
-            case false:
-                controls.Player.BButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input X
-    /// </summary>
-    /// <param name="isXEnable"></param>
-    void XButton(bool isXEnable)
-    {
-        switch (isXEnable)
-        {
-            case true:
-                controls.Player.XButton.Enable();
-                controls.Player.XButton.started += Input_XButton;
-                controls.Player.XButton.performed += Input_XButton;
-                controls.Player.XButton.canceled += Input_XButton;
-                break;
-            case false:
-                controls.Player.XButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats du boutton Input Y
-    /// </summary>
-    /// <param name="isYEnable"></param>
-    void YButton(bool isYEnable)
-    {
-        switch (isYEnable)
-        {
-            case true:
-                controls.Player.YButton.Enable();
-                controls.Player.YButton.started += Input_YButton;
-                controls.Player.YButton.performed += Input_YButton;
-                controls.Player.YButton.canceled += Input_YButton;
-                break;
-            case false:
-                controls.Player.YButton.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Permet de déclencher les Etats de la gachette Droite.
-    /// </summary>
-    /// <param name="isRightTriggerEnable"></param>
-    void RightTrigger(bool isRightTriggerEnable)
-    {
-        switch (isRightTriggerEnable)
-        {
-            case true:
-                controls.Player.RightTrigger.Enable();
-                controls.Player.RightTrigger.started += Input_RightTrigger;
-                controls.Player.RightTrigger.performed += Input_RightTrigger;
-                controls.Player.RightTrigger.canceled += Input_RightTrigger;
-                break;
-            case false:
-                controls.Player.RightTrigger.Disable();
-                break;
-        }
-    }
-
-    /// <summary>
     /// Permet d'appeler l'input du Boutton A
     /// </summary>
     /// <param name="buttonA"></param>
     public void Input_AButton(CallbackContext buttonA)
     {
         buttonAValue = buttonA.ReadValue<float>();
-        switch (buttonA.started)
+        if (buttonA.started)
         {
-            case true:
-                Debug.Log("Button A Started" + buttonAValue);
-                break;
-            case false:
-                break;
+            //Debug.Log("Button A Started" + buttonAValue);
         }
 
-        switch (buttonA.performed)
+        if (buttonA.performed)
         {
-            case true:
+            if (_A_isDash)
+            {
                 playerAttribut.Dash();
-                Debug.Log("Button A performed");
-                break;
-            case false:
-                break;
+            }
+
+            if (_A_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_A_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+
+            Debug.Log("Button A performed");
         }
 
-        switch (buttonA.canceled)
+        if (buttonA.canceled)
         {
-            case true:
-                Debug.Log("Button A Canceled");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button A Canceled");
         }
     }
 
@@ -203,31 +208,35 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        switch (buttonB.started)
+        if (buttonB.started)
         {
-            case true:
-                Debug.Log("Button B Started");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button B Started");
         }
 
-        switch (buttonB.performed)
+        if (buttonB.performed)
         {
-            case true:
-                Debug.Log("Button B Performed");
-                break;
-            case false:
-                break;
+            if (_B_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_B_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_B_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+
+            playerAttribut.launchProjectile = true;
+            //Debug.Log("Button B Performed");
         }
 
-        switch (buttonB.canceled)
+        if (buttonB.canceled)
         {
-            case true:
-                Debug.Log("Button B Canceled");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button B Canceled");
         }
     }
 
@@ -238,32 +247,33 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_XButton(CallbackContext buttonX)
     {
         buttonXValue = buttonX.ReadValue<float>();
-        switch (buttonX.started)
+        if (buttonX.started)
         {
-            case true:
-                Debug.Log("Button X Started");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button X Started");
         }
 
-        switch (buttonX.performed)
+        if (buttonX.performed)
         {
-            case true:
-                playerAttribut.AttackType();
-                Debug.Log("Button X Performed");
-                break;
-            case false:
-                break;
+            if (_X_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_X_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_X_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            //Debug.Log("Button X Performed");
         }
 
-        switch (buttonX.canceled)
+        if (buttonX.canceled)
         {
-            case true:
-                Debug.Log("Button X Canceled");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button X Canceled");
         }
     }
 
@@ -274,71 +284,266 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_YButton(CallbackContext buttonY)
     {
         buttonYValue = buttonY.ReadValue<float>();
-        switch (buttonY.started)
+        if (buttonY.started)
         {
-            case true:
-                Debug.Log("Button Y Started");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button Y Started");
         }
 
-        switch (buttonY.performed)
+        if (buttonY.performed)
         {
-            case true:
-                Debug.Log("Button Y Performed");
-                break;
-            case false:
-                break;
+            if (_Y_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_Y_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_Y_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            //Debug.Log("Button Y Performed");
         }
 
-        switch (buttonY.canceled)
+        if (buttonY.canceled)
         {
-            case true:
-                Debug.Log("Button Y Canceled");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button Y Canceled");
         }
     }
 
     /// <summary>
-    /// Permet d'appeler l'input de la Gachette Droite
+    /// Permet d'appeler l'input de la Gachette en Haut à Gauche
     /// </summary>
-    /// <param name="rightTrigger"></param>
-    public void Input_RightTrigger(CallbackContext rightTrigger)
+    /// <param name="LeftTopTrigger"></param>
+    public void LeftTopTrigger(CallbackContext LeftTopTrigger)
     {
-        rightPressTrigger = rightTrigger.ReadValue<float>();
-        switch (rightTrigger.started)
+        trigger_LeftTopValue = LeftTopTrigger.ReadValue<float>();
+        if (LeftTopTrigger.started)
         {
-            case true:
-                Debug.Log("Button Left Trigger Started");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button LeftTopTrigger Started");
         }
 
-        switch (rightTrigger.performed)
+        if (LeftTopTrigger.performed)
         {
-            case true:
-                Debug.Log("Button Left Trigger Performed");
-                break;
-            case false:
-                break;
+            if (_LeftTop_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftTop_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftTop_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            //Debug.Log("Button LeftTopTrigger Performed");
         }
 
-        switch (rightTrigger.canceled)
+        if (LeftTopTrigger.canceled)
         {
-            case true:
-                Debug.Log("Button Left Trigger Canceled");
-                break;
-            case false:
-                break;
+            //Debug.Log("Button LeftTopTrigger Canceled");
         }
     }
 
-    
-    
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette en Bas à Gauche
+    /// </summary>
+    /// <param name="LeftBottomTrigger"></param>
+    public void LeftBottomTrigger(CallbackContext LeftBottomTrigger)
+    {
+        trigger_LeftBottomValue = LeftBottomTrigger.ReadValue<float>();
+        if (LeftBottomTrigger.started)
+        {
+            //Debug.Log("Button LeftBottomTrigger Started");
+        }
+
+        if (LeftBottomTrigger.performed)
+        {
+            if (_LeftBottom_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftBottom_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftBottom_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            //Debug.Log("Button LeftBottomTrigger Performed");
+        }
+
+        if (LeftBottomTrigger.canceled)
+        {
+            //Debug.Log("Button LeftBottomTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette en Haut à Droite
+    /// </summary>
+    /// <param name="RightTopTrigger"></param>
+    public void RightTopTrigger(CallbackContext RightTopTrigger)
+    {
+        trigger_RightTopValue = RightTopTrigger.ReadValue<float>();
+        if (RightTopTrigger.started)
+        {
+            //Debug.Log("Button RightTopTrigger Started");
+        }
+
+        if (RightTopTrigger.performed)
+        {
+            if (_RightTop_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightTop_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightTop_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+        }
+
+        if (RightTopTrigger.canceled)
+        {
+            //Debug.Log("Button RightTopTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="RightBottomTrigger"></param>
+    public void RightBottomTrigger(CallbackContext RightBottomTrigger)
+    {
+        trigger_RightBottomValue = RightBottomTrigger.ReadValue<float>();
+        if (RightBottomTrigger.started)
+        {
+            //Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (RightBottomTrigger.performed)
+        {
+            if (_RightBottom_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightBottom_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightBottom_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+            //Debug.Log("Button RightBottomTrigger Performed");
+        }
+
+        if (RightBottomTrigger.canceled)
+        {
+            //Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="LeftStickPress"></param>
+    public void LeftStickPress(CallbackContext LeftStickPresss)
+    {
+        stick_LeftPressValue = LeftStickPresss.ReadValue<float>();
+        if (LeftStickPresss.started)
+        {
+            //Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (LeftStickPresss.performed)
+        {
+            if (_LeftPress_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_LeftPress_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_LeftPress_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+
+            if (_LeftPress_IsUlt)
+            {
+                playerAttribut.LaunchUltimate();
+            }
+            //Debug.Log("Button RightBottomTrigger Performed");
+        }
+
+        if (LeftStickPresss.canceled)
+        {
+            //Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
+
+    /// <summary>
+    /// Permet d'appeler l'input de la Gachette Bas à Droite
+    /// </summary>
+    /// <param name="RightStickPress"></param>
+    public void RightStickPress(CallbackContext RightStickPress)
+    {
+        stick_RightPressValue = RightStickPress.ReadValue<float>();
+        if (RightStickPress.started)
+        {
+            //Debug.Log("Button RightBottomTrigger Started");
+        }
+
+        if (RightStickPress.performed)
+        {
+            if (_RightPress_isDash)
+            {
+                playerAttribut.Dash();
+            }
+
+            if (_RightPress_isAttack)
+            {
+                playerAttribut.AttackTypeX();
+            }
+
+            if (_RightPress_isProjectile)
+            {
+                playerAttribut.LaunchProjectile();
+            }
+
+            if (_RightPress_IsUlt)
+            {
+                playerAttribut.LaunchUltimate();
+            }
+        }
+
+        if (RightStickPress.canceled)
+        {
+            //Debug.Log("Button RightBottomTrigger Canceled");
+        }
+    }
+
     /// <summary>
     /// Permet d'appeler l'input du Stick Gauche
     /// </summary>
@@ -355,6 +560,30 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="rightStick"></param>
     public void OnLook(CallbackContext rightStick)
     {
+        if (kbMouse)
+        {
+            _MousePos = _Camera.ScreenToWorldPoint(rightStick.ReadValue<Vector2>());
+            playerAttribut.SetInputVector(_MousePos, true);
+        }
+
         playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
+    }
+
+    public void Reset()
+    {
+        //Begin----------
+        kbMouse = false;
+        playerAttribut = GetComponent<PlayerAttribut>();
+        _Camera = GetComponentInChildren<Camera>();
+
+        //Dash Attribut----------
+        _A_isDash = true;
+        _RightBottom_isDash = true;
+        //Attack----------
+        _X_isAttack = true;
+        _LeftBottom_isAttack = true;
+        //Projectile----------
+        _B_isProjectile = true;
+        _RightTop_isProjectile = true;
     }
 }

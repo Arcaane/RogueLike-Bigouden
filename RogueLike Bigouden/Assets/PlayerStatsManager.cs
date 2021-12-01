@@ -53,6 +53,21 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.damageProjectileSO; }
         set { playerData.damageProjectileSO = damageProjectileSO; }
     }
+    private int ultPointToAddPerHitSO
+    {
+        get { return playerData.ultPointToAddPerHitSO; }
+        set { playerData.ultPointToAddPerHitSO = ultPointToAddPerHitSO; }
+    }
+    private int ultPointToAddPerKillSO
+    {
+        get { return playerData.ultPointToAddPerKillSO; }
+        set { playerData.ultPointToAddPerKillSO = ultPointToAddPerKillSO; }
+    }
+    private int damageUltSO
+    {
+        get { return playerData.damageUltSO; }
+        set { playerData.damageUltSO = damageUltSO; }
+    }
     private float movementSpeedSO
     {
         get { return playerData.movementSpeedSO; }
@@ -158,6 +173,9 @@ public class PlayerStatsManager : MonoBehaviour
     public int damageX; // Dégats de l'attaque de base
     public int damageY; // Dégats de l'attaque spé
     public int damageProjectile;// Dégats du projectile
+    public int ultPointToAddPerHit;
+    public int ultPointToAddPerKill;
+    public int damageUlt;
     
     // Floats
     public float movementSpeed;
@@ -185,7 +203,18 @@ public class PlayerStatsManager : MonoBehaviour
     public bool onButter;
         
     #endregion
+
+    public static PlayerStatsManager playerStatsInstance;
     
+    void Awake() 
+    { 
+        if (playerStatsInstance != null && playerStatsInstance != this) 
+            Destroy(gameObject);
+        
+            playerStatsInstance = this;
+    }
+    
+
     private void Start()
     {
         // Set int
@@ -197,6 +226,9 @@ public class PlayerStatsManager : MonoBehaviour
         damageX = damageXSO; 
         damageY = damageYSO; 
         damageProjectile = damageProjectileSO;
+        ultPointToAddPerHit = ultPointToAddPerHitSO;
+        ultPointToAddPerKill = ultPointToAddPerKillSO;
+        damageUlt = damageUltSO;
         
         //Set Float
         movementSpeed = movementSpeedSO;
@@ -224,7 +256,7 @@ public class PlayerStatsManager : MonoBehaviour
         onButter = onButterSO;
     }
 
-    #region Ennemy Damage Gestion 
+    #region Functions 
     public void TakeDamage(int damage)
     {
         if (shieldPoint > 0)
@@ -252,6 +284,20 @@ public class PlayerStatsManager : MonoBehaviour
     {
         shieldPoint += shield;
         // Play TakeShield Animation
+    }
+
+    public void EarnUltPoint(bool isKill)
+    {
+        if (isKill)
+            actualUltPoint += ultPointToAddPerKill;
+        else
+            actualUltPoint += ultPointToAddPerHit;
+
+        if (actualUltPoint > 100)
+        {
+            actualUltPoint = 100;
+        }
+        Debug.Log("Actual ult point : " + actualUltPoint);
     }
     #endregion
 }

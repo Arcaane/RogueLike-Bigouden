@@ -24,7 +24,7 @@ public class LevelInitializer : MonoBehaviour
                 GameObject player = Instantiate(playerPrefab, PlayerSpawns[i].position, PlayerSpawns[i].rotation,
                     gameObject.transform);
                 player.name = ("Player " + i);
-                player.GetComponent<PlayerInputHandler>().InitializePlayer(playerConfigs[i]);
+                player.GetComponent<PlayerInput_Final>().InitializePlayer(playerConfigs[i]);
                 prefabInstantiate.Add(player);
                 PlayerConfigurationManager.Instance.launchGame = false;
                 if (PlayerConfigurationManager.Instance.launchGame == false)

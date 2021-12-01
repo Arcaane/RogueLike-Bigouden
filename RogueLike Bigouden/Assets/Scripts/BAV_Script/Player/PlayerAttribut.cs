@@ -1,24 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.ShaderGraph.Drawing;
+using UnityEngine.InputSystem;
+using static TimeManager;
 
 public class PlayerAttribut : MonoBehaviour
 {
+    private TimeManager timerManager;
+
+    [Header("Component Stats Manager")] [SerializeField]
+    private PlayerStatsManager _playerStatsManager;
+
+    [SerializeField] private PlayerInput_Final _playerInput;
+
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
     [SerializeField]
-    private float timerDash;
+    private float _timerDash;
 
-    [SerializeField] private float timerAttack;
-    [SerializeField] private float timerDelayAttack;
+    [SerializeField] private float _timerBetweenDash;
+    [SerializeField] private float _timerAttack;
+    [SerializeField] private float _timerDelayAttack;
+    [SerializeField] private float _timerDodgeEffect;
+    [SerializeField] private float _delayProjectile;
+    [SerializeField] private float _timerUltimate;
+    [SerializeField] private float _timerCamera;
 
     [Header("Component Rigidbody")] [SerializeField]
     private Rigidbody2D rb;
 
-    //Permet de relier ces vecteurs au Joystick dans le InputHandler.
-    private Vector2 movementInput, lookAxis;
+    [Header("Utiliser le Clavier ?")] [SerializeField]
+    private bool useVibration;
+
 
     [Header("Vitesse du joueur")]
     //Vitesse de déplacement du joueur.
@@ -28,12 +47,17 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
 
+    //Can be delete for the Final Build
+    [SerializeField]
+    private bool useRBDash;
+
+    [SerializeField] public float dashSpeedRB = 5;
+
     //float--------------------
-    public float dashSpeed = 5;
+    [SerializeField] float _dashSpeed;
 
     public float durationDash = 1f;
     public float durationCooldownDash = 1f;
-    public float attackMoveSmall = 1f;
 
     //int--------------------
     public int dashCount = 3;
@@ -45,24 +69,79 @@ public class PlayerAttribut : MonoBehaviour
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
 
+    [Header("Player Attack X/Y")] [SerializeField]
+    private SpriteRenderer spriteRendererFrame;
 
-    [Header("Player Attack")] [SerializeField]
-    private GameObject splinePivot;
+    [SerializeField] private GameObject splinePivot;
+
+    [SerializeField] private Transform offsetAttackXY;
 
     [SerializeField] public AttackSystemSpline attackSpline;
-    public ProjectilePath attackPath;
+    [SerializeField] public ProjectilePath attackPath;
 
     //float-------------------
     [SerializeField] public float valueBeforeResetAttack;
     [SerializeField] public float attackType;
+    [SerializeField] public float attackMovingSpeed;
 
     //bool--------------------
     public bool isAttacking;
     public bool launchFirstAttack;
     public bool launchSecondAttack;
-    public float delayBeforeResetAttack = 1f;
-    public float delayForSecondAttack = 4f;
+    public bool launchAOEAttack;
 
+    //Valor for detecting a hit
+    private int isHurt;
+    private Vector3 targetPos;
+
+    [Space(10)] [Header("Player Attack Projectile")]
+    //Object Projectile
+    // [SerializeField] private Transform projectileObj;
+    private Vector3 shootPointPos;
+
+    //Projectile Attack Position
+    [SerializeField] private GameObject AttackProjectile;
+    [SerializeField] private float speedProjectile;
+    [SerializeField] private float damageProjectile;
+    [SerializeField] public float delayProjectile;
+    [SerializeField] public float delayProjectileReduction;
+    [SerializeField] public float p_delay;
+
+    //Offset of the end Position
+    [SerializeField] private float offsetEndPosProjectile;
+
+    //Projectile is launch
+    [SerializeField] public bool launchProjectile;
+    [SerializeField] public bool canLaunchProjectile;
+
+
+    [Space(10)]
+    [Header("Player Ultimate")]
+    //float--------------------
+    [SerializeField]
+    private GameObject ultBulletSpawner;
+
+    [SerializeField] private float numberOfBullet;
+
+    [SerializeField] private float incrementValue;
+    [SerializeField] private float ultDuration;
+
+    //bool--------------------
+    [SerializeField] private bool isUlting;
+
+
+    [Header("Dogdge Ability")]
+    //float-----------------------------------
+    [SerializeField]
+    private float radiusDodge;
+
+    [SerializeField] private float durationEffect;
+    [SerializeField] private float speedModification;
+
+    ////bool-----------------------------------
+    [SerializeField] public bool useDodgeAbility;
+    [SerializeField] private bool dodgeAbility;
+    [SerializeField] private bool bulletIn;
 
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
@@ -75,25 +154,39 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField]
     private PlayerFeedBack playerFeedBack;
 
+    [SerializeField] private Transform posCam;
+
+    [SerializeField] private Camera cam;
+    [SerializeField] private float _timerBeforeResetPosCamera;
+    [SerializeField] private float durationMove;
+    [SerializeField] Vector3 offset;
+    [SerializeField] Vector2 limitationArray;
+
+    [Space(10)]
 
     // Private Valor use just for this script----------------------------------
-    [SerializeField] private PlayerStatsManager _playerStatsManager;
-    [SerializeField] private ProjectilePath _attackPath;
+    [SerializeField]
+    private ProjectilePath _attackPath;
 
     //float
     private float _durationResetDash;
+    private float _smallMovementFloat;
+
 
     //int
     private int _dashCount;
     private int _dashCountMax;
 
-
     //Vector3
-    [SerializeField] Vector3 _lastPosition;
-    [SerializeField] Vector3 _lastPositionForRotor;
+    //Permet de relier ces vecteurs au Joystick dans le InputHandler.
+    Vector2 movementInput, lookAxis;
+    Vector3 _lastPosition;
+    Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
-    [SerializeField] Vector3 _move;
     [SerializeField] Vector3 _look;
+    [SerializeField] Vector3 _objPosition;
+
+    [HideInInspector] public Vector3 _move;
 
     //Bools
     private bool _readyToAttackX;
@@ -115,14 +208,20 @@ public class PlayerAttribut : MonoBehaviour
 
     void Awake()
     {
+        _playerInput = GetComponent<PlayerInput_Final>();
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
+        cam = _playerInput.GetComponent<Camera>();
+        ultBulletSpawner.SetActive(false);
+
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
+        canLaunchProjectile = true;
     }
 
     private void Start()
     {
+        posCam = PlayerFeedBack.instance.pivotCam;
         if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
@@ -131,57 +230,120 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-    
+
+    private void Update()
+    {
+        _attackPath.Path();
+        if (isDash || isAttacking)
+        {
+            ResetSmallMovement();
+            DetectAttackCamera();
+            DashWait();
+            Reset();
+        }
+
+        if (launchProjectile && canLaunchProjectile)
+        {
+            MovementProjectile();
+        }
+
+        if (isUlting)
+        {
+            UltimateDelay();
+        }
+
+        if (!canLaunchProjectile)
+        {
+            ResetLaunchProjectile();
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        SaveLastPosition();
+        _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
+        Move();
+        Animation();
+        SmoothJoystickCamera();
+        //MoveCameraRightStick();
+
+        if (_launchDebug)
+        {
+            //DebugUI();
+        }
+    }
+
     public void Move()
     {
-        transform.Translate(_move * speed * Time.deltaTime);
-    }
-
-
-    public void MoveAnimation()
-    {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+        if (!isUlting)
         {
-            case true:
-                animatorPlayer.SetFloat("Horizontal", lookAxis.x);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                break;
-            case false:
-                if (movementInput != Vector2.zero)
-                {
-                    animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                    animatorPlayer.SetFloat("Vertical", movementInput.y);
-                }
-
-                animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
-                break;
+            if (launchFirstAttack || launchSecondAttack)
+            {
+                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimeAttack);
+            }
+            else
+                transform.Translate(_move * speed * CustomDeltaTimeAttack);
         }
     }
 
-    public void AttackAnimation()
-    {
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
-        {
-            case true:
-                animatorPlayer.SetBool("isAttacking", isAttacking);
-                animatorPlayer.SetFloat("Horizontal", lookAxis.x);
-                animatorPlayer.SetFloat("Vertical", lookAxis.y);
-                break;
-            case false:
-                if (movementInput != Vector2.zero)
-                {
-                    animatorPlayer.SetBool("isAttacking", isAttacking);
-                    animatorPlayer.SetFloat("Horizontal", movementInput.x);
-                    animatorPlayer.SetFloat("Vertical", movementInput.y);
-                }
+    #region AnimatorProcess
 
-                break;
+    public void Animation()
+    {
+        bool moving = lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero;
+
+        SetJoystickValue(moving);
+        animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
+
+        if (launchFirstAttack)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(true);
+        }
+        else if (launchSecondAttack && !launchFirstAttack)
+
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attack2: true);
+            attackPath.launchSecondAttack = true;
+        }
+
+        else if (launchAOEAttack)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attack3: true);
+        }
+
+        else
+        {
+            SetAttackValue();
         }
     }
 
+    void SetJoystickValue(bool moving)
+    {
+        if (moving)
+        {
+            animatorPlayer.SetFloat("Horizontal", lookAxis.x);
+            animatorPlayer.SetFloat("Vertical", lookAxis.y);
+        }
+        else if (movementInput != Vector2.zero)
+        {
+            animatorPlayer.SetFloat("Horizontal", movementInput.x);
+            animatorPlayer.SetFloat("Vertical", movementInput.y);
+        }
+    }
 
-    public void Attack(bool look)
+    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false)
+    {
+        animatorPlayer.SetBool("AttackX1", attack1);
+        animatorPlayer.SetBool("AttackX2", attack2);
+        animatorPlayer.SetBool("AttackY", attack3);
+    }
+
+    #endregion AnimatorProcess
+
+    void Attack(bool look)
     {
         switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 ||
                 lookAxis.y < 0 && lookAxis != Vector2.zero && !isAttacking)
@@ -216,144 +378,196 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-
     #region DashAttribut
 
     public void Dash()
     {
-        dashCounter++;
         canDash = true;
+        dashCounter++;
         if (dashCounter >= 1)
         {
             isDash = true;
-            if (dashCounter >= dashCount + 1)
+            if (dashCounter >= dashCount)
             {
                 dashCounter = dashCount;
                 canDash = false;
             }
         }
 
-        if (canDash)
+        if (canDash && !isUlting)
         {
-            rb.velocity = Vector2.zero;
-            launchDash();
+            StartDash();
         }
     }
 
-    void launchDash()
+    void StartDash()
+    {
+        if (useRBDash)
+        {
+            rb.velocity = Vector2.zero;
+            LaunchDash();
+            StartCoroutine(DashWaitCorou());
+        }
+        else if (!useRBDash)
+        {
+            DashTP(_dashSpeed);
+        }
+    }
+
+
+    void DashWait()
+    {
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        }
+
+        _timerBetweenDash += CustomDeltaTimeAttack;
+        if (durationDash >= _timerBetweenDash)
+        {
+            _timerBetweenDash = 0;
+            if (useVibration)
+            {
+                playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+            }
+        }
+    }
+
+    void LaunchDash()
     {
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
-        velocity += dir.normalized * (dashSpeed * dashIntValue);
+        velocity += dir.normalized * (dashSpeedRB * dashIntValue);
         rb.velocity = velocity;
-        StartCoroutine(DashWait());
+        StartCoroutine(DashWaitCorou());
     }
 
-    IEnumerator DashWait()
+    IEnumerator DashWaitCorou()
     {
         //playerFeedBack.MovingRumble(CheckPosition(_lastPositionForRotor));
-        playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
+        }
+
         _isDashing = true;
         yield return new WaitForSeconds(durationDash / 2);
-        playerFeedBack.MovingRumble(Vector2.zero);
+        if (useVibration)
+        {
+            playerFeedBack.MovingRumble(Vector2.zero);
+        }
+
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
 
+    public void DashTP(float speed)
+    {
+        Vector2 dir = _lastPosition;
+        rb.AddForce(dir * (speed * 100));
+    }
+
+/*
+public void SmallMovementAttack()
+{
+    Vector2 dir = _lastPosition;
+    transform.position =
+        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
+    Debug.Log(_smallMovementFloat);
+}*/
+
+    public void ResetSmallMovement()
+    {
+        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimeAttack;
+        if (_smallMovementFloat > 1)
+        {
+            _smallMovementFloat = 0;
+        }
+    }
+
     #endregion DashAttribut
 
-    public void FixedUpdate()
+    #region AttackAttribute
+
+    public void AttackTypeX()
     {
-        SaveLastPosition();
-        _attackPath.Path();
-        _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
-        Move();
-        MoveAnimation();
-        if (isDash || isAttacking)
+        isAttacking = true;
+        attackType++;
+        if (attackType == 1)
         {
-            Reset();
-        }
-
-        if (attackType > 0)
-        {
-            switch (attackType)
-            {
-                case 1:
-                    ResetMovement(0);
-                    break;
-                case 2:
-                    ResetMovement(1);
-                    break;
-            }
-        }
-
-        if (_launchDebug)
-        {
-            Debug();
-        }
-    }
-
-    public void AttackType()
-    {
-        if (attackType < 2)
-        {
-            attackType++;
-            isAttacking = true;
-            attackPath.launchAttack = true;
+            attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            launchSecondAttack = false;
-            rb.velocity = Vector2.zero; 
-            SmallMovementFirst();
+            animatorPlayer.speed = speedRalentiEnnemy;
         }
 
-
-        if (attackType >= 2 && delayForSecondAttack >= timerAttack)
-        {
-            attackType = 2;
-            attackPath.launchSecondAttack = true;
-            launchFirstAttack = false;
-            launchSecondAttack = true;
-            isAttacking = true;
-            rb.velocity = Vector2.zero; 
-            SmallMovementSecond();
-        }
-        else
-        {
-            launchFirstAttack = false;
-        }
+        if (attackType == 2 &&
+            _timerAttack > _playerStatsManager.firstAttackReset.x &&
+            _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
+            {
+                attackType = 2;
+                launchFirstAttack = false;
+                launchSecondAttack = true;
+            }
     }
-
 
     public void Reset()
     {
         if (isDash)
         {
-            timerDash += Time.deltaTime;
-            if (timerDash >= durationCooldownDash)
+            _timerDash += CustomDeltaTimeAttack;
+            if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
                 isDash = false;
                 dashCounter = 0f;
-                timerDash = 0f;
+                _timerDash = 0f;
             }
         }
 
         if (isAttacking)
         {
-            timerAttack += Time.deltaTime;
-            if (timerAttack >= delayBeforeResetAttack)
+            _timerAttack += CustomDeltaTimeAttack;
+            if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
+                _timerAttack < (_playerStatsManager.firstAttackReset.y))
+            {
+                spriteRendererFrame.material.color = Color.magenta;
+                spriteRendererFrame.color = Color.magenta;
+            }
+
+            if (_timerAttack > _playerStatsManager.firstAttackReset.y)
+            {
+                spriteRendererFrame.material.color = Color.white;
+                spriteRendererFrame.color = Color.white;
+            }
+
+            if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
             {
                 attackType = 0;
                 isAttacking = false;
-                attackPath.launchAttack = false;
-                attackPath.launchSecondAttack = false;
+                launchFirstAttack = false;
+                attackPath.launchFirstAttack = false;
                 attackPath.progress = 0f;
-                timerAttack = 0f;
-                Vector2 velocity = Vector2.zero;
-                rb.velocity = velocity;
+                _timerAttack = 0f;
+            }
+            
+            if (launchSecondAttack)
+            {
+                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
+                {
+                    attackType = 0;
+                    isAttacking = false;
+                    launchFirstAttack = false;
+                    launchSecondAttack = false;
+                    attackPath.launchFirstAttack = false;
+                    attackPath.launchSecondAttack = false;
+                    attackPath.progress = 0f;
+                    _timerAttack = 0f;
+                }
             }
         }
     }
+
+    #endregion
 
     public void SaveLastPosition()
     {
@@ -363,180 +577,302 @@ public class PlayerAttribut : MonoBehaviour
         _look = look;
         if (movementInput.x != 0 || movementInput.y != 0)
         {
-            _lastPosition = _move;
+            _lastPosition = _move.normalized;
             _lastPositionForRotor = _lastPosition;
         }
 
         if (lookAxis.x != 0 || lookAxis.y != 0)
         {
-            _lastPosition = _look;
+            _lastPosition = _look.normalized;
             _lastPositionForRotor = _lastPosition;
         }
     }
 
-    void ResetMovement(int attack)
-    {
-        timerDelayAttack += Time.deltaTime;
-        Vector2 velocity = Vector2.zero;
-        float resetTimer = 0f;
-        if (timerDelayAttack >= valueBeforeResetAttack)
-        {
-            timerDelayAttack = resetTimer;
-            rb.velocity = velocity;
-            if (attack == 0)
-            {
-                launchFirstAttack = false;
-            }
 
-            if (attack == 1)
-            {
-                launchSecondAttack = false;
-            }
+    #region Projectile
+
+    private const float radiusShootPoint = 0.9f;
+
+    public void LaunchProjectile()
+    {
+        launchProjectile = true;
+        damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
+    }
+
+    public void MovementProjectile()
+    {
+        launchProjectile = false;
+        p_delay = delayProjectile;
+        canLaunchProjectile = false;
+
+        shootPointPos = (_lastPosition);
+        shootPointPos.Normalize();
+        GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
+            Quaternion.identity);
+        obj.GetComponent<ProjectilePlayer>()
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, damageProjectile); // Direction puis Speed des balles
+        Destroy(obj, delayProjectile);
+    }
+
+    private void ResetLaunchProjectile()
+    {
+        canLaunchProjectile = false;
+        Debug.Log("pls sir");
+        p_delay -= Time.deltaTime;
+        if (p_delay <= 0)
+        {
+            p_delay = 0;
+            canLaunchProjectile = true;
         }
     }
 
+    #endregion
 
-    public void SmallMovementFirst()
+    #region Ultimate
+    //Launch the function to activate Ultimate
+    public void LaunchUltimate()
     {
-        Vector2 velocity = Vector2.zero;
-        Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
-        rb.velocity = velocity;
+        isUlting = true;
+        ultBulletSpawner.SetActive(true);
     }
 
-    public void SmallMovementSecond()
+    //Ultimate Delay when he is Activate.
+    public void UltimateDelay()
     {
-        Vector2 velocity = Vector2.zero;
-        Vector2 dir = _lastPosition.normalized;
-        velocity += dir.normalized * (attackMoveSmall * dashIntValue);
-        rb.velocity = velocity;
-    }
-
-    Vector3 CheckPosition(Vector3 direction)
-    {
-        float puissance = 5f;
-        Vector3 newDirection = direction.normalized;
-        _directionNormalized = newDirection;
-        float durationRotor = 1f;
-        if (direction.y > 0)
+        ultDuration = PlayerStatsManager.playerStatsInstance.actualUltPoint;
+        if (ultDuration > 10)
         {
-            if (direction.x > 0 && direction.y > direction.x)
+            ultDuration = (ultDuration / 2) / 10;
+            _timerUltimate += CustomDeltaTimeAttack;
+            
+            lookAxis = Vector2.zero;
+            movementInput = Vector2.zero;
+            
+            
+            if (_timerUltimate >= ultDuration)
             {
-                direction = new Vector3(newDirection.y, newDirection.x, durationRotor);
+                _timerUltimate = 0;
+                ultBulletSpawner.SetActive(false);
+                isUlting = false;
+                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
             }
-
-            else if (direction.x < 0 && direction.y < direction.x)
-            {
-                newDirection.x *= -1;
-
-                direction = new Vector3(newDirection.y, newDirection.x, durationRotor);
-            }
-        }
-        else if (direction.y < 0)
-        {
-            newDirection.y *= -1;
-            if (direction.x > 0 && direction.y > direction.x)
-            {
-                direction = new Vector3(newDirection.x, newDirection.y, durationRotor);
-            }
-            else if (direction.x < 0 && direction.y < direction.x)
-            {
-                newDirection.x *= -1;
-                direction = new Vector3(newDirection.x, newDirection.y, durationRotor);
-            }
-        }
-
-        return direction;
-    }
-
-    public void Debug()
-    {
-        ////For Stick Only
-        Image pointColor = elementOfTextMeshPro[0].GetComponent<Image>();
-
-        ////For Data Only
-        TextMeshProUGUI axisCoord = elementOfTextMeshPro[1].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI isDashingText = elementOfTextMeshPro[2].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI dashCountText = elementOfTextMeshPro[3].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI timeBeforeDashText = elementOfTextMeshPro[4].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI isAttackingText = elementOfTextMeshPro[5].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI numberOfAttackText = elementOfTextMeshPro[6].GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI timeBeforeAttack = elementOfTextMeshPro[7].GetComponent<TextMeshProUGUI>();
-
-        Vector3 imagePosition = elementOfTextMeshPro[0].transform.position;
-        pointColor.color = Color.white;
-        switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
-        {
-            case true:
-                elementOfTextMeshPro[0].transform.localPosition = new Vector3(
-                    positionStick.x + lookAxis.x * 50,
-                    positionStick.y + lookAxis.y * 50,
-                    0);
-                break;
-            case false:
-                if (movementInput != Vector2.zero || lookAxis != Vector2.zero)
-                {
-                    elementOfTextMeshPro[0].transform.localPosition = new Vector3(
-                        positionStick.x + movementInput.x * 50,
-                        positionStick.y + movementInput.y * 50,
-                        0);
-                }
-
-                break;
-        }
-
-
-        //Dash-------------------------------------------
-        if (dashCount == 0)
-        {
-            pointColor.color = Color.white;
-            dashCountText.color = Color.white;
-        }
-
-        if (isDash)
-        {
-            isDashingText.color = Color.blue;
-            pointColor.color = dashCounter >= dashCount ? Color.red : Color.green;
-            dashCountText.color = dashCounter >= dashCount ? Color.red : Color.green;
-            timeBeforeDashText.color = dashCount >= 3 ? Color.red : Color.green;
         }
         else
         {
-            isDashingText.color = Color.red;
-            dashCountText.color = Color.green;
-            timeBeforeDashText.color = Color.green;
+            ultDuration = 0;
+            _timerUltimate += CustomDeltaTimeAttack;
+            if (_timerUltimate >= ultDuration)
+            {
+                _timerUltimate = 0;
+                ultBulletSpawner.SetActive(false);
+                isUlting = false;
+                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+            }
         }
+    }
 
-        if (isAttacking)
+    //Capacity bar of the Ultimate.
+    public void UltimateBar()
+    {
+        
+    }
+
+    #endregion
+
+    
+    
+    #region CameraController
+
+    public void DetectAttackCamera()
+    {
+        //Camera Shake
+        isHurt = attackPath.GetComponent<ProjectilePath>().projectile.GetComponent<ApplyAttack>().isDetect;
+        targetPos = attackPath.GetComponent<ProjectilePath>().projectile.GetComponent<ApplyAttack>().posTarget;
+        if (isHurt == 1)
         {
-            isAttackingText.color = Color.blue;
-            timeBeforeAttack.color = attackType >= 2 ? Color.red : Color.green;
-            numberOfAttackText.color = attackType >= 2 ? Color.red : Color.green;
+            playerFeedBack.MoveCameraInput(isHurt, transform.position, targetPos, 10);
+            ResetPosCam();
+        }
+    }
+
+    public void ResetPosCam()
+    {
+        _timerCamera += CustomDeltaTimeAttack;
+        if (_timerCamera >= _timerBeforeResetPosCamera)
+        {
+            _timerCamera = 0;
+            playerFeedBack.CameraMovement(targetPos, transform.position, 10);
+        }
+    }
+
+    public void SmoothJoystickCamera()
+    {
+        Vector3 aim = new Vector3(lookAxis.x, lookAxis.y, 0.0f);
+        Vector3 lookAxisNor = lookAxis.normalized;
+        Vector3 target;
+        if (_playerInput.kbMouse)
+        {
+            target = posCam.position + aim.normalized;
         }
         else
         {
-            isAttackingText.color = Color.red;
-            timeBeforeAttack.color = Color.green;
-            numberOfAttackText.color = Color.green;
+            target = posCam.position + aim.normalized * 10;
         }
 
+        float roundAxis = 0;
+        Vector2 posObj = transform.position.normalized;
+        roundAxis = Vector2.Distance(posObj, lookAxisNor);
+        roundAxis = roundAxis / 5;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, target, (roundAxis <= 0 ? -roundAxis : roundAxis));
+        posCam.position = new Vector2(
+            Mathf.Clamp(smoothedPosition.x, -limitationArray.x, limitationArray.x),
+            Mathf.Clamp(smoothedPosition.y, -limitationArray.y, limitationArray.y));
+    }
 
-        ////Text------------------------------------------
-        dashCountText.text = "Dash Count : " + dashCounter;
-        isDashingText.text = "Is Dashing: " + isDash;
-        timeBeforeDashText.text =
-            "Time Before Next Dash: " + Mathf.Round((durationCooldownDash - timerDash) * 10) * 0.1;
-        numberOfAttackText.text = "Number Of Attack " + (2 - attackType);
-        isAttackingText.text = "Is Attacking : " + isAttacking;
-        timeBeforeAttack.text = "Time Before Reset Attack : " +
-                                Mathf.Round((delayBeforeResetAttack - timerAttack) * 10) * 0.1;
-        axisCoord.text = "X : " + Mathf.Round(movementInput.x * 10) * 0.1 + "  " + "Y : " +
-                         Mathf.Round(movementInput.y * 10) * 0.1;
+    #endregion
+
+    public void DodgeAttack()
+    {
+        useDodgeAbility = true;
+        Vector3 playerPos = transform.position;
+        Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
+        float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
+        speed *= speedModification;
+        _timerDodgeEffect += CustomDeltaTimeAttack;
+        if (_timerAttack >= durationEffect)
+        {
+            useDodgeAbility = false;
+        }
     }
 
     private void OnDrawGizmos()
     {
+        Vector3 position = transform.position;
+        //float objPos = _objPosition.x > _objPosition.y ?_objPosition.x : _objPosition.y;
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, (_lastPosition.normalized * dashSpeed) / 2);
+        Gizmos.DrawRay(position, (_lastPosition.normalized * _dashSpeed) / 2);
+        Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
     }
 }
+
+/*
+Vector3 CheckPosition(Vector3 direction)
+{
+    float puissance = 5f;
+    Vector3 newDirection = direction.normalized;
+    _directionNormalized = newDirection;
+    float durationRotor = 1f;
+    if (direction.y > 0)
+    {
+        if (direction.x > 0 && direction.y > direction.x)
+        {
+            direction = new Vector3(newDirection.y, newDirection.x, durationRotor);
+        }
+
+        else if (direction.x < 0 && direction.y < direction.x)
+        {
+            newDirection.x *= -1;
+
+            direction = new Vector3(newDirection.y, newDirection.x, durationRotor);
+        }
+    }
+    else if (direction.y < 0)
+    {
+        newDirection.y *= -1;
+        if (direction.x > 0 && direction.y > direction.x)
+        {
+            direction = new Vector3(newDirection.x, newDirection.y, durationRotor);
+        }
+        else if (direction.x < 0 && direction.y < direction.x)
+        {
+            newDirection.x *= -1;
+            direction = new Vector3(newDirection.x, newDirection.y, durationRotor);
+        }
+    }
+
+    return direction;
+}*/
+/*public void DebugUI()
+{
+    ////For Stick Only
+    Image pointColor = elementOfTextMeshPro[0].GetComponent<Image>();
+
+    ////For Data Only
+    TextMeshProUGUI axisCoord = elementOfTextMeshPro[1].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI isDashingText = elementOfTextMeshPro[2].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI dashCountText = elementOfTextMeshPro[3].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI timeBeforeDashText = elementOfTextMeshPro[4].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI isAttackingText = elementOfTextMeshPro[5].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI numberOfAttackText = elementOfTextMeshPro[6].GetComponent<TextMeshProUGUI>();
+    TextMeshProUGUI timeBeforeAttack = elementOfTextMeshPro[7].GetComponent<TextMeshProUGUI>();
+
+    pointColor.color = Color.white;
+    switch (lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 || lookAxis.y < 0 && lookAxis != Vector2.zero)
+    {
+        case true:
+            elementOfTextMeshPro[0].transform.localPosition = new Vector3(
+                positionStick.x + lookAxis.x * 50,
+                positionStick.y + lookAxis.y * 50,
+                0);
+            break;
+        case false:
+            if (movementInput != Vector2.zero || lookAxis != Vector2.zero)
+            {
+                elementOfTextMeshPro[0].transform.localPosition = new Vector3(
+                    positionStick.x + movementInput.x * 50,
+                    positionStick.y + movementInput.y * 50,
+                    0);
+            }
+
+            break;
+    }
+
+
+    //Dash-------------------------------------------
+    if (dashCount == 0)
+    {
+        pointColor.color = Color.white;
+        dashCountText.color = Color.white;
+    }
+
+    if (isDash)
+    {
+        pointColor.color = dashCounter >= dashCount ? Color.red : Color.green;
+        dashCountText.color = dashCounter >= dashCount ? Color.red : Color.green;
+        timeBeforeDashText.color = dashCount >= 3 ? Color.red : Color.green;
+    }
+    else
+    {
+        dashCountText.color = Color.green;
+        timeBeforeDashText.color = Color.green;
+    }
+
+    if (isAttacking)
+    {
+        isAttackingText.color = Color.blue;
+        timeBeforeAttack.color = attackType >= 2 ? Color.red : Color.green;
+        numberOfAttackText.color = attackType >= 2 ? Color.red : Color.green;
+    }
+    else
+    {
+        isAttackingText.color = Color.red;
+        timeBeforeAttack.color = Color.green;
+        numberOfAttackText.color = Color.green;
+    }
+
+
+    ////Text------------------------------------------
+    dashCountText.text = "Dash Count : " + dashCounter;
+    isDashingText.text = "Is Dashing: " + isDash;
+    timeBeforeDashText.text =
+        "Time Before Next Dash: " + Mathf.Round((durationCooldownDash - _timerDash) * 10) * 0.1;
+    numberOfAttackText.text = "Number Of Attack " + (2 - attackType);
+    isAttackingText.text = "Is Attacking : " + isAttacking;
+    timeBeforeAttack.text = "Time Before Reset Attack : " +
+                            Mathf.Round((delayBeforeResetAttack - _timerAttack) * 10) * 0.1;
+    axisCoord.text = "X : " + Mathf.Round(movementInput.x * 10) * 0.1 + "  " + "Y : " +
+                     Mathf.Round(movementInput.y * 10) * 0.1;
+}
+*/

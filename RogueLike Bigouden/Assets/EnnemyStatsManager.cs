@@ -199,19 +199,24 @@ public class EnnemyStatsManager : MonoBehaviour
         if (shieldPoint > 0)
         {
             shieldPoint -= damage;
+            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
             if (shieldPoint < 0)
                 shieldPoint = 0;
         }
         else
+        {
             lifePoint -= damage;
-
+            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+        }
+        
         if (lifePoint <= 0)
             Death();
     }
 
     private void Death()
     {
-        // Play Death Animation
+        PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
+         // Play Death Animation
         Destroy(gameObject);
     }
 
