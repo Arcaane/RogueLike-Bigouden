@@ -26,7 +26,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value A")]
     //Concerne la valeur d'input de A
     [SerializeField]
-    private float buttonAValue;
+    public float buttonAValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _A_isDash;
@@ -36,7 +36,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value B")]
     //Concerne la valeur d'input de B
     [SerializeField]
-    private float buttonBValue;
+    public float buttonBValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _B_isDash;
@@ -46,7 +46,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value X")]
     //Concerne la valeur d'input de X
     [SerializeField]
-    private float buttonXValue;
+    public float buttonXValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _X_isDash;
@@ -56,7 +56,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Y")]
     //Concerne la valeur d'input de Y
     [SerializeField]
-    private float buttonYValue;
+    public float buttonYValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _Y_isDash;
@@ -66,7 +66,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Top Left ")]
     //Concerne la valeur d'input de Top Left Trigger
     [SerializeField]
-    private float trigger_LeftTopValue;
+    public float trigger_LeftTopValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _LeftTop_isDash;
@@ -76,7 +76,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Top Right ")]
     //Concerne la valeur d'input de Top Right Trigger
     [SerializeField]
-    private float trigger_RightTopValue;
+    public float trigger_RightTopValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightTop_isDash;
@@ -86,7 +86,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Bottom Left ")]
     //Concerne la valeur d'input de Bottom Left Trigger
     [SerializeField]
-    private float trigger_LeftBottomValue;
+    public float trigger_LeftBottomValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _LeftBottom_isDash;
@@ -95,7 +95,7 @@ public class PlayerInput_Final : MonoBehaviour
 
 
     [Header("Boutton Value Bottom Right ")] [SerializeField]
-    private float trigger_RightBottomValue;
+    public float trigger_RightBottomValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightBottom_isDash;
@@ -103,7 +103,7 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _RightBottom_isProjectile;
 
     [Header("Boutton Value Left Stick Press ")] [SerializeField]
-    private float stick_LeftPressValue;
+    public float stick_LeftPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _LeftPress_isDash;
@@ -112,7 +112,7 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftPress_IsUlt;
 
     [Header("Boutton Value Left Stick Press ")] [SerializeField]
-    private float stick_RightPressValue;
+    public float stick_RightPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightPress_isDash;
@@ -123,10 +123,13 @@ public class PlayerInput_Final : MonoBehaviour
     private float duration = 0.2f;
     private int inputPerformed = 0;
 
+    private Inventory _inventory;
+
     private void Awake()
     {
         controls = new BAV_PlayerController();
         isMoving = false;
+        _inventory = GetComponent<Inventory>();
     }
 
     public void InitializePlayer(PlayerConfiguration config)

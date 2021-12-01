@@ -17,17 +17,20 @@ public class Inventory : MonoBehaviour
 
     private PlayerStatsManager playerStats;
     private UIManager uiManager;
+
+    private PlayerInput_Final _playerInputFinal;
     
     // Start is called before the first frame update
     void Start()
     {
         uiManager = FindObjectOfType<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
+        _playerInputFinal = GetComponent<PlayerInput_Final>();
     }
 
     private void Update()
     {
-        //CheckItemCondition();
+        CheckItemCondition();
     }
 
     public void CheckItemCondition()
@@ -45,14 +48,14 @@ public class Inventory : MonoBehaviour
                     switch (i.action)
                     {
                         case Items.Action.AttackX :
-                            if (!playerStats.readyToAttackX)
+                            if (_playerInputFinal.buttonXValue > 0.1)
                             {
                                 ApplyItemEffect(i);
                             }
                             break;
                         
                         case Items.Action.AttackY:
-                            if (!playerStats.readyToAttackY)
+                            if (_playerInputFinal.buttonYValue != 0)
                             {
                                 ApplyItemEffect(i);
                             }
@@ -60,7 +63,7 @@ public class Inventory : MonoBehaviour
                             break;
                         
                         case Items.Action.AttackDistance:
-                            if (!playerStats.readyToAttackB)
+                            if (_playerInputFinal.buttonBValue != 0)
                             {
                                 ApplyItemEffect(i);
                             }
@@ -72,9 +75,10 @@ public class Inventory : MonoBehaviour
                             break;
                         
                         case Items.Action.Dash:
-                            if (!playerStats.readyToDash)
+                            if (_playerInputFinal.buttonAValue != 0)
                             {
                                 ApplyItemEffect(i);
+                                Debug.Log("Conditon OK");
                             }
 
                             break;
@@ -259,10 +263,13 @@ public class Inventory : MonoBehaviour
                                     float baseDamageX = playerStats.damageX;
                                     float baseDamageY = playerStats.damageY;
                                     float baseDamageB = playerStats.damageProjectile;
+                                    
                                     playerStats.damageX += i.modAmount;
                                     playerStats.damageY += i.modAmount;
                                     playerStats.damageProjectile += i.modAmount;
+                                    
                                     yield return new WaitForSeconds(i.overTimeDuration);
+                                    
                                     playerStats.damageX = Mathf.FloorToInt(baseDamageX);
                                     playerStats.damageY = Mathf.FloorToInt(baseDamageY);
                                     playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
