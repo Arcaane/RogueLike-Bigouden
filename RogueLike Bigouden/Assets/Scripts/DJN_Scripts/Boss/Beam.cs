@@ -6,17 +6,20 @@ public class Beam : MonoBehaviour
 {
     private LineRenderer line;
     private RaycastHit2D hit;
-    
+    [SerializeField] private int damage;
     [SerializeField] private float raySpeed;
+    [SerializeField] private float startingTime;
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] public Transform originPoint;
-    [SerializeField] public Transform originTarget;
-    [SerializeField] public Transform newTarget;
-    [SerializeField] public Transform ghostTarget;
-
+    public Transform originPoint;
+    public Transform originTarget;
+    public Transform newTarget;
+    public Transform ghostTarget;
+    
+    private PlayerStatsManager _playerStatsManager;
+    private bool pHit;
+    
     private bool isMoving;
-    public bool isActive;
-    public float startingTime;
+    [HideInInspector] public bool isActive;
     private void Start()
     {
         line = GetComponent<LineRenderer>();
@@ -37,7 +40,6 @@ public class Beam : MonoBehaviour
 
     public void Laser()
     {
-        
         hit = Physics2D.Linecast(originPoint.position, ghostTarget.position,
             layerMask); //shoot a raycast from origin point to a ghost point which his position is the originTarget position
 
@@ -47,10 +49,9 @@ public class Beam : MonoBehaviour
             line.SetPosition(1, hit.point);
             //Debug.Log(hit.collider.name);
             
-            if (hit.collider.CompareTag("Player"))
+            if (hit.collider.GetComponent<PlayerStatsManager>())
             {
-                isActive = false;
-                line.enabled = false;
+                _playerStatsManager = hit.collider.GetComponent<PlayerStatsManager>();
             }
         }
         else

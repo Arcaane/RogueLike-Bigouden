@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -49,7 +50,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenu;
-    private bool isPaused;
+    public bool isPaused;
+
+    [Header("Settings")] 
+    public GameObject settingPanel;
+    
     
     [Header("Test Information")] [Range(0, 10)]
     public float currentHealth;
@@ -84,25 +89,27 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
-        
+
         //trouver le script player statistiques
+
     }
 
     private void Update()
     {
+        
         Pause();
         UpdateItemPlayer();
     }
 
     private void Pause()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        if (isPaused)
         {
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        if (!isPaused)
         {
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
@@ -209,5 +216,7 @@ public class UIManager : MonoBehaviour
 
 
     }
+    
+
 }
 

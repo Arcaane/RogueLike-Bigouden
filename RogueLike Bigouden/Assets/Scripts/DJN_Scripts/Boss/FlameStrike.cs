@@ -48,11 +48,15 @@ public class FlameStrike : MonoBehaviour
       
       Debug.Log("There is player");
     }
+    else
+    {
+      playerOnIt = false;
+    }
   }
 
   private void OnTriggerExit2D(Collider2D other)
   {
-    if (other.gameObject.CompareTag("Player"))
+    if (other.transform.GetComponent<PlayerStatsManager>())
     {
       playerOnIt = false;
       player = null;
@@ -64,7 +68,6 @@ public class FlameStrike : MonoBehaviour
     if (playerOnIt)
     {
       player.GetComponent<PlayerStatsManager>().TakeDamage(damage);
-      Debug.Log(player.name + " take " + damage + " damage.");
     }
   }
 }
