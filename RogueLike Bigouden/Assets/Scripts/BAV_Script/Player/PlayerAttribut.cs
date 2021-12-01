@@ -629,7 +629,6 @@ public void SmallMovementAttack()
     #endregion
 
     #region Ultimate
-
     //Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
@@ -640,11 +639,16 @@ public void SmallMovementAttack()
     //Ultimate Delay when he is Activate.
     public void UltimateDelay()
     {
-        if (PlayerStatsManager.playerStatsInstance.actualUltPoint > 10)
+        ultDuration = PlayerStatsManager.playerStatsInstance.actualUltPoint;
+        if (ultDuration > 10)
         {
-            ultDuration = (PlayerStatsManager.playerStatsInstance.actualUltPoint / 2) / 10;
-
+            ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += CustomDeltaTimeAttack;
+            
+            lookAxis = Vector2.zero;
+            movementInput = Vector2.zero;
+            
+            
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;

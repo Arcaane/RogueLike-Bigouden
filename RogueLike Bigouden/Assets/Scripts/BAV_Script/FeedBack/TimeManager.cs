@@ -29,6 +29,5 @@ public class TimeManager
     public static void SlowDownGame()
     {
         timeRalenti = Time.time;
-        Debug.Log(timeRalenti);
     }
 }
