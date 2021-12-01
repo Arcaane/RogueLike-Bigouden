@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8536618747323873499}
   - component: {fileID: 8536618747323875108}
   - component: {fileID: 3793073233542312679}
+  - component: {fileID: 6688843472758075422}
   m_Layer: 0
   m_Name: BulletUlt
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  lifeTime: 2
+  lifeTime: 4
 --- !u!212 &3793073233542312679
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97,3 +98,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &6688843472758075422
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8536618747323875109}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.0000005

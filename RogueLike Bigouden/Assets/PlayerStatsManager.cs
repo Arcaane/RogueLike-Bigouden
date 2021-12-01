@@ -63,6 +63,11 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.ultPointToAddPerKillSO; }
         set { playerData.ultPointToAddPerKillSO = ultPointToAddPerKillSO; }
     }
+    private int damageUltSO
+    {
+        get { return playerData.damageUltSO; }
+        set { playerData.damageUltSO = damageUltSO; }
+    }
     private float movementSpeedSO
     {
         get { return playerData.movementSpeedSO; }
@@ -170,6 +175,7 @@ public class PlayerStatsManager : MonoBehaviour
     public int damageProjectile;// Dégats du projectile
     public int ultPointToAddPerHit;
     public int ultPointToAddPerKill;
+    public int damageUlt;
     
     // Floats
     public float movementSpeed;
@@ -222,6 +228,7 @@ public class PlayerStatsManager : MonoBehaviour
         damageProjectile = damageProjectileSO;
         ultPointToAddPerHit = ultPointToAddPerHitSO;
         ultPointToAddPerKill = ultPointToAddPerKillSO;
+        damageUlt = damageUltSO;
         
         //Set Float
         movementSpeed = movementSpeedSO;

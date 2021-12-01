@@ -596,6 +596,7 @@ public void SmallMovementAttack()
     public void LaunchProjectile()
     {
         launchProjectile = true;
+        damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
     }
 
     public void MovementProjectile()
@@ -609,7 +610,7 @@ public void SmallMovementAttack()
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
-            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, 1f); // Direction puis Speed des balles
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
     }
 

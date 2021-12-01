@@ -7,7 +7,13 @@ public class BulletForUlt : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float lifeTime;
+    [SerializeField] private int damageDealt;
     private Vector2 moveDirection;
+
+    private void Awake()
+    {
+        damageDealt = PlayerStatsManager.playerStatsInstance.damageUlt;
+    }
 
     private void OnEnable()
     {
@@ -32,5 +38,14 @@ public class BulletForUlt : MonoBehaviour
     public void OnDisable()
     {
         CancelInvoke();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Ennemy"))
+        {
+            other.gameObject.GetComponent<MannequinStatsManager>().TakeDamage(damageDealt);
+            other.gameObject.GetComponent<EnnemyStatsManager>().TakeDamage(damageDealt);
+        }
     }
 }

@@ -36,7 +36,6 @@ public class ProjectilePath : MonoBehaviour
         {
             isAttacking = false;
         }
-        Debug.Log(progress);
     }
 
     private void FixedUpdate()
