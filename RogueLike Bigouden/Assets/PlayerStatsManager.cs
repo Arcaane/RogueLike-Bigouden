@@ -205,7 +205,7 @@ public class PlayerStatsManager : MonoBehaviour
     #endregion
 
     public static PlayerStatsManager playerStatsInstance;
-    
+    public bool getHurt;
     void Awake() 
     { 
         if (playerStatsInstance != null && playerStatsInstance != this) 
@@ -272,6 +272,13 @@ public class PlayerStatsManager : MonoBehaviour
         
         if (lifePoint <= 0)
             Death();
+
+        getHurt = true;
+
+        if (getHurt)
+        {
+            getHurt = false;
+        }
     }
     
     private void Death()
