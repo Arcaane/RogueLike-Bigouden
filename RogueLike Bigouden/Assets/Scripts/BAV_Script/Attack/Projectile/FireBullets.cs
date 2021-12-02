@@ -45,25 +45,25 @@ public class FireBullets : MonoBehaviour
         switch (myPattern)
         {
             case Pattern.Pattern1:
-                InvokeRepeating(("FirePattern1"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern1"), TimeManager.CustomDeltaTimeProjectile,
                     notEnoughBulletsInPool);
                 break;
             case Pattern.Pattern2:
-                InvokeRepeating(("FirePattern2"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern2"), TimeManager.CustomDeltaTimeProjectile,
                     notEnoughBulletsInPool);
                 break;
             case Pattern.Pattern3:
-                InvokeRepeating(("FirePattern3"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern3"), TimeManager.CustomDeltaTimeProjectile,
                     notEnoughBulletsInPool);
                 break;
             case Pattern.Pattern4:
-                InvokeRepeating(("FirePattern4"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern4"), TimeManager.CustomDeltaTimeProjectile,
                     notEnoughBulletsInPool);
                 break;
             case Pattern.Pattern5:
-                InvokeRepeating(("FirePattern4"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern4"), TimeManager.CustomDeltaTimeProjectile,
                     Random.Range(notEnoughBulletsInPoolRandom.x, notEnoughBulletsInPoolRandom.y));
-                InvokeRepeating(("FirePattern5"), TimeManager.CustomDeltaTimeAttack,
+                InvokeRepeating(("FirePattern5"), TimeManager.CustomDeltaTimeProjectile,
                     Random.Range(notEnoughBulletsInPoolRandom.x, notEnoughBulletsInPoolRandom.y));
                 break;
         }

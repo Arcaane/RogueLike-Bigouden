@@ -279,10 +279,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
-                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimeAttack);
+                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * speed * CustomDeltaTimeAttack);
+                transform.Translate(_move * speed * CustomDeltaTimePlayer);
         }
     }
 
@@ -422,7 +422,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _timerBetweenDash += CustomDeltaTimeAttack;
+        _timerBetweenDash += CustomDeltaTimePlayer;
         if (durationDash >= _timerBetweenDash)
         {
             _timerBetweenDash = 0;
@@ -478,7 +478,7 @@ public void SmallMovementAttack()
 
     public void ResetSmallMovement()
     {
-        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimeAttack;
+        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimePlayer;
         if (_smallMovementFloat > 1)
         {
             _smallMovementFloat = 0;
@@ -497,7 +497,7 @@ public void SmallMovementAttack()
         {
             attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            animatorPlayer.speed = speedRalentiEnnemy;
+            animatorPlayer.speed = m_speedRalentiPlayer;
         }
 
         if (attackType == 2 &&
@@ -514,7 +514,7 @@ public void SmallMovementAttack()
     {
         if (isDash)
         {
-            _timerDash += CustomDeltaTimeAttack;
+            _timerDash += CustomDeltaTimePlayer;
             if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
@@ -526,7 +526,7 @@ public void SmallMovementAttack()
 
         if (isAttacking)
         {
-            _timerAttack += CustomDeltaTimeAttack;
+            _timerAttack += CustomDeltaTimePlayer;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
@@ -643,7 +643,7 @@ public void SmallMovementAttack()
         if (ultDuration > 10)
         {
             ultDuration = (ultDuration / 2) / 10;
-            _timerUltimate += CustomDeltaTimeAttack;
+            _timerUltimate += CustomDeltaTimePlayer;
             
             lookAxis = Vector2.zero;
             movementInput = Vector2.zero;
@@ -660,7 +660,7 @@ public void SmallMovementAttack()
         else
         {
             ultDuration = 0;
-            _timerUltimate += CustomDeltaTimeAttack;
+            _timerUltimate += CustomDeltaTimePlayer;
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
@@ -697,7 +697,7 @@ public void SmallMovementAttack()
 
     public void ResetPosCam()
     {
-        _timerCamera += CustomDeltaTimeAttack;
+        _timerCamera += CustomDeltaTimePlayer;
         if (_timerCamera >= _timerBeforeResetPosCamera)
         {
             _timerCamera = 0;
@@ -738,7 +738,7 @@ public void SmallMovementAttack()
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         speed *= speedModification;
-        _timerDodgeEffect += CustomDeltaTimeAttack;
+        _timerDodgeEffect += CustomDeltaTimePlayer;
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
