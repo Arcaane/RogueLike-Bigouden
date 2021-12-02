@@ -41,7 +41,7 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Vitesse du joueur")]
     //Vitesse de déplacement du joueur.
-    public float speed = 5;
+    public float moveSpeed = 5;
 
 
     [Header("Etat du dash")]
@@ -101,6 +101,7 @@ public class PlayerAttribut : MonoBehaviour
 
     //Projectile Attack Position
     [SerializeField] private GameObject AttackProjectile;
+    [SerializeField] public GameObject launchProjectileFeedback;
     [SerializeField] private float speedProjectile;
     [SerializeField] private float damageProjectile;
     [SerializeField] public float delayProjectile;
@@ -113,6 +114,7 @@ public class PlayerAttribut : MonoBehaviour
     //Projectile is launch
     [SerializeField] public bool launchProjectile;
     [SerializeField] public bool canLaunchProjectile;
+    
 
 
     [Space(10)]
@@ -171,7 +173,6 @@ public class PlayerAttribut : MonoBehaviour
     //float
     private float _durationResetDash;
     private float _smallMovementFloat;
-
 
     //int
     private int _dashCount;
@@ -256,8 +257,27 @@ public class PlayerAttribut : MonoBehaviour
         {
             ResetLaunchProjectile();
         }
+
+        if (canLaunchProjectile && !launchProjectile)
+        {
+            shootPointPos = (_lastPosition);
+            shootPointPos.Normalize();
+            float angle = Mathf.Atan2(shootPointPos.y, shootPointPos.x) * Mathf.Rad2Deg;
+            launchProjectileFeedback.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        if (launchProjectileFeedback.activeSelf)
+        {
+            moveSpeed = 0.5f;
+        }
+        else
+        {
+            moveSpeed = 5f;
+        }
     }
 
+    
+    
     public void FixedUpdate()
     {
         SaveLastPosition();
@@ -279,10 +299,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
-                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimeAttack);
+                transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimeAttack);
             }
             else
-                transform.Translate(_move * speed * CustomDeltaTimeAttack);
+                transform.Translate(_move * moveSpeed * CustomDeltaTimeAttack);
         }
     }
 
@@ -592,26 +612,21 @@ public void SmallMovementAttack()
     #region Projectile
 
     private const float radiusShootPoint = 0.9f;
-
-    public void LaunchProjectile()
-    {
-        launchProjectile = true;
-        damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
-    }
-
+    
     public void MovementProjectile()
     {
+        damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
         launchProjectile = false;
         p_delay = delayProjectile;
         canLaunchProjectile = false;
-
-        shootPointPos = (_lastPosition);
-        shootPointPos.Normalize();
+        
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
             .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
+        
+        launchProjectileFeedback.SetActive(false);
     }
 
     private void ResetLaunchProjectile()
@@ -678,8 +693,6 @@ public void SmallMovementAttack()
     }
 
     #endregion
-
-    
     
     #region CameraController
 
@@ -737,7 +750,7 @@ public void SmallMovementAttack()
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
-        speed *= speedModification;
+        moveSpeed *= speedModification;
         _timerDodgeEffect += CustomDeltaTimeAttack;
         if (_timerAttack >= durationEffect)
         {

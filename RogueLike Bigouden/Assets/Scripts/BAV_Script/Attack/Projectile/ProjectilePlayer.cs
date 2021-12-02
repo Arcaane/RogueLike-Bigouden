@@ -36,7 +36,7 @@ public class ProjectilePlayer : MonoBehaviour
             Debug.Log("Ennemy here");
             ProjectileStop();
             other.GetComponent<MannequinStatsManager>().TakeDamage(damage);
-            other.GetComponent<EnnemyStatsManager>().TakeDamage(damage);
+            //other.GetComponent<EnnemyStatsManager>().TakeDamage(damage); // OUAIS C4EST DU TEST
         }
 
         if (other.gameObject.CompareTag("Border") && !isDeploy)

@@ -37,6 +37,8 @@ public class PlayerInput_Final : MonoBehaviour
     //Concerne la valeur d'input de B
     [SerializeField]
     private float buttonBValue;
+    [SerializeField]
+    private float buttonBHoldValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _B_isDash;
@@ -188,7 +190,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_A_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
 
             Debug.Log("Button A performed");
@@ -208,38 +210,55 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        if (buttonB.started)
+        if (playerAttribut.canLaunchProjectile)
         {
-            //Debug.Log("Button B Started");
-        }
-
-        if (buttonB.performed)
-        {
-            if (_B_isDash)
+            if (buttonB.started)
             {
-                playerAttribut.Dash();
+                //Debug.Log("Button B Started");
+                playerAttribut.launchProjectileFeedback.SetActive(true);
             }
 
-            if (_B_isAttack)
+            if (buttonB.performed)
             {
-                playerAttribut.AttackTypeX();
-            }
 
-            if (_B_isProjectile)
-            {
-                playerAttribut.LaunchProjectile();
-            }
+                if (_B_isDash)
+                {
+                    playerAttribut.Dash();
+                }
 
-            playerAttribut.launchProjectile = true;
-            //Debug.Log("Button B Performed");
+                if (_B_isAttack)
+                {
+                    playerAttribut.AttackTypeX();
+                }
+
+                if (_B_isProjectile)
+                {
+                    playerAttribut.launchProjectileFeedback.SetActive(true);
+                
+                    if (buttonBValue >= InputSystem.settings.defaultHoldTime)
+                    {
+                        Debug.Log("Button Held");
+                        playerAttribut.launchProjectile = true;
+                    } 
+                    else
+                    {
+                        if(buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
+                        {
+                            playerAttribut.launchProjectile = false;
+                            Debug.Log("Button tapped");
+                        }
+                    }
+                }
+            }
         }
 
         if (buttonB.canceled)
         {
             //Debug.Log("Button B Canceled");
+            playerAttribut.launchProjectileFeedback.SetActive(false);
         }
     }
-
+    
     /// <summary>
     /// Permet d'appeler l'input du Boutton X
     /// </summary>
@@ -266,7 +285,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_X_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button X Performed");
         }
@@ -303,7 +322,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_Y_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+               // playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button Y Performed");
         }
@@ -340,7 +359,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_LeftTop_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button LeftTopTrigger Performed");
         }
@@ -377,7 +396,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_LeftBottom_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button LeftBottomTrigger Performed");
         }
@@ -414,7 +433,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightTop_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
         }
 
@@ -450,7 +469,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightBottom_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button RightBottomTrigger Performed");
         }
@@ -487,7 +506,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_LeftPress_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
 
             if (_LeftPress_IsUlt)
@@ -529,7 +548,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightPress_isProjectile)
             {
-                playerAttribut.LaunchProjectile();
+                //playerAttribut.LaunchProjectile();
             }
 
             if (_RightPress_IsUlt)
