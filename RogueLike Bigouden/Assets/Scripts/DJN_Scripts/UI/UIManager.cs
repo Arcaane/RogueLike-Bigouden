@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -54,8 +55,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Settings")] 
     public GameObject settingPanel;
-    
-    
+
+    public AudioMixer masterMixer;
+
     [Header("Test Information")] [Range(0, 10)]
     public float currentHealth;
 
@@ -220,7 +222,26 @@ public class UIManager : MonoBehaviour
 
 
     }
-    
+
+    public void SetMasterVolume(float mstLvl)
+    {
+        masterMixer.SetFloat("masterVolume", mstLvl);
+    }
+
+    public void SetMusicVolume(float mscLvl)
+    {
+        masterMixer.SetFloat("musicVolume", mscLvl);
+    }
+
+    public void SetEffectVolume(float vlmLvl)
+    {
+        masterMixer.SetFloat("effectVolume", vlmLvl);
+    }
+
+    public void SetInterfaceVolume(float intLvl)
+    {
+        masterMixer.SetFloat("interfaceVolume", intLvl);
+    }
 
 }
 
