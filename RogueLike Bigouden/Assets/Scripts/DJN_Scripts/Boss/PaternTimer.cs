@@ -6,24 +6,24 @@ using UnityEngine;
 public class PaternTimer : MonoBehaviour
 {
     private BossEventManager _bossEventManager;
-    public float sensibility;
+    [SerializeField] private float sensibility;
     
-    public int loop;
-    public int loopCount;
+    [SerializeField] private int loop;
+    private int loopCount;
     
-    public float timerP1;
-    public float P1Lenght;
+    private float timerP1;
+    private float P1Lenght;
     
     
-    public float globalTimer;
+    private float globalTimer;
     private bool isActive1;
     private bool isActive2;
-    public Timer[] timerPhase1;
+    [SerializeField] private Timer[] timerPhase1;
     
-    public bool phase2;
-    public float timerP2;
-    public float P2Lenght;
-    public Timer[] timerPhase2;
+    private bool phase2;
+    private float timerP2;
+    private float P2Lenght;
+    [SerializeField] private Timer[] timerPhase2;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +36,7 @@ public class PaternTimer : MonoBehaviour
     {
         //setup timers
         globalTimer += 1 * Time.deltaTime;
+        
         if (phase2)
         {
             timerP1 = 0;
@@ -68,7 +69,6 @@ public class PaternTimer : MonoBehaviour
 
         if (globalTimer >= (P1Lenght + P2Lenght) * loop)
         {
-            Debug.Log("this is over bro !");
             Time.timeScale = 0;
         }
         
