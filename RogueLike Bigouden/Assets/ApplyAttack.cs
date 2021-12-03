@@ -32,6 +32,7 @@ public class ApplyAttack : MonoBehaviour
             posTarget = objTrigger.transform.position;
             if (trigger2D.gameObject.name == "Turret")
             {
+                TimeManager.SlowDownGame(1);
                 objTrigger.GetComponent<MannequinStatsManager>().TakeDamage(1);
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
             }

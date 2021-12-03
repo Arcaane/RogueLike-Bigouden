@@ -240,6 +240,7 @@ public class PlayerAttribut : MonoBehaviour
             DetectAttackCamera();
             DashWait();
             Reset();
+            DodgeAbility_T();
         }
 
         if (launchProjectile && canLaunchProjectile)
@@ -466,15 +467,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector2 dir = _lastPosition;
         rb.AddForce(dir * (speed * 100));
     }
-
-/*
-public void SmallMovementAttack()
-{
-    Vector2 dir = _lastPosition;
-    transform.position =
-        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
-    Debug.Log(_smallMovementFloat);
-}*/
+    
 
     public void ResetSmallMovement()
     {
@@ -552,7 +545,7 @@ public void SmallMovementAttack()
             
             if (launchSecondAttack)
             {
-                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
+                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
                 {
                     attackType = 0;
                     isAttacking = false;
@@ -647,7 +640,6 @@ public void SmallMovementAttack()
             
             lookAxis = Vector2.zero;
             movementInput = Vector2.zero;
-            
             
             if (_timerUltimate >= ultDuration)
             {
@@ -744,6 +736,31 @@ public void SmallMovementAttack()
             useDodgeAbility = false;
         }
     }
+    
+    
+    
+    [SerializeField] private float radiusBeforeDash;
+    [SerializeField] List<Transform> target;
+    private Vector3 posPlayer;
+    
+    public void DodgeAbility_T()
+    {
+        foreach (Transform obj in target)
+        {
+            Vector3 objPos = obj.position;
+            float range = Vector2.Distance(transform.position, objPos);
+            if (range <= 0)
+            {
+                range *= -1;
+            }
+            
+            if (range < radiusBeforeDash)
+            {
+                SlowDownGame(3);
+                Debug.Log(range);
+            }
+        }
+    }
 
     private void OnDrawGizmos()
     {
@@ -754,8 +771,18 @@ public void SmallMovementAttack()
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
+        Gizmos.DrawWireSphere(posPlayer, radiusBeforeDash);
     }
 }
+
+/*
+public void SmallMovementAttack()
+{
+    Vector2 dir = _lastPosition;
+    transform.position =
+        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
+    Debug.Log(_smallMovementFloat);
+}*/
 
 /*
 Vector3 CheckPosition(Vector3 direction)

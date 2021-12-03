@@ -6,10 +6,10 @@ using UnityEngine;
 public class TimeManager
 {
     //Speed of the Ennemy
-    public const float m_speedRalentiEnnemy = 0.4f;
+    public static float m_speedRalentiEnnemy = 0.4f;
 
     //Speed of the Projectile
-    public const float m_speedRalentiProj = 0.5f;
+    public static float m_speedRalentiProj = 0.5f;
 
     //Speed of the Projectile
     public const float m_speedRalentiPlayer = 0.8f;
@@ -38,7 +38,6 @@ public class TimeManager
             : Time.deltaTime; // is ralenti => delta Time * speedRalentiPlayer ( on ralenti la speed * 0.3f sinon full speed )
 
 
-    
     /// <summary>
     /// Attack = 0
     /// Hit = 1
@@ -54,22 +53,27 @@ public class TimeManager
         {
             //Attack
             case 0:
+                Debug.Log(isRalenti);
                 DurationRalenti = 0.2f;
                 break;
             //Hit
             case 1:
+                Debug.Log(isRalenti);
                 DurationRalenti = 0.05f;
                 break;
             //Hurt
             case 2:
+                Debug.Log(isRalenti);
                 DurationRalenti = 0.4f;
                 break;
             //Dodge
             case 3:
-                DurationRalenti = 2f;
+                Debug.Log(isRalenti);
+                DurationRalenti = 4f;
                 break;
             //Spawn
             case 4:
+                Debug.Log(timeRalenti);
                 DurationRalenti = 0.25f;
                 break;
         }
