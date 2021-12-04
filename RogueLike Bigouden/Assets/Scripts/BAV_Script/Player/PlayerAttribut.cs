@@ -6,6 +6,7 @@ using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Collections;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine.InputSystem;
 using static TimeManager;
@@ -37,6 +38,12 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
+
+    [Header("Bounce Collider")] 
+    [SerializeField] private float _bounceCount;
+    [SerializeField] private float bounceForce;
+    [SerializeField] private bool isBounce;
+    [SerializeField] private Vector3 lastVelocity;
 
 
     [Header("Vitesse du joueur")]
@@ -257,6 +264,9 @@ public class PlayerAttribut : MonoBehaviour
         {
             ResetLaunchProjectile();
         }
+
+        //Stock l'ancienne Velocity
+        lastVelocity = rb.velocity;
     }
 
     public void FixedUpdate()
@@ -467,7 +477,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector2 dir = _lastPosition;
         rb.AddForce(dir * (speed * 100));
     }
-    
+
 
     public void ResetSmallMovement()
     {
@@ -496,11 +506,11 @@ public class PlayerAttribut : MonoBehaviour
         if (attackType == 2 &&
             _timerAttack > _playerStatsManager.firstAttackReset.x &&
             _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
-            {
-                attackType = 2;
-                launchFirstAttack = false;
-                launchSecondAttack = true;
-            }
+        {
+            attackType = 2;
+            launchFirstAttack = false;
+            launchSecondAttack = true;
+        }
     }
 
     public void Reset()
@@ -542,7 +552,7 @@ public class PlayerAttribut : MonoBehaviour
                 attackPath.progress = 0f;
                 _timerAttack = 0f;
             }
-            
+
             if (launchSecondAttack)
             {
                 if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
@@ -603,7 +613,8 @@ public class PlayerAttribut : MonoBehaviour
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
-            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, damageProjectile); // Direction puis Speed des balles
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2,
+                damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
     }
 
@@ -622,6 +633,7 @@ public class PlayerAttribut : MonoBehaviour
     #endregion
 
     #region Ultimate
+
     //Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
@@ -637,10 +649,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += CustomDeltaTimePlayer;
-            
+
             lookAxis = Vector2.zero;
             movementInput = Vector2.zero;
-            
+
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
@@ -666,13 +678,11 @@ public class PlayerAttribut : MonoBehaviour
     //Capacity bar of the Ultimate.
     public void UltimateBar()
     {
-        
     }
 
     #endregion
 
-    
-    
+
     #region CameraController
 
     public void DetectAttackCamera()
@@ -736,13 +746,38 @@ public class PlayerAttribut : MonoBehaviour
             useDodgeAbility = false;
         }
     }
-    
-    
-    
+
+    //Bounce Without Physics Material;
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (_bounceCount > 0 && other.gameObject.CompareTag("Sofa"))
+        {
+            Debug.Log(_bounceCount);
+
+            _bounceCount--;
+            float speed = lastVelocity.magnitude * bounceForce;
+            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
+            rb.velocity = direction * Mathf.Max(speed, 0f);
+            
+            //For Projectile Only.
+            /*
+            float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            */
+
+            isBounce = true;
+        }
+        else
+        {
+            isBounce = false;
+        }
+    }
+
+
     [SerializeField] private float radiusBeforeDash;
     [SerializeField] List<Transform> target;
     private Vector3 posPlayer;
-    
+
     public void DodgeAbility_T()
     {
         foreach (Transform obj in target)
@@ -753,7 +788,7 @@ public class PlayerAttribut : MonoBehaviour
             {
                 range *= -1;
             }
-            
+
             if (range < radiusBeforeDash)
             {
                 SlowDownGame(3);
