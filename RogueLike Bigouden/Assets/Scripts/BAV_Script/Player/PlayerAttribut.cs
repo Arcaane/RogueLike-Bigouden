@@ -39,8 +39,9 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
 
-    [Header("Bounce Collider")] 
-    [SerializeField] private float _bounceCount;
+    [Header("Bounce Collider")] [SerializeField]
+    private float _bounceCount;
+
     [SerializeField] private float bounceForce;
     [SerializeField] private bool isBounce;
     [SerializeField] private Vector3 lastVelocity;
@@ -121,7 +122,7 @@ public class PlayerAttribut : MonoBehaviour
     //Projectile is launch
     [SerializeField] public bool launchProjectile;
     [SerializeField] public bool canLaunchProjectile;
-    
+
 
 
     [Space(10)]
@@ -266,7 +267,6 @@ public class PlayerAttribut : MonoBehaviour
             ResetLaunchProjectile();
         }
 
-<<<<<<< HEAD
         if (canLaunchProjectile && !launchProjectile)
         {
             shootPointPos = (_lastPosition);
@@ -283,14 +283,13 @@ public class PlayerAttribut : MonoBehaviour
         {
             moveSpeed = 5f;
         }
-=======
+
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
->>>>>>> BAV_1_12_SlowMo
     }
 
-    
-    
+
+
     public void FixedUpdate()
     {
         SaveLastPosition();
@@ -312,18 +311,11 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
-<<<<<<< HEAD
-                transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimeAttack);
+                transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * moveSpeed * CustomDeltaTimeAttack);
-=======
-                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimePlayer);
-            }
-            else
-                transform.Translate(_move * speed * CustomDeltaTimePlayer);
->>>>>>> BAV_1_12_SlowMo
-        }
+                transform.Translate(_move * moveSpeed * CustomDeltaTimePlayer);
+    }
     }
 
     #region AnimatorProcess
@@ -672,14 +664,8 @@ public class PlayerAttribut : MonoBehaviour
         if (ultDuration > 10)
         {
             ultDuration = (ultDuration / 2) / 10;
-<<<<<<< HEAD
-            _timerUltimate += CustomDeltaTimeAttack;
-            
-=======
             _timerUltimate += CustomDeltaTimePlayer;
-
-            lookAxis = Vector2.zero;
->>>>>>> BAV_1_12_SlowMo
+            
             movementInput = Vector2.zero;
 
             if (_timerUltimate >= ultDuration)
@@ -710,12 +696,6 @@ public class PlayerAttribut : MonoBehaviour
     }
 
     #endregion
-<<<<<<< HEAD
-    
-=======
-
-
->>>>>>> BAV_1_12_SlowMo
     #region CameraController
 
     public void DetectAttackCamera()
@@ -772,13 +752,8 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
-<<<<<<< HEAD
         moveSpeed *= speedModification;
-        _timerDodgeEffect += CustomDeltaTimeAttack;
-=======
-        speed *= speedModification;
         _timerDodgeEffect += CustomDeltaTimePlayer;
->>>>>>> BAV_1_12_SlowMo
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
