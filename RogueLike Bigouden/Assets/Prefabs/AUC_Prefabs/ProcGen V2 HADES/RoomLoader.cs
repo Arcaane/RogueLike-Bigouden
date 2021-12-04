@@ -31,7 +31,6 @@ public class RoomLoader : MonoBehaviour
         }
         else
         {
-            numberOfEnnemies = 0;
             Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnnemy);
             foreach (var ctx in ennemyInRoom)
             {
@@ -47,8 +46,12 @@ public class RoomLoader : MonoBehaviour
                     numberOfEnnemies--;
                 }
             }
-            
-            stopCheckEnemies = true;
+
+            if (enemyList.Count == 0)
+            {
+                stopCheckEnemies = true;
+                _waveManager.SetActive(true);
+            }
         }
     }
 
