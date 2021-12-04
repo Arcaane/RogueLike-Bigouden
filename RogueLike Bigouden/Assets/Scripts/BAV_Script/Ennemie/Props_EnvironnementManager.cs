@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Cinemachine;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Props_EnvironnementManager : MonoBehaviour
@@ -22,65 +23,54 @@ public class Props_EnvironnementManager : MonoBehaviour
         get => propsData.damageSO;
         set => propsData.damageSO = damageSO;
     }
-    
+
     private int counterDamageForLaunchAnimSO
     {
         get => propsData.counterDamageForLaunchAnimSO;
         set => propsData.counterDamageForLaunchAnimSO = counterDamageForLaunchAnimSO;
     }
-    
+
     private float timeBeforeLaunchAnimationSO
     {
         get => propsData.timeBeforeLaunchAnimationSO;
         set => propsData.timeBeforeLaunchAnimationSO = timeBeforeLaunchAnimationSO;
     }
-    
+
     private float animationSpeedSO
     {
         get => propsData.animationSpeedSO;
         set => propsData.animationSpeedSO = animationSpeedSO;
     }
-    
+
     private bool isDestructibleSO
     {
         get => propsData.isDestructibleSO;
         set => propsData.isDestructibleSO = isDestructibleSO;
     }
-    
+
     private bool isDamageSO
     {
         get => propsData.isDamageSO;
         set => propsData.isDamageSO = isDamageSO;
     }
-    
+
     private bool isDestructSO
     {
         get => propsData.isDestructSO;
         set => propsData.isDestructSO = isDestructSO;
     }
-    
+
     private bool isTriggerSO
     {
         get => propsData.isTriggerSO;
         set => propsData.isTriggerSO = isTriggerSO;
     }
-    
-    private SpriteRenderer spritePropsSO
+
+    private Sprite spritePropsSO
     {
         get => propsData.spritePropsSO;
         set => propsData.spritePropsSO = spritePropsSO;
     }
-    private Animator animatorPropsSO
-    {
-        get => propsData.animatorPropsSO;
-        set => propsData.animatorPropsSO = animatorPropsSO;
-    }
-    private List<Collider2D> propsColliderSO
-    {
-        get => propsData.propsColliderSO;
-        set => propsData.spritePropsSO = spritePropsSO;
-    }
-
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -98,8 +88,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     public bool isTrigger; //Le Collider est-il trigger ?
 
     //Common Animation.
-    public SpriteRenderer spriteProps;
-    public Animator animatorProps;
+    public Sprite spriteProps;
     public List<Collider2D> propsCollider;
 
     //private 
@@ -107,6 +96,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     private Color notHurtColor = Color.white;
     [SerializeField] bool hurt = false;
     [SerializeField] private float counterBeforeReset;
+    private SpriteRenderer spriteRenderer;
 
     #endregion
 
@@ -123,8 +113,8 @@ public class Props_EnvironnementManager : MonoBehaviour
         isDestruct = isDestructSO;
         isTrigger = isTriggerSO;
         spriteProps = spritePropsSO;
-        animatorProps = animatorPropsSO;
-        propsCollider = propsColliderSO;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = spriteProps;
     }
 
     #region Ennemy Damage & Heal Gestion
@@ -141,7 +131,7 @@ public class Props_EnvironnementManager : MonoBehaviour
             Destroy(gameObject, 3f);
         }
     }
-    
+
     #endregion
 
     public void Update()
