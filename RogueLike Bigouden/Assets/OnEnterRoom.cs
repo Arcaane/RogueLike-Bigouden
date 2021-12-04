@@ -10,12 +10,5 @@ public class OnEnterRoom : MonoBehaviour
     void Start()
     {
         GameObject.Find("Player 0").transform.position = spawnPoint.transform.position;
-        //GameObject.Find("Player 1").transform.position = spawnPoint.transform.position;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

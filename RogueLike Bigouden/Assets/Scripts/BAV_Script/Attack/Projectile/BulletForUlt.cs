@@ -22,7 +22,7 @@ public class BulletForUlt : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(moveDirection * moveSpeed * TimeManager.CustomDeltaTimeAttack);
+        transform.Translate(moveDirection * moveSpeed * TimeManager.CustomDeltaTimeEnnemy);
     }
 
     public void SetMoveDirection(Vector2 dir)

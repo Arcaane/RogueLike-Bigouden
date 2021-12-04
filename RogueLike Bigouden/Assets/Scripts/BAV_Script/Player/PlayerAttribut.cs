@@ -660,10 +660,8 @@ public void SmallMovementAttack()
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += CustomDeltaTimeAttack;
             
-            lookAxis = Vector2.zero;
             movementInput = Vector2.zero;
-            
-            
+
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;

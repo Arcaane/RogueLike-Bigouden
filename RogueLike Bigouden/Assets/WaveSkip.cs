@@ -24,5 +24,5 @@ public class WaveSkip : MonoBehaviour
             
         } 
         Debug.Log(i);
-    }
+    } 
 }

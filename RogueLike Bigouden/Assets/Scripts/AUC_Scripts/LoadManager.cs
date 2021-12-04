@@ -286,9 +286,9 @@ public class LoadManager : MonoBehaviour
          y = sValue + mValue; 
          z = y + lValue + 1;
          
-         Debug.Log("X : " + x);
-         Debug.Log("Y : " + y);
-         Debug.Log("Z : " + z);
+         //Debug.Log("X : " + x);
+         //Debug.Log("Y : " + y);
+         //Debug.Log("Z : " + z);
          
          var rand = Random.Range(0, z);
          Debug.Log(rand);

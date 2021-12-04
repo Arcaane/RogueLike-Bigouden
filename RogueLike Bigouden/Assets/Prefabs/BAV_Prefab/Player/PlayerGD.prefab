@@ -1,5 +1,107 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1949162064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949162065}
+  - component: {fileID: 1949162066}
+  - component: {fileID: 1949162067}
+  m_Layer: 5
+  m_Name: LaunchAnim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1949162065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949162064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 643625228959303877}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1949162066
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949162064}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: -3174452257375794803, guid: 2df4537088366e245bd292ed326a2821, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.2, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!95 &1949162067
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949162064}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60de85b40972d73459cef51c7368704b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2921445727400001823
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,6 +141,7 @@ Transform:
   - {fileID: 1948324323462510749}
   - {fileID: 4961840167881721495}
   - {fileID: 6651101308080350034}
+  - {fileID: 1949162065}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -301,6 +404,7 @@ MonoBehaviour:
   _A_isAttack: 0
   _A_isProjectile: 0
   buttonBValue: 0
+  buttonBHoldValue: 0
   _B_isDash: 0
   _B_isAttack: 0
   _B_isProjectile: 1
@@ -362,7 +466,7 @@ MonoBehaviour:
   _timerCamera: 0
   rb: {fileID: 3476714759994905525}
   useVibration: 0
-  speed: 4
+  moveSpeed: 5
   useRBDash: 1
   dashSpeedRB: 8
   _dashSpeed: 50
@@ -385,6 +489,7 @@ MonoBehaviour:
   launchSecondAttack: 0
   launchAOEAttack: 0
   AttackProjectile: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
+  launchProjectileFeedback: {fileID: 1949162064}
   speedProjectile: 1
   damageProjectile: 0
   delayProjectile: 7
@@ -442,6 +547,9 @@ MonoBehaviour:
   damageX: 0
   damageY: 0
   damageProjectile: 0
+  ultPointToAddPerHit: 0
+  ultPointToAddPerKill: 0
+  damageUlt: 0
   movementSpeed: 0
   attackRangeX: 0
   attackCdX: 0
@@ -852,13 +960,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPattern: 0
-  bulletsAmount: 500
+  bulletsAmount: 5
   notEnoughBulletsInPool: 0.1
   notEnoughBulletsInPoolRandom: {x: 0.1, y: 0.2}
   numberOfSpline: 1
   angle: 1
   speedAngle: 10
-  limitAngle: {x: -80, y: 80}
+  limitAngle: {x: -20, y: 20}
 --- !u!1 &7731385500580573476
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,7 +1057,7 @@ Camera:
   far clip plane: 1000
   field of view: 125
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 4
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1149,7 +1257,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -9802
+  m_InstanceId: -282902
 --- !u!1 &8341808548085941263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1375,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
 --- !u!1 &9218016531949795586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,16 +1430,7 @@ MonoBehaviour:
     - {x: 1, y: 1, z: 0}
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    pointAttack:
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 1, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-  radiusAttack: 0.8
+  radiusAttack: 0.7
   addPoint: 0
 --- !u!114 &1617845058245928534
 MonoBehaviour:
@@ -1351,6 +1450,5 @@ MonoBehaviour:
   isAttacking: 0
   speed: 2
   countAttack: 0
-  mode: 3
-  launchAttack: 0
+  launchFirstAttack: 0
   launchSecondAttack: 0

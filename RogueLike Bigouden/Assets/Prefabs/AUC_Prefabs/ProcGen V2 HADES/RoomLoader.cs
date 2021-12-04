@@ -20,8 +20,7 @@ public class RoomLoader : MonoBehaviour
 
     private void Start()
     {
-        CheckforEnnemies();
-        InvokeRepeating(nameof(CheckforEnnemies), 5, 1.3f);
+        InvokeRepeating(nameof(CheckforEnnemies), Single.MinValue, 1.7f);
     }
     
     private void CheckforEnnemies()
@@ -40,9 +39,17 @@ public class RoomLoader : MonoBehaviour
                 numberOfEnnemies++;
             }
 
+            foreach (var _e in enemyList)
+            {
+                if (_e.GetComponent<EnnemyStatsManager>().lifePoint <= 0)
+                {
+                    enemyList.Remove(_e);
+                    numberOfEnnemies--;
+                }
+            }
+            
             stopCheckEnemies = true;
         }
-        
     }
 
     public void ClearedRoom()

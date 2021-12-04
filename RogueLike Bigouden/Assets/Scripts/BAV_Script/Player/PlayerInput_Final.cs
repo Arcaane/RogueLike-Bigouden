@@ -4,6 +4,7 @@ using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem.UI;
 using static UnityEngine.InputSystem.InputAction;
 using Debug = UnityEngine.Debug;
 
@@ -141,8 +142,8 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.BButton.performed += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
-        controls.Player.Left_Stick_Press.performed += Input_YButton;
-        controls.Player.Right_Stick_Press.performed += Input_YButton;
+        controls.Player.Left_Stick_Press.performed += LeftStickPress;
+        controls.Player.Right_Stick_Press.performed += RightStickPress;
         //Use Trigger----------
         controls.Player.Left_Top_Trigger.performed += LeftTopTrigger;
         controls.Player.Left_Bottom_Trigger.performed += LeftBottomTrigger;
