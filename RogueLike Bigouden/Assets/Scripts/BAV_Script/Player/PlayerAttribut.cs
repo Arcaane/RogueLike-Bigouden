@@ -6,6 +6,7 @@ using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Collections;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine.InputSystem;
 using static TimeManager;
@@ -37,6 +38,12 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
+
+    [Header("Bounce Collider")] 
+    [SerializeField] private float _bounceCount;
+    [SerializeField] private float bounceForce;
+    [SerializeField] private bool isBounce;
+    [SerializeField] private Vector3 lastVelocity;
 
 
     [Header("Vitesse du joueur")]
@@ -241,6 +248,7 @@ public class PlayerAttribut : MonoBehaviour
             DetectAttackCamera();
             DashWait();
             Reset();
+            DodgeAbility_T();
         }
 
         if (launchProjectile && canLaunchProjectile)
@@ -258,6 +266,7 @@ public class PlayerAttribut : MonoBehaviour
             ResetLaunchProjectile();
         }
 
+<<<<<<< HEAD
         if (canLaunchProjectile && !launchProjectile)
         {
             shootPointPos = (_lastPosition);
@@ -274,6 +283,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             moveSpeed = 5f;
         }
+=======
+        //Stock l'ancienne Velocity
+        lastVelocity = rb.velocity;
+>>>>>>> BAV_1_12_SlowMo
     }
 
     
@@ -299,10 +312,17 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
+<<<<<<< HEAD
                 transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimeAttack);
             }
             else
                 transform.Translate(_move * moveSpeed * CustomDeltaTimeAttack);
+=======
+                transform.Translate(_move * speed * (1.3f) * CustomDeltaTimePlayer);
+            }
+            else
+                transform.Translate(_move * speed * CustomDeltaTimePlayer);
+>>>>>>> BAV_1_12_SlowMo
         }
     }
 
@@ -442,7 +462,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _timerBetweenDash += CustomDeltaTimeAttack;
+        _timerBetweenDash += CustomDeltaTimePlayer;
         if (durationDash >= _timerBetweenDash)
         {
             _timerBetweenDash = 0;
@@ -487,18 +507,10 @@ public class PlayerAttribut : MonoBehaviour
         rb.AddForce(dir * (speed * 100));
     }
 
-/*
-public void SmallMovementAttack()
-{
-    Vector2 dir = _lastPosition;
-    transform.position =
-        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
-    Debug.Log(_smallMovementFloat);
-}*/
 
     public void ResetSmallMovement()
     {
-        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimeAttack;
+        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimePlayer;
         if (_smallMovementFloat > 1)
         {
             _smallMovementFloat = 0;
@@ -517,24 +529,24 @@ public void SmallMovementAttack()
         {
             attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            animatorPlayer.speed = speedRalentiEnnemy;
+            animatorPlayer.speed = m_speedRalentiPlayer;
         }
 
         if (attackType == 2 &&
             _timerAttack > _playerStatsManager.firstAttackReset.x &&
             _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
-            {
-                attackType = 2;
-                launchFirstAttack = false;
-                launchSecondAttack = true;
-            }
+        {
+            attackType = 2;
+            launchFirstAttack = false;
+            launchSecondAttack = true;
+        }
     }
 
     public void Reset()
     {
         if (isDash)
         {
-            _timerDash += CustomDeltaTimeAttack;
+            _timerDash += CustomDeltaTimePlayer;
             if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
@@ -546,7 +558,7 @@ public void SmallMovementAttack()
 
         if (isAttacking)
         {
-            _timerAttack += CustomDeltaTimeAttack;
+            _timerAttack += CustomDeltaTimePlayer;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
@@ -569,10 +581,10 @@ public void SmallMovementAttack()
                 attackPath.progress = 0f;
                 _timerAttack = 0f;
             }
-            
+
             if (launchSecondAttack)
             {
-                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.5f))
+                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
                 {
                     attackType = 0;
                     isAttacking = false;
@@ -623,7 +635,8 @@ public void SmallMovementAttack()
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
-            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2, damageProjectile); // Direction puis Speed des balles
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2,
+                damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
         
         launchProjectileFeedback.SetActive(false);
@@ -644,6 +657,7 @@ public void SmallMovementAttack()
     #endregion
 
     #region Ultimate
+
     //Launch the function to activate Ultimate
     public void LaunchUltimate()
     {
@@ -658,8 +672,14 @@ public void SmallMovementAttack()
         if (ultDuration > 10)
         {
             ultDuration = (ultDuration / 2) / 10;
+<<<<<<< HEAD
             _timerUltimate += CustomDeltaTimeAttack;
             
+=======
+            _timerUltimate += CustomDeltaTimePlayer;
+
+            lookAxis = Vector2.zero;
+>>>>>>> BAV_1_12_SlowMo
             movementInput = Vector2.zero;
 
             if (_timerUltimate >= ultDuration)
@@ -673,7 +693,7 @@ public void SmallMovementAttack()
         else
         {
             ultDuration = 0;
-            _timerUltimate += CustomDeltaTimeAttack;
+            _timerUltimate += CustomDeltaTimePlayer;
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
@@ -687,11 +707,15 @@ public void SmallMovementAttack()
     //Capacity bar of the Ultimate.
     public void UltimateBar()
     {
-        
     }
 
     #endregion
+<<<<<<< HEAD
     
+=======
+
+
+>>>>>>> BAV_1_12_SlowMo
     #region CameraController
 
     public void DetectAttackCamera()
@@ -708,7 +732,7 @@ public void SmallMovementAttack()
 
     public void ResetPosCam()
     {
-        _timerCamera += CustomDeltaTimeAttack;
+        _timerCamera += CustomDeltaTimePlayer;
         if (_timerCamera >= _timerBeforeResetPosCamera)
         {
             _timerCamera = 0;
@@ -748,11 +772,66 @@ public void SmallMovementAttack()
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
+<<<<<<< HEAD
         moveSpeed *= speedModification;
         _timerDodgeEffect += CustomDeltaTimeAttack;
+=======
+        speed *= speedModification;
+        _timerDodgeEffect += CustomDeltaTimePlayer;
+>>>>>>> BAV_1_12_SlowMo
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
+        }
+    }
+
+    //Bounce Without Physics Material;
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (_bounceCount > 0 && other.gameObject.CompareTag("Sofa"))
+        {
+            Debug.Log(_bounceCount);
+
+            _bounceCount--;
+            float speed = lastVelocity.magnitude * bounceForce;
+            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
+            rb.velocity = direction * Mathf.Max(speed, 0f);
+            
+            //For Projectile Only.
+            /*
+            float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            */
+
+            isBounce = true;
+        }
+        else
+        {
+            isBounce = false;
+        }
+    }
+
+
+    [SerializeField] private float radiusBeforeDash;
+    [SerializeField] List<Transform> target;
+    private Vector3 posPlayer;
+
+    public void DodgeAbility_T()
+    {
+        foreach (Transform obj in target)
+        {
+            Vector3 objPos = obj.position;
+            float range = Vector2.Distance(transform.position, objPos);
+            if (range <= 0)
+            {
+                range *= -1;
+            }
+
+            if (range < radiusBeforeDash)
+            {
+                SlowDownGame(3);
+                Debug.Log(range);
+            }
         }
     }
 
@@ -765,8 +844,18 @@ public void SmallMovementAttack()
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
+        Gizmos.DrawWireSphere(posPlayer, radiusBeforeDash);
     }
 }
+
+/*
+public void SmallMovementAttack()
+{
+    Vector2 dir = _lastPosition;
+    transform.position =
+        Vector2.Lerp(transform.position, dir + (Vector2) offsetAttackXY.position, _smallMovementFloat);
+    Debug.Log(_smallMovementFloat);
+}*/
 
 /*
 Vector3 CheckPosition(Vector3 direction)

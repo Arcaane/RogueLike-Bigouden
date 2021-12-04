@@ -124,6 +124,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _RightPress_IsUlt;
 
     private float duration = 0.2f;
+    private Vector2 lookValue;
+    private Vector2 lookLocker;
     private int inputPerformed = 0;
 
     private void Awake()
@@ -136,7 +138,7 @@ public class PlayerInput_Final : MonoBehaviour
     {
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
-        
+
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
         controls.Player.BButton.performed += Input_BButton;
@@ -153,7 +155,7 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Move.performed += OnMove;
         controls.Player.Look.performed += OnLook;
     }
-    
+
 
     public void OnEnable()
     {
@@ -580,13 +582,10 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="rightStick"></param>
     public void OnLook(CallbackContext rightStick)
     {
-        if (kbMouse)
-        {
-            _MousePos = _Camera.ScreenToWorldPoint(rightStick.ReadValue<Vector2>());
-            playerAttribut.SetInputVector(_MousePos, true);
-        }
-
-        playerAttribut.SetInputVector(rightStick.ReadValue<Vector2>(), true);
+        lookValue = rightStick.ReadValue<Vector2>();
+        lookLocker = new Vector2(lookValue.x, lookValue.y);
+        _MousePos = _Camera.ScreenToWorldPoint(lookValue);
+        playerAttribut.SetInputVector(kbMouse ? _MousePos : lookLocker, true);
     }
 
     public void Reset()
