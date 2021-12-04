@@ -78,6 +78,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField]
     public float trigger_RightTopValue;
 
+    public bool trigger_RightTopStarted;
+
     //Can be delete for the Final Build
     [SerializeField] private bool _RightTop_isDash;
     [SerializeField] private bool _RightTop_isAttack;
@@ -401,6 +403,11 @@ public class PlayerInput_Final : MonoBehaviour
         if (RightTopTrigger.started)
         {
             //Debug.Log("Button RightTopTrigger Started");
+            trigger_RightTopStarted = true;
+        }
+        else
+        {
+            trigger_RightTopStarted = false;
         }
 
         if (RightTopTrigger.performed)

@@ -10,65 +10,71 @@ public class DialogueManager : MonoBehaviour
     public DialogueSO selectDialogue;
     public GameObject triggerFeedback;
     public int line;
-    private bool isOnDial;
-    private bool dialIsEnded;
+    
+    public Activation activaction;
+    private bool dialActive;
+
+    private bool inputPressed;
+    //Trigger
+    private bool lookForTrigger = false;
+    private bool triggered;
+    
+    //Event
+    private bool lookForEvent = false; 
+    public enum Activation{Trigger, Event}
+
+    private PlayerInput_Final _playerInputFinal;
 
     void Start()
     {
         triggerFeedback.SetActive(false);
-        uiManager = GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<UIManager>();
-        isOnDial = false;
-        dialIsEnded = false;
+        uiManager = FindObjectOfType<UIManager>();
         selectDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
-        Debug.Log("Dialogue selected is " + selectDialogue.name);
     }
 
     private void Update()
     {
-        if (isOnDial)
+        switch (activaction)
         {
-            if (Input.GetKeyDown(KeyCode.KeypadEnter) && !dialIsEnded)
+            case Activation.Trigger:
+                lookForTrigger = true;
+                break;
+            
+            case Activation.Event:
+                lookForEvent = true;
+                break;
+        }
+
+        if (_playerInputFinal)
+        {
+            if (_playerInputFinal.trigger_RightTopStarted)
             {
+                uiManager.dialogueText.text = selectDialogue.dialogueLine[line];
                 line++;
-                uiManager.dialogueText.text = selectDialogue.dialogueLine[line];
             }
         }
-        
-        if (line == selectDialogue.dialogueLine.Length - 1 && Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            dialIsEnded = true;
-        }
+       
     }
-    
 
-    private void OnTriggerStay2D(Collider2D other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.GetComponent<PlayerStatsManager>() && lookForTrigger)
         {
-            if(triggerFeedback)
-                triggerFeedback.SetActive(true);
-
-            if (Input.GetKey(KeyCode.KeypadEnter))
-            {
-                uiManager.dialogueBox.SetActive(true);
-                isOnDial = true;
-                uiManager.dialogueText.text = selectDialogue.dialogueLine[line];
-            }
+            _playerInputFinal = other.GetComponent<PlayerInput_Final>();
+            selectDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
+            triggerFeedback.SetActive(true);
+            triggered = true;
         }
-             
     }
-    
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        triggerFeedback.SetActive(false);
-        uiManager.dialogueBox.SetActive(false);
-        line = 0;
-        dialIsEnded = false;
-        isOnDial = false;
-        
-        selectDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
-        Debug.Log("Dialogue selected is " + selectDialogue.name);
+        if (other.GetComponent<PlayerStatsManager>())
+        {
+            triggerFeedback.SetActive(true);
+            triggered = false;
+            line = 0;
+        }
     }
-    
 }
