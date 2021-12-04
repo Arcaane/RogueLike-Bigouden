@@ -25,12 +25,12 @@ public class ApplyAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D trigger2D)
     {
+        GameObject objTrigger = trigger2D.gameObject;
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
         {
             isDetect++;
-            GameObject objTrigger = trigger2D.gameObject;
             posTarget = objTrigger.transform.position;
-            if (trigger2D.gameObject.name == "Turret")
+            if (objTrigger.name == "Turret")
             {
                 TimeManager.SlowDownGame(1);
                 objTrigger.GetComponent<MannequinStatsManager>().TakeDamage(1);
@@ -43,6 +43,12 @@ public class ApplyAttack : MonoBehaviour
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
+        }
+
+        if (objTrigger.CompareTag("Beam"))
+        {
+            //objTrigger.GetComponent<Props_EnvironnementManager>().TakeDamage(1);
+            Debug.Log("Ennemy Damaged" + objTrigger.name);
         }
     }
 

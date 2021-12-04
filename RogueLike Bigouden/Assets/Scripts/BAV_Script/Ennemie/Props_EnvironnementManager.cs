@@ -113,16 +113,24 @@ public class Props_EnvironnementManager : MonoBehaviour
         isDestruct = isDestructSO;
         isTrigger = isTriggerSO;
         spriteProps = spritePropsSO;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = spriteProps;
     }
 
     #region Ennemy Damage & Heal Gestion
 
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
-    public void TakeDamage(int damage, Animator animatorProps)
+    public void TakeDamagePropsDestruction(int damage)
     {
-        PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+        lifePoint -= damage;
+        hurt = true;
+        if (lifePoint <= 0)
+        {
+            //animatorProps.SetBool("Destroy", destroyAnim);
+            Destroy(gameObject, 3f);
+        }
+    }
+    
+    public void TakeDamageLaunchAnim(int damage, Animator animPlay)
+    {
         lifePoint -= damage;
         hurt = true;
         if (lifePoint <= 0)
@@ -147,7 +155,6 @@ public class Props_EnvironnementManager : MonoBehaviour
     {
         if (hurt)
         {
-            //TimeManager.SlowDownGame();
             gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
         }
         else
