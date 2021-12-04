@@ -442,6 +442,9 @@ MonoBehaviour:
   damageX: 0
   damageY: 0
   damageProjectile: 0
+  ultPointToAddPerHit: 0
+  ultPointToAddPerKill: 0
+  damageUlt: 0
   movementSpeed: 0
   attackRangeX: 0
   attackCdX: 0
@@ -461,6 +464,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  getHurt: 0
 --- !u!114 &457062642336389923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,7 +1153,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -9802
+  m_InstanceId: -16474
 --- !u!1 &8341808548085941263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,6 +1355,5 @@ MonoBehaviour:
   isAttacking: 0
   speed: 2
   countAttack: 0
-  mode: 3
-  launchAttack: 0
+  launchFirstAttack: 0
   launchSecondAttack: 0

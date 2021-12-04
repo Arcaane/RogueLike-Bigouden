@@ -52,11 +52,18 @@ public class Beam : MonoBehaviour
             if (hit.collider.GetComponent<PlayerStatsManager>())
             {
                 _playerStatsManager = hit.collider.GetComponent<PlayerStatsManager>();
+
+                if (!pHit)
+                {
+                    _playerStatsManager.TakeDamage(damage);
+                    pHit = true;
+                }
             }
         }
         else
         {
             line.SetPosition(1, ghostTarget.position);
+            pHit = false;
         }
         
         StartCoroutine(BeamMoving());

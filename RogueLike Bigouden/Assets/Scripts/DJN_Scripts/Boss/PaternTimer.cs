@@ -11,18 +11,18 @@ public class PaternTimer : MonoBehaviour
     [SerializeField] private int loop;
     private int loopCount;
     
-    private float timerP1;
-    private float P1Lenght;
+    [SerializeField]private float timerP1;
+    [SerializeField] private float P1Lenght;
     
     
-    private float globalTimer;
+    [SerializeField]private float globalTimer;
     private bool isActive1;
     private bool isActive2;
     [SerializeField] private Timer[] timerPhase1;
     
     private bool phase2;
-    private float timerP2;
-    private float P2Lenght;
+    [SerializeField] private float timerP2;
+    [SerializeField] private float P2Lenght;
     [SerializeField] private Timer[] timerPhase2;
     // Start is called before the first frame update
     void Start()

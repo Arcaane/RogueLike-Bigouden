@@ -12,6 +12,7 @@ public class FlameStrike : MonoBehaviour
   [SerializeField] private int damage;
   private bool playerOnIt;
   private GameObject player;
+  private bool alreadyLoad;
   
   private void Awake()
   {
@@ -22,8 +23,12 @@ public class FlameStrike : MonoBehaviour
 
   public void LoadTint()
   {
-    _animator.SetBool("activeTint", true);
-    _animator.SetBool("disactive", false);
+    if (!alreadyLoad)
+    {
+      _animator.SetBool("activeTint", true);
+      _animator.SetBool("disactive", false);
+      alreadyLoad = true;
+    }
   }
 
   public void ActiveBurst()
@@ -36,6 +41,7 @@ public class FlameStrike : MonoBehaviour
   {
     _animator.SetBool("disactive", true);
     _animator.SetBool("activeBurst", false);
+    alreadyLoad = false;
   }
 
 
@@ -45,8 +51,6 @@ public class FlameStrike : MonoBehaviour
     {
       playerOnIt = true;
       player = other.gameObject;
-      
-      Debug.Log("There is player");
     }
     else
     {
