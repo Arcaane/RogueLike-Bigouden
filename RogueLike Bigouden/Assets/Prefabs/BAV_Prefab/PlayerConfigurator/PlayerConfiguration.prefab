@@ -59,12 +59,68 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 822c120e-aa06-476b-8b24-3f46fb2e2cc6
-    m_ActionName: PlayerMovement/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+    m_ActionId: dfa4b4fe-95c9-4a12-8566-ab11730b7f90
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/q,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 4eb5ce68-1e6e-4023-af30-4f54a99c111b
-    m_ActionName: PlayerMovement/Select[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth]
+    m_ActionId: 26fd18b4-82af-40a1-9773-f7793181f4c3
+    m_ActionName: Player/Look[/XInputControllerWindows/rightStick,/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 72633990-087c-4c5c-9117-e9a44f392cbb
+    m_ActionName: Player/XButton[/XInputControllerWindows/buttonWest,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 58ca634e-3f56-456f-a8b3-da0320a8f40c
+    m_ActionName: Player/YButton[/XInputControllerWindows/buttonNorth,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9821e560-b080-4584-8264-ce58fc5bf2a4
+    m_ActionName: Player/AButton[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4d538565-6a14-419f-905f-decf7717c67f
+    m_ActionName: Player/BButton[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 56947256-5838-4b17-a2bd-d16c82118be4
+    m_ActionName: Player/Select[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43040b97-782b-4436-88b0-18e185e4a340
+    m_ActionName: Player/Left_Top_Trigger[/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f979e8c2-b712-4c1b-96b0-a967f205247f
+    m_ActionName: Player/Left_Bottom_Trigger[/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bbafb034-bb52-4c6c-ba0d-9d78c4059419
+    m_ActionName: Player/Right_Top_Trigger[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a108a7c0-857d-4e8f-8f60-373596350010
+    m_ActionName: Player/Right_Bottom_Trigger[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a33f2d1-e242-4996-912c-151150ceeaf3
+    m_ActionName: Player/Left_Stick_Press[/XInputControllerWindows/leftStickPress]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cc363f83-64ca-4311-9a1b-8f43b905e88c
+    m_ActionName: Player/Right_Stick_Press[/XInputControllerWindows/rightStickPress]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 836a28a0-ab9a-43f2-bb9c-06c686f3170e
+    m_ActionName: UI/Move[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b80f2a1-4912-44f9-a18c-8a1e2240d250
+    m_ActionName: UI/Selected[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5b4492b5-fe60-40ff-bbac-e0637f0daeda
+    m_ActionName: UI/PauseGame[/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: New control scheme
   m_DefaultActionMap: Player

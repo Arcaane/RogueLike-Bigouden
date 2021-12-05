@@ -46,8 +46,7 @@ public class MoveCircle : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, new Vector3(transform.position.x, 0, transform.position.z - 90f),
-            radius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

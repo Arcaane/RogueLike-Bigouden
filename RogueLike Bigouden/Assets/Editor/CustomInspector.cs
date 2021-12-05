@@ -15,5 +15,4 @@ public class CustomInspector : Editor
             _waveSkip.SkipWave();
         }
     }
-    //public override void 
 }

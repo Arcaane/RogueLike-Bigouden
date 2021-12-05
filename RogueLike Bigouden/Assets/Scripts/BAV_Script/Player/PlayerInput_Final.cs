@@ -125,6 +125,7 @@ public class PlayerInput_Final : MonoBehaviour
 
     private float duration = 0.2f;
     private Vector2 lookValue;
+    private Vector2 moveValue;
     private Vector2 lookLocker;
     private int inputPerformed = 0;
 
@@ -142,8 +143,8 @@ public class PlayerInput_Final : MonoBehaviour
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
         controls.Player.BButton.performed += Input_BButton;
-        controls.Player.BButton.started += Input_BButton;
-        controls.Player.BButton.canceled += Input_BButton;
+        //controls.Player.BButton.started += Input_BButton;
+        //controls.Player.BButton.canceled += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
         controls.Player.Left_Stick_Press.performed += LeftStickPress;
@@ -155,6 +156,7 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
         //Use Stick----------
         controls.Player.Move.performed += OnMove;
+        controls.Player.Move.canceled -= OnMove;
         controls.Player.Look.performed += OnLook;
     }
 
@@ -574,8 +576,18 @@ public class PlayerInput_Final : MonoBehaviour
     /// <param name="leftStick"></param>
     public void OnMove(CallbackContext leftStick)
     {
-        playerAttribut.SetInputVector(leftStick.ReadValue<Vector2>(), false);
-        isMoving = true;
+        moveValue = leftStick.ReadValue<Vector2>();
+        if (leftStick.performed)
+        {
+            Debug.Log(moveValue);
+            playerAttribut.SetInputVector(moveValue, false);
+            isMoving = true;
+        }
+
+        if (leftStick.canceled)
+        {
+            Debug.Log("stopMoving");
+        }
     }
 
     /// <summary>
