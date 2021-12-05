@@ -10,19 +10,15 @@ public class WaveSkip : MonoBehaviour
     public void SkipWave()
     {
         SkipEnemies();
-        waveSpawner.WaveCompleted();
+        //waveSpawner.WaveCompleted();
     }
 
     private void SkipEnemies()
     {
-        int i = 0;
         foreach (var _e in waveSpawner.EnnemiesSpawned)
         {
-            i++;
             Debug.Log(_e.name + " Skipped !");
             _e.GetComponent<EnnemyStatsManager>().TakeDamage(100);
-            
-        } 
-        Debug.Log(i);
+        }
     } 
 }

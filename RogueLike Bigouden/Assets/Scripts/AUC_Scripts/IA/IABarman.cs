@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
+using static TimeManager;
 
 public class IABarman : MonoBehaviour
 {
@@ -103,6 +106,11 @@ public class IABarman : MonoBehaviour
             _isWalk = false;
         }
         else { _isWalk = true; }
+    }
+
+    private void FixedUpdate()
+    {
+        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
     }
 
     private void OnDrawGizmosSelected()

@@ -108,6 +108,11 @@ public class IARunner : MonoBehaviour
         else { _isWalk = true; }
     }
 
+    private void FixedUpdate()
+    {
+        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
+    }
+
     #region PatrollingState
 
     private void Patrolling()
@@ -151,8 +156,8 @@ public class IARunner : MonoBehaviour
         agent.SetDestination(target.position);
         _isWalk = true; // Anim
         _isAttack = false; // Anim
-        var accelaration = (_moveSpeedCharge - _movementSpeed) / 3;
-        agent.speed += accelaration * Time.deltaTime;
+        var acceleration = (_moveSpeedCharge - _movementSpeed) / 3;
+        agent.speed += acceleration * Time.deltaTime;
         
         if(!isSpot)
             SpottedPlayer();
