@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Props", menuName = "ElementLD")]
+[CreateAssetMenu(fileName = "New Props Destructible", menuName = "Props/Props Destructible")]
 public class PropsData : ScriptableObject
 {
     // Common Int
