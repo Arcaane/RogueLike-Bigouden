@@ -29,8 +29,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
 
-    [Header("Component Rigidbody")] 
-    [SerializeField] private Color colorReset;
+    [Header("Component Rigidbody")] [SerializeField]
+    private Color colorReset;
+
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Utiliser le Clavier ?")] [SerializeField]
@@ -53,7 +54,9 @@ public class PlayerAttribut : MonoBehaviour
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
 
     //Can be delete for the Final Build
-    [SerializeField] private bool useRBDash;
+    [SerializeField]
+    private bool useRBDash;
+
     [SerializeField] public float dashSpeedRB = 5;
 
     //float--------------------
@@ -72,8 +75,9 @@ public class PlayerAttribut : MonoBehaviour
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
 
-    [Header("Player Attack X/Y")] 
-    [SerializeField] private SpriteRenderer spriteRendererFrame;
+    [Header("Player Attack X/Y")] [SerializeField]
+    private SpriteRenderer spriteRendererFrame;
+
     [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
@@ -97,8 +101,7 @@ public class PlayerAttribut : MonoBehaviour
     private int isHurt;
     private Vector3 targetPos;
 
-    [Space(10)] 
-    [Header("Player Attack Projectile")]
+    [Space(10)] [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
     private Vector3 shootPointPos;
@@ -120,7 +123,6 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] public bool canLaunchProjectile;
 
 
-
     [Space(10)]
     [Header("Player Ultimate")]
     //float--------------------
@@ -138,7 +140,8 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Dogdge Ability")]
     //float-----------------------------------
-    [SerializeField] private float radiusDodge;
+    [SerializeField]
+    private float radiusDodge;
 
     [SerializeField] private float durationEffect;
     [SerializeField] private float speedModification;
@@ -284,12 +287,12 @@ public class PlayerAttribut : MonoBehaviour
     }
 
 
-
     public void FixedUpdate()
     {
         SaveLastPosition();
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
+
         Animation();
         SmoothJoystickCamera();
         //MoveCameraRightStick();
@@ -310,7 +313,7 @@ public class PlayerAttribut : MonoBehaviour
             }
             else
                 transform.Translate(_move * moveSpeed * _timeManager.CustomDeltaTimePlayer);
-    }
+        }
     }
 
     #region AnimatorProcess
@@ -558,7 +561,7 @@ public class PlayerAttribut : MonoBehaviour
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
                 spriteRendererFrame.material.color = colorReset;
-                spriteRendererFrame.color =colorReset;
+                spriteRendererFrame.color = colorReset;
             }
 
             if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
@@ -613,21 +616,21 @@ public class PlayerAttribut : MonoBehaviour
     #region Projectile
 
     private const float radiusShootPoint = 0.9f;
-    
+
     public void MovementProjectile()
     {
         damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
         launchProjectile = false;
         p_delay = delayProjectile;
         canLaunchProjectile = false;
-        
+
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
             .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2,
                 damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
-        
+
         launchProjectileFeedback.SetActive(false);
     }
 
@@ -662,7 +665,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += _timeManager.CustomDeltaTimePlayer;
-            
+
             movementInput = Vector2.zero;
 
             if (_timerUltimate >= ultDuration)
@@ -693,6 +696,7 @@ public class PlayerAttribut : MonoBehaviour
     }
 
     #endregion
+
     #region CameraController
 
     public void DetectAttackCamera()
@@ -768,7 +772,7 @@ public class PlayerAttribut : MonoBehaviour
             float speed = lastVelocity.magnitude * bounceForce;
             Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
             rb.velocity = direction * Mathf.Max(speed, 0f);
-            
+
             //For Projectile Only.
             /*
             float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
