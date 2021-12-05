@@ -142,6 +142,8 @@ public class PlayerInput_Final : MonoBehaviour
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
         controls.Player.BButton.performed += Input_BButton;
+        controls.Player.BButton.started += Input_BButton;
+        controls.Player.BButton.canceled += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
         controls.Player.Left_Stick_Press.performed += LeftStickPress;

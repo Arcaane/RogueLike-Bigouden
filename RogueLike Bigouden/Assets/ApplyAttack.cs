@@ -16,7 +16,7 @@ public class ApplyAttack : MonoBehaviour
     public float duration = 0.5f;
     [SerializeField] public int isDetect;
     public Vector3 posTarget;
-
+    
     private void Start()
     {
         _projectilePath = _projectilePathHolder.GetComponent<ProjectilePath>();
@@ -30,6 +30,7 @@ public class ApplyAttack : MonoBehaviour
             isDetect++;
             GameObject objTrigger = trigger2D.gameObject;
             posTarget = objTrigger.transform.position;
+            
             if (trigger2D.gameObject.name == "Turret")
             {
                 TimeManager.SlowDownGame(1);
@@ -38,7 +39,7 @@ public class ApplyAttack : MonoBehaviour
             }
             else
             {
-                objTrigger.GetComponent<EnnemyStatsManager>().TakeDamage(1);
+                objTrigger.GetComponent<EnnemyStatsManager>().TakeDamage(10);
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
             }
 

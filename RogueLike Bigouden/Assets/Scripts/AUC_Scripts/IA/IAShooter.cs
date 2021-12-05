@@ -54,18 +54,17 @@ public class IAShooter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        shooterEnnemy = GetComponent<EnnemyStatsManager>();
     }
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         tooClose = 0.82f;
-        _detectZone = shooterEnnemy.detectZone;
-        _attackRange = shooterEnnemy.attackRange;
-        _attackDelay = shooterEnnemy.attackDelay;
-        _timeBeforeAggro = shooterEnnemy.timeBeforeAggro;
-        _movementSpeed = shooterEnnemy.movementSpeed;
+        _detectZone = GetComponent<EnnemyStatsManager>().detectZone;
+        _attackRange = GetComponent<EnnemyStatsManager>().attackRange;
+        _attackDelay = GetComponent<EnnemyStatsManager>().attackDelay;
+        _timeBeforeAggro = GetComponent<EnnemyStatsManager>().timeBeforeAggro;
+        _movementSpeed = GetComponent<EnnemyStatsManager>().movementSpeed;
         isSpot = false;
         
         // Parametres de l'agent
@@ -204,7 +203,7 @@ public class IAShooter : MonoBehaviour
                 shootPointPos.Normalize();
                 yield return new WaitForSeconds(0.2f);
                 GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
-                obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 10f); // Direction puis Speed des balles
+                obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 6f); // Direction puis Speed des balles
             }
 
             yield return new WaitForSeconds(0.05f);

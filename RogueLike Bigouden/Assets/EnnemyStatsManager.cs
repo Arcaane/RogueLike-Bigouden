@@ -165,8 +165,8 @@ public class EnnemyStatsManager : MonoBehaviour
     public float rushDelay;
     public bool isReadyToDash;
     #endregion
-
-    private void Start()
+    
+    private void Awake()
     {
         lifePoint = lifePointSO;
         shieldPoint = shieldPointSO;
@@ -216,7 +216,6 @@ public class EnnemyStatsManager : MonoBehaviour
     private void Death()
     {
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
-         // Play Death Animation
         Destroy(gameObject);
     }
 
