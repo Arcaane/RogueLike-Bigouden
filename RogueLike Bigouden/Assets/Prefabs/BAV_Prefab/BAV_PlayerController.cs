@@ -471,7 +471,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""path"": ""<XInputController>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Right_Stick_Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

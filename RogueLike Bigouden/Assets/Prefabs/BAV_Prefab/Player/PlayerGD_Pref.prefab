@@ -69,8 +69,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1520021615
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: -3174452257375794803, guid: 2df4537088366e245bd292ed326a2821, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -667,7 +667,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 103168
+  m_InstanceId: 57056
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa882ff1df28a5499d36760942e74e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kbMouse: 0
+  kbMouse: 1
   _Camera: {fileID: 2615098121277431213}
   playerAttribut: {fileID: 6216360794947180622}
   isMoving: 0
@@ -912,6 +912,10 @@ MonoBehaviour:
   _timerCamera: 0
   rb: {fileID: 8813504909552388345}
   useVibration: 0
+  _bounceCount: 0
+  bounceForce: 0
+  isBounce: 0
+  lastVelocity: {x: 0, y: 0, z: 0}
   moveSpeed: 5
   useRBDash: 1
   dashSpeedRB: 8
@@ -972,6 +976,8 @@ MonoBehaviour:
   _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
+  radiusBeforeDash: 0
+  target: []
 --- !u!114 &870858298318142803
 MonoBehaviour:
   m_ObjectHideFlags: 0

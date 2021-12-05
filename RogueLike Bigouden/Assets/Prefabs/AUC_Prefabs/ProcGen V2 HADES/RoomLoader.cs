@@ -6,7 +6,6 @@ public class RoomLoader : MonoBehaviour
 {
     // Scene State
     public GameObject[] doors;
-    public int numberOfEnnemies;
     public LayerMask isEnnemy;
     public GameObject _waveManager;
     private bool stopCheckEnemies;
@@ -20,7 +19,7 @@ public class RoomLoader : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(CheckforEnnemies), Single.MinValue, 1.7f);
+        InvokeRepeating(nameof(CheckforEnnemies), 1, 2f);
     }
     
     private void CheckforEnnemies()
@@ -31,11 +30,11 @@ public class RoomLoader : MonoBehaviour
         }
         else
         {
+            enemyList.Clear();
             Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnnemy);
             foreach (var ctx in ennemyInRoom)
             {
                 enemyList.Add(ctx.gameObject);
-                numberOfEnnemies++;
             }
 
             foreach (var _e in enemyList)
@@ -43,7 +42,6 @@ public class RoomLoader : MonoBehaviour
                 if (_e.GetComponent<EnnemyStatsManager>().lifePoint <= 0)
                 {
                     enemyList.Remove(_e);
-                    numberOfEnnemies--;
                 }
             }
 
