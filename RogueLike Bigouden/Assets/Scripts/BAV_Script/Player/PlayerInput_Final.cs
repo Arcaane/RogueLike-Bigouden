@@ -38,8 +38,8 @@ public class PlayerInput_Final : MonoBehaviour
     //Concerne la valeur d'input de B
     [SerializeField]
     private float buttonBValue;
-    [SerializeField]
-    private float buttonBHoldValue;
+
+    [SerializeField] private float buttonBHoldValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _B_isDash;
@@ -140,6 +140,7 @@ public class PlayerInput_Final : MonoBehaviour
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
 
+
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
         controls.Player.BButton.performed += Input_BButton;
@@ -155,9 +156,9 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
         //Use Stick----------
-        controls.Player.Move.performed += OnMove;
-        controls.Player.Move.canceled -= OnMove;
-        controls.Player.Look.performed += OnLook;
+        playerConfig.Input.onActionTriggered += OnMove;
+        //controls.Player.Move.performed += OnMove;
+        //controls.Player.Look.performed += OnLook;
     }
 
 
@@ -227,7 +228,6 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (buttonB.performed)
             {
-
                 if (_B_isDash)
                 {
                     playerAttribut.Dash();
@@ -241,15 +241,15 @@ public class PlayerInput_Final : MonoBehaviour
                 if (_B_isProjectile)
                 {
                     playerAttribut.launchProjectileFeedback.SetActive(true);
-                
+
                     if (buttonBValue >= InputSystem.settings.defaultHoldTime)
                     {
                         Debug.Log("Button Held");
                         playerAttribut.launchProjectile = true;
-                    } 
+                    }
                     else
                     {
-                        if(buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
+                        if (buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
                         {
                             playerAttribut.launchProjectile = false;
                             Debug.Log("Button tapped");
@@ -265,7 +265,7 @@ public class PlayerInput_Final : MonoBehaviour
             playerAttribut.launchProjectileFeedback.SetActive(false);
         }
     }
-    
+
     /// <summary>
     /// Permet d'appeler l'input du Boutton X
     /// </summary>
@@ -329,7 +329,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_Y_isProjectile)
             {
-               // playerAttribut.LaunchProjectile();
+                // playerAttribut.LaunchProjectile();
             }
             //Debug.Log("Button Y Performed");
         }
@@ -577,18 +577,16 @@ public class PlayerInput_Final : MonoBehaviour
     public void OnMove(CallbackContext leftStick)
     {
         moveValue = leftStick.ReadValue<Vector2>();
-        if (leftStick.performed)
-        {
-            Debug.Log(moveValue);
-            playerAttribut.SetInputVector(moveValue, false);
-            isMoving = true;
-        }
-
-        if (leftStick.canceled)
-        {
-            Debug.Log("stopMoving");
-        }
+        //if (leftStick.performed)
+        //{
+        Debug.Log(moveValue);
+        playerAttribut.SetInputVector(moveValue, false);
     }
+
+    //if (leftStick.canceled)
+    //{
+    //}
+
 
     /// <summary>
     /// Permet d'appeler l'input du Stick Droit
