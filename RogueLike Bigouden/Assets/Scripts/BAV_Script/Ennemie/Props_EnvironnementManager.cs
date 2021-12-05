@@ -97,6 +97,12 @@ public class Props_EnvironnementManager : MonoBehaviour
     public Sprite spriteProps;
     public List<Collider2D> propsCollider;
     public Color hitcolor;
+    
+    //Common 
+    public bool needLaunchAnim;
+    public float animCounter;
+    public float reachAnimCounter;
+    public List<Animation> animStockage;
 
     //private 
     private Color resetColor = Color.white;
