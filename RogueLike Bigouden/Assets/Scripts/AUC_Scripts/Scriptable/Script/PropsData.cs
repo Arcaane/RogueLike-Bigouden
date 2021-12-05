@@ -23,4 +23,5 @@ public class PropsData : ScriptableObject
 
     //Common Animation.
     public Sprite spritePropsSO;
+    public Color spriteHitColorSO;
 }

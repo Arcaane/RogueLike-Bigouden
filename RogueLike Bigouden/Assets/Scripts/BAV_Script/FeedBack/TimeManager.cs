@@ -59,7 +59,7 @@ public class TimeManager
             //Hit
             case 1:
                 Debug.Log(isRalenti);
-                DurationRalenti = 0.05f;
+                DurationRalenti = 0.5f;
                 break;
             //Hurt
             case 2:

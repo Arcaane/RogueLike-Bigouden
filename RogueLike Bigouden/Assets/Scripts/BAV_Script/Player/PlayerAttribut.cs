@@ -33,8 +33,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
 
-    [Header("Component Rigidbody")] [SerializeField]
-    private Rigidbody2D rb;
+    [Header("Component Rigidbody")] 
+    [SerializeField] private Color colorReset;
+    [SerializeField] private Rigidbody2D rb;
 
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
@@ -56,9 +57,7 @@ public class PlayerAttribut : MonoBehaviour
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
 
     //Can be delete for the Final Build
-    [SerializeField]
-    private bool useRBDash;
-
+    [SerializeField] private bool useRBDash;
     [SerializeField] public float dashSpeedRB = 5;
 
     //float--------------------
@@ -77,9 +76,9 @@ public class PlayerAttribut : MonoBehaviour
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
 
-    [Header("Player Attack X/Y")] [SerializeField]
-    private SpriteRenderer spriteRendererFrame;
-
+    [Header("Player Attack X/Y")] 
+    [SerializeField] private SpriteRenderer spriteRendererFrame;
+    [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
     [SerializeField] private Transform offsetAttackXY;
@@ -102,7 +101,8 @@ public class PlayerAttribut : MonoBehaviour
     private int isHurt;
     private Vector3 targetPos;
 
-    [Space(10)] [Header("Player Attack Projectile")]
+    [Space(10)] 
+    [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
     private Vector3 shootPointPos;
@@ -142,8 +142,7 @@ public class PlayerAttribut : MonoBehaviour
 
     [Header("Dogdge Ability")]
     //float-----------------------------------
-    [SerializeField]
-    private float radiusDodge;
+    [SerializeField] private float radiusDodge;
 
     [SerializeField] private float durationEffect;
     [SerializeField] private float speedModification;
@@ -467,6 +466,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
+        spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
         velocity += dir.normalized * (dashSpeedRB * dashIntValue);
@@ -489,6 +489,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(Vector2.zero);
         }
 
+        spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
@@ -554,14 +555,14 @@ public class PlayerAttribut : MonoBehaviour
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
-                spriteRendererFrame.material.color = Color.magenta;
-                spriteRendererFrame.color = Color.magenta;
+                spriteRendererFrame.material.color = perfectFrameColor;
+                spriteRendererFrame.color = perfectFrameColor;
             }
 
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
-                spriteRendererFrame.material.color = Color.white;
-                spriteRendererFrame.color = Color.white;
+                spriteRendererFrame.material.color = colorReset;
+                spriteRendererFrame.color =colorReset;
             }
 
             if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)

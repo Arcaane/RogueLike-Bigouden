@@ -71,6 +71,12 @@ public class Props_EnvironnementManager : MonoBehaviour
         get => propsData.spritePropsSO;
         set => propsData.spritePropsSO = spritePropsSO;
     }
+    
+    private Color spriteHitColorSO
+    {
+        get => propsData.spriteHitColorSO;
+        set => propsData.spriteHitColorSO = spriteHitColorSO;
+    }
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -90,11 +96,11 @@ public class Props_EnvironnementManager : MonoBehaviour
     //Common Animation.
     public Sprite spriteProps;
     public List<Collider2D> propsCollider;
+    public Color hitcolor;
 
     //private 
-    private Color hitcolor = Color.red;
-    private Color notHurtColor = Color.white;
-    [SerializeField] bool hurt = false;
+    private Color resetColor = Color.white;
+    public bool hurt = false;
     [SerializeField] private float counterBeforeReset;
     private SpriteRenderer spriteRenderer;
 
@@ -113,9 +119,10 @@ public class Props_EnvironnementManager : MonoBehaviour
         isDestruct = isDestructSO;
         isTrigger = isTriggerSO;
         spriteProps = spritePropsSO;
+        hitcolor = spriteHitColorSO;
     }
 
-    #region Ennemy Damage & Heal Gestion
+    #region Props Damage & Heal Gestion
 
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
     public void TakeDamagePropsDestruction(int damage)
@@ -124,8 +131,17 @@ public class Props_EnvironnementManager : MonoBehaviour
         hurt = true;
         if (lifePoint <= 0)
         {
-            //animatorProps.SetBool("Destroy", destroyAnim);
-            Destroy(gameObject, 3f);
+            //Si le joueur spamm sur le props 
+            if (lifePoint <= -6)
+            {
+                Destroy(gameObject);
+            }
+            //Si le joueur ne spamm pas 
+            else
+            {
+                //animatorProps.SetBool("Destroy", destroyAnim);
+                Destroy(gameObject, 3f);
+            } 
         }
     }
     
@@ -147,6 +163,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         if (hurt)
         {
             SpriteSwap();
+            //Launch jiggle Animation si Props Projecteur.
             CounterBeforeReset();
         }
     }
@@ -159,7 +176,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = resetColor;
         }
     }
 
@@ -168,7 +185,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         counterBeforeReset += Time.deltaTime;
         if (counterBeforeReset > 0.2f)
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = resetColor;
             counterBeforeReset = 0f;
             hurt = false;
         }
