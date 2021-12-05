@@ -764,17 +764,17 @@ public class PlayerAttribut : MonoBehaviour
     //Bounce Without Physics Material;
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (_bounceCount > 0 && other.gameObject.CompareTag("Sofa"))
+        if (other.gameObject.CompareTag("Sofa"))
         {
             Debug.Log(_bounceCount);
 
-            _bounceCount--;
             float speed = lastVelocity.magnitude * bounceForce;
             Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
             rb.velocity = direction * Mathf.Max(speed, 0f);
 
             //For Projectile Only.
             /*
+            _bounceCount--;
             float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
             transform.rotation = Quaternion.Euler(0, 0, angle);
             */

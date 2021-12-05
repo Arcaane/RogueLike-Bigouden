@@ -592,6 +592,8 @@ public class PlayerInput_Final : MonoBehaviour
     /// Permet d'appeler l'input du Stick Droit
     /// </summary>
     /// <param name="rightStick"></param>
+    /// 
+    /*
     public void OnLook(CallbackContext rightStick)
     {
         lookValue = rightStick.ReadValue<Vector2>();
@@ -599,6 +601,7 @@ public class PlayerInput_Final : MonoBehaviour
         _MousePos = _Camera.ScreenToWorldPoint(lookValue);
         playerAttribut.SetInputVector(kbMouse ? _MousePos : lookLocker, true);
     }
+    */
 
     public void Reset()
     {

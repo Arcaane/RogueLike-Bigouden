@@ -75,6 +75,8 @@ public class Props_EnvironnementManager : MonoBehaviour
         get => propsData.spriteHitColorSO;
         set => propsData.spriteHitColorSO = spriteHitColorSO;
     }
+    //Private Increment Value
+    public float incrementFloat;
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -131,6 +133,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
     public void TakeDamagePropsDestruction(int damage)
     {
+        incrementFloat++;
         lifePoint -= damage;
         hurt = true;
         if (lifePoint <= 0)
