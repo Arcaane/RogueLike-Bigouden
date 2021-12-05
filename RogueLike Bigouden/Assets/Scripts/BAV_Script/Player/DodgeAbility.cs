@@ -34,7 +34,7 @@ public class DodgeAbility : MonoBehaviour
             
             if (range < radiusBeforeDash)
             {
-                TimeManager.SlowDownGame(3);
+                //TimeManager._timeManager.SlowDownGame(3);
             }
         }
     }

@@ -310,10 +310,10 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
-                transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimePlayer);
+                transform.Translate(_move * moveSpeed * (1.3f) * _timeManager.CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * moveSpeed * CustomDeltaTimePlayer);
+                transform.Translate(_move * moveSpeed * _timeManager.CustomDeltaTimePlayer);
     }
     }
 
@@ -453,7 +453,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _timerBetweenDash += CustomDeltaTimePlayer;
+        _timerBetweenDash += _timeManager.CustomDeltaTimePlayer;
         if (durationDash >= _timerBetweenDash)
         {
             _timerBetweenDash = 0;
@@ -503,7 +503,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void ResetSmallMovement()
     {
-        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimePlayer;
+        _smallMovementFloat = attackMovingSpeed * _timeManager.CustomDeltaTimePlayer;
         if (_smallMovementFloat > 1)
         {
             _smallMovementFloat = 0;
@@ -522,7 +522,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            animatorPlayer.speed = m_speedRalentiPlayer;
+            animatorPlayer.speed = _timeManager.m_speedRalentiPlayer;
         }
 
         if (attackType == 2 &&
@@ -539,7 +539,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (isDash)
         {
-            _timerDash += CustomDeltaTimePlayer;
+            _timerDash += _timeManager.CustomDeltaTimePlayer;
             if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
@@ -551,7 +551,7 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isAttacking)
         {
-            _timerAttack += CustomDeltaTimePlayer;
+            _timerAttack += _timeManager.CustomDeltaTimePlayer;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
@@ -665,7 +665,7 @@ public class PlayerAttribut : MonoBehaviour
         if (ultDuration > 10)
         {
             ultDuration = (ultDuration / 2) / 10;
-            _timerUltimate += CustomDeltaTimePlayer;
+            _timerUltimate += _timeManager.CustomDeltaTimePlayer;
             
             movementInput = Vector2.zero;
 
@@ -680,7 +680,7 @@ public class PlayerAttribut : MonoBehaviour
         else
         {
             ultDuration = 0;
-            _timerUltimate += CustomDeltaTimePlayer;
+            _timerUltimate += _timeManager.CustomDeltaTimePlayer;
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
@@ -713,7 +713,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void ResetPosCam()
     {
-        _timerCamera += CustomDeltaTimePlayer;
+        _timerCamera += _timeManager.CustomDeltaTimePlayer;
         if (_timerCamera >= _timerBeforeResetPosCamera)
         {
             _timerCamera = 0;
@@ -754,7 +754,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         moveSpeed *= speedModification;
-        _timerDodgeEffect += CustomDeltaTimePlayer;
+        _timerDodgeEffect += _timeManager.CustomDeltaTimePlayer;
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
@@ -805,7 +805,7 @@ public class PlayerAttribut : MonoBehaviour
 
             if (range < radiusBeforeDash)
             {
-                SlowDownGame(3);
+                TimeManager._timeManager.SlowDownGame(3);
                 Debug.Log(range);
             }
         }
