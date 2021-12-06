@@ -466,6 +466,10 @@ MonoBehaviour:
   _timerCamera: 0
   rb: {fileID: 3476714759994905525}
   useVibration: 0
+  _bounceCount: 0
+  bounceForce: 0
+  isBounce: 0
+  lastVelocity: {x: 0, y: 0, z: 0}
   moveSpeed: 5
   useRBDash: 1
   dashSpeedRB: 8
@@ -526,6 +530,8 @@ MonoBehaviour:
   _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
+  radiusBeforeDash: 0
+  target: []
 --- !u!114 &5072725131968030239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +575,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  getHurt: 0
 --- !u!114 &457062642336389923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,6 +1016,7 @@ GameObject:
   - component: {fileID: 7942845891648079585}
   - component: {fileID: 7942845891648079584}
   - component: {fileID: 7942845891648079591}
+  - component: {fileID: 2470945855282653025}
   m_Layer: 0
   m_Name: Pixel Perfect Camera
   m_TagString: Untagged
@@ -1125,6 +1133,14 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!81 &2470945855282653025
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7942845891648079590}
+  m_Enabled: 1
 --- !u!1 &8281340988633433044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1153,7 @@ GameObject:
   - component: {fileID: 4449841256603219750}
   - component: {fileID: 712107752893462505}
   - component: {fileID: 8223871295180231385}
+  - component: {fileID: 149830086404808033}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -1257,7 +1274,19 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -282902
+  m_InstanceId: 41098
+--- !u!114 &149830086404808033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8281340988633433044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11104a0404fb0ee47b9737e255095198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8341808548085941263
 GameObject:
   m_ObjectHideFlags: 0
