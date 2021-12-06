@@ -20,8 +20,7 @@ public class RoomLoader : MonoBehaviour
 
     private void Start()
     {
-        CheckforEnnemies();
-        InvokeRepeating(nameof(CheckforEnnemies), 5, 1.3f);
+        InvokeRepeating(nameof(CheckforEnnemies), Single.MinValue, 1.7f);
     }
     
     private void CheckforEnnemies()
@@ -32,7 +31,6 @@ public class RoomLoader : MonoBehaviour
         }
         else
         {
-            numberOfEnnemies = 0;
             Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnnemy);
             foreach (var ctx in ennemyInRoom)
             {
@@ -40,9 +38,21 @@ public class RoomLoader : MonoBehaviour
                 numberOfEnnemies++;
             }
 
-            stopCheckEnemies = true;
+            foreach (var _e in enemyList)
+            {
+                if (_e.GetComponent<EnnemyStatsManager>().lifePoint <= 0)
+                {
+                    enemyList.Remove(_e);
+                    numberOfEnnemies--;
+                }
+            }
+
+            if (enemyList.Count == 0)
+            {
+                stopCheckEnemies = true;
+                _waveManager.SetActive(true);
+            }
         }
-        
     }
 
     public void ClearedRoom()

@@ -117,7 +117,6 @@ public class WaveSpawner : MonoBehaviour
             }
         }
         
-        
         State = SpawnState.WAINTING;
         yield break;
     }
@@ -130,7 +129,7 @@ public class WaveSpawner : MonoBehaviour
         Transform _esp = Instantiate(_enemy, sp.transform.position, sp.transform.rotation);
         _esp.gameObject.GetComponent<EnnemyStatsManager>().TakeHeal(_wave.bonusLife);
         _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage; 
-        _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield; 
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield;
         _esp.gameObject.GetComponent<EnnemyStatsManager>().movementSpeed += _wave.bonusMovementSpeed; 
         EnnemiesSpawned.Add(_esp.gameObject);
     }
@@ -141,7 +140,7 @@ public class WaveSpawner : MonoBehaviour
         if (searchCountDown <= 0f)
         {
             searchCountDown = 1;
-            if (GameObject.FindGameObjectsWithTag("Ennemy") == null)
+            if (_roomLoader.GetComponent<RoomLoader>().numberOfEnnemies == 0)
             {
                 return false;
             }
