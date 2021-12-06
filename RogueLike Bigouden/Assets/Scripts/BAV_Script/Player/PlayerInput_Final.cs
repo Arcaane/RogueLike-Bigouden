@@ -579,7 +579,6 @@ public class PlayerInput_Final : MonoBehaviour
         moveValue = leftStick.ReadValue<Vector2>();
         //if (leftStick.performed)
         //{
-        Debug.Log(moveValue);
         playerAttribut.SetInputVector(moveValue, false);
     }
 

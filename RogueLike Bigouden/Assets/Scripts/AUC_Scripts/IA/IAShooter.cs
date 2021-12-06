@@ -134,7 +134,6 @@ public class IAShooter : MonoBehaviour
         float x = Random.Range(-3, 4);
         float y = Random.Range(-3, 4);
         pos = new Vector2(x, y);
-        Debug.Log(pos);
         return pos;
     }
     private void GetNewPath()

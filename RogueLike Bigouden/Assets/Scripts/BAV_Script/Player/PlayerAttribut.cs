@@ -199,7 +199,7 @@ public class PlayerAttribut : MonoBehaviour
     private bool _readyToAttackX;
     private bool _readyToAttackY;
     private bool _readyToAttackB;
-    private bool _isDashing;
+    public bool _isDashing;
     private bool _readyToDash;
     private bool _onButter;
 
@@ -224,6 +224,10 @@ public class PlayerAttribut : MonoBehaviour
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
         canLaunchProjectile = true;
+
+        Player_FeedBack.fb_instance.p_attribut = this;
+        Player_FeedBack.fb_instance.p_transform = transform;
+        
     }
 
     private void Start()
