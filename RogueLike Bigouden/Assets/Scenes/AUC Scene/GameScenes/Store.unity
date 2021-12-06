@@ -168,14 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c74725112c179459d2d5bb47ca704d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: f93b6f72-b8dd-49af-8f6e-d16b176adf65
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
   shop: 1
   levelEnding: 0
   roll: 0
@@ -238,7 +230,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -590,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &621613801
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -630,7 +622,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d5747100673140e4284b90eb814364a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -650,7 +642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 621613800}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.221, y: 0.891, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 1876507456}
@@ -709,6 +701,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _waveManager: {fileID: 939050694}
+  enemyList: []
 --- !u!1 &815116776
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,14 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c74725112c179459d2d5bb47ca704d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7c2f0686-858c-4c63-a6d9-54143e9fa4cc
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
   shop: 1
   levelEnding: 0
   roll: 0
@@ -951,7 +936,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1008,14 +993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c74725112c179459d2d5bb47ca704d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1d2e35b8-c85b-48fe-a55c-a7033edc034b
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
   shop: 1
   levelEnding: 0
   roll: 0
@@ -1078,7 +1055,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1197,9 +1174,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fb8b3f03479c15a4a86b5f0a8a01a6d2, type: 2}
   selectDialogue: {fileID: 11400000, guid: a24cf08418d16f54ebe78d7530d847ea, type: 2}
   triggerFeedback: {fileID: 621613800}
-  line: 1
---- !u!58 &1876507454
-CircleCollider2D:
+  line: 0
+  activaction: 0
+--- !u!61 &1876507454
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1208,12 +1186,22 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.016956568, y: 0.32984936}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.0666667, y: 1.0666667}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.93101025, y: 1.0157955}
+  m_EdgeRadius: 0
 --- !u!212 &1876507455
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1253,8 +1241,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -3152252388325738238, guid: fac2a54777e1b0a4287d4b214f7a7e06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1273,7 +1261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876507452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.92, y: 1.79, z: -1.5428159}
+  m_LocalPosition: {x: 3.961, y: 1.79, z: -1.5428159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 815116777}
