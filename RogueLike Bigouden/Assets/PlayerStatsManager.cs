@@ -303,7 +303,8 @@ public class PlayerStatsManager : MonoBehaviour
                 lifePoint -= damage;
 
             Debug.Log("Player took " + damage + " damage");
-
+            UIManager.instance.RefreshUI();
+            
             if (lifePoint <= 0)
                 Death();
         //}
@@ -333,6 +334,7 @@ public class PlayerStatsManager : MonoBehaviour
             actualUltPoint = 100;
         }
 
+        UIManager.instance.RefreshUI();
         Debug.Log("Actual ult point : " + actualUltPoint);
     }
 
