@@ -47,7 +47,7 @@ public class DialogueManager : MonoBehaviour
 
         if (_playerInputFinal)
         {
-            if (_playerInputFinal.trigger_RightTopStarted)
+            if (_playerInputFinal.trigger_RightTopValue > 0)
             {
                 uiManager.dialogueText.text = selectDialogue.dialogueLine[line];
                 line++;

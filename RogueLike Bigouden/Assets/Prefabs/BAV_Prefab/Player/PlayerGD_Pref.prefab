@@ -547,6 +547,7 @@ GameObject:
   - component: {fileID: 8624704071328394346}
   - component: {fileID: 4868940514308041893}
   - component: {fileID: 4058050016553290133}
+  - component: {fileID: 1538467919}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -667,7 +668,19 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 103168
+  m_InstanceId: -19388
+--- !u!114 &1538467919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079454646562871448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11104a0404fb0ee47b9737e255095198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +816,7 @@ GameObject:
   - component: {fileID: 8813504909552388345}
   - component: {fileID: 6162715293737860227}
   - component: {fileID: 4070979141107708838}
+  - component: {fileID: 5497041257088082522}
   m_Layer: 8
   m_Name: PlayerGD_Pref
   m_TagString: Player
@@ -912,6 +926,10 @@ MonoBehaviour:
   _timerCamera: 0
   rb: {fileID: 8813504909552388345}
   useVibration: 0
+  _bounceCount: 0
+  bounceForce: 0
+  isBounce: 0
+  lastVelocity: {x: 0, y: 0, z: 0}
   moveSpeed: 5
   useRBDash: 1
   dashSpeedRB: 8
@@ -972,6 +990,8 @@ MonoBehaviour:
   _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
+  radiusBeforeDash: 0
+  target: []
 --- !u!114 &870858298318142803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,6 +1035,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  getHurt: 0
 --- !u!114 &5487576422725533807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1157,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.06}
   m_EdgeRadius: 0.03
+--- !u!81 &5497041257088082522
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132319494706305619}
+  m_Enabled: 1
 --- !u!1 &8653559456594275084
 GameObject:
   m_ObjectHideFlags: 0

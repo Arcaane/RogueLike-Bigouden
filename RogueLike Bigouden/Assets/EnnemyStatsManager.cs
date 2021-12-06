@@ -166,12 +166,9 @@ public class EnnemyStatsManager : MonoBehaviour
     public bool isReadyToDash;
     #endregion
 
-    private SoundManager m_soundManager;
 
     private void Start()
     {
-        m_soundManager = FindObjectOfType<SoundManager>();
-        
         lifePoint = lifePointSO;
         shieldPoint = shieldPointSO;
         damageDealt = damageSO;
@@ -239,15 +236,5 @@ public class EnnemyStatsManager : MonoBehaviour
         // Play TakeShield Animation
     }
     #endregion
-
-
-    public void PlaySound(string soundName)
-    {
-        m_soundManager.PlaySound(soundName);
-    }
-}
-
-public static class AudioConstant
-{
-    public static string playerHit = "player Hit";
+    
 }
