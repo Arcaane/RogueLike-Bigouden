@@ -15,6 +15,7 @@ public class DropSystem : MonoBehaviour
     private GameObject gameManager;
     private UIManager _uiManager;
     private CircleCollider2D collider;
+    private RoomLoader m_roomLoader;
     
     public bool shop;
     public bool levelEnding;
@@ -35,6 +36,7 @@ public class DropSystem : MonoBehaviour
         gameobjectSprite = GetComponent<SpriteRenderer>();
         collider = GetComponent<CircleCollider2D>();
         _uiManager = FindObjectOfType<UIManager>();
+        m_roomLoader = GetComponent<RoomLoader>();
         
         collider.enabled = false;
     }
@@ -125,7 +127,7 @@ public class DropSystem : MonoBehaviour
     
     private void EndLevelItemDrop()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && levelEnding)
+        if (m_roomLoader._waveManager.GetComponent<WaveSpawner>().State == WaveSpawner.SpawnState.FINISHED)
         {
             Roll();
             collider.enabled = true;
