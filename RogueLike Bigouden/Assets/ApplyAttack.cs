@@ -42,6 +42,11 @@ public class ApplyAttack : MonoBehaviour
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
             }
 
+            if (trigger2D.gameObject.GetComponent<PillarsStatsManager>())
+            {
+                objTrigger.GetComponent<PillarsStatsManager>().TakeDamage(1);
+            }
+
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
         }
     }

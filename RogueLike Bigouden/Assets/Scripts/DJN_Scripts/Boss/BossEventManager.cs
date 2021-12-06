@@ -11,8 +11,27 @@ public class BossEventManager : MonoBehaviour
 
     [Header("Flame Strike")] 
     [SerializeField] private GameObject[] _dalles;
+
+    [HideInInspector] public List<PillarsStatsManager> pillars;
     public float waitTime;
-    
+
+    private void Start()
+    {
+        pillars.AddRange(FindObjectsOfType<PillarsStatsManager>());
+    }
+
+    private void Update()
+    {
+        foreach (PillarsStatsManager p in pillars)
+        {
+            if (p.isDestroyed)
+            {
+                pillars.Remove(p);
+            }
+            
+        }
+    }
+
     public void LoadBeam(int pillardSelect)
     {
         laserBeam = laser[pillardSelect].GetComponent<Beam>();

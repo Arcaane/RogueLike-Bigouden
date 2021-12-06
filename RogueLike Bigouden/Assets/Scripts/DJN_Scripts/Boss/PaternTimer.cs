@@ -34,10 +34,20 @@ public class PaternTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //setup timers
-        globalTimer += 1 * Time.deltaTime;
+        //Set the timers and the events to switch phases.
+        TimersPhases();
+
+        //Apply the events when timers hit the good time.
+        EventPhases();
+    }
+
+    private void TimersPhases()
+    {
+        #region Timer Setup
         
-        if (phase2)
+        globalTimer += 1 * Time.deltaTime; //Global Timer is the time duration for the beginning to the end of fight regardless phases.
+        
+        if (phase2) //Load the good timer for the good phases.
         {
             timerP1 = 0;
             timerP2 += 1 * Time.deltaTime;
@@ -48,33 +58,58 @@ public class PaternTimer : MonoBehaviour
             timerP2 = 0;
         }
 
-        //switch phase
+        #endregion
+
+        #region Phases Transitions
+
         if (timerP1 >= P1Lenght)
         {
             timerP1 = 0;
             loopCount++;
         }
-        
-        if (globalTimer >= P1Lenght * loop)
+
+        //When the global timer is higher than the phase 1 total lenght and pillars aren't destroyed, load a enrage phase.
+        if (globalTimer >= P1Lenght * loop && _bossEventManager.pillars.Count > 0)
         {
+            //LoadEnrage
+        }
+
+        if (_bossEventManager.pillars.Count <= 0)
+        {
+            //There is a cinematic transition
             phase2 = true;
             loopCount = 0;
         }
 
-        if (timerP2 >= P2Lenght)
+        if (phase2)
         {
-            timerP2 = 0;
-            loopCount++;
+            if (timerP2 >= P2Lenght)
+            {
+                timerP2 = 0;
+                loopCount++;
+            }
+
+            if (globalTimer >= (P1Lenght + P2Lenght) * loop && _bossEventManager.pillars.Count > 0)
+            {
+                //LoadEnrage
+            }
+
+            if (_bossEventManager.pillars.Count <= 0) //If boss is dead, it's win.
+            {
+                //There is a cinematic victory
+                Debug.Log("Fight is over");
+            }
         }
 
-        if (globalTimer >= (P1Lenght + P2Lenght) * loop)
-        {
-            Time.timeScale = 0;
-        }
+        #endregion
+       
+    }
+
+    private void EventPhases()
+    {
         
+        #region Phase1
         
-        
-        //phases event 
         foreach (Timer t in timerPhase1)
         {
             if (Math.Abs(timerP1 - t.timeCode) < sensibility)
@@ -97,58 +132,62 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.Laser:
                                 LoadBeam(0);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(0);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.B:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(1);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(1);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.C:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(2);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(2);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.D:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(3);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(3);
                                 break;
                         }
+
                         break;
                 }
-            
-              
             }
-
-
         }
+
+        #endregion
+        
+        #region Phase2
         
         foreach (Timer t in timerPhase2)
         {
@@ -172,65 +211,65 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.Laser:
                                 LoadBeam(0);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(0);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.B:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(1);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(1);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.C:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(2);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(2);
                                 break;
                         }
+
                         break;
-                
+
                     case Timer.TargetP.D:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
                                 LoadBeam(3);
                                 break;
-                
+
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(3);
                                 break;
                         }
+
                         break;
                 }
-            
-              
             }
-
-
         }
-
-       
+        #endregion
+        
     }
-    
+
     void LoadBeam(int selectPillard)
     {
-            _bossEventManager.LoadBeam(selectPillard);
+        _bossEventManager.LoadBeam(selectPillard);
     }
 
     void LoadFS(int selectPillard)
