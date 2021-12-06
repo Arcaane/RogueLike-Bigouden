@@ -706,8 +706,8 @@ public class PlayerAttribut : MonoBehaviour
         targetPos = attackPath.GetComponent<ProjectilePath>().projectile.GetComponent<ApplyAttack>().posTarget;
         if (isHurt == 1)
         {
-            playerFeedBack.MoveCameraInput(isHurt, transform.position, targetPos, 10);
-            ResetPosCam();
+            //playerFeedBack.MoveCameraInput(isHurt, transform.position, targetPos, 10);
+            //ResetPosCam();
         }
     }
 
