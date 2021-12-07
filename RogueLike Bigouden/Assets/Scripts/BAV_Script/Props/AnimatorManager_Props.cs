@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class AnimatorManager_Props : MonoBehaviour
 {
-    public List<Props_EnvironnementManager> propsEnviro;
-    public List<Animator> animatorList;
+    public List<ProjectorPropsProperties> props;
 
-    //private
-    private float incrementDamageObj1;
-    private float incrementDamageObj2;
-    
+
+    public void Start()
+    {
+        
+    }
 
     public void Update()
     {
@@ -20,20 +20,23 @@ public class AnimatorManager_Props : MonoBehaviour
 
     public void LateUpdate()
     {
-        incrementDamageObj1 = propsEnviro[0].incrementFloat;
-        incrementDamageObj2 = propsEnviro[1].incrementFloat;
+        
     }
 
     public void LaunchAnimation()
     {
-        if (propsEnviro[0].hurt)
-        {
-            animatorList[0].SetFloat("Fall", incrementDamageObj1);
-        }
         
-        if (propsEnviro[1].hurt)
-        {
-            animatorList[1].SetFloat("Fall", incrementDamageObj2);
-        }
     }
+}
+
+
+[Serializable]
+public class ProjectorPropsProperties
+{
+    public int pillarCount;
+    public List<Props_EnvironnementManager> listOfPillar;
+    public int projectorCount;
+    public List<Animator> animatorProjectorList;
+    public int rackCount;
+    public List<Animator> animatorRackList;
 }
