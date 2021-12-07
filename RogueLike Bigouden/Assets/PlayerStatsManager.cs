@@ -211,7 +211,7 @@ public class PlayerStatsManager : MonoBehaviour
         if (playerStatsInstance != null && playerStatsInstance != this) 
             Destroy(gameObject);
         
-            playerStatsInstance = this;
+        playerStatsInstance = this;
     }
     
 

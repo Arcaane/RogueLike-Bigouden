@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenu;
     public bool isPaused;
+    [SerializeField] private GameObject blur;
 
     [Header("Settings")] 
     public GameObject settingPanel;
@@ -112,12 +113,14 @@ public class UIManager : MonoBehaviour
         if (isPaused)
         {
             pauseMenu.SetActive(true);
+            blur.SetActive(true);
             Time.timeScale = 0;
         }
 
         if (!isPaused)
         {
             pauseMenu.SetActive(false);
+            blur.SetActive(false);
             Time.timeScale = 1;
         }
     }
