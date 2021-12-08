@@ -152,7 +152,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Gamepad;Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

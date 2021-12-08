@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!43 &175676076
+--- !u!43 &121707276
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,6 +319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2114816856}
+  - {fileID: 8355370257728548514}
   m_Father: {fileID: 1059349346}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1289,7 +1290,6 @@ Transform:
   m_Children:
   - {fileID: 3339467394045927911}
   - {fileID: 224205156}
-  - {fileID: 8355370257728548514}
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1305,12 +1305,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fcb1fb65fc1ddc499bae398be3baa4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propsEnviro:
-  - {fileID: 1516361122130319889}
-  - {fileID: 224205160}
-  animatorList:
-  - {fileID: 8355370258307072325}
-  - {fileID: 8355370258330093911}
+  props:
+  - pillarCount: 2
+    listOfPillar:
+    - {fileID: 1516361122130319889}
+    - {fileID: 224205160}
+    projectorCount: 2
+    animatorProjectorList:
+    - {fileID: 8355370258307072325}
+    - {fileID: 8355370258330093911}
+    rackCount: 0
+    animatorRackList: []
 --- !u!1 &1100130155
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,14 +3630,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8355370257728548512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8355370257767386355}
   - {fileID: 8355370258307072327}
   - {fileID: 8355370258330093913}
-  m_Father: {fileID: 1059349346}
-  m_RootOrder: 2
+  m_Father: {fileID: 224205156}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8355370257767386354
 GameObject:
