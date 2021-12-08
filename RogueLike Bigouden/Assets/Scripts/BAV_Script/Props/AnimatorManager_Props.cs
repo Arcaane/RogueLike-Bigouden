@@ -17,6 +17,8 @@ public class AnimatorManager_Props : MonoBehaviour
     [SerializeField] int rackCount;
     [SerializeField] int firstPillarF;
     [SerializeField] int endPillarF;
+    [SerializeField] bool destructPropsProjector1;
+    [SerializeField] bool destructPropsProjector2;
 
 
     public void Start()
@@ -41,8 +43,12 @@ public class AnimatorManager_Props : MonoBehaviour
 
     public void LaunchAnimation()
     {
-        firstPillar = null;
-        endPillar = null;
+        destructPropsProjector1 = props[0].animatorProjectorList[firstPillarF].gameObject
+            .GetComponent<Props_EnvironnementManager>().isDestruct;
+        destructPropsProjector2 = props[0].animatorProjectorList[endPillarF].gameObject
+            .GetComponent<Props_EnvironnementManager>().isDestruct;
+
+
         foreach (ProjectorPropsProperties t in props)
         {
             //Get the privateFloat of Pillar;
@@ -51,25 +57,50 @@ public class AnimatorManager_Props : MonoBehaviour
             firstPillar = t.listOfPillar[firstPillarF];
             endPillar = t.listOfPillar[endPillarF];
 
-            if (firstPillar.hurt && firstPillar.incrementFloat >= t.lifeLaunchProjectorAnim)
+            if (firstPillar.hurt && firstPillar.incrementInt == t.lifeLaunchProjectorAnim && !destructPropsProjector1)
             {
                 t.animatorProjectorList[firstPillarF].SetTrigger("Fall");
+                //Insert Particules System
+                Destroy(t.animatorProjectorList[firstPillarF].gameObject, 3f);
+                t.animatorProjectorList.RemoveAt(firstPillarF);
+                if (endPillarF != 0)
+                {
+                    endPillarF--;
+                }
             }
 
-            if (endPillar.hurt && endPillar.incrementFloat >= t.lifeLaunchProjectorAnim)
+            if (endPillar.hurt && endPillar.incrementInt == t.lifeLaunchProjectorAnim && !destructPropsProjector2)
             {
+
                 t.animatorProjectorList[endPillarF].SetTrigger("Fall");
+                //Insert Particules System
+                Destroy(t.animatorProjectorList[endPillarF].gameObject, 3f);
+                t.animatorProjectorList.RemoveAt(endPillarF);
+                if (endPillarF != 0)
+                {
+                    endPillarF--;
+                }
             }
 
-            if (firstPillar.hurt && firstPillar.incrementFloat >= t.lifeLaunchRackAnim)
+            /*
+            if (firstPillar.hurt && firstPillar.incrementInt == t.lifeLaunchRackAnim && !destructPropsProjector1)
             {
                 t.animatorRackList[endPillarF].SetTrigger("Fall");
+                //Insert Particules System
+                Destroy(t.animatorRackList[firstPillarF].gameObject, 3f);
+                t.animatorRackList.RemoveAt(firstPillarF);
+                endPillar = t.listOfPillar[endPillarF];
             }
-            
-            if (endPillar.hurt && endPillar.incrementFloat >= t.lifeLaunchRackAnim)
+
+            if (endPillar.hurt && endPillar.incrementInt >= t.lifeLaunchRackAnim && !destructPropsProjector2)
             {
                 t.animatorRackList[endPillarF].SetTrigger("Fall");
+                //Insert Particules System
+                Destroy(t.animatorRackList[endPillarF].gameObject, 3f);
+                t.animatorRackList.RemoveAt(firstPillarF);
+                endPillar = t.listOfPillar[endPillarF];
             }
+            */
         }
     }
 }

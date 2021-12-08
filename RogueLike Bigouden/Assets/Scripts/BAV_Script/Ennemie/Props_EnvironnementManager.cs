@@ -76,7 +76,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         set => propsData.spriteHitColorSO = spriteHitColorSO;
     }
     //Private Increment Value
-    public float incrementFloat;
+    public int incrementInt;
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -133,7 +133,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
     public void TakeDamagePropsDestruction(int damage)
     {
-        incrementFloat++;
+        incrementInt++;
         lifePoint -= damage;
         hurt = true;
         if (lifePoint <= 0)
@@ -141,25 +141,16 @@ public class Props_EnvironnementManager : MonoBehaviour
             //Si le joueur spamm sur le props 
             if (lifePoint <= -6)
             {
+                isDestruct = true;
                 Destroy(gameObject);
             }
             //Si le joueur ne spamm pas 
             else
             {
+                isDestruct = true;
                 //animatorProps.SetBool("Destroy", destroyAnim);
                 Destroy(gameObject, 3f);
             } 
-        }
-    }
-    
-    public void TakeDamageLaunchAnim(int damage, Animator animPlay)
-    {
-        lifePoint -= damage;
-        hurt = true;
-        if (lifePoint <= 0)
-        {
-            //animatorProps.SetBool("Destroy", destroyAnim);
-            Destroy(gameObject, 3f);
         }
     }
 
