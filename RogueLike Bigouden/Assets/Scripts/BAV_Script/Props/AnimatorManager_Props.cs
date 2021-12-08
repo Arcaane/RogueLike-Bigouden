@@ -16,9 +16,7 @@ public class AnimatorManager_Props : MonoBehaviour
     [SerializeField] int pillarCount;
     [SerializeField] int rackCount;
     [SerializeField] int firstPillarF;
-    [SerializeField] int endPillarF;
-    [SerializeField] bool destructPropsProjector1;
-    [SerializeField] bool destructPropsProjector2;
+    [SerializeField] int endProjectorF;
 
 
     public void Start()
@@ -28,7 +26,7 @@ public class AnimatorManager_Props : MonoBehaviour
             pillarCount = t.pillarCount;
             projectorCount = t.projectorCount;
             rackCount = t.rackCount;
-            endPillarF = t.pillarCount - 1;
+            endProjectorF = t.projectorCount - 1;
         }
     }
 
@@ -43,42 +41,47 @@ public class AnimatorManager_Props : MonoBehaviour
 
     public void LaunchAnimation()
     {
-        destructPropsProjector1 = props[0].animatorProjectorList[firstPillarF].gameObject
-            .GetComponent<Props_EnvironnementManager>().isDestruct;
-        destructPropsProjector2 = props[0].animatorProjectorList[endPillarF].gameObject
-            .GetComponent<Props_EnvironnementManager>().isDestruct;
-
-
         foreach (ProjectorPropsProperties t in props)
         {
             //Get the privateFloat of Pillar;
 
             //Check the ID of the Pillar to setup the Function
             firstPillar = t.listOfPillar[firstPillarF];
-            endPillar = t.listOfPillar[endPillarF];
-
-            if (firstPillar.hurt && firstPillar.incrementInt == t.lifeLaunchProjectorAnim && !destructPropsProjector1)
+            endPillar = t.listOfPillar[endProjectorF];
+            if (t.animatorProjectorList == null)
             {
-                t.animatorProjectorList[firstPillarF].SetTrigger("Fall");
-                //Insert Particules System
-                Destroy(t.animatorProjectorList[firstPillarF].gameObject, 3f);
-                t.animatorProjectorList.RemoveAt(firstPillarF);
-                if (endPillarF != 0)
+                endProjectorF = 0;
+            }
+
+            if (firstPillar.hurt && firstPillar.incrementFloat >= t.lifeLaunchProjectorAnim)
+            {
+                if (t.animatorProjectorList != null)
                 {
-                    endPillarF--;
+                    t.animatorProjectorList[firstPillarF].SetTrigger("Fall");
+                    //Insert Particules System
+                    Destroy(t.animatorProjectorList[firstPillarF].gameObject, 3f);
+                    t.animatorProjectorList.RemoveAt(firstPillarF);
+
+                    if (endProjectorF != 0)
+                    {
+                        endProjectorF--;
+                    }
                 }
             }
 
-            if (endPillar.hurt && endPillar.incrementInt == t.lifeLaunchProjectorAnim && !destructPropsProjector2)
+            if (endPillar.hurt && endPillar.incrementFloat >= t.lifeLaunchProjectorAnim)
             {
-
-                t.animatorProjectorList[endPillarF].SetTrigger("Fall");
-                //Insert Particules System
-                Destroy(t.animatorProjectorList[endPillarF].gameObject, 3f);
-                t.animatorProjectorList.RemoveAt(endPillarF);
-                if (endPillarF != 0)
+                if (t.animatorProjectorList != null)
                 {
-                    endPillarF--;
+                    t.animatorProjectorList[endProjectorF].SetTrigger("Fall");
+                    //Insert Particules System
+                    Destroy(t.animatorProjectorList[endProjectorF].gameObject, 3f);
+                    t.animatorProjectorList.RemoveAt(endProjectorF);
+                    
+                    if (endProjectorF != 0)
+                    {
+                        endProjectorF--;
+                    }
                 }
             }
 

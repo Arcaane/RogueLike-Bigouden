@@ -76,7 +76,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         set => propsData.spriteHitColorSO = spriteHitColorSO;
     }
     //Private Increment Value
-    public int incrementInt;
+    public float incrementFloat;
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -103,6 +103,9 @@ public class Props_EnvironnementManager : MonoBehaviour
     public float animCounter;
     public float reachAnimCounter;
     public List<Animation> animStockage;
+
+    public bool isProjector;
+    //public List<Project> projector;
 
     //private 
     private Color resetColor = Color.white;
@@ -131,9 +134,9 @@ public class Props_EnvironnementManager : MonoBehaviour
     #region Props Damage & Heal Gestion
 
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
-    public void TakeDamagePropsDestruction(int damage)
+    public void TakeDamagePilarDestruction(int damage)
     {
-        incrementInt++;
+        incrementFloat++;
         lifePoint -= damage;
         hurt = true;
         if (lifePoint <= 0)
@@ -152,6 +155,11 @@ public class Props_EnvironnementManager : MonoBehaviour
                 Destroy(gameObject, 3f);
             } 
         }
+    }
+
+    public void TakeDamagePropsDestruction(int damage)
+    {
+        
     }
 
     #endregion
