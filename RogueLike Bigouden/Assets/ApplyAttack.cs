@@ -56,7 +56,7 @@ public class ApplyAttack : MonoBehaviour
         ////Props Environnement
         if (objTrigger.CompareTag("Beam"))
         {
-            objProps.TakeDamagePropsDestruction(1);
+            objProps.TakeDamagePilarDestruction(1);
         }
     }
 

@@ -63,27 +63,27 @@ public class TimeManager : MonoBehaviour
         {
             //Attack
             case 0:
-                Debug.Log(isRalenti);
+                //Debug.Log(isRalenti);
                 DurationRalenti = 0.2f;
                 break;
             //Hit
             case 1:
-                Debug.Log(isRalenti);
+                //Debug.Log(isRalenti);
                 DurationRalenti = 10f;
                 break;
             //Hurt
             case 2:
-                Debug.Log(isRalenti);
+                //Debug.Log(isRalenti);
                 DurationRalenti = 0.4f;
                 break;
             //Dodge
             case 3:
-                Debug.Log(isRalenti);
+                //Debug.Log(isRalenti);
                 DurationRalenti = 4f;
                 break;
             //Spawn
             case 4:
-                Debug.Log(timeRalenti);
+                //Debug.Log(timeRalenti);
                 DurationRalenti = 0.25f;
                 break;
         }

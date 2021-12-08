@@ -104,6 +104,9 @@ public class Props_EnvironnementManager : MonoBehaviour
     public float reachAnimCounter;
     public List<Animation> animStockage;
 
+    public bool isProjector;
+    //public List<Project> projector;
+
     //private 
     private Color resetColor = Color.white;
     public bool hurt = false;
@@ -131,7 +134,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     #region Props Damage & Heal Gestion
 
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
-    public void TakeDamagePropsDestruction(int damage)
+    public void TakeDamagePilarDestruction(int damage)
     {
         incrementFloat++;
         lifePoint -= damage;
@@ -141,26 +144,22 @@ public class Props_EnvironnementManager : MonoBehaviour
             //Si le joueur spamm sur le props 
             if (lifePoint <= -6)
             {
+                isDestruct = true;
                 Destroy(gameObject);
             }
             //Si le joueur ne spamm pas 
             else
             {
+                isDestruct = true;
                 //animatorProps.SetBool("Destroy", destroyAnim);
                 Destroy(gameObject, 3f);
             } 
         }
     }
-    
-    public void TakeDamageLaunchAnim(int damage, Animator animPlay)
+
+    public void TakeDamagePropsDestruction(int damage)
     {
-        lifePoint -= damage;
-        hurt = true;
-        if (lifePoint <= 0)
-        {
-            //animatorProps.SetBool("Destroy", destroyAnim);
-            Destroy(gameObject, 3f);
-        }
+        
     }
 
     #endregion
