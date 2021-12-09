@@ -25,7 +25,7 @@ public class Player_FeedBack : MonoBehaviour
     [SerializeField] private MMFeedbacks _mmFeedbacks;
     #endregion
 
-    #region MyRegion
+    #region Shake
     public IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPos = transform.localPosition;
@@ -67,9 +67,11 @@ public class Player_FeedBack : MonoBehaviour
            _mmFeedbacks.PlayFeedbacks();
         }
 
-        if ()
+        if (p_attribut.launchProjectileFeedback.activeSelf)
         {
-            
+            Vector3 desiredPos = p_attribut.shootPointPos; // Desired pos = launchpos 
+            Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
+            transform.position = smoothedPos;
         }
         
         if (p_attribut != null)

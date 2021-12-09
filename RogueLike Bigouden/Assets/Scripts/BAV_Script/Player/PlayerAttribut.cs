@@ -104,7 +104,7 @@ public class PlayerAttribut : MonoBehaviour
     [Space(10)] [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
-    private Vector3 shootPointPos;
+    public Vector3 shootPointPos;
 
     //Projectile Attack Position
     [SerializeField] private GameObject AttackProjectile;
