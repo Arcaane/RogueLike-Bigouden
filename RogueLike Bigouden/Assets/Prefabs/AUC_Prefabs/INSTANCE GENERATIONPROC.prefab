@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5313670428798600806}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.8570743, y: 7.680808, z: -59.021854}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -43,14 +43,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad3ed0cd8e82c94da244ef7e5630906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfRoom: 0
-  randomIndex: 
-  roomLevel1:
-  - L1R1
-  - L1R2
-  - L1R3
-  utilityRoom:
+  currentRoom: 0
+  numberOfRoomToCreate: 19
+  roomBeforeBoss: 0
+  shopApparitionValue: 0
+  smallRoomCounter: 0
+  mediumRoomCounter: 0
+  largeRoomCounter: 0
+  smallRoomApparitionValue: 7
+  mediumRoomApparitionValue: 2
+  largeRoomApparitionValue: 1
+  smallRoomMultiplicator: 0.75
+  mediumRoomMultiplicator: 0
+  largeRoomMultiplicator: 0
+  multiplicatorSizeIndicator: 4
+  roomLevel1Small:
+  - L1R1 - S
+  roomLevel1Medium:
+  - L1R2 - M
+  roomLevel1Large:
+  - L1R3 - L
+  roomLevel2Small:
+  - L1R1 - S
+  roomLevel2Medium:
+  - L1R2- M
+  roomLevel2Large:
+  - L1R3 - L
+  defaultRoom: []
+  storeRoom:
   - Store
   bossRoom:
   - L1BR
+  - L1BR
   finalList: []
+  launchAnimator: {fileID: 0}
