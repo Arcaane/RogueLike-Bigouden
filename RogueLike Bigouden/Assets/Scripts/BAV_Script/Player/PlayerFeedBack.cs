@@ -44,6 +44,11 @@ public class PlayerFeedBack : MonoBehaviour
         oldPivotCamPos = new Vector3(position.x, position.y, 0);
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void MovingRumble(Vector3 force)
     {
         float resetValue = 0;
@@ -60,6 +65,9 @@ public class PlayerFeedBack : MonoBehaviour
 
     public void CameraMovement(Vector3 posInitial, Vector3 posMaximal, float current)
     {
+        
+        
+        /*
         float posInitalX = posInitial.x;
         float posInitalY = posInitial.y;
         //----------------------------------------
@@ -107,9 +115,9 @@ public class PlayerFeedBack : MonoBehaviour
         }
     }
 
-    private const float radiusClamp = 0.76f;
-    public void MoveCameraInput(int isDetect, Vector3 posPlayer, Vector3 posTarget, float current)
-    {
+        private const float radiusClamp = 0.76f;
+        public void MoveCameraInput(int isDetect, Vector3 posPlayer, Vector3 posTarget, float current)
+        {
         /*float target = 0, duration = 0;
         if (isDetect)
         {
@@ -118,7 +126,11 @@ public class PlayerFeedBack : MonoBehaviour
         Debug.Log("Target : " + target);
         Debug.Log("Current : " + current);*/
         //current = Mathf.MoveTowards(current, target, duration * TimeManager.CustomDeltaTimeAttack);
-        CameraMovement(posPlayer, posTarget * radiusClamp, current);
+        //CameraMovement(posPlayer, posTarget * radiusClamp, current);
+        
+        
+        
+        
     }
 
     public void ResetPosCam(float current)

@@ -168,8 +168,6 @@ public class UIManager : MonoBehaviour
 
     public void RefreshUI()
     {
-        #region Update Players
-        
         for (int i = 0; i < playerList.Count; i++)
         {
             _playerStatsManager = playerList[i].GetComponent<PlayerStatsManager>();
@@ -181,33 +179,21 @@ public class UIManager : MonoBehaviour
 
             if (i == 0)
             {
-
                 p1_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
                 p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
                 p1_healthText.text = rlifePoint + "/" + rmaxLifePoint;
                 p1_moneyText.text = currentMoney.ToString();
             }
-
+            /*
             if (i == 1)
             {
                 p2_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
                 p2_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
                 p2_healthText.text = rlifePoint + "/" + rmaxLifePoint;
                 p2_moneyText.text = currentMoney.ToString();
-
             }
-
+            */
         }
-
-        #endregion
-        
-        #region Update Enemy
-        
-        
-        
-        #endregion
-
-
     }
 }
 

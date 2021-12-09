@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnnemyStatsManager : MonoBehaviour
@@ -164,6 +165,10 @@ public class EnnemyStatsManager : MonoBehaviour
     public float stunDuration;
     public float rushDelay;
     public bool isReadyToDash;
+    
+    // Others
+    public GameObject FloatingTextEnnemiPrefab;
+    
     #endregion
     
     private void Awake()
@@ -209,6 +214,8 @@ public class EnnemyStatsManager : MonoBehaviour
             PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
         }
         
+        ShowFloatingText(lifePoint);
+        
         if (lifePoint <= 0)
             Death();
     }
@@ -232,6 +239,12 @@ public class EnnemyStatsManager : MonoBehaviour
     {
         shieldPoint += shield;
         // Play TakeShield Animation
+    }
+    
+    void ShowFloatingText(int damageToShow)
+    {
+        var go = Instantiate(FloatingTextEnnemiPrefab, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
     #endregion
 }

@@ -291,7 +291,6 @@ public class LoadManager : MonoBehaviour
          //Debug.Log("Z : " + z);
          
          var rand = Random.Range(0, z);
-         Debug.Log(rand);
          if (isLevel1)
          {
              if (rand <= x && roomLevel1Small != null)
