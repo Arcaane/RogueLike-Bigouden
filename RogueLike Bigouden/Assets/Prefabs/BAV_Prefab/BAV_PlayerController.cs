@@ -36,33 +36,33 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""XButton"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""YButton"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""58ca634e-3f56-456f-a8b3-da0320a8f40c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""AButton"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""9821e560-b080-4584-8264-ce58fc5bf2a4"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""BButton"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""4d538565-6a14-419f-905f-decf7717c67f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=1)""
                 },

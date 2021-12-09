@@ -156,8 +156,8 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
         //Use Stick----------
-        playerConfig.Input.onActionTriggered += OnMove;
-        //controls.Player.Move.performed += OnMove;
+        controls.Player.Move.performed += OnMove;
+        controls.Player.Move.canceled += OnMove;
         //controls.Player.Look.performed += OnLook;
     }
 
@@ -577,9 +577,15 @@ public class PlayerInput_Final : MonoBehaviour
     public void OnMove(CallbackContext leftStick)
     {
         moveValue = leftStick.ReadValue<Vector2>();
-        //if (leftStick.performed)
-        //{
-        playerAttribut.SetInputVector(moveValue, false);
+        if (leftStick.performed)
+        {
+            playerAttribut.SetInputVector(moveValue, false);
+        }
+
+        if (leftStick.canceled)
+        {
+            playerAttribut.SetInputVector(Vector2.zero, false);
+        }
     }
 
     //if (leftStick.canceled)
@@ -601,7 +607,6 @@ public class PlayerInput_Final : MonoBehaviour
         playerAttribut.SetInputVector(kbMouse ? _MousePos : lookLocker, true);
     }
     */
-
     public void Reset()
     {
         //Begin----------
