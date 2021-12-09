@@ -113,15 +113,23 @@ public class UIManager : MonoBehaviour
         if (isPaused)
         {
             pauseMenu.SetActive(true);
-            blur.SetActive(true);
             Time.timeScale = 0;
+
+            if (blur)
+            {
+                blur.SetActive(true);
+            }
         }
 
         if (!isPaused)
         {
             pauseMenu.SetActive(false);
-            blur.SetActive(false);
             Time.timeScale = 1;
+
+            if (blur)
+            {
+                blur.SetActive(false);
+            }
         }
     }
 
