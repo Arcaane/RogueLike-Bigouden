@@ -105,7 +105,7 @@ public class DropSystem : MonoBehaviour
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
             
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && other.GetComponent<Inventory>().currentMoney >= itemSelect.price)
             {
                 other.GetComponent<Inventory>().items.Add(itemSelect);
                 Destroy(gameObject);
