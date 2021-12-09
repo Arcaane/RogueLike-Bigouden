@@ -232,7 +232,6 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Start()
     {
-        //posCam = PlayerFeedBack.instance.pivotCam;
         if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
