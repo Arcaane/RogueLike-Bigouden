@@ -29,6 +29,9 @@ public class DropSystem : MonoBehaviour
 
     private SpriteRenderer gameobjectSprite;
 
+    private Inventory playerInventory;
+    public bool playerOnIt;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -49,7 +52,18 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        EndLevelItemDrop();
+        if (!shop)
+        {
+            EndLevelItemDrop();
+        }
+        
+        if (playerOnIt && Input.GetKeyDown(KeyCode.X) && playerInventory.currentMoney >= itemSelect.price) // PlayerStat Money
+        {
+            playerInventory.items.Add(itemSelect);
+            playerInventory.currentMoney -= itemSelect.price; // PlayerStat Money
+            Destroy(gameObject);
+        }
+        
     }
 
     void ShopItemGeneration()
@@ -98,19 +112,17 @@ public class DropSystem : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Inventory>()) // On peut enlever normalement
         {
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
             
-            if (Input.GetKeyDown(KeyCode.X) && other.GetComponent<Inventory>().currentMoney >= itemSelect.price) // PlayerStat Money
-            {
-                other.GetComponent<Inventory>().items.Add(itemSelect);
-                other.GetComponent<Inventory>().currentMoney -= itemSelect.price; // PlayerStat Money
-                Destroy(gameObject);
-            }
+            //bool 
+            playerInventory = other.GetComponent<Inventory>();
+            playerOnIt = true;
+            
         }
 
     }
@@ -119,6 +131,8 @@ public class DropSystem : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         _uiManager.itemInformationPanel.SetActive(false);
+        playerInventory = null;
+        playerOnIt = false;
     }
 
     private void Roll()
