@@ -108,6 +108,7 @@ public class DropSystem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && other.GetComponent<Inventory>().currentMoney >= itemSelect.price)
             {
                 other.GetComponent<Inventory>().items.Add(itemSelect);
+                other.GetComponent<Inventory>().currentMoney -= itemSelect.price;
                 Destroy(gameObject);
             }
         }
