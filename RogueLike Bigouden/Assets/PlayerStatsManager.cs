@@ -310,7 +310,7 @@ public class PlayerStatsManager : MonoBehaviour
             ShowFloatingText(damage);
             UIManager.instance.RefreshUI();
             
-            
+        
             if (lifePoint <= 0)
                 Death();
         //}

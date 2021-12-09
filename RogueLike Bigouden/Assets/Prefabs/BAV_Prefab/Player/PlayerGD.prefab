@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 899599154}
   - component: {fileID: 899599156}
   - component: {fileID: 899599155}
-  - component: {fileID: 899599157}
   m_Layer: 8
   m_Name: DamageFeedback
   m_TagString: Untagged
@@ -47,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 899599155}
-  - {fileID: 899599157}
   InitializationMode: 2
   SafeMode: 3
   Direction: 1
@@ -184,50 +182,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   FlipX: 0
   FlipY: 0
---- !u!114 &899599157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899599153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8fe7e41857f44348b52714b3238715c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Camera Shake
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    ExcludeFromHoldingPauses: 0
-    InterruptsOnStop: 1
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    MMFeedbacksDirectionCondition: 0
-    PlayDirection: 0
-    ConstantIntensity: 0
-    UseIntensityInterval: 0
-    IntensityIntervalMin: 0
-    IntensityIntervalMax: 0
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  RepeatUntilStopped: 0
-  Channel: 0
-  CameraShakeProperties:
-    Duration: 0.1
-    Amplitude: 0.2
-    Frequency: 40
-    AmplitudeX: 0
-    AmplitudeY: 0
-    AmplitudeZ: 0
 --- !u!1 &1949162064
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +301,7 @@ GameObject:
   - component: {fileID: 2303104451391399887}
   - component: {fileID: 8218819001060255978}
   - component: {fileID: 920652419600764960}
+  - component: {fileID: 1139027535669774437}
   m_Layer: 8
   m_Name: PlayerGD
   m_TagString: Player
@@ -807,6 +762,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  FloatingTextPrefab: {fileID: 2722654959424730303, guid: ca82c292d0009ce4087feff5a2b2658f, type: 3}
 --- !u!50 &3476714759994905525
 Rigidbody2D:
   serializedVersion: 4
@@ -886,6 +842,23 @@ MonoBehaviour:
   m_speedRalentiProj: 0.5
   m_speedRalentiPlayer: 0.8
   DurationRalenti: 1
+--- !u!114 &1139027535669774437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921445727400001823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde6b4b5797f3b6468bb5564e0c0aa8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  itemOnTheFloor: {fileID: 0}
+  conditionActivate: 0
+  currentMoney: 0
+  roll: 0
 --- !u!1 &3632020992787001408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,7 +1443,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1250
+  m_InstanceId: 75460
 --- !u!1 &8341808548085941263
 GameObject:
   m_ObjectHideFlags: 0

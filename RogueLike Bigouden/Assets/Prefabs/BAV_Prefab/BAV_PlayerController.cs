@@ -36,7 +36,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""XButton"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""72633990-087c-4c5c-9117-e9a44f392cbb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
