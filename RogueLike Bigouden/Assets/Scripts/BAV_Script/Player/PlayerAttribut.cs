@@ -199,7 +199,7 @@ public class PlayerAttribut : MonoBehaviour
     private bool _readyToAttackX;
     private bool _readyToAttackY;
     private bool _readyToAttackB;
-    private bool _isDashing;
+    public bool _isDashing;
     private bool _readyToDash;
     private bool _onButter;
 
@@ -224,11 +224,15 @@ public class PlayerAttribut : MonoBehaviour
         //_isDashing = _playerStatsManager.isDashing;
         canDash = true;
         canLaunchProjectile = true;
+
+        Player_FeedBack.fb_instance.p_attribut = this;
+        Player_FeedBack.fb_instance.p_transform = transform;
+        
     }
 
     private void Start()
     {
-        posCam = PlayerFeedBack.instance.pivotCam;
+        //posCam = PlayerFeedBack.instance.pivotCam;
         if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
@@ -706,8 +710,8 @@ public class PlayerAttribut : MonoBehaviour
         targetPos = attackPath.GetComponent<ProjectilePath>().projectile.GetComponent<ApplyAttack>().posTarget;
         if (isHurt == 1)
         {
-            playerFeedBack.MoveCameraInput(isHurt, transform.position, targetPos, 10);
-            ResetPosCam();
+            //playerFeedBack.MoveCameraInput(isHurt, transform.position, targetPos, 10);
+            //ResetPosCam();
         }
     }
 

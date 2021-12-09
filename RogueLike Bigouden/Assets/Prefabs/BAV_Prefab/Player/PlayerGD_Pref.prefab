@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095592958}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.27, y: -0.46000004, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4800419525701653385}
@@ -117,7 +117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1602556636844619806
 Transform:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c86f86cd7d3002a4c909a09b3567fab8, type: 2}
+  - {fileID: 2100000, guid: 53d70f3159eac15449b10c2eb3964cd2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -667,7 +667,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 66800
+  m_InstanceId: 28528
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,12 +798,11 @@ GameObject:
   - component: {fileID: 698276956986049679}
   - component: {fileID: 6216360794947180622}
   - component: {fileID: 870858298318142803}
-  - component: {fileID: 5487576422725533807}
   - component: {fileID: 384638887}
+  - component: {fileID: 7518471598936574239}
   - component: {fileID: 8813504909552388345}
   - component: {fileID: 6162715293737860227}
   - component: {fileID: 4070979141107708838}
-  - component: {fileID: 7518471598936574239}
   m_Layer: 8
   m_Name: PlayerGD_Pref
   m_TagString: Player
@@ -929,7 +928,7 @@ MonoBehaviour:
   canDash: 0
   dashCounter: 0
   spriteRendererFrame: {fileID: 8624704071328394346}
-  perfectFrameColor: {r: 0.8773585, g: 0.376602, b: 0.376602, a: 1}
+  perfectFrameColor: {r: 0.9433962, g: 0.865091, b: 0.15574935, a: 1}
   splinePivot: {fileID: 1578338303392233273}
   offsetAttackXY: {fileID: 3890747896938765317}
   attackSpline: {fileID: 4229443248142410407}
@@ -964,7 +963,7 @@ MonoBehaviour:
   bulletIn: 0
   playerMesh: {fileID: 8624704071328394346}
   animatorPlayer: {fileID: 4868940514308041893}
-  playerFeedBack: {fileID: 5487576422725533807}
+  playerFeedBack: {fileID: 0}
   posCam: {fileID: 1602556636844619806}
   cam: {fileID: 2615098121277431213}
   _timerBeforeResetPosCamera: 10
@@ -976,6 +975,7 @@ MonoBehaviour:
   _look: {x: 0, y: 0, z: 0}
   _objPosition: {x: 0, y: 0, z: 0}
   _move: {x: 0, y: 0, z: 0}
+  _isDashing: 0
   _launchDebug: 0
   positionStick: {x: -900, y: 400, z: 0}
   elementOfTextMeshPro: []
@@ -1024,47 +1024,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
---- !u!114 &5487576422725533807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7132319494706305619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92677c1f86579f04f92aeb2693b23123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerStat: {fileID: 6216360794947180622}
-  vibrationForce: {x: 0.25, y: 0.75, z: 0}
-  pivotCam: {fileID: 1602556636844619806}
-  multiplicatorEffect: 0.2
-  cam: {fileID: 2615098121277431213}
-  curveAnim:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  FloatingTextPrefab: {fileID: 2722654959424730303, guid: ca82c292d0009ce4087feff5a2b2658f, type: 3}
 --- !u!114 &384638887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,6 +1042,22 @@ MonoBehaviour:
   conditionActivate: 0
   currentMoney: 0
   roll: 0
+--- !u!114 &7518471598936574239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132319494706305619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac142a51faa25447883d3169b9f85a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speedRalentiEnnemy: 0.4
+  m_speedRalentiProj: 0.5
+  m_speedRalentiPlayer: 0.8
+  DurationRalenti: 1
 --- !u!50 &8813504909552388345
 Rigidbody2D:
   serializedVersion: 4
@@ -1145,22 +1121,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.06}
   m_EdgeRadius: 0.03
---- !u!114 &7518471598936574239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7132319494706305619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac142a51faa25447883d3169b9f85a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_speedRalentiEnnemy: 0.4
-  m_speedRalentiProj: 0.5
-  m_speedRalentiPlayer: 0.8
-  DurationRalenti: 1
 --- !u!1 &8653559456594275084
 GameObject:
   m_ObjectHideFlags: 0

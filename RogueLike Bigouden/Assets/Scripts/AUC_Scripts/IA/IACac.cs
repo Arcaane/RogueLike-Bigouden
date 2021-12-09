@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking.Match;
+using UnityEngine.PlayerLoop;
 using Random = UnityEngine.Random;
 
 public class IACac : MonoBehaviour
@@ -90,6 +91,11 @@ public class IACac : MonoBehaviour
             _isWalk = false;
         }
         else { _isWalk = true; }
+    }
+
+    private void FixedUpdate()
+    {
+        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
     }
 
     #region PatrollingState

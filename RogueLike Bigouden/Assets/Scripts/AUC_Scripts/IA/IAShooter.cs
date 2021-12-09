@@ -107,8 +107,6 @@ public class IAShooter : MonoBehaviour
         if (_isPlayerInAttackRange && _isPlayerInAggroRange)
             Attacking();
         
-            
-
         agentVelocity = agent.velocity;
         agentVelocity.Normalize();
         Animations(agent);
@@ -118,6 +116,11 @@ public class IAShooter : MonoBehaviour
             _isWalk = false;
         }
         else { _isWalk = true; }
+    }
+
+    private void FixedUpdate()
+    {
+        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
     }
 
     #region PatrollingState
@@ -131,7 +134,6 @@ public class IAShooter : MonoBehaviour
         float x = Random.Range(-3, 4);
         float y = Random.Range(-3, 4);
         pos = new Vector2(x, y);
-        Debug.Log(pos);
         return pos;
     }
     private void GetNewPath()

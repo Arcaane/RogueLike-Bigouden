@@ -40,11 +40,11 @@ public class BulletForUlt : MonoBehaviour
         CancelInvoke();
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ennemy"))
         {
-            other.gameObject.GetComponent<MannequinStatsManager>().TakeDamage(damageDealt);
+            //other.gameObject.GetComponent<MannequinStatsManager>().TakeDamage(damageDealt);
             other.gameObject.GetComponent<EnnemyStatsManager>().TakeDamage(damageDealt);
         }
     }

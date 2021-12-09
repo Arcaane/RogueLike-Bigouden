@@ -45,9 +45,9 @@ public class PlayerConfigurationManager : MonoBehaviour
         return playerConfigs;
     }
 
-    public void SetPlayerColor(int index, Material color)
+    public void SetPlayerColor(int index, Material material)
     {
-        playerConfigs[index].playerMaterial = color;
+        playerConfigs[index].playerMaterial = material;
     }
 
     public void ReadyPlayer(int index)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerStatsManager : MonoBehaviour
@@ -232,7 +233,10 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isDashing;
     public bool readyToDash;
     public bool onButter;
-
+    
+    // Others
+    public GameObject FloatingTextPrefab;
+    
     #endregion
 
     public static PlayerStatsManager playerStatsInstance;
@@ -303,7 +307,10 @@ public class PlayerStatsManager : MonoBehaviour
                 lifePoint -= damage;
 
             Debug.Log("Player took " + damage + " damage");
-
+            ShowFloatingText(damage);
+            UIManager.instance.RefreshUI();
+            
+        
             if (lifePoint <= 0)
                 Death();
         //}
@@ -333,8 +340,16 @@ public class PlayerStatsManager : MonoBehaviour
             actualUltPoint = 100;
         }
 
+        UIManager.instance.RefreshUI();
         Debug.Log("Actual ult point : " + actualUltPoint);
     }
 
+
+    void ShowFloatingText(int damageToShow)
+    {
+        var go = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
+    }
+    
     #endregion
 }
