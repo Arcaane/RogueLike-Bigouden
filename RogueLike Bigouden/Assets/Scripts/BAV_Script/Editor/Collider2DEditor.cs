@@ -2,31 +2,121 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-public class EdgeCollider2DEditor : EditorWindow {
-
-    [MenuItem("Window/EdgeCollider2D Snap")]
-    public static void ShowWindow() {
-        EditorWindow.GetWindow (typeof(EdgeCollider2DEditor));
+public class Collider2DEditor : EditorWindow
+{
+    [MenuItem("Window/Collider Manager Snap")]
+    public static void ShowWindow()
+    {
+        EditorWindow _window = GetWindow(typeof(Collider2DEditor));
+        _window.maxSize = new Vector2(500, 500);
+        _window.minSize = new Vector2(250, 100);
+        _window.Show();
     }
 
+    //Collider Section
+    BoxCollider2D box;
     EdgeCollider2D edge;
-    Vector2[] vertices = new Vector2[0];
+
+    //BooleanForType
+    private bool useEdge;
+    private bool useBox;
+
+    //BoxColliderSection
+    Vector2 offset = new Vector2();
+    Vector2 size = new Vector2();
+    Vector2 scrollPosition =  Vector2.zero;
+
+    //EdgeColliderModifier
+    Vector2[] vertices = Array.Empty<Vector2>();
 
     void OnGUI()
     {
-        GUILayout.Label ("EdgeCollider2D point editor", EditorStyles.boldLabel);
-        edge = (EdgeCollider2D) EditorGUILayout.ObjectField("EdgeCollider2D to edit", edge, typeof(EdgeCollider2D), true);
-        if (vertices.Length != 0) {
-            for (int i = 0; i < vertices.Length; ++i) {
-                vertices[i] = (Vector2) EditorGUILayout.Vector2Field("Element "+i, vertices[i]);
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
+        useBox = EditorGUILayout.Toggle("Use BoxCollider2D ", useBox);
+        if (useBox)
+        {
+            GUILayout.Label("BoxCollider2D point editor", EditorStyles.boldLabel);
+            box = (BoxCollider2D) EditorGUILayout.ObjectField("BoxCollider to edit", box, typeof(BoxCollider2D),
+                true);
+
+            if (box != null)
+            {
+                EditorGUI.BeginChangeCheck();
+                size = EditorGUILayout.Vector2Field("Offset :", new Vector2(size.x, size.y));
+                offset = EditorGUILayout.Vector2Field("Offset :", new Vector2(offset.x, offset.y));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    ApplyValue();
+                }
             }
         }
 
-        if (GUILayout.Button ("Retrieve")) {
+        #region EdgeCollider
+
+        useEdge = EditorGUILayout.Toggle("Use EdgeCollider2D ", useEdge);
+        if (useEdge)
+        {
+            GUILayout.Label("EdgeCollider2D point editor", EditorStyles.boldLabel);
+            edge = (EdgeCollider2D) EditorGUILayout.ObjectField("EdgeCollider2D to edit", edge, typeof(EdgeCollider2D),
+                true);
+
+            EditorGUI.BeginChangeCheck();
+            if (vertices.Length != 0)
+            {
+                for (int i = 0; i < vertices.Length; ++i)
+                {
+                    vertices[i] = (Vector2) EditorGUILayout.Vector2Field("Element " + i, vertices[i]);
+                }
+            }
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                ApplyValue();
+            }
+        }
+
+        #endregion EdgeCollider
+
+
+        if (useBox || useEdge)
+        {
+            if (GUILayout.Button("Retrieve"))
+            {
+                RecupValue();
+            }
+
+            if (GUILayout.Button("Set"))
+            {
+                ApplyValue();
+            }
+        }
+        GUILayout.EndScrollView();
+    }
+
+    void RecupValue()
+    {
+        if (box && useBox)
+        {
+            offset = box.offset;
+            size = box.size;
+        }
+
+        if (edge && useEdge)
+        {
             vertices = edge.points;
         }
-		
-        if (GUILayout.Button ("Set")) {
+    }
+
+    void ApplyValue()
+    {
+        if (box && useBox)
+        {
+            box.offset = offset;
+            box.size = size;
+        }
+
+        if (edge && useEdge)
+        {
             edge.points = vertices;
         }
     }
