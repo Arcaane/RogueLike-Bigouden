@@ -17,27 +17,43 @@ public class Inventory : MonoBehaviour
 
     private PlayerStatsManager playerStats;
     private UIManager uiManager;
+
+    private PlayerInput_Final _playerInputFinal;
+
+    private bool isChecking;
     
     // Start is called before the first frame update
     void Start()
     {
         uiManager = FindObjectOfType<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
+        _playerInputFinal = GetComponent<PlayerInput_Final>();
+        isChecking = false;
     }
 
     private void Update()
     {
-        //CheckItemCondition();
+        CheckItemCondition();
     }
 
     public void CheckItemCondition()
     {
+
+       
+        
         foreach (Items i in items)
         {
-            switch (i.condition)
+            if (!isChecking)
+            {
+                
+                
+                
+                
+                  switch (i.condition)
             {
                 case Items.Condition.None:
                     ApplyItemEffect(i);
+                    items.Remove(i);
                     break;
 
                 case Items.Condition.Action:
@@ -45,24 +61,27 @@ public class Inventory : MonoBehaviour
                     switch (i.action)
                     {
                         case Items.Action.AttackX :
-                            if (!playerStats.readyToAttackX)
+                            if (_playerInputFinal.buttonXValue > 0.1)
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
                             break;
                         
                         case Items.Action.AttackY:
-                            if (!playerStats.readyToAttackY)
+                            if (_playerInputFinal.buttonYValue != 0)
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
                         
                         case Items.Action.AttackDistance:
-                            if (!playerStats.readyToAttackB)
+                            if (_playerInputFinal.buttonBValue != 0)
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
@@ -72,9 +91,11 @@ public class Inventory : MonoBehaviour
                             break;
                         
                         case Items.Action.Dash:
-                            if (!playerStats.readyToDash)
+                            if (_playerInputFinal.buttonAValue != 0)
                             {
                                 ApplyItemEffect(i);
+                                Debug.Log("Conditon OK");
+                                isChecking = true;
                             }
 
                             break;
@@ -83,12 +104,97 @@ public class Inventory : MonoBehaviour
                             if (playerStats.lifePoint == 0)
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
                         
                         case Items.Action.GetHurt:
-                            //addGetHurt
+                            if (playerStats.getHurt)
+                            {
+                                ApplyItemEffect(i);
+                                isChecking = true;
+                            }
+                            break;
+                        
+                        case Items.Action.KillOrDestroy:
+                           
+                            switch (i.actionTarget)
+                            {
+                                case Items.ActionTarget.None:
+                                    break;
+                    
+                                case Items.ActionTarget.Player:
+
+                                    switch (i.actionPlayer)
+                                    {
+                                        case Items.ActionPlayer.CurrentPlayer:
+                                            //nah
+                                            break;
+                            
+                                        case Items.ActionPlayer.Everyone:
+                                            //nah
+                                            break;
+                                    }
+                                    break;
+                    
+                                case Items.ActionTarget.Enemy:
+
+                                    switch (i.actionEnemy)
+                                    {
+                                        case Items.ActionEnemy.All:
+                                            
+                                            if (FindObjectOfType<EnnemyStatsManager>().lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                                isChecking = true;
+                                            }
+                                            break;
+                            
+                                        case Items.ActionEnemy.Barman:
+                                            if (FindObjectOfType<IABarman>().GetComponent<EnnemyStatsManager>()
+                                                .lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                                isChecking = true;
+                                            }
+                                            break;
+                            
+                                        case Items.ActionEnemy.Cac:
+                                            if (FindObjectOfType<IACac>().GetComponent<EnnemyStatsManager>()
+                                                .lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                                isChecking = true;
+                                            }
+                                            break;
+                            
+                                        case Items.ActionEnemy.Rush:
+                                            if (FindObjectOfType<IARunner>().GetComponent<EnnemyStatsManager>()
+                                                .lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                                isChecking = true;
+                                            }
+                                            break;
+                            
+                                        case Items.ActionEnemy.Tir:
+                                            if (FindObjectOfType<IAShooter>().GetComponent<EnnemyStatsManager>()
+                                                .lifePoint <= 0)
+                                            {
+                                                ApplyItemEffect(i);
+                                                isChecking = true;
+                                            }
+                                            break;
+                                    }
+                        
+                                    break;
+                    
+                                case Items.ActionTarget.Props:
+                                        //setup quand les props destrucibles seront fait.
+                                    break;
+                            }
+
                             break;
                     }
                     break;
@@ -100,6 +206,7 @@ public class Inventory : MonoBehaviour
                             if (playerStats.lifePoint == Mathf.FloorToInt(i.conditionValueToReach))
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
@@ -108,6 +215,7 @@ public class Inventory : MonoBehaviour
                             if (playerStats.actualUltPoint == Mathf.FloorToInt(i.conditionValueToReach))
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
@@ -116,6 +224,7 @@ public class Inventory : MonoBehaviour
                             if (currentMoney == Mathf.FloorToInt(i.conditionValueToReach))
                             {
                                 ApplyItemEffect(i);
+                                isChecking = true;
                             }
 
                             break;
@@ -138,6 +247,7 @@ public class Inventory : MonoBehaviour
                                             if (playerStats.lifePoint > 0)
                                             {
                                                 ApplyItemEffect(i);
+                                                isChecking = true;
                                             }
 
                                             break;
@@ -173,6 +283,7 @@ public class Inventory : MonoBehaviour
                                             if (playerStats.lifePoint <= 0)
                                             {
                                                 ApplyItemEffect(i);
+                                                isChecking = true;
                                             }
 
                                             break;
@@ -199,6 +310,8 @@ public class Inventory : MonoBehaviour
                     break;
                 
             }
+            }
+          
         }
     }
 
@@ -259,13 +372,17 @@ public class Inventory : MonoBehaviour
                                     float baseDamageX = playerStats.damageX;
                                     float baseDamageY = playerStats.damageY;
                                     float baseDamageB = playerStats.damageProjectile;
+                                    
                                     playerStats.damageX += i.modAmount;
                                     playerStats.damageY += i.modAmount;
                                     playerStats.damageProjectile += i.modAmount;
+                                    
                                     yield return new WaitForSeconds(i.overTimeDuration);
+                                    
                                     playerStats.damageX = Mathf.FloorToInt(baseDamageX);
                                     playerStats.damageY = Mathf.FloorToInt(baseDamageY);
                                     playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
+                                    isChecking = false;
                                 }    
 
                             }
@@ -274,7 +391,10 @@ public class Inventory : MonoBehaviour
                                 playerStats.damageX += i.modAmount;
                                 playerStats.damageY += i.modAmount;
                                 playerStats.damageProjectile += i.modAmount;
+                                isChecking = false;
                             }
+
+                          
                         }
                         
                         break;
@@ -293,12 +413,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.damageX += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    isChecking = false;
                                 }    
 
                             }
                             else
                             {
                                 playerStats.damageX += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -316,6 +438,7 @@ public class Inventory : MonoBehaviour
                                     playerStats.damageY += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.damageY = Mathf.FloorToInt(baseDamageY);
+                                    isChecking = false;
                                 }    
                                 
 
@@ -323,6 +446,7 @@ public class Inventory : MonoBehaviour
                             else
                             {
                                 playerStats.damageY += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -342,12 +466,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.damageProjectile += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
+                                    isChecking = false;
                                 }    
 
                             }
                             else
                             {
                                 playerStats.damageProjectile += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -371,11 +497,13 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackRangeX += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackRangeX = baseAttackRangeX;
+                                    isChecking = false;
                                 }
                             }
                             else
                             {
                                 playerStats.attackRangeX += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -395,12 +523,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackRangeY += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackRangeY = baseAttackRangeY;
+                                    isChecking = false;
                                 }    
 
                             }
                             else
                             {
                                 playerStats.attackRangeY += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -420,6 +550,7 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackRangeProjectile += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackRangeProjectile = baseAttackRangeB;
+                                    isChecking = false;
                                 }    
                                 
 
@@ -427,6 +558,7 @@ public class Inventory : MonoBehaviour
                             else
                             {
                                 playerStats.attackRangeProjectile += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -435,6 +567,40 @@ public class Inventory : MonoBehaviour
                     
                     case Items.Augmentation.AttackRangeUlt:
                         //setup ult range;
+                        break;
+                    
+                    case Items.Augmentation.AttackSpeed:
+                        if (roll <= i.rate)
+                        {
+                            if (i.overTime)
+                            {
+                                StartCoroutine(OnTimeEffect());
+                                
+                                IEnumerator OnTimeEffect()
+                                {
+                                    float baseAttackSpeedX = playerStats.attackCdX;
+                                    float baseAttackSpeedY = playerStats.attackCdY;
+                                    float baseAttackSpeedB = playerStats.attackCdB;
+                                    
+                                    playerStats.attackCdX += i.modAmount;
+                                    playerStats.attackCdY += i.modAmount;
+                                    playerStats.attackCdB += i.modAmount;
+                                    yield return new WaitForSeconds(i.overTimeDuration);
+                                    playerStats.attackCdX = baseAttackSpeedX;
+                                    playerStats.attackCdY = baseAttackSpeedY;
+                                    playerStats.attackCdB = baseAttackSpeedB;
+                                    isChecking = false;
+                                }    
+                                
+                            }
+                            else
+                            {
+                                playerStats.attackCdX += i.modAmount;
+                                playerStats.attackCdY += i.modAmount;
+                                playerStats.attackCdB += i.modAmount;
+                                isChecking = false;
+                            }
+                        }
                         break;
                     
                     case Items.Augmentation.AttackSpeedX:
@@ -450,12 +616,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackCdX += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackCdX = baseAttackSpeedX;
+                                    isChecking = false;
                                 }    
                                 
                             }
                             else
                             {
                                 playerStats.attackCdX += i.modAmount;
+                                isChecking = false;
                             }
                             
                         }
@@ -475,12 +643,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackCdY += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackCdY = baseAttackSpeedY;
+                                    isChecking = false;
                                 }    
                                 
                             }
                             else
                             {
                                 playerStats.attackCdY += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -498,12 +668,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.attackCdB += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.attackCdB = baseAttackSpeedB;
+                                    isChecking = false;
                                 }    
                                 
                             }
                             else
                             {
                                 playerStats.attackCdB += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -528,6 +700,7 @@ public class Inventory : MonoBehaviour
                                         playerStats.lifePoint += i.modAmount;
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.lifePoint = Mathf.FloorToInt(baseActualLifePoint);
+                                        isChecking = false;
                                     }    
                                     
 
@@ -542,6 +715,7 @@ public class Inventory : MonoBehaviour
                                         playerStats.maxLifePoint += i.modAmount;
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.maxLifePoint = Mathf.FloorToInt(baseMaxLifePoint);
+                                        isChecking = false;
                                     }    
                                     
                                 }
@@ -551,11 +725,13 @@ public class Inventory : MonoBehaviour
                                 if (i.onCurrent)
                                 {
                                     playerStats.lifePoint += i.modAmount;
+                                    isChecking = false;
 
                                 }
                                 else
                                 {
                                     playerStats.maxLifePoint += i.modAmount;
+                                    isChecking = false;
                                 }
                             }
                             
@@ -578,6 +754,7 @@ public class Inventory : MonoBehaviour
                                         playerStats.actualUltPoint += i.modAmount;
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.actualUltPoint = Mathf.FloorToInt(baseActualUltPoint);
+                                        isChecking = false;
                                     }    
                                     
                                 }
@@ -591,6 +768,7 @@ public class Inventory : MonoBehaviour
                                         playerStats.ultMaxPoint += i.modAmount;
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.ultMaxPoint = Mathf.FloorToInt(baseMaxUltPoint);
+                                        isChecking = false;
                                     }    
                                     
                                 }
@@ -600,11 +778,13 @@ public class Inventory : MonoBehaviour
                                 if (i.onCurrent)
                                 {
                                     playerStats.actualUltPoint += i.modAmount;
+                                    isChecking = false;
 
                                 }
                                 else
                                 {
                                     playerStats.ultMaxPoint += i.modAmount;
+                                    isChecking = false;
                                 }
                             }
                             
@@ -625,12 +805,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.dashRange += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.dashRange = baseDashRange;
+                                    isChecking = false;
                                 }                            
                                 
                             }
                             else
                             {
                                 playerStats.dashRange += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -648,11 +830,13 @@ public class Inventory : MonoBehaviour
                                     currentMoney += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     currentMoney = Mathf.FloorToInt(baseCMoney);
+                                    isChecking = false;
                                 }
                             }
                             else
                             {
                                 currentMoney += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -670,12 +854,14 @@ public class Inventory : MonoBehaviour
                                     moneyCollect += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     moneyCollect = Mathf.FloorToInt(baseMoney);
+                                    isChecking = false;
                                 }
                                 
                             }
                             else
                             {
                                 moneyCollect += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -693,12 +879,14 @@ public class Inventory : MonoBehaviour
                                     playerStats.bonusSpeed += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.bonusSpeed = baseBSpeed;
+                                    isChecking = false;
                                 }
                                 
                             }
                             else
                             {
                                 playerStats.bonusSpeed += i.modAmount;
+                                isChecking = false;
                             }
                         }
                         break;
@@ -717,6 +905,7 @@ public class Inventory : MonoBehaviour
                                     playerStats.shieldPoint += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.shieldPoint = Mathf.FloorToInt(baseShield);
+                                    isChecking = false;
                                 }
                                 
                             }
@@ -763,6 +952,7 @@ public class Inventory : MonoBehaviour
                                 }
                                 objectSpawn.transform.localPosition = i.specialSpawnPoint.transform.localPosition;
                                 StartCoroutine(DelayToDestroy(i.spawnTime, objectSpawn));
+                                isChecking = false;
                             }
                             
                         }

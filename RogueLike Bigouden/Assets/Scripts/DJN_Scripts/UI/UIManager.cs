@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -49,8 +51,14 @@ public class UIManager : MonoBehaviour
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenu;
-    private bool isPaused;
-    
+    public bool isPaused;
+    [SerializeField] private GameObject blur;
+
+    [Header("Settings")] 
+    public GameObject settingPanel;
+
+    public AudioMixer masterMixer;
+
     [Header("Test Information")] [Range(0, 10)]
     public float currentHealth;
 
@@ -84,27 +92,35 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
-        
+
         //trouver le script player statistiques
+
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPaused = !isPaused;
+        }
+        
         Pause();
         UpdateItemPlayer();
     }
 
     private void Pause()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        if (isPaused)
         {
             pauseMenu.SetActive(true);
+            blur.SetActive(true);
             Time.timeScale = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        if (!isPaused)
         {
             pauseMenu.SetActive(false);
+            blur.SetActive(false);
             Time.timeScale = 1;
         }
     }
@@ -195,5 +211,26 @@ public class UIManager : MonoBehaviour
             */
         }
     }
+
+    public void SetMasterVolume(float mstLvl)
+    {
+        masterMixer.SetFloat("masterVolume", mstLvl);
+    }
+
+    public void SetMusicVolume(float mscLvl)
+    {
+        masterMixer.SetFloat("musicVolume", mscLvl);
+    }
+
+    public void SetEffectVolume(float vlmLvl)
+    {
+        masterMixer.SetFloat("effectVolume", vlmLvl);
+    }
+
+    public void SetInterfaceVolume(float intLvl)
+    {
+        masterMixer.SetFloat("interfaceVolume", intLvl);
+    }
+
 }
 

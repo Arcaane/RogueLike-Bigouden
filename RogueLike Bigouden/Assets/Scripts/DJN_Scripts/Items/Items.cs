@@ -68,8 +68,7 @@ public class Items : ScriptableObject
     }
 
     public enum Effect { Variable, Object }
-        public enum Type { Bonus, Malus }
-
+        public enum Type { Bonus, Malus, Shop }
 
         public enum Action { AttackX, AttackY, AttackDistance, AttackUltime, Dash, GetHurt, Death, KillOrDestroy }
 
