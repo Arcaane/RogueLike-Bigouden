@@ -25,24 +25,38 @@ public class ApplyAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D trigger2D)
     {
+        GameObject objTrigger = trigger2D.gameObject;
+        //Mannequin
+        MannequinStatsManager objMannequin = objTrigger.GetComponent<MannequinStatsManager>();
+        //Ennemy
+        EnnemyStatsManager objEnnemy = objTrigger.GetComponent<EnnemyStatsManager>();
+        //Props
+        Props_EnvironnementManager objProps = objTrigger.GetComponent<Props_EnvironnementManager>();
+        
+        //Mannequin and Ennemy
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
         {
             isDetect++;
-            GameObject objTrigger = trigger2D.gameObject;
             posTarget = objTrigger.transform.position;
-            if (trigger2D.gameObject.name == "Turret")
+            if (objTrigger.name == "Turret")
             {
-                TimeManager.SlowDownGame(1);
-                objTrigger.GetComponent<MannequinStatsManager>().TakeDamage(1);
+                TimeManager._timeManager.SlowDownGame(1);
+                objMannequin.TakeDamage(1);
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
             }
             else
             {
-                objTrigger.GetComponent<EnnemyStatsManager>().TakeDamage(1);
+                objEnnemy.TakeDamage(1);
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
+        }
+
+        ////Props Environnement
+        if (objTrigger.CompareTag("Beam"))
+        {
+            objProps.TakeDamagePilarDestruction(1);
         }
     }
 

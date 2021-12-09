@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
@@ -13,7 +9,7 @@ public class WaveSpawner : MonoBehaviour
     public enum SpawnState { SPAWNING, WAINTING, COUNTING, FINISHED }
     
     [System.Serializable]
-    public class Wave 
+    public class Wave // Createur de wave d'ennemis
     {
         public string name;
         public Transform[] enemy;
@@ -22,13 +18,12 @@ public class WaveSpawner : MonoBehaviour
         public int bonusLife;
         public int bonusDamage;
         public int bonusShield;
-        public float bonusMovementSpeed;
-
     }
 
     public List<GameObject> EnnemiesSpawned;
     public Wave[] waves;
     public int nextWave;
+    public LayerMask isEnemy;
 
     public Transform[] spawnPoints;
     
@@ -38,6 +33,7 @@ public class WaveSpawner : MonoBehaviour
     public SpawnState State = SpawnState.COUNTING;
 
     public GameObject _roomLoader;
+    
     private void Start()
     {
         if (spawnPoints.Length == 0)
@@ -48,12 +44,16 @@ public class WaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (State == SpawnState.FINISHED)
+        if (State == SpawnState.FINISHED) // Plus de wave 
         {
+            if (!IsEnemyAlive())
+            {
+                _roomLoader.GetComponent<RoomLoader>().ClearedRoom(); // Fonction qui ouvre les portes de la salle
+            }
             return;
         }
         
-        if (State == SpawnState.WAINTING)
+        if (State == SpawnState.WAINTING) // Attente avant de spawn la next wave
         {
             if (!IsEnemyAlive())
             {
@@ -65,10 +65,11 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        if (!(waveCountDown <= 0)){
-            if (State != SpawnState.SPAWNING)
+        if (waveCountDown < 0)
+        {
+            if (State != SpawnState.SPAWNING) // Spawn la next wave
             {
-                StartCoroutine(SpawnWave(waves[nextWave]) );
+                StartCoroutine( SpawnWave(waves[nextWave]) );
             }
         }
         else
@@ -81,11 +82,10 @@ public class WaveSpawner : MonoBehaviour
     {
         if (State == SpawnState.FINISHED)
         {
-            _roomLoader.GetComponent<RoomLoader>().ClearedRoom();
-            Debug.Log("WTF BRO IT'S OVER");
             return;
         }
-        else {
+        else 
+        {
             Debug.Log("Wave Completed!");
             State = SpawnState.COUNTING;
             waveCountDown = timeBetweenWave;
@@ -102,6 +102,7 @@ public class WaveSpawner : MonoBehaviour
             }
         }
     }
+    
     IEnumerator SpawnWave(Wave _wave)
     {
         Debug.Log("Spawning wave: " + _wave.name);
@@ -127,11 +128,10 @@ public class WaveSpawner : MonoBehaviour
 
         Transform sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Transform _esp = Instantiate(_enemy, sp.transform.position, sp.transform.rotation);
-        _esp.gameObject.GetComponent<EnnemyStatsManager>().TakeHeal(_wave.bonusLife);
+        
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().lifePoint += _wave.bonusLife;
         _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage; 
         _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield;
-        _esp.gameObject.GetComponent<EnnemyStatsManager>().movementSpeed += _wave.bonusMovementSpeed; 
-        EnnemiesSpawned.Add(_esp.gameObject);
     }
 
     bool IsEnemyAlive()
@@ -139,13 +139,36 @@ public class WaveSpawner : MonoBehaviour
         searchCountDown -= Time.deltaTime;
         if (searchCountDown <= 0f)
         {
+            Debug.Log("Check");
             searchCountDown = 1;
-            if (_roomLoader.GetComponent<RoomLoader>().numberOfEnnemies == 0)
+            EnnemiesSpawned.Clear();
+           
+            Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnemy);
+            foreach (var ctx in ennemyInRoom)
+            {
+                EnnemiesSpawned.Add(ctx.gameObject);
+            }
+
+            foreach (var _e in EnnemiesSpawned)
+            {
+                if (_e.GetComponent<EnnemyStatsManager>().lifePoint <= 0)
+                {
+                    EnnemiesSpawned.Remove(_e);
+                }
+            }
+            
+            if (EnnemiesSpawned.Count == 0)
             {
                 return false;
             }
         }
         return true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 10f);
     }
 }
 

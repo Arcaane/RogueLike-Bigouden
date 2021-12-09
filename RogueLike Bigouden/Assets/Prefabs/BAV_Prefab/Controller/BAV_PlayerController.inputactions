@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "dfa4b4fe-95c9-4a12-8566-ab11730b7f90",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -130,7 +130,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "StickDeadzone",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Keyboard",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -449,7 +449,7 @@
                     "path": "<XInputController>/rightStickPress",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Right_Stick_Press",
                     "isComposite": false,
                     "isPartOfComposite": false

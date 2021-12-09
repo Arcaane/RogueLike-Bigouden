@@ -1,13 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
-using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.Collections;
-using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine.InputSystem;
 using static TimeManager;
 
@@ -34,7 +30,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float _timerCamera;
 
     [Header("Component Rigidbody")] [SerializeField]
-    private Rigidbody2D rb;
+    private Color colorReset;
+
+    [SerializeField] private Rigidbody2D rb;
 
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
@@ -80,6 +78,7 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Player Attack X/Y")] [SerializeField]
     private SpriteRenderer spriteRendererFrame;
 
+    [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
     [SerializeField] private Transform offsetAttackXY;
@@ -122,7 +121,6 @@ public class PlayerAttribut : MonoBehaviour
     //Projectile is launch
     [SerializeField] public bool launchProjectile;
     [SerializeField] public bool canLaunchProjectile;
-
 
 
     [Space(10)]
@@ -289,12 +287,12 @@ public class PlayerAttribut : MonoBehaviour
     }
 
 
-
     public void FixedUpdate()
     {
         SaveLastPosition();
         _attackPath.OnMovement(attackSpline.arrayVector[0].pointAttack);
         Move();
+
         Animation();
         SmoothJoystickCamera();
         //MoveCameraRightStick();
@@ -311,11 +309,11 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (launchFirstAttack || launchSecondAttack)
             {
-                transform.Translate(_move * moveSpeed * (1.3f) * CustomDeltaTimePlayer);
+                transform.Translate(_move * moveSpeed * (1.3f) * _timeManager.CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * moveSpeed * CustomDeltaTimePlayer);
-    }
+                transform.Translate(_move * moveSpeed * _timeManager.CustomDeltaTimePlayer);
+        }
     }
 
     #region AnimatorProcess
@@ -454,7 +452,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _timerBetweenDash += CustomDeltaTimePlayer;
+        _timerBetweenDash += _timeManager.CustomDeltaTimePlayer;
         if (durationDash >= _timerBetweenDash)
         {
             _timerBetweenDash = 0;
@@ -467,6 +465,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
+        spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
         velocity += dir.normalized * (dashSpeedRB * dashIntValue);
@@ -489,6 +488,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(Vector2.zero);
         }
 
+        spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
         _isDashing = false;
     }
@@ -502,7 +502,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void ResetSmallMovement()
     {
-        _smallMovementFloat = attackMovingSpeed * CustomDeltaTimePlayer;
+        _smallMovementFloat = attackMovingSpeed * _timeManager.CustomDeltaTimePlayer;
         if (_smallMovementFloat > 1)
         {
             _smallMovementFloat = 0;
@@ -521,7 +521,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             attackPath.launchFirstAttack = true;
             launchFirstAttack = true;
-            animatorPlayer.speed = m_speedRalentiPlayer;
+            animatorPlayer.speed = _timeManager.m_speedRalentiPlayer;
         }
 
         if (attackType == 2 &&
@@ -538,7 +538,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (isDash)
         {
-            _timerDash += CustomDeltaTimePlayer;
+            _timerDash += _timeManager.CustomDeltaTimePlayer;
             if (_timerDash >= durationCooldownDash)
             {
                 canDash = true;
@@ -550,18 +550,18 @@ public class PlayerAttribut : MonoBehaviour
 
         if (isAttacking)
         {
-            _timerAttack += CustomDeltaTimePlayer;
+            _timerAttack += _timeManager.CustomDeltaTimePlayer;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
                 _timerAttack < (_playerStatsManager.firstAttackReset.y))
             {
-                spriteRendererFrame.material.color = Color.magenta;
-                spriteRendererFrame.color = Color.magenta;
+                spriteRendererFrame.material.color = perfectFrameColor;
+                spriteRendererFrame.color = perfectFrameColor;
             }
 
             if (_timerAttack > _playerStatsManager.firstAttackReset.y)
             {
-                spriteRendererFrame.material.color = Color.white;
-                spriteRendererFrame.color = Color.white;
+                spriteRendererFrame.material.color = colorReset;
+                spriteRendererFrame.color = colorReset;
             }
 
             if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
@@ -616,21 +616,21 @@ public class PlayerAttribut : MonoBehaviour
     #region Projectile
 
     private const float radiusShootPoint = 0.9f;
-    
+
     public void MovementProjectile()
     {
         damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
         launchProjectile = false;
         p_delay = delayProjectile;
         canLaunchProjectile = false;
-        
+
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
             .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2,
                 damageProjectile); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
-        
+
         launchProjectileFeedback.SetActive(false);
     }
 
@@ -664,8 +664,8 @@ public class PlayerAttribut : MonoBehaviour
         if (ultDuration > 10)
         {
             ultDuration = (ultDuration / 2) / 10;
-            _timerUltimate += CustomDeltaTimePlayer;
-            
+            _timerUltimate += _timeManager.CustomDeltaTimePlayer;
+
             movementInput = Vector2.zero;
 
             if (_timerUltimate >= ultDuration)
@@ -679,7 +679,7 @@ public class PlayerAttribut : MonoBehaviour
         else
         {
             ultDuration = 0;
-            _timerUltimate += CustomDeltaTimePlayer;
+            _timerUltimate += _timeManager.CustomDeltaTimePlayer;
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
@@ -696,6 +696,7 @@ public class PlayerAttribut : MonoBehaviour
     }
 
     #endregion
+
     #region CameraController
 
     public void DetectAttackCamera()
@@ -712,7 +713,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void ResetPosCam()
     {
-        _timerCamera += CustomDeltaTimePlayer;
+        _timerCamera += _timeManager.CustomDeltaTimePlayer;
         if (_timerCamera >= _timerBeforeResetPosCamera)
         {
             _timerCamera = 0;
@@ -753,7 +754,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         moveSpeed *= speedModification;
-        _timerDodgeEffect += CustomDeltaTimePlayer;
+        _timerDodgeEffect += _timeManager.CustomDeltaTimePlayer;
         if (_timerAttack >= durationEffect)
         {
             useDodgeAbility = false;
@@ -763,17 +764,17 @@ public class PlayerAttribut : MonoBehaviour
     //Bounce Without Physics Material;
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (_bounceCount > 0 && other.gameObject.CompareTag("Sofa"))
+        if (other.gameObject.CompareTag("Sofa"))
         {
             Debug.Log(_bounceCount);
 
-            _bounceCount--;
             float speed = lastVelocity.magnitude * bounceForce;
             Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
             rb.velocity = direction * Mathf.Max(speed, 0f);
-            
+
             //For Projectile Only.
             /*
+            _bounceCount--;
             float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
             transform.rotation = Quaternion.Euler(0, 0, angle);
             */
@@ -804,7 +805,7 @@ public class PlayerAttribut : MonoBehaviour
 
             if (range < radiusBeforeDash)
             {
-                SlowDownGame(3);
+                TimeManager._timeManager.SlowDownGame(3);
                 Debug.Log(range);
             }
         }

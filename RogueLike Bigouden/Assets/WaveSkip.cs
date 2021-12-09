@@ -20,7 +20,7 @@ public class WaveSkip : MonoBehaviour
         {
             i++;
             Debug.Log(_e.name + " Skipped !");
-            _e.GetComponent<EnnemyStatsManager>().TakeDamage(999);
+            _e.GetComponent<EnnemyStatsManager>().TakeDamage(100);
             
         } 
         Debug.Log(i);

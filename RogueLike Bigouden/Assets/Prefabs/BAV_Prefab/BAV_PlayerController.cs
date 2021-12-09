@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @BAV_PlayerController : IInputActionCollection2, IDisposable
+public partial class @BAV_PlayerController : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
     public @BAV_PlayerController()
@@ -32,7 +32,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""type"": ""Value"",
                     ""id"": ""dfa4b4fe-95c9-4a12-8566-ab11730b7f90"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -152,7 +152,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Gamepad;Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -471,7 +471,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
                     ""path"": ""<XInputController>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Right_Stick_Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -774,16 +774,7 @@ public partial class @BAV_PlayerController : IInputActionCollection2, IDisposabl
     {
         asset.Disable();
     }
-    public IEnumerable<InputBinding> bindings => asset.bindings;
-
-    public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
-    {
-        return asset.FindAction(actionNameOrId, throwIfNotFound);
-    }
-    public int FindBinding(InputBinding bindingMask, out InputAction action)
-    {
-        return asset.FindBinding(bindingMask, out action);
-    }
+    
 
     // Player
     private readonly InputActionMap m_Player;

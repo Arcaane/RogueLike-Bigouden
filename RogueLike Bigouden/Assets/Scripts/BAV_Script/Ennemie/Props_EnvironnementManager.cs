@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Cinemachine;
 using UnityEngine;
 
 public class Props_EnvironnementManager : MonoBehaviour
@@ -22,65 +21,62 @@ public class Props_EnvironnementManager : MonoBehaviour
         get => propsData.damageSO;
         set => propsData.damageSO = damageSO;
     }
-    
+
     private int counterDamageForLaunchAnimSO
     {
         get => propsData.counterDamageForLaunchAnimSO;
         set => propsData.counterDamageForLaunchAnimSO = counterDamageForLaunchAnimSO;
     }
-    
+
     private float timeBeforeLaunchAnimationSO
     {
         get => propsData.timeBeforeLaunchAnimationSO;
         set => propsData.timeBeforeLaunchAnimationSO = timeBeforeLaunchAnimationSO;
     }
-    
+
     private float animationSpeedSO
     {
         get => propsData.animationSpeedSO;
         set => propsData.animationSpeedSO = animationSpeedSO;
     }
-    
+
     private bool isDestructibleSO
     {
         get => propsData.isDestructibleSO;
         set => propsData.isDestructibleSO = isDestructibleSO;
     }
-    
+
     private bool isDamageSO
     {
         get => propsData.isDamageSO;
         set => propsData.isDamageSO = isDamageSO;
     }
-    
+
     private bool isDestructSO
     {
         get => propsData.isDestructSO;
         set => propsData.isDestructSO = isDestructSO;
     }
-    
+
     private bool isTriggerSO
     {
         get => propsData.isTriggerSO;
         set => propsData.isTriggerSO = isTriggerSO;
     }
-    
-    private SpriteRenderer spritePropsSO
+
+    private Sprite spritePropsSO
     {
         get => propsData.spritePropsSO;
         set => propsData.spritePropsSO = spritePropsSO;
     }
-    private Animator animatorPropsSO
+    
+    private Color spriteHitColorSO
     {
-        get => propsData.animatorPropsSO;
-        set => propsData.animatorPropsSO = animatorPropsSO;
+        get => propsData.spriteHitColorSO;
+        set => propsData.spriteHitColorSO = spriteHitColorSO;
     }
-    private List<Collider2D> propsColliderSO
-    {
-        get => propsData.propsColliderSO;
-        set => propsData.spritePropsSO = spritePropsSO;
-    }
-
+    //Private Increment Value
+    public float incrementFloat;
 
     // Common Int
     public int lifePoint; // Point de vie du props.
@@ -98,15 +94,24 @@ public class Props_EnvironnementManager : MonoBehaviour
     public bool isTrigger; //Le Collider est-il trigger ?
 
     //Common Animation.
-    public SpriteRenderer spriteProps;
-    public Animator animatorProps;
+    public Sprite spriteProps;
     public List<Collider2D> propsCollider;
+    public Color hitcolor;
+    
+    //Common 
+    public bool needLaunchAnim;
+    public float animCounter;
+    public float reachAnimCounter;
+    public List<Animation> animStockage;
+
+    public bool isProjector;
+    //public List<Project> projector;
 
     //private 
-    private Color hitcolor = Color.red;
-    private Color notHurtColor = Color.white;
-    [SerializeField] bool hurt = false;
+    private Color resetColor = Color.white;
+    public bool hurt = false;
     [SerializeField] private float counterBeforeReset;
+    private SpriteRenderer spriteRenderer;
 
     #endregion
 
@@ -123,25 +128,40 @@ public class Props_EnvironnementManager : MonoBehaviour
         isDestruct = isDestructSO;
         isTrigger = isTriggerSO;
         spriteProps = spritePropsSO;
-        animatorProps = animatorPropsSO;
-        propsCollider = propsColliderSO;
+        hitcolor = spriteHitColorSO;
     }
 
-    #region Ennemy Damage & Heal Gestion
+    #region Props Damage & Heal Gestion
 
     //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
-    public void TakeDamage(int damage, Animator animatorProps)
+    public void TakeDamagePilarDestruction(int damage)
     {
-        PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+        incrementFloat++;
         lifePoint -= damage;
         hurt = true;
         if (lifePoint <= 0)
         {
-            //animatorProps.SetBool("Destroy", destroyAnim);
-            Destroy(gameObject, 3f);
+            //Si le joueur spamm sur le props 
+            if (lifePoint <= -6)
+            {
+                isDestruct = true;
+                Destroy(gameObject);
+            }
+            //Si le joueur ne spamm pas 
+            else
+            {
+                isDestruct = true;
+                //animatorProps.SetBool("Destroy", destroyAnim);
+                Destroy(gameObject, 3f);
+            } 
         }
     }
-    
+
+    public void TakeDamagePropsDestruction(int damage)
+    {
+        
+    }
+
     #endregion
 
     public void Update()
@@ -149,6 +169,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         if (hurt)
         {
             SpriteSwap();
+            //Launch jiggle Animation si Props Projecteur.
             CounterBeforeReset();
         }
     }
@@ -157,12 +178,11 @@ public class Props_EnvironnementManager : MonoBehaviour
     {
         if (hurt)
         {
-            //TimeManager.SlowDownGame();
             gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
         }
         else
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = resetColor;
         }
     }
 
@@ -171,7 +191,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         counterBeforeReset += Time.deltaTime;
         if (counterBeforeReset > 0.2f)
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = resetColor;
             counterBeforeReset = 0f;
             hurt = false;
         }

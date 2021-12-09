@@ -24,6 +24,7 @@ public class ProjectilePath : MonoBehaviour
     private void Start()
     {
         isAttacking = false;
+        projectile.SetActive(false);
     }
 
     private void Update()
@@ -51,7 +52,7 @@ public class ProjectilePath : MonoBehaviour
         if (launchFirstAttack && !launchSecondAttack)
         {
             projectile.SetActive(true);
-            progress += (TimeManager.CustomDeltaTimeProjectile/ (speed / 10));
+            progress += (TimeManager._timeManager.CustomDeltaTimeProjectile/ (speed / 10));
             if (progress > 1f)
             {
                 progress = 1f;
@@ -62,7 +63,7 @@ public class ProjectilePath : MonoBehaviour
         if(launchSecondAttack)
         {
             projectile.SetActive(true);
-            progress -= (TimeManager.CustomDeltaTimeProjectile / (speed / 10));
+            progress -= (TimeManager._timeManager.CustomDeltaTimeProjectile / (speed / 10));
             if (progress < 0f)
             {
                 progress = 0f;

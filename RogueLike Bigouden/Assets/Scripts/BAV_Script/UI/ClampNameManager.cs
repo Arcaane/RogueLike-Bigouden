@@ -15,14 +15,10 @@ public class ClampNameManager : MonoBehaviour
 
 
     //Private Action
-    [SerializeField] bool returnTime;
     [SerializeField] bool isDying;
     [SerializeField] private float counterBeforeRespawn = 10f;
     [SerializeField] private float counterTimer;
     [SerializeField] private float timerLimit = 2f;
-
-
-    [SerializeField] float timerCounterSlow;
 
     //private
     private int lifePointObject;
@@ -36,8 +32,8 @@ public class ClampNameManager : MonoBehaviour
             LaunchRespawn();
         }
 
-
-        Vector3 namePos = camera.WorldToScreenPoint(spawnRefUI[0].gameObject.transform.position + offsetPosition);
+        Vector3 spawnRefObj = spawnRefUI[0].gameObject.transform.position;
+        Vector3 namePos = camera.WorldToScreenPoint(spawnRefObj);
         showNumber[0].transform.position = namePos;
         TakeDamageUI();
     }
@@ -59,12 +55,12 @@ public class ClampNameManager : MonoBehaviour
         counterTimer += Time.deltaTime;
         if (counterTimer < timerLimit)
         {
-            TimeManager.SlowDownGame(4);
+            TimeManager._timeManager.SlowDownGame(4);
         }
 
         if (counterTimer > counterBeforeRespawn)
         {
-            TimeManager.SlowDownGame(4);
+            TimeManager._timeManager.SlowDownGame(4);
             isDying = false;
             counterTimer = 0;
             Invoke(("Respawn"), 0.5f);

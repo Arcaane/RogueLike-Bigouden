@@ -17,15 +17,18 @@ public class BulletBehaviour : MonoBehaviour
         rb.velocity = (direction * b_Speed);
     }
     
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D colid)
     {
-        if (other.gameObject.CompareTag("Player"))
+        //Modif Baptiste
+        GameObject objColid = colid.gameObject;
+        PlayerStatsManager stats = objColid.GetComponent<PlayerStatsManager>();
+        if (objColid.CompareTag("Player") && !stats.isDashing)
         {
-            other.GetComponent<PlayerStatsManager>().TakeDamage(1);
+            stats.TakeDamage(1);
             gameObject.SetActive(false);
         }
 
-        if (other.gameObject.CompareTag("Border"))
+        if (objColid.CompareTag("Border"))
         {
             gameObject.SetActive(false);
         }

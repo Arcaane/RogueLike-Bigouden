@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Props", menuName = "ElementLD")]
+[CreateAssetMenu(fileName = "New Props Destructible", menuName = "Props/Props Destructible")]
 public class PropsData : ScriptableObject
 {
     // Common Int
@@ -12,6 +12,7 @@ public class PropsData : ScriptableObject
     // Common Float
     public float timeBeforeLaunchAnimationSO; // Delay avant qu'on lance l'animation.
     public float animationSpeedSO; // Vitesse de l'animator.
+    public float numberOfCollider; // Nombre de Collider.
 
     // Common Bool
     public bool isDestructibleSO; // Le props est-il destructible ?
@@ -20,7 +21,6 @@ public class PropsData : ScriptableObject
     public bool isTriggerSO; //Le Collider est-il trigger ?
 
     //Common Animation.
-    public SpriteRenderer spritePropsSO;
-    public Animator animatorPropsSO;
-    public List<Collider2D> propsColliderSO;
+    public Sprite spritePropsSO;
+    public Color spriteHitColorSO;
 }
