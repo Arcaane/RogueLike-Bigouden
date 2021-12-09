@@ -23,6 +23,7 @@ public class Player_FeedBack : MonoBehaviour
     
     // MM Feedback
     [SerializeField] private MMFeedbacks _mmFeedbacks;
+    [SerializeField] private float radiusBPoint = 0.9f * 2;
     #endregion
 
     #region Shake
@@ -55,6 +56,8 @@ public class Player_FeedBack : MonoBehaviour
         } else {
             Destroy(this);
         }
+        
+        
     }
 
     public Vector3 offset;
@@ -69,7 +72,7 @@ public class Player_FeedBack : MonoBehaviour
 
         if (p_attribut.launchProjectileFeedback.activeSelf)
         {
-            Vector3 desiredPos = p_attribut.shootPointPos; // Desired pos = launchpos 
+            Vector3 desiredPos = p_transform.position + p_attribut.shootPointPos * radiusBPoint;  // Desired pos = launchpos 
             Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
             transform.position = smoothedPos;
         }

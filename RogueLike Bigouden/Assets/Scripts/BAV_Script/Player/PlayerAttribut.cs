@@ -618,7 +618,7 @@ public class PlayerAttribut : MonoBehaviour
 
     #region Projectile
 
-    private const float radiusShootPoint = 0.9f;
+    public const float radiusShootPoint = 0.9f;
 
     public void MovementProjectile()
     {
@@ -823,7 +823,8 @@ public class PlayerAttribut : MonoBehaviour
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
-        Gizmos.DrawWireSphere(posPlayer, radiusBeforeDash);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint * 2, 0.25f);
     }
 }
 
