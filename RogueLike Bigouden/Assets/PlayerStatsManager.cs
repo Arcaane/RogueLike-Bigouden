@@ -12,14 +12,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     private string name
     {
-        get { return playerData.nameSO; }
-        set { playerData.nameSO = name; }
+        get => playerData.nameSO;
+        set => playerData.nameSO = name;
     }
 
     private string description
     {
-        get { return playerData.descriptionSO; }
-        set { playerData.descriptionSO = description; }
+        get => playerData.descriptionSO;
+        set => playerData.descriptionSO = description;
     }
 
     private int actualUltPointSO
@@ -233,6 +233,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isDashing;
     public bool readyToDash;
     public bool onButter;
+    public bool getHurt;
     
     // Others
     public GameObject FloatingTextPrefab;
@@ -289,12 +290,17 @@ public class PlayerStatsManager : MonoBehaviour
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;
+
+        getHurt = false;
+
     }
 
     #region Functions
 
     public void TakeDamage(int damage)
     {
+        getHurt = true;
+        
         //if (!isDashing)
         //{
             if (shieldPoint > 0)
@@ -310,10 +316,11 @@ public class PlayerStatsManager : MonoBehaviour
             ShowFloatingText(damage);
             UIManager.instance.RefreshUI();
             
-        
             if (lifePoint <= 0)
                 Death();
         //}
+
+        getHurt = false;
     }
 
     private void Death()

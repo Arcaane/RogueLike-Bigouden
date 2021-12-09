@@ -53,7 +53,6 @@ public class DialogueManager : MonoBehaviour
                 line++;
             }
         }
-       
     }
 
 

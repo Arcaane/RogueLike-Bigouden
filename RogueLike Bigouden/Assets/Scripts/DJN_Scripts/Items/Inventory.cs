@@ -45,11 +45,7 @@ public class Inventory : MonoBehaviour
         {
             if (!isChecking)
             {
-                
-                
-                
-                
-                  switch (i.condition)
+                switch (i.condition)
             {
                 case Items.Condition.None:
                     ApplyItemEffect(i);
@@ -974,6 +970,4 @@ public class Inventory : MonoBehaviour
         Destroy(spawnObject);
         Debug.Log(spawnObject + " have been destroyed");
     }
-    
-
 }

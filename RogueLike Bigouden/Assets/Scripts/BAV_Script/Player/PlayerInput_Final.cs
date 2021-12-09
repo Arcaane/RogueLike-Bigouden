@@ -27,7 +27,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value A")]
     //Concerne la valeur d'input de A
     [SerializeField]
-    private float buttonAValue;
+    public float buttonAValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _A_isDash;
@@ -37,7 +37,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value B")]
     //Concerne la valeur d'input de B
     [SerializeField]
-    private float buttonBValue;
+    public float buttonBValue;
 
     [SerializeField] private float buttonBHoldValue;
 
@@ -49,7 +49,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value X")]
     //Concerne la valeur d'input de X
     [SerializeField]
-    private float buttonXValue;
+    public float buttonXValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _X_isDash;
@@ -59,7 +59,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Y")]
     //Concerne la valeur d'input de Y
     [SerializeField]
-    private float buttonYValue;
+    public float buttonYValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _Y_isDash;
@@ -79,7 +79,7 @@ public class PlayerInput_Final : MonoBehaviour
     [Header("Boutton Value Top Right ")]
     //Concerne la valeur d'input de Top Right Trigger
     [SerializeField]
-    private float trigger_RightTopValue;
+    public float trigger_RightTopValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightTop_isDash;
