@@ -6,11 +6,15 @@ using UnityEngine;
 public class BeurreDoux : MonoBehaviour
 {
     private TrailRenderer m_trail;
+    private MeshFilter _meshFilter;
+    private MeshCollider _meshCollider;
     private GameObject player;
     
     private void Start()
     {
         m_trail = GetComponent<TrailRenderer>();
+        _meshFilter = GetComponent<MeshFilter>();
+        _meshCollider = GetComponent<MeshCollider>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -18,10 +22,10 @@ public class BeurreDoux : MonoBehaviour
     {
         if(player)
             gameObject.transform.position = player.transform.position;
-
-        if (!player)
-            player = GameObject.FindGameObjectWithTag("Player");
         
-        
+        m_trail.BakeMesh(_meshFilter.mesh, Camera.main, true);
+        _meshCollider.sharedMesh = _meshFilter.mesh;
     }
+
+    
 }
