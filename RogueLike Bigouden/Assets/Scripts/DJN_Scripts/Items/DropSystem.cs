@@ -98,17 +98,17 @@ public class DropSystem : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.GetComponent<Inventory>())
+        if (other.GetComponent<Inventory>()) // On peut enlever normalement
         {
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
             
-            if (Input.GetKeyDown(KeyCode.Space) && other.GetComponent<Inventory>().currentMoney >= itemSelect.price)
+            if (Input.GetKeyDown(KeyCode.X) && other.GetComponent<Inventory>().currentMoney >= itemSelect.price) // PlayerStat Money
             {
                 other.GetComponent<Inventory>().items.Add(itemSelect);
-                other.GetComponent<Inventory>().currentMoney -= itemSelect.price;
+                other.GetComponent<Inventory>().currentMoney -= itemSelect.price; // PlayerStat Money
                 Destroy(gameObject);
             }
         }
