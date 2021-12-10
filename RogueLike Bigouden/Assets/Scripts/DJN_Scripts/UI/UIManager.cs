@@ -207,6 +207,7 @@ public class UIManager : MonoBehaviour
                 p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
                 p1_healthText.text = rlifePoint + "/" + rmaxLifePoint;
                 p1_moneyText.text = currentMoney.ToString();
+                p1_moneyText.text = PlayerStatsManager.playerStatsInstance.money.ToString();
             }
             /*
             if (i == 1)

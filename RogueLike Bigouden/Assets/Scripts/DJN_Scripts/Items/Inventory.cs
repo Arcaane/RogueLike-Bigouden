@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour
     public List<Items> items;
     public Items itemOnTheFloor;
     public bool conditionActivate;
-    public int currentMoney;
     private int moneyCollect;
     public int roll;
 
@@ -38,9 +37,6 @@ public class Inventory : MonoBehaviour
 
     public void CheckItemCondition()
     {
-
-       
-        
         foreach (Items i in items)
         {
             if (!isChecking)
@@ -217,7 +213,7 @@ public class Inventory : MonoBehaviour
                             break;
                         
                         case Items.Value.Money:
-                            if (currentMoney == Mathf.FloorToInt(i.conditionValueToReach))
+                            if (playerStats.money == Mathf.FloorToInt(i.conditionValueToReach))
                             {
                                 ApplyItemEffect(i);
                                 isChecking = true;
@@ -336,7 +332,7 @@ public class Inventory : MonoBehaviour
             switch (i.variableTarget)
             {
                 case Items.VariableTarget.Money:
-                    i.modAmount = Mathf.FloorToInt(currentMoney * i.anotherVariableModPourcentage);
+                    i.modAmount = Mathf.FloorToInt(playerStats.money * i.anotherVariableModPourcentage);
                     break;
                 
                 case Items.VariableTarget.Health:
@@ -822,16 +818,16 @@ public class Inventory : MonoBehaviour
                                 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseCMoney = currentMoney;
-                                    currentMoney += i.modAmount;
+                                    float baseCMoney = playerStats.money;
+                                    playerStats.money += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
-                                    currentMoney = Mathf.FloorToInt(baseCMoney);
+                                    playerStats.money = Mathf.FloorToInt(baseCMoney);
                                     isChecking = false;
                                 }
                             }
                             else
                             {
-                                currentMoney += i.modAmount;
+                                playerStats.money += i.modAmount;
                                 isChecking = false;
                             }
                         }

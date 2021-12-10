@@ -57,11 +57,12 @@ public class DropSystem : MonoBehaviour
             EndLevelItemDrop();
         }
         
-        if (playerOnIt && Input.GetKeyDown(KeyCode.X) && playerInventory.currentMoney >= itemSelect.price) // PlayerStat Money
+        if (playerOnIt && Input.GetKeyDown(KeyCode.X) && PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
         {
             playerInventory.items.Add(itemSelect);
-            playerInventory.currentMoney -= itemSelect.price; // PlayerStat Money
+            PlayerStatsManager.playerStatsInstance.money -= itemSelect.price; // PlayerStat Money
             Destroy(gameObject);
+            UIManager.instance.RefreshUI();
         }
         
     }
