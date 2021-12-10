@@ -76,7 +76,8 @@ public class PlayerAttribut : MonoBehaviour
     private int isHurt;
     private Vector3 targetPos;
 
-    [Space(10)] [Header("Player Attack Projectile")]
+    [Space(10)] 
+    [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
     private Vector3 shootPointPos;
@@ -103,6 +104,11 @@ public class PlayerAttribut : MonoBehaviour
 
     //bool--------------------
     [SerializeField] private bool isUlting;
+
+    [Header("Boolean pour dialogue et Item")] 
+    [SerializeField] private bool canTakeItem;
+    [SerializeField] private bool canTalk;
+    [SerializeField] private bool canSkipDialogue;
 
 
     [Header("Dogdge Ability")]
@@ -757,34 +763,7 @@ public class PlayerAttribut : MonoBehaviour
             isBounce = false;
         }
     }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (!isBounce)
-        {
-            if (other.gameObject.CompareTag("Sofa"))
-            {
-                Debug.Log(_bounceCount);
-
-                float speed = lastVelocity.magnitude * bounceForce;
-                Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
-                rb.velocity = direction * Mathf.Max(speed, 0f);
-
-                //For Projectile Only.
-                /*
-                _bounceCount--;
-                float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-                transform.rotation = Quaternion.Euler(0, 0, angle);
-                */
-
-                isBounce = true;
-            }
-            else
-            {
-                isBounce = false;
-            }
-        }
-    }
+    
 
 
     [SerializeField] private float radiusBeforeDash;
