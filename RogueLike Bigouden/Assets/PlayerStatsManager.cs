@@ -23,110 +23,122 @@ public class PlayerStatsManager : MonoBehaviour
 
     private int actualUltPointSO
     {
-        get { return playerData.actualUltPointSO; }
-        set { playerData.actualUltPointSO = actualUltPointSO; }
+        get => playerData.actualUltPointSO;
+        set => playerData.actualUltPointSO = actualUltPointSO;
     }
 
     private int ultMaxPointSO
     {
-        get { return playerData.ultMaxPointSO; }
-        set { playerData.ultMaxPointSO = ultMaxPointSO; }
+        get => playerData.ultMaxPointSO;
+        set => playerData.ultMaxPointSO = ultMaxPointSO;
     }
 
     private int lifePointSO
     {
-        get { return playerData.lifePointsSO; }
-        set { playerData.lifePointsSO = lifePointSO; }
+        get => playerData.lifePointsSO;
+        set => playerData.lifePointsSO = lifePointSO;
+    }
+    
+    private int dashCounterSO
+    {
+        get => playerData.dashCounterSO;
+        set => playerData.dashCounterSO = dashCounterSO;
     }
 
     private int shieldPointSO
     {
-        get { return playerData.shieldPointSO; }
-        set { playerData.shieldPointSO = shieldPointSO; }
+        get => playerData.shieldPointSO;
+        set => playerData.shieldPointSO = shieldPointSO;
     }
 
     private int damageXSO
     {
-        get { return playerData.damageXSO; }
-        set { playerData.damageXSO = damageXSO; }
+        get => playerData.damageXSO;
+        set => playerData.damageXSO = damageXSO;
     }
 
     private int damageYSO
     {
-        get { return playerData.damageYSO; }
-        set { playerData.damageYSO = damageYSO; }
+        get => playerData.damageYSO;
+        set => playerData.damageYSO = damageYSO;
     }
 
     private int damageProjectileSO
     {
-        get { return playerData.damageProjectileSO; }
-        set { playerData.damageProjectileSO = damageProjectileSO; }
+        get => playerData.damageProjectileSO;
+        set => playerData.damageProjectileSO = damageProjectileSO;
     }
 
     private int ultPointToAddPerHitSO
     {
-        get { return playerData.ultPointToAddPerHitSO; }
-        set { playerData.ultPointToAddPerHitSO = ultPointToAddPerHitSO; }
+        get => playerData.ultPointToAddPerHitSO;
+        set => playerData.ultPointToAddPerHitSO = ultPointToAddPerHitSO;
     }
 
     private int ultPointToAddPerKillSO
     {
-        get { return playerData.ultPointToAddPerKillSO; }
-        set { playerData.ultPointToAddPerKillSO = ultPointToAddPerKillSO; }
+        get => playerData.ultPointToAddPerKillSO;
+        set => playerData.ultPointToAddPerKillSO = ultPointToAddPerKillSO;
     }
 
     private int damageUltSO
     {
-        get { return playerData.damageUltSO; }
-        set { playerData.damageUltSO = damageUltSO; }
+        get => playerData.damageUltSO;
+        set => playerData.damageUltSO = damageUltSO;
     }
 
     private float movementSpeedSO
     {
-        get { return playerData.movementSpeedSO; }
-        set { playerData.movementSpeedSO = movementSpeedSO; }
+        get => playerData.movementSpeedSO;
+        set => playerData.movementSpeedSO = movementSpeedSO;
     }
 
     private float attackRangeXSO
     {
-        get { return playerData.attackRangeXSO; }
-        set { playerData.attackRangeXSO = attackRangeXSO; }
+        get => playerData.attackRangeXSO;
+        set => playerData.attackRangeXSO = attackRangeXSO;
     }
 
     private float attackCdXSO
     {
-        get { return playerData.attackCdXSO; }
-        set { playerData.attackCdXSO = attackCdXSO; }
+        get => playerData.attackCdXSO;
+        set => playerData.attackCdXSO = attackCdXSO;
     }
 
     private float attackRangeYSO
     {
-        get { return playerData.attackRangeYSO; }
-        set { playerData.attackRangeYSO = attackRangeYSO; }
+        get => playerData.attackRangeYSO;
+        set => playerData.attackRangeYSO = attackRangeYSO;
     }
 
     private float attackCdYSO
     {
-        get { return playerData.attackCdYSO; }
-        set { playerData.attackCdYSO = attackCdYSO; }
+        get => playerData.attackCdYSO;
+        set => playerData.attackCdYSO = attackCdYSO;
     }
 
     private float attackRangeProjectileSO
     {
-        get { return playerData.attackRangeProjectileSO; }
-        set { playerData.attackRangeProjectileSO = attackRangeProjectileSO; }
+        get => playerData.attackRangeProjectileSO;
+        set => playerData.attackRangeProjectileSO = attackRangeProjectileSO;
     }
 
     private float attackCdBSO
     {
-        get { return playerData.attackCdBSO; }
-        set { playerData.attackCdBSO = attackCdBSO; }
+        get => playerData.attackCdBSO;
+        set => playerData.attackCdBSO = attackCdBSO;
     }
 
-    private float dashRangeSO
+    private float DashSpeedSo
     {
-        get { return playerData.dashRangeSO; }
-        set { playerData.dashRangeSO = dashRangeSO; }
+        get { return playerData.dashSpeedSO; }
+        set { playerData.dashSpeedSO = DashSpeedSo; }
+    }
+    
+    private float dashDurationSO
+    {
+        get { return playerData.dashDurationSO; }
+        set { playerData.dashDurationSO = dashDurationSO; }
     }
 
     private float dashCooldownSO
@@ -134,7 +146,7 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.dashCooldownSO; }
         set { playerData.dashCooldownSO = dashCooldownSO; }
     }
-
+    
     private float ultDurationSO
     {
         get { return playerData.ultDurationSO; }
@@ -164,17 +176,47 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.readyToAttackXSO; }
         set { playerData.readyToAttackXSO = readyToAttackXSO; }
     }
+    private bool isAttackFirstXSO
+    {
+        get { return playerData.isAttackFirstXSO; }
+        set { playerData.isAttackFirstXSO = isAttackFirstXSO; }
+    }
+    
+    private bool isAttackSecondXSO
+    {
+        get { return playerData.isAttackSecondXSO; }
+        set { playerData.isAttackSecondXSO = isAttackSecondXSO; }
+    }
+    
+    private bool isAttackingXSO
+    {
+        get { return playerData.isAttackingXSO; }
+        set { playerData.isAttackingXSO = isAttackingXSO; }
+    }
 
+    
     private bool readyToAttackYSO
     {
         get { return playerData.readyToAttackYSO; }
         set { playerData.readyToAttackYSO = readyToAttackYSO; }
     }
 
+    private bool isAttackYSO
+    {
+        get { return playerData.isAttackYSO; }
+        set { playerData.isAttackYSO = isAttackYSO; }
+    }
+
     private bool readyToAttackBSO
     {
         get { return playerData.readyToAttackBSO; }
         set { playerData.readyToAttackBSO = readyToAttackBSO; }
+    }
+    
+    private bool isAttackBSO
+    {
+        get { return playerData.isAttackBSO; }
+        set { playerData.isAttackBSO = isAttackBSO; }
     }
 
     private bool isDashingSO
@@ -207,6 +249,7 @@ public class PlayerStatsManager : MonoBehaviour
     public int ultPointToAddPerHit;
     public int ultPointToAddPerKill;
     public int damageUlt;
+    public int money;
 
     // Floats
     public float movementSpeed;
@@ -216,7 +259,9 @@ public class PlayerStatsManager : MonoBehaviour
     public float attackCdY;
     public float attackRangeProjectile;
     public float attackCdB;
-    public float dashRange;
+    public float dashSpeed;
+    public float dashCounter;
+    public float dashDuration;
     public float dashCooldown;
     public float ultDuration;
     public float bonusSpeed;
@@ -226,9 +271,14 @@ public class PlayerStatsManager : MonoBehaviour
     public Vector2 secondAttackReset;
 
     // Bools
+    public bool isAttackingX;
     public bool readyToAttackX;
+    public bool isAttackFirstX;
+    public bool isAttackSecondX;
     public bool readyToAttackY;
+    public bool isAttackY;
     public bool readyToAttackB;
+    public bool isAttackB;
     public bool isDashing;
     public bool readyToDash;
     public bool onButter;
@@ -258,22 +308,25 @@ public class PlayerStatsManager : MonoBehaviour
         lifePoint = lifePointSO;
         maxLifePoint = lifePoint;
         shieldPoint = shieldPointSO;
+        dashCounter = dashCounterSO;
         damageX = damageXSO;
         damageY = damageYSO;
         damageProjectile = damageProjectileSO;
         ultPointToAddPerHit = ultPointToAddPerHitSO;
         ultPointToAddPerKill = ultPointToAddPerKillSO;
         damageUlt = damageUltSO;
+        money = 0;
 
         //Set Float
         movementSpeed = movementSpeedSO;
-        attackRangeX = attackCdXSO;
+        attackRangeX = attackRangeXSO;
         attackCdX = attackCdXSO;
         attackRangeY = attackRangeYSO;
         attackCdY = attackCdYSO;
         attackRangeProjectile = attackRangeProjectileSO;
         attackCdB = attackCdBSO;
-        dashRange = dashRangeSO;
+        dashSpeed = DashSpeedSo;
+        dashDuration = dashDurationSO;
         dashCooldown = dashCooldownSO;
         ultDuration = ultDurationSO;
         bonusSpeed = bonusSpeedSO;
@@ -283,9 +336,14 @@ public class PlayerStatsManager : MonoBehaviour
         secondAttackReset = secondAttackResetSO;
 
         // Bools
+        isAttackingX = isAttackingXSO;
         readyToAttackX = readyToAttackXSO;
+        isAttackFirstX = isAttackFirstXSO;
+        isAttackSecondX = isAttackSecondXSO;
         readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
+        isAttackY = isAttackYSO; // Peut utiliser l'attaque Y
         readyToAttackB = readyToAttackBSO; // Peut utiliser l'attaque projectile
+        isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;

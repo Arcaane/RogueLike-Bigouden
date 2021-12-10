@@ -22,6 +22,11 @@ public class AttackSystemSpline : MonoBehaviour
 
     public bool addPoint = false;
 
+    public void Start()
+    {
+        radiusAttack = PlayerStatsManager.playerStatsInstance.attackRangeX;
+    }
+
 
     public int CurveCount
     {

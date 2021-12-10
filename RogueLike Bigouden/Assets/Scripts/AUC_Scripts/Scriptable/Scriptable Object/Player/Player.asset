@@ -17,29 +17,36 @@ MonoBehaviour:
   actualUltPointSO: 0
   ultMaxPointSO: 100
   lifePointsSO: 40
+  dashCounterSO: 2
   shieldPointSO: 1
   damageXSO: 3
   damageYSO: 5
   damageProjectileSO: 2
   damageUltSO: 1
-  ultPointToAddPerHitSO: 2
-  ultPointToAddPerKillSO: 4
-  movementSpeedSO: 1.5
-  attackRangeXSO: 0
+  ultPointToAddPerHitSO: 0
+  ultPointToAddPerKillSO: 3
+  movementSpeedSO: 5
+  attackRangeXSO: 0.8
   attackCdXSO: 0
   attackRangeYSO: 0
   attackCdYSO: 0
   attackRangeProjectileSO: 0
-  attackCdBSO: 0
-  dashRangeSO: 0
-  dashCooldownSO: 0
-  ultDurationSO: 0
+  attackCdBSO: 7
+  dashSpeedSO: 8
+  dashDurationSO: 0.2
+  dashCooldownSO: 0.5
+  ultDurationSO: 10
   bonusSpeedSO: 0
   firstAttackResetSO: {x: 0.3, y: 0.5}
   secondAttackResetSO: {x: 0.2, y: 0.4}
+  isAttackingXSO: 0
   readyToAttackXSO: 0
+  isAttackFirstXSO: 0
+  isAttackSecondXSO: 0
   readyToAttackYSO: 0
+  isAttackYSO: 0
   readyToAttackBSO: 0
+  isAttackBSO: 0
   isDashingSO: 0
   readyToDashSO: 0
   onButterSO: 0

@@ -23,9 +23,6 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] private float _timerBetweenDash;
     [SerializeField] private float _timerAttack;
-    [SerializeField] private float _timerDelayAttack;
-    [SerializeField] private float _timerDodgeEffect;
-    [SerializeField] private float _delayProjectile;
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
 
@@ -44,12 +41,6 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private bool isBounce;
     [SerializeField] private Vector3 lastVelocity;
 
-
-    [Header("Vitesse du joueur")]
-    //Vitesse de déplacement du joueur.
-    public float moveSpeed = 5;
-
-
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
 
@@ -63,14 +54,6 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] float _dashSpeed;
 
     public float durationDash = 1f;
-    public float durationCooldownDash = 1f;
-
-    //int--------------------
-    public int dashCount = 3;
-
-    //bool--------------------
-    public bool isDash;
-    public bool canDash;
 
     //private value for Dash------------------
     [SerializeField] private float dashCounter;
@@ -81,20 +64,12 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
-    [SerializeField] private Transform offsetAttackXY;
-
     [SerializeField] public AttackSystemSpline attackSpline;
     [SerializeField] public ProjectilePath attackPath;
 
     //float-------------------
-    [SerializeField] public float valueBeforeResetAttack;
     [SerializeField] public float attackType;
     [SerializeField] public float attackMovingSpeed;
-
-    //bool--------------------
-    public bool isAttacking;
-    public bool launchFirstAttack;
-    public bool launchSecondAttack;
     public bool launchAOEAttack;
 
     //Valor for detecting a hit
@@ -109,7 +84,6 @@ public class PlayerAttribut : MonoBehaviour
     //Projectile Attack Position
     [SerializeField] private GameObject AttackProjectile;
     [SerializeField] public GameObject launchProjectileFeedback;
-    [SerializeField] private float speedProjectile;
     [SerializeField] private float damageProjectile;
     [SerializeField] public float delayProjectile;
     [SerializeField] public float delayProjectileReduction;
@@ -118,20 +92,12 @@ public class PlayerAttribut : MonoBehaviour
     //Offset of the end Position
     [SerializeField] private float offsetEndPosProjectile;
 
-    //Projectile is launch
-    [SerializeField] public bool launchProjectile;
-    [SerializeField] public bool canLaunchProjectile;
-
 
     [Space(10)]
     [Header("Player Ultimate")]
     //float--------------------
     [SerializeField]
     private GameObject ultBulletSpawner;
-
-    [SerializeField] private float numberOfBullet;
-
-    [SerializeField] private float incrementValue;
     [SerializeField] private float ultDuration;
 
     //bool--------------------
@@ -145,6 +111,7 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] private float durationEffect;
     [SerializeField] private float speedModification;
+    [SerializeField] private float _timerDodgeEffect;
 
     ////bool-----------------------------------
     [SerializeField] public bool useDodgeAbility;
@@ -166,8 +133,6 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] private Camera cam;
     [SerializeField] private float _timerBeforeResetPosCamera;
-    [SerializeField] private float durationMove;
-    [SerializeField] Vector3 offset;
     [SerializeField] Vector2 limitationArray;
 
     [Space(10)]
@@ -191,7 +156,6 @@ public class PlayerAttribut : MonoBehaviour
     Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
     [SerializeField] Vector3 _look;
-    [SerializeField] Vector3 _objPosition;
 
     [HideInInspector] public Vector3 _move;
 
@@ -222,12 +186,13 @@ public class PlayerAttribut : MonoBehaviour
         ultBulletSpawner.SetActive(false);
 
         //_isDashing = _playerStatsManager.isDashing;
-        canDash = true;
-        canLaunchProjectile = true;
+        _playerStatsManager.readyToDash = true;
+        _playerStatsManager.readyToAttackX = true;
+        _playerStatsManager.readyToAttackY = true;
+        _playerStatsManager.readyToAttackB = true;
 
         Player_FeedBack.fb_instance.p_attribut = this;
         Player_FeedBack.fb_instance.p_transform = transform;
-        
     }
 
     private void Start()
@@ -244,7 +209,7 @@ public class PlayerAttribut : MonoBehaviour
     private void Update()
     {
         _attackPath.Path();
-        if (isDash || isAttacking)
+        if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX)
         {
             ResetSmallMovement();
             DetectAttackCamera();
@@ -253,7 +218,7 @@ public class PlayerAttribut : MonoBehaviour
             DodgeAbility_T();
         }
 
-        if (launchProjectile && canLaunchProjectile)
+        if (_playerStatsManager.isAttackB && _playerStatsManager.readyToAttackB)
         {
             MovementProjectile();
         }
@@ -263,12 +228,12 @@ public class PlayerAttribut : MonoBehaviour
             UltimateDelay();
         }
 
-        if (!canLaunchProjectile)
+        if (!_playerStatsManager.readyToAttackB)
         {
             ResetLaunchProjectile();
         }
 
-        if (canLaunchProjectile && !launchProjectile)
+        if (_playerStatsManager.readyToAttackB && !_playerStatsManager.isAttackB)
         {
             shootPointPos = (_lastPosition);
             shootPointPos.Normalize();
@@ -278,11 +243,11 @@ public class PlayerAttribut : MonoBehaviour
 
         if (launchProjectileFeedback.activeSelf)
         {
-            moveSpeed = 0.5f;
+            _playerStatsManager.movementSpeed = 0.5f;
         }
         else
         {
-            moveSpeed = 5f;
+            _playerStatsManager.movementSpeed  = 5f;
         }
 
         //Stock l'ancienne Velocity
@@ -310,12 +275,12 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (!isUlting)
         {
-            if (launchFirstAttack || launchSecondAttack)
+            if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
-                transform.Translate(_move * moveSpeed * (1.3f) * _timeManager.CustomDeltaTimePlayer);
+                transform.Translate(_move * _playerStatsManager.movementSpeed  * (1.3f) * _timeManager.CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * moveSpeed * _timeManager.CustomDeltaTimePlayer);
+                transform.Translate(_move * _playerStatsManager.movementSpeed  * _timeManager.CustomDeltaTimePlayer);
         }
     }
 
@@ -328,12 +293,12 @@ public class PlayerAttribut : MonoBehaviour
         SetJoystickValue(moving);
         animatorPlayer.SetFloat("Magnitude", movementInput.magnitude);
 
-        if (launchFirstAttack)
+        if (_playerStatsManager.isAttackFirstX)
         {
             SetJoystickValue(moving);
             SetAttackValue(true);
         }
-        else if (launchSecondAttack && !launchFirstAttack)
+        else if (_playerStatsManager.isAttackSecondX && !_playerStatsManager.isAttackFirstX)
 
         {
             SetJoystickValue(moving);
@@ -379,7 +344,7 @@ public class PlayerAttribut : MonoBehaviour
     void Attack(bool look)
     {
         switch (look && lookAxis.x > 0 || lookAxis.x < 0 || lookAxis.y > 0 ||
-                lookAxis.y < 0 && lookAxis != Vector2.zero && !isAttacking)
+                lookAxis.y < 0 && lookAxis != Vector2.zero && !_playerStatsManager.isAttackingX)
         {
             case true:
                 float rotationXObjLook = (Mathf.Atan2(lookAxis.y, lookAxis.x) * Mathf.Rad2Deg) - 90f;
@@ -415,19 +380,19 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Dash()
     {
-        canDash = true;
+        _playerStatsManager.readyToDash = true;
         dashCounter++;
         if (dashCounter >= 1)
         {
-            isDash = true;
-            if (dashCounter >= dashCount)
+            _playerStatsManager.isDashing = true;
+            if (dashCounter >= _playerStatsManager.dashCounter)
             {
-                dashCounter = dashCount;
-                canDash = false;
+                dashCounter = _playerStatsManager.dashCounter;
+                _playerStatsManager.readyToDash = false;
             }
         }
 
-        if (canDash && !isUlting)
+        if (_playerStatsManager.readyToDash && !isUlting)
         {
             StartDash();
         }
@@ -471,7 +436,7 @@ public class PlayerAttribut : MonoBehaviour
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
-        velocity += dir.normalized * (dashSpeedRB * dashIntValue);
+        velocity += dir.normalized * (_playerStatsManager.dashSpeed * dashIntValue);
         rb.velocity = velocity;
         StartCoroutine(DashWaitCorou());
     }
@@ -484,8 +449,8 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(playerFeedBack.vibrationForce);
         }
 
-        _isDashing = true;
-        yield return new WaitForSeconds(durationDash / 2);
+        _playerStatsManager.isDashing = true;
+        yield return new WaitForSeconds(_playerStatsManager.dashDuration / 2);
         if (useVibration)
         {
             playerFeedBack.MovingRumble(Vector2.zero);
@@ -493,7 +458,7 @@ public class PlayerAttribut : MonoBehaviour
 
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
-        _isDashing = false;
+        _playerStatsManager.isDashing = false;
     }
 
     public void DashTP(float speed)
@@ -518,12 +483,12 @@ public class PlayerAttribut : MonoBehaviour
 
     public void AttackTypeX()
     {
-        isAttacking = true;
+        _playerStatsManager.isAttackingX = true;
         attackType++;
         if (attackType == 1)
         {
             attackPath.launchFirstAttack = true;
-            launchFirstAttack = true;
+            _playerStatsManager.isAttackFirstX = true;
             animatorPlayer.speed = _timeManager.m_speedRalentiPlayer;
         }
 
@@ -532,26 +497,26 @@ public class PlayerAttribut : MonoBehaviour
             _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
         {
             attackType = 2;
-            launchFirstAttack = false;
-            launchSecondAttack = true;
+            _playerStatsManager.isAttackFirstX = false;
+            _playerStatsManager.isAttackSecondX = true;
         }
     }
 
     public void Reset()
     {
-        if (isDash)
+        if (_playerStatsManager.isDashing)
         {
             _timerDash += _timeManager.CustomDeltaTimePlayer;
-            if (_timerDash >= durationCooldownDash)
+            if (_timerDash >= _playerStatsManager.dashCooldown)
             {
-                canDash = true;
-                isDash = false;
+                _playerStatsManager.readyToDash = true;
+                _playerStatsManager.isDashing = false;
                 dashCounter = 0f;
                 _timerDash = 0f;
             }
         }
 
-        if (isAttacking)
+        if (_playerStatsManager.isAttackingX)
         {
             _timerAttack += _timeManager.CustomDeltaTimePlayer;
             if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
@@ -567,24 +532,24 @@ public class PlayerAttribut : MonoBehaviour
                 spriteRendererFrame.color = colorReset;
             }
 
-            if (launchFirstAttack && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
+            if (_playerStatsManager.isAttackFirstX && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
             {
                 attackType = 0;
-                isAttacking = false;
-                launchFirstAttack = false;
+                _playerStatsManager.isAttackingX = false;
+                _playerStatsManager.isAttackFirstX = false;
                 attackPath.launchFirstAttack = false;
                 attackPath.progress = 0f;
                 _timerAttack = 0f;
             }
 
-            if (launchSecondAttack)
+            if (_playerStatsManager.isAttackSecondX)
             {
                 if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
                 {
                     attackType = 0;
-                    isAttacking = false;
-                    launchFirstAttack = false;
-                    launchSecondAttack = false;
+                    _playerStatsManager.isAttackingX = false;
+                    _playerStatsManager.isAttackFirstX = false;
+                    _playerStatsManager.isAttackSecondX = false;
                     attackPath.launchFirstAttack = false;
                     attackPath.launchSecondAttack = false;
                     attackPath.progress = 0f;
@@ -623,9 +588,9 @@ public class PlayerAttribut : MonoBehaviour
     public void MovementProjectile()
     {
         damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
-        launchProjectile = false;
-        p_delay = delayProjectile;
-        canLaunchProjectile = false;
+        _playerStatsManager.isAttackB  = false;
+        p_delay = _playerStatsManager.attackCdB;
+        _playerStatsManager.readyToAttackB = false;
 
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
@@ -639,13 +604,13 @@ public class PlayerAttribut : MonoBehaviour
 
     private void ResetLaunchProjectile()
     {
-        canLaunchProjectile = false;
+        _playerStatsManager.readyToAttackB = false;
         Debug.Log("pls sir");
         p_delay -= Time.deltaTime;
         if (p_delay <= 0)
         {
             p_delay = 0;
-            canLaunchProjectile = true;
+            _playerStatsManager.readyToAttackB = true;
         }
     }
 
@@ -663,8 +628,8 @@ public class PlayerAttribut : MonoBehaviour
     //Ultimate Delay when he is Activate.
     public void UltimateDelay()
     {
-        ultDuration = PlayerStatsManager.playerStatsInstance.actualUltPoint;
-        if (ultDuration > 10)
+        ultDuration = _playerStatsManager.actualUltPoint;
+        if (ultDuration > _playerStatsManager.ultDuration)
         {
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += _timeManager.CustomDeltaTimePlayer;
@@ -676,7 +641,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
                 isUlting = false;
-                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+                _playerStatsManager.actualUltPoint = 0;
             }
         }
         else
@@ -688,7 +653,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
                 isUlting = false;
-                PlayerStatsManager.playerStatsInstance.actualUltPoint = 0;
+                _playerStatsManager.actualUltPoint = 0;
             }
         }
     }
@@ -756,7 +721,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
-        moveSpeed *= speedModification;
+        _playerStatsManager.movementSpeed  *= speedModification;
         _timerDodgeEffect += _timeManager.CustomDeltaTimePlayer;
         if (_timerAttack >= durationEffect)
         {

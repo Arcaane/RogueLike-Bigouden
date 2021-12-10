@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,25 +8,25 @@ public class YellowCocktailBehaviour : MonoBehaviour
     [SerializeField] private LayerMask isPlayer;
     void Start()
     {
-        InvokeRepeating(nameof(DamageAndSlowPlayer), 1, 1.5f); 
+        InvokeRepeating(nameof(DamagePlayer), 1, 1.5f); 
         Destroy(gameObject, 5f);
     }
 
-    private void DamageAndSlowPlayer()
+    private void DamagePlayer()
     {
-        Collider2D[] playerCircleAll = Physics2D.OverlapCircleAll(transform.position, 2, isPlayer);
+        Collider2D[] playerCircleAll = Physics2D.OverlapCircleAll(transform.position, 1, isPlayer);
         foreach (var p in playerCircleAll)
         {
-            p.GetComponent<PlayerStatsManager>().lifePoint -= 1;
-            p.GetComponent<PlayerStatsManager>().movementSpeed *= 0.9f;
+            p.GetComponent<PlayerStatsManager>().TakeDamage(1);
             Debug.Log("Player hit : " + p.name + " by yellow cocktail");
-            StartCoroutine(ResetMoveSpeed(p));
         }
     }
 
-    private IEnumerator ResetMoveSpeed(Collider2D p)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        yield return new WaitForSeconds(3f);
-        p.GetComponent<PlayerStatsManager>().movementSpeed *= 1.1f;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerStatsManager.playerStatsInstance.movementSpeed *= 0.8f;
+        }
     }
 }

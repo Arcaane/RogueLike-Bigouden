@@ -114,8 +114,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftPress_isProjectile;
     [SerializeField] private bool _LeftPress_IsUlt;
 
-    [Header("Boutton Value Left Stick Press ")] [SerializeField]
-    private float stick_RightPressValue;
+    [Header("Boutton Value Left Stick Press ")] 
+    [SerializeField] private float stick_RightPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightPress_isDash;
@@ -156,8 +156,8 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
         //Use Stick----------
-        playerConfig.Input.onActionTriggered += OnMove;
-        //controls.Player.Move.performed += OnMove;
+        controls.Player.Move.performed += OnMove;
+        controls.Player.Move.canceled += OnMove;
         //controls.Player.Look.performed += OnLook;
     }
 
@@ -218,7 +218,7 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        if (playerAttribut.canLaunchProjectile)
+        if (PlayerStatsManager.playerStatsInstance.readyToAttackB)
         {
             if (buttonB.started)
             {
@@ -245,13 +245,13 @@ public class PlayerInput_Final : MonoBehaviour
                     if (buttonBValue >= InputSystem.settings.defaultHoldTime)
                     {
                         Debug.Log("Button Held");
-                        playerAttribut.launchProjectile = true;
+                        PlayerStatsManager.playerStatsInstance.isAttackB = true;
                     }
                     else
                     {
                         if (buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
                         {
-                            playerAttribut.launchProjectile = false;
+                            PlayerStatsManager.playerStatsInstance.isAttackB = false;
                             Debug.Log("Button tapped");
                         }
                     }
@@ -577,9 +577,15 @@ public class PlayerInput_Final : MonoBehaviour
     public void OnMove(CallbackContext leftStick)
     {
         moveValue = leftStick.ReadValue<Vector2>();
-        //if (leftStick.performed)
-        //{
-        playerAttribut.SetInputVector(moveValue, false);
+        if (leftStick.performed)
+        {
+            playerAttribut.SetInputVector(moveValue, false);
+        }
+
+        if (leftStick.canceled)
+        {
+            playerAttribut.SetInputVector(Vector2.zero, false);
+        }
     }
 
     //if (leftStick.canceled)
@@ -601,7 +607,6 @@ public class PlayerInput_Final : MonoBehaviour
         playerAttribut.SetInputVector(kbMouse ? _MousePos : lookLocker, true);
     }
     */
-
     public void Reset()
     {
         //Begin----------

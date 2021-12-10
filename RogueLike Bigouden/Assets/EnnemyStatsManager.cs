@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnnemyStatsManager : MonoBehaviour
 {
@@ -224,6 +225,13 @@ public class EnnemyStatsManager : MonoBehaviour
     {
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
         Destroy(gameObject);
+
+        int rand = Random.Range(0, 2);
+        if (rand == 1)
+        {
+            int newrand = Random.Range(2, 6);
+            PlayerStatsManager.playerStatsInstance.money += newrand;
+        }
     }
 
     public void TakeHeal(int heal)

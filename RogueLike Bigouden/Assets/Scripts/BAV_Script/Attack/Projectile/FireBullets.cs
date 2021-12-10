@@ -67,6 +67,8 @@ public class FireBullets : MonoBehaviour
                     Random.Range(notEnoughBulletsInPoolRandom.x, notEnoughBulletsInPoolRandom.y));
                 break;
         }
+        
+        UIManager.instance.RefreshUI();
     }
 
     private void OnDisable()
