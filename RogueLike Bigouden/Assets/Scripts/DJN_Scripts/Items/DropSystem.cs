@@ -15,18 +15,19 @@ public class DropSystem : MonoBehaviour
     private GameObject gameManager;
     private UIManager _uiManager;
     private CircleCollider2D collider;
-    
+
     public bool shop;
     public bool levelEnding;
-    
-    [Header("Generation Values")]
-    public int roll;
+
+    [Header("Generation Values")] public int roll;
     public int commonValue = 100;
     public int rareValue = 40;
     public int epicValue = 10;
     public Items itemSelect; //assigné un item dans la liste de l'ItemManager en fonction de son dropRate.
 
     private SpriteRenderer gameobjectSprite;
+    private PlayerAttribut player;
+    private Inventory playerInventory;
 
     // Start is called before the first frame update
     private void Awake()
@@ -35,7 +36,6 @@ public class DropSystem : MonoBehaviour
         gameobjectSprite = GetComponent<SpriteRenderer>();
         collider = GetComponent<CircleCollider2D>();
         _uiManager = FindObjectOfType<UIManager>();
-        
         collider.enabled = false;
     }
 
@@ -57,7 +57,6 @@ public class DropSystem : MonoBehaviour
             Roll();
             collider.enabled = true;
             Debug.Log(roll);
-
             if (roll < epicValue)
             {
                 itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
@@ -102,22 +101,30 @@ public class DropSystem : MonoBehaviour
         {
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
-            
+            if (other.GetComponent<PlayerAttribut>() != null)
+            {
+                player = other.GetComponent<PlayerAttribut>();
+                playerInventory = other.GetComponent<Inventory>();
+                player.canTakeItem = true;
+            }
         }
-
     }
     
-
     private void OnTriggerExit2D(Collider2D other)
     {
         _uiManager.itemInformationPanel.SetActive(false);
+        if (other.GetComponent<PlayerAttribut>() != null)
+        {
+            player = other.GetComponent<PlayerAttribut>();
+            player.canTakeItem = false;
+        }
     }
 
     private void Roll()
     {
         roll = UnityEngine.Random.Range(0, 100);
     }
-    
+
     private void EndLevelItemDrop()
     {
         if (Input.GetKeyDown(KeyCode.Tab) && levelEnding)

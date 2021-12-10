@@ -22,6 +22,7 @@ public class PlayerInput_Final : MonoBehaviour
     private Vector2 _MousePos;
 
     [SerializeField] PlayerAttribut playerAttribut;
+    [SerializeField] Inventory playerInventory;
     public bool isMoving;
 
     [Header("Boutton Value A")]
@@ -114,8 +115,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftPress_isProjectile;
     [SerializeField] private bool _LeftPress_IsUlt;
 
-    [Header("Boutton Value Left Stick Press ")] 
-    [SerializeField] private float stick_RightPressValue;
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_RightPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightPress_isDash;
@@ -186,21 +187,27 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonA.performed)
         {
-            if (_A_isDash)
+            if (!playerAttribut.canTakeItem)
             {
-                playerAttribut.Dash();
-            }
+                if (_A_isDash)
+                {
+                    playerAttribut.Dash();
+                }
 
-            if (_A_isAttack)
+                if (_A_isAttack)
+                {
+                    playerAttribut.AttackTypeX();
+                }
+
+                if (_A_isProjectile)
+                {
+                    //playerAttribut.LaunchProjectile();
+                }
+            }
+            else
             {
-                playerAttribut.AttackTypeX();
+                Debug.Log("Item");   
             }
-
-            if (_A_isProjectile)
-            {
-                //playerAttribut.LaunchProjectile();
-            }
-
             Debug.Log("Button A performed");
         }
 

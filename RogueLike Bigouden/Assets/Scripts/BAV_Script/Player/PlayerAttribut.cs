@@ -11,10 +11,10 @@ public class PlayerAttribut : MonoBehaviour
 {
     private TimeManager timerManager;
 
-    [Header("Component Stats Manager")] [SerializeField]
-    private PlayerStatsManager _playerStatsManager;
-
+    [Header("Component Stats Manager")] 
+    [SerializeField] private PlayerStatsManager _playerStatsManager;
     [SerializeField] private PlayerInput_Final _playerInput;
+    [SerializeField] private Inventory _playerInventory;
 
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
@@ -76,8 +76,7 @@ public class PlayerAttribut : MonoBehaviour
     private int isHurt;
     private Vector3 targetPos;
 
-    [Space(10)] 
-    [Header("Player Attack Projectile")]
+    [Space(10)] [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
     private Vector3 shootPointPos;
@@ -106,9 +105,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private bool isUlting;
 
     [Header("Boolean pour dialogue et Item")] 
-    [SerializeField] private bool canTakeItem;
-    [SerializeField] private bool canTalk;
-    [SerializeField] private bool canSkipDialogue;
+    [SerializeField] public bool canTakeItem;
+    [SerializeField] public bool canTalk;
+    [SerializeField] public bool canSkipDialogue;
 
 
     [Header("Dogdge Ability")]
@@ -125,9 +124,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private bool dodgeAbility;
     [SerializeField] private bool bulletIn;
 
-    [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
-    public SpriteRenderer playerMesh;
-
+    [Header("Animation et Sprite Renderer Joueur")] 
+    [SerializeField] public SpriteRenderer playerMesh;
     [SerializeField] private Animator animatorPlayer;
 
 
@@ -743,27 +741,38 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Sofa"))
         {
-            Debug.Log(_bounceCount);
-
-            float speed = lastVelocity.magnitude * bounceForce;
-            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
-            rb.velocity = direction * Mathf.Max(speed, 0f);
-
-            //For Projectile Only.
-            /*
-            _bounceCount--;
-            float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-            */
-
-            isBounce = true;
-        }
-        else
-        {
-            isBounce = false;
+            BounceSofa(other);
         }
     }
-    
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Sofa"))
+        {
+            BounceSofa(other);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        isBounce = false;
+    }
+
+    void BounceSofa(Collision2D obj)
+    {
+        float speed = lastVelocity.magnitude * bounceForce;
+        Vector3 direction = Vector3.Reflect(lastVelocity.normalized, obj.contacts[0].normal);
+        rb.velocity = direction * Mathf.Max(speed, 0f);
+
+        //For Projectile Only.
+        /*
+        _bounceCount--;
+        float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        */
+
+        isBounce = true;
+    }
 
 
     [SerializeField] private float radiusBeforeDash;
