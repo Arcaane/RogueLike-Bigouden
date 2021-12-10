@@ -621,16 +621,16 @@ public class Inventory : MonoBehaviour
                                 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseDashRange = playerStats.dashRange;
-                                    playerStats.dashRange += i.modAmount;
+                                    float baseDashRange = playerStats.dashSpeed;
+                                    playerStats.dashSpeed += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
-                                    playerStats.dashRange = baseDashRange;
+                                    playerStats.dashSpeed = baseDashRange;
                                 }                            
                                 
                             }
                             else
                             {
-                                playerStats.dashRange += i.modAmount;
+                                playerStats.dashSpeed += i.modAmount;
                             }
                         }
                         break;

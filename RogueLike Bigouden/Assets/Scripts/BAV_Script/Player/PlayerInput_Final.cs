@@ -114,8 +114,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftPress_isProjectile;
     [SerializeField] private bool _LeftPress_IsUlt;
 
-    [Header("Boutton Value Left Stick Press ")] [SerializeField]
-    private float stick_RightPressValue;
+    [Header("Boutton Value Left Stick Press ")] 
+    [SerializeField] private float stick_RightPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightPress_isDash;
@@ -218,7 +218,7 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        if (playerAttribut.canLaunchProjectile)
+        if (PlayerStatsManager.playerStatsInstance.readyToAttackB)
         {
             if (buttonB.started)
             {
@@ -245,13 +245,13 @@ public class PlayerInput_Final : MonoBehaviour
                     if (buttonBValue >= InputSystem.settings.defaultHoldTime)
                     {
                         Debug.Log("Button Held");
-                        playerAttribut.launchProjectile = true;
+                        PlayerStatsManager.playerStatsInstance.isAttackB = true;
                     }
                     else
                     {
                         if (buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
                         {
-                            playerAttribut.launchProjectile = false;
+                            PlayerStatsManager.playerStatsInstance.isAttackB = false;
                             Debug.Log("Button tapped");
                         }
                     }
