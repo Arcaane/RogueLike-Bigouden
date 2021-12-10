@@ -96,7 +96,6 @@ public class UIManager : MonoBehaviour
         itemInformationPanel.SetActive(false);
 
         eventSystem.firstSelectedGameObject = pauseFirstSelectedButton;
-        //trouver le script player statistiques
 
     }
 
