@@ -23,15 +23,24 @@ public class Collider2DEditor : EditorWindow
 
     //BoxColliderSection
     Vector2 offset = new Vector2();
+    Vector2 offset_Save = new Vector2();
     Vector2 size = new Vector2();
-    Vector2 scrollPosition =  Vector2.zero;
+
+    Vector2 size_Save = new Vector2();
+
+    //For Camera Only
+    Vector2 scrollPosition = Vector2.zero;
 
     //EdgeColliderModifier
     Vector2[] vertices = Array.Empty<Vector2>();
+    Vector2[] vertices_Save = Array.Empty<Vector2>();
 
     void OnGUI()
     {
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true);
+
+        #region BoxCollider
+
         useBox = EditorGUILayout.Toggle("Use BoxCollider2D ", useBox);
         if (useBox)
         {
@@ -51,6 +60,8 @@ public class Collider2DEditor : EditorWindow
             }
         }
 
+        #endregion BoxCollider
+
         #region EdgeCollider
 
         useEdge = EditorGUILayout.Toggle("Use EdgeCollider2D ", useEdge);
@@ -68,7 +79,7 @@ public class Collider2DEditor : EditorWindow
                     vertices[i] = (Vector2) EditorGUILayout.Vector2Field("Element " + i, vertices[i]);
                 }
             }
-            
+
             if (EditorGUI.EndChangeCheck())
             {
                 ApplyValue();
@@ -89,7 +100,18 @@ public class Collider2DEditor : EditorWindow
             {
                 ApplyValue();
             }
+            
+            if (GUILayout.Button("Save Parameter on Slot 1"))
+            {
+                ApplyValue();
+            }
+            
+            if (GUILayout.Button("Save Parameter on Slot 2"))
+            {
+                ApplyValue();
+            }
         }
+
         GUILayout.EndScrollView();
     }
 
@@ -104,6 +126,13 @@ public class Collider2DEditor : EditorWindow
         if (edge && useEdge)
         {
             vertices = edge.points;
+        }
+        
+        if (edge && useEdge)
+        {
+            offset_Save = box.offset;
+            size_Save = box.size;
+            vertices_Save = edge.points;
         }
     }
 
