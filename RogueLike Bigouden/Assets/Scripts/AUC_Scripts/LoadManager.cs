@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -57,6 +58,10 @@ public class LoadManager : MonoBehaviour
     [Space(10)]
     [Header("Liste des Salles pour cette partie")]
     public List<string> finalList = new List<string>();
+
+    [Header("Animator Duration")]
+    public Animator launchAnimator;
+    public float transitionDuration;
 
     public const int RoomLevel1BeforeBoss = 9;
     public const int RoomLevel2BeforeBoss = 19;

@@ -104,7 +104,7 @@ public class PlayerAttribut : MonoBehaviour
     [Space(10)] [Header("Player Attack Projectile")]
     //Object Projectile
     // [SerializeField] private Transform projectileObj;
-    private Vector3 shootPointPos;
+    public Vector3 shootPointPos;
 
     //Projectile Attack Position
     [SerializeField] private GameObject AttackProjectile;
@@ -232,7 +232,6 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Start()
     {
-        //posCam = PlayerFeedBack.instance.pivotCam;
         if (!_launchDebug && elementOfTextMeshPro.Count > 0)
         {
             for (int i = 0; i < elementOfTextMeshPro.Count; i++)
@@ -619,7 +618,7 @@ public class PlayerAttribut : MonoBehaviour
 
     #region Projectile
 
-    private const float radiusShootPoint = 0.9f;
+    public const float radiusShootPoint = 0.9f;
 
     public void MovementProjectile()
     {
@@ -824,7 +823,8 @@ public class PlayerAttribut : MonoBehaviour
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
-        Gizmos.DrawWireSphere(posPlayer, radiusBeforeDash);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint * 2, 0.25f);
     }
 }
 

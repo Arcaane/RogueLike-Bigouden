@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Player_FeedBack : MonoBehaviour
 {
-    
+    #region Variables
     // Utilities
     public static Player_FeedBack fb_instance;
     [SerializeField] public PlayerAttribut p_attribut;
@@ -23,8 +23,10 @@ public class Player_FeedBack : MonoBehaviour
     
     // MM Feedback
     [SerializeField] private MMFeedbacks _mmFeedbacks;
+    [SerializeField] private float radiusBPoint = 0.9f * 2;
+    #endregion
 
-
+    #region Shake
     public IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPos = transform.localPosition;
@@ -39,6 +41,8 @@ public class Player_FeedBack : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+
     
     private void Awake()
     {
@@ -47,11 +51,13 @@ public class Player_FeedBack : MonoBehaviour
             fb_instance = this;
             DontDestroyOnLoad(this.gameObject);
     
-            //Rest of your Awake code
+            //Rest of Awake code
     
         } else {
             Destroy(this);
         }
+        
+        
     }
 
     public Vector3 offset;
@@ -64,6 +70,13 @@ public class Player_FeedBack : MonoBehaviour
            _mmFeedbacks.PlayFeedbacks();
         }
 
+        if (p_attribut.launchProjectileFeedback.activeSelf)
+        {
+            Vector3 desiredPos = p_transform.position + p_attribut.shootPointPos * radiusBPoint;  // Desired pos = launchpos 
+            Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
+            transform.position = smoothedPos;
+        }
+        
         if (p_attribut != null)
         {
             if (p_attribut._isDashing)
@@ -80,5 +93,4 @@ public class Player_FeedBack : MonoBehaviour
             }
         }
     }
-    
 }
