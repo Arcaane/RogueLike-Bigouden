@@ -319,7 +319,7 @@ public class PlayerStatsManager : MonoBehaviour
 
         //Set Float
         movementSpeed = movementSpeedSO;
-        attackRangeX = attackCdXSO;
+        attackRangeX = attackRangeXSO;
         attackCdX = attackCdXSO;
         attackRangeY = attackRangeYSO;
         attackCdY = attackCdYSO;
