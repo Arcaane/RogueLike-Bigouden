@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -66,8 +67,9 @@ public class UIManager : MonoBehaviour
     [Range(0, 999)] public int currentMoney;
     [Range(0, 100)] public float currentEnergy;
     public float maxEnergy;
-    
-    
+
+    public EventSystem eventSystem;
+    public GameObject pauseFirstSelectedButton;
 
     public bool searchInventory;
     private PlayerStatsManager _playerStatsManager;
@@ -93,6 +95,7 @@ public class UIManager : MonoBehaviour
         
         itemInformationPanel.SetActive(false);
 
+        eventSystem.firstSelectedGameObject = pauseFirstSelectedButton;
         //trouver le script player statistiques
 
     }
@@ -114,7 +117,6 @@ public class UIManager : MonoBehaviour
         {
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
-
             if (blur)
             {
                 blur.SetActive(true);

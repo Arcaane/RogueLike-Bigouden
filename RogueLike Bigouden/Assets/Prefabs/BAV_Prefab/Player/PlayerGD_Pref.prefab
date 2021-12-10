@@ -287,12 +287,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AssetsPPU: 90
   m_RefResolutionX: 1920
-  m_RefResolutionY: 1054
+  m_RefResolutionY: 1056
   m_UpscaleRT: 0
   m_PixelSnapping: 1
-  m_CropFrameX: 1
+  m_CropFrameX: 0
   m_CropFrameY: 1
-  m_StretchFill: 1
+  m_StretchFill: 0
 --- !u!114 &2615098121277431211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +547,7 @@ GameObject:
   - component: {fileID: 8624704071328394346}
   - component: {fileID: 4868940514308041893}
   - component: {fileID: 4058050016553290133}
+  - component: {fileID: 5699756477071308118}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -667,7 +668,19 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 51918
+  m_InstanceId: 31526
+--- !u!114 &5699756477071308118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079454646562871448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4f5de215667f5419ef5677d30ed5e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4157973708392652611
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +953,7 @@ MonoBehaviour:
   launchFirstAttack: 0
   launchSecondAttack: 0
   launchAOEAttack: 0
+  shootPointPos: {x: 0, y: 0, z: 0}
   AttackProjectile: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
   launchProjectileFeedback: {fileID: 2095592958}
   speedProjectile: 1
@@ -1024,6 +1038,7 @@ MonoBehaviour:
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  getHurt: 0
   FloatingTextPrefab: {fileID: 2722654959424730303, guid: ca82c292d0009ce4087feff5a2b2658f, type: 3}
 --- !u!114 &384638887
 MonoBehaviour:

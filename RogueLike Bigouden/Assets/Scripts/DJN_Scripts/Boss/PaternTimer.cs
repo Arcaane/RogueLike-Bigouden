@@ -154,6 +154,10 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(1);
                                 break;
+                            
+                            case Timer.BossParterns.Wave:
+                                waveSpawner.SetActive(true);
+                                break;
                         }
 
                         break;
@@ -168,6 +172,10 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(2);
                                 break;
+                            
+                            case Timer.BossParterns.Wave:
+                                waveSpawner.SetActive(true);
+                                break;
                         }
 
                         break;
@@ -181,6 +189,10 @@ public class PaternTimer : MonoBehaviour
 
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(3);
+                                break;
+                            
+                            case Timer.BossParterns.Wave:
+                                waveSpawner.SetActive(true);
                                 break;
                         }
 
