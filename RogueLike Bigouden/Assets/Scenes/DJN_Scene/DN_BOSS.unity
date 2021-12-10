@@ -231,6 +231,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6386744537322031146, guid: 90f4d91a9ef0a38488c15fe8173dc77e, type: 3}
   m_PrefabInstance: {fileID: 519247984}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &168049412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7189817047672958597, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+  m_PrefabInstance: {fileID: 786452058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &215519558
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +521,45 @@ MonoBehaviour:
   health: 5
   shieldPoint: 0
   isDestroyed: 0
+--- !u!1 &439122443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439122445}
+  - component: {fileID: 439122444}
+  m_Layer: 0
+  m_Name: AudioListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &439122444
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439122443}
+  m_Enabled: 1
+--- !u!4 &439122445
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439122443}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.3075914, y: 4.6242895, z: -137.47604}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489962035 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6386744537322031146, guid: 90f4d91a9ef0a38488c15fe8173dc77e, type: 3}
@@ -827,6 +871,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 847570956}
     m_Modifications:
+    - target: {fileID: 7189817045791788957, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.859
+      objectReference: {fileID: 0}
+    - target: {fileID: 7189817047138352293, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.308
+      objectReference: {fileID: 0}
     - target: {fileID: 7189817047672958596, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1108,7 +1160,7 @@ MonoBehaviour:
   sensibility: 0.0025
   loop: 1
   timerP1: 0
-  P1Lenght: 30
+  P1Lenght: 60
   globalTimer: 0
   timerPhase1:
   - timeCode: 3
@@ -1117,28 +1169,97 @@ MonoBehaviour:
   - timeCode: 6
     bossParterns: 0
     target: 1
+  - timeCode: 6
+    bossParterns: 2
+    target: 2
   - timeCode: 9
     bossParterns: 0
     target: 2
   - timeCode: 12
     bossParterns: 0
     target: 3
-  - timeCode: 16
+  - timeCode: 15
     bossParterns: 1
     target: 0
-  - timeCode: 22
+  - timeCode: 18
     bossParterns: 1
     target: 0
-  - timeCode: 26
+  - timeCode: 21
+    bossParterns: 1
+    target: 0
+  - timeCode: 24
+    bossParterns: 1
+    target: 0
+  - timeCode: 27
     bossParterns: 1
     target: 0
   - timeCode: 30
     bossParterns: 1
     target: 0
+  - timeCode: 33
+    bossParterns: 1
+    target: 0
+  - timeCode: 33
+    bossParterns: 0
+    target: 0
+  - timeCode: 36
+    bossParterns: 1
+    target: 0
+  - timeCode: 36
+    bossParterns: 0
+    target: 1
+  - timeCode: 39
+    bossParterns: 1
+    target: 0
+  - timeCode: 39
+    bossParterns: 0
+    target: 2
+  - timeCode: 42
+    bossParterns: 1
+    target: 0
+  - timeCode: 42
+    bossParterns: 0
+    target: 3
+  - timeCode: 45
+    bossParterns: 1
+    target: 0
+  - timeCode: 45
+    bossParterns: 0
+    target: 1
+  - timeCode: 48
+    bossParterns: 1
+    target: 0
+  - timeCode: 48
+    bossParterns: 0
+    target: 0
+  - timeCode: 51
+    bossParterns: 1
+    target: 0
+  - timeCode: 51
+    bossParterns: 0
+    target: 2
+  - timeCode: 54
+    bossParterns: 1
+    target: 0
+  - timeCode: 54
+    bossParterns: 0
+    target: 3
+  - timeCode: 57
+    bossParterns: 1
+    target: 0
+  - timeCode: 57
+    bossParterns: 0
+    target: 1
+  - timeCode: 60
+    bossParterns: 1
+    target: 0
+  - timeCode: 60
+    bossParterns: 0
+    target: 2
   timerP2: 0
   P2Lenght: 0
   timerPhase2: []
-  waveSpawner: {fileID: 0}
+  waveSpawner: {fileID: 168049412}
 --- !u!114 &847570955
 MonoBehaviour:
   m_ObjectHideFlags: 0
