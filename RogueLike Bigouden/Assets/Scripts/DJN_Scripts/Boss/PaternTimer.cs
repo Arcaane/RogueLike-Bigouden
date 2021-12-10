@@ -24,6 +24,9 @@ public class PaternTimer : MonoBehaviour
     [SerializeField] private float timerP2;
     [SerializeField] private float P2Lenght;
     [SerializeField] private Timer[] timerPhase2;
+
+    public GameObject waveSpawner;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -34,10 +37,7 @@ public class PaternTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Set the timers and the events to switch phases.
         TimersPhases();
-
-        //Apply the events when timers hit the good time.
         EventPhases();
     }
 
@@ -135,6 +135,10 @@ public class PaternTimer : MonoBehaviour
 
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(0);
+                                break;
+                            
+                            case Timer.BossParterns.Wave:
+                                    waveSpawner.SetActive(true);
                                 break;
                         }
 
@@ -287,6 +291,6 @@ public class PaternTimer : MonoBehaviour
 
         
         public enum TargetP{A, B, C, D}
-        public enum BossParterns{Laser, FlameStrike}
+        public enum BossParterns{Laser, FlameStrike, Wave}
     }
 }

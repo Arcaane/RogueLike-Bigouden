@@ -7,7 +7,6 @@ using UnityEngine;
 public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
-
     #region Player Variable Assignation
 
     private string name
@@ -292,7 +291,6 @@ public class PlayerStatsManager : MonoBehaviour
         onButter = onButterSO;
 
         getHurt = false;
-
     }
 
     #region Functions
