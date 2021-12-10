@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4843844072607484157}
   - component: {fileID: 2704112611150605761}
   - component: {fileID: 2238408120760802495}
+  - component: {fileID: 5064235607595046092}
   m_Layer: 0
   m_Name: YellowCocktail
   m_TagString: Untagged
@@ -98,3 +99,19 @@ MonoBehaviour:
   isPlayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!58 &5064235607595046092
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3050097866431430545}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
