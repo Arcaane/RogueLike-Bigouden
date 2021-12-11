@@ -603,7 +603,6 @@ MonoBehaviour:
   - {fileID: 0}
   selectDialogue: {fileID: 0}
   triggerFeedback: {fileID: 1099283740}
-  line: 0
 --- !u!61 &1099283742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -699,7 +698,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSetup
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2461697702724394126, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
 --- !u!1 &2089113994
 GameObject:
