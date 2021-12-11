@@ -817,10 +817,8 @@ public class PlayerAttribut : MonoBehaviour
         _dropSystem = null;
         _dialogueManager = null;
         
-        if (isTalking)
-        {
-            CloseDialogue();
-        }
+        CloseDialogue();
+       
        
     }
 
@@ -883,14 +881,11 @@ public class PlayerAttribut : MonoBehaviour
 
     public void CloseDialogue()
     {
-        if (_dialogueManager != null)
-        {
             var ui = FindObjectOfType<UIManager>();
             
             ui.dialogueBox.SetActive(false);
             dialogueLine = 0;
             isTalking = false;
-        }
     }
 
     [SerializeField] private float radiusBeforeDash;

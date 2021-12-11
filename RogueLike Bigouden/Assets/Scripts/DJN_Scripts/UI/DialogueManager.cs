@@ -8,20 +8,9 @@ public class DialogueManager : MonoBehaviour
     public DialogueSO[] dialogue;
     public DialogueSO selectDialogue;
     public GameObject triggerFeedback;
-    public int line;
 
     private PlayerAttribut player;
     
-    
-    //Trigger
-    private bool lookForTrigger = false;
-    private bool triggered;
-    
-    //Event
-    private bool lookForEvent = false; 
-    public enum Activation{Trigger, Event}
-
-    private PlayerInput_Final _playerInputFinal;
 
     void Start()
     {
@@ -37,5 +26,12 @@ public class DialogueManager : MonoBehaviour
             triggerFeedback.SetActive(true);
             player.canTalk = true;
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        player.CloseDialogue();
+        player.canTalk = false;
+        triggerFeedback.SetActive(false);
     }
 }
