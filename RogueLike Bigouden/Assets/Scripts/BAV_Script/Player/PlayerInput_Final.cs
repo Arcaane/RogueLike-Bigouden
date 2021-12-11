@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,8 +63,9 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField]
     public float buttonYValue;
 
-    [Header("Boutton pour les Menus")] 
-    [SerializeField] private float startButtonValue;
+    [Header("Boutton pour les Menus")] [SerializeField]
+    private float startButtonValue;
+
     [SerializeField] private float selectButtonValue;
 
     //Can be delete for the Final Build
@@ -73,7 +75,8 @@ public class PlayerInput_Final : MonoBehaviour
 
     [Header("Boutton Value Top Left ")]
     //Concerne la valeur d'input de Top Left Trigger
-    [SerializeField] private float trigger_LeftTopValue;
+    [SerializeField]
+    private float trigger_LeftTopValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _LeftTop_isDash;
@@ -143,7 +146,7 @@ public class PlayerInput_Final : MonoBehaviour
     {
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
-        
+
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
         controls.Player.BButton.started += Input_BButton;
@@ -151,21 +154,21 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.BButton.canceled += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
-        
+
         //Use Stick Press------
         controls.Player.Left_Stick_Press.performed += LeftStickPress;
         controls.Player.Right_Stick_Press.performed += RightStickPress;
-        
+
         //Use Trigger----------
         controls.Player.Left_Top_Trigger.performed += LeftTopTrigger;
         controls.Player.Left_Bottom_Trigger.performed += LeftBottomTrigger;
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
-        
+
         //Use Stick----------
         controls.Player.Move.performed += OnMove;
         controls.Player.Move.canceled += OnMove;
-        
+
         //Use Button for Pause Menu
         //Start Button
         controls.Player.Start.performed += StartButton;
@@ -201,7 +204,7 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonA.performed)
         {
-            if (!playerAttribut.canTakeItem)
+            if (!playerAttribut.canTakeItem && !playerAttribut.canTalk && !playerAttribut.canSkipDialogue)
             {
                 if (_A_isDash)
                 {
@@ -218,10 +221,20 @@ public class PlayerInput_Final : MonoBehaviour
                     //playerAttribut.LaunchProjectile();
                 }
             }
-            else
+            else if (playerAttribut.canTakeItem)
             {
-                Debug.Log("Item");   
+                Debug.Log("Can take the Item");
+                playerAttribut.AddItemToInventory();
             }
+            else if (playerAttribut.canTalk)
+            {
+                Debug.Log("Can talk with the PNJ");
+            }
+            else if (playerAttribut.canSkipDialogue)
+            {
+                Debug.Log("Can Skip Dialogue");
+            }
+
             Debug.Log("Button A performed");
         }
 
@@ -366,36 +379,31 @@ public class PlayerInput_Final : MonoBehaviour
         startButtonValue = startButton.ReadValue<float>();
         if (startButton.started)
         {
-            
         }
 
         if (startButton.performed)
         {
             //Quand j'appuie pour mettre en pause.
         }
-        
+
         if (startButton.canceled)
         {
-            
         }
     }
-    
+
     public void SelectButton(CallbackContext selectButton)
     {
         selectButtonValue = selectButton.ReadValue<float>();
         if (selectButton.started)
         {
-            
         }
 
         if (selectButton.performed)
         {
-            
         }
-        
+
         if (selectButton.canceled)
         {
-            
         }
     }
 

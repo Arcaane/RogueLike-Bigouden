@@ -3,10 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.InputSystem.Controls;
 using Random = System.Random;
 
 public class DropSystem : MonoBehaviour
@@ -16,12 +12,11 @@ public class DropSystem : MonoBehaviour
     private UIManager _uiManager;
     private CircleCollider2D collider;
     private RoomLoader m_roomLoader;
-    
+
     public bool shop;
     public bool levelEnding;
-    
-    [Header("Generation Values")]
-    public int roll;
+
+    [Header("Generation Values")] public int roll;
     public int commonValue = 100;
     public int rareValue = 40;
     public int epicValue = 10;
@@ -29,8 +24,10 @@ public class DropSystem : MonoBehaviour
 
     private SpriteRenderer gameobjectSprite;
 
+    private PlayerAttribut player;
     private Inventory playerInventory;
     public bool playerOnIt;
+    public UIManager refUI;
 
     // Start is called before the first frame update
     private void Awake()
@@ -39,8 +36,9 @@ public class DropSystem : MonoBehaviour
         gameobjectSprite = GetComponent<SpriteRenderer>();
         collider = GetComponent<CircleCollider2D>();
         _uiManager = FindObjectOfType<UIManager>();
+        refUI = _uiManager;
         m_roomLoader = GetComponent<RoomLoader>();
-        
+
         collider.enabled = false;
     }
 
@@ -56,15 +54,15 @@ public class DropSystem : MonoBehaviour
         {
             EndLevelItemDrop();
         }
-        
-        if (playerOnIt && Input.GetKeyDown(KeyCode.X) && PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
+
+        if (playerOnIt && Input.GetKeyDown(KeyCode.X) &&
+            PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
         {
             playerInventory.items.Add(itemSelect);
             PlayerStatsManager.playerStatsInstance.money -= itemSelect.price; // PlayerStat Money
             Destroy(gameObject);
             UIManager.instance.RefreshUI();
         }
-        
     }
 
     void ShopItemGeneration()
@@ -119,28 +117,34 @@ public class DropSystem : MonoBehaviour
         {
             _uiManager.itemInformationPanel.SetActive(true);
             _uiManager.InformationPanel(itemSelect);
-            
-            //bool 
-            playerInventory = other.GetComponent<Inventory>();
-            playerOnIt = true;
-            
-        }
 
+            if (other.GetComponent<PlayerAttribut>() != null)
+            {
+                player = other.GetComponent<PlayerAttribut>();
+                playerInventory = other.GetComponent<Inventory>();
+                player.canTakeItem = true;
+                playerOnIt = true;
+            }
+        }
     }
-    
+
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _uiManager.itemInformationPanel.SetActive(false);
-        playerInventory = null;
-        playerOnIt = false;
+        if (other.GetComponent<PlayerAttribut>() != null)
+        {
+            playerInventory = null;
+            player.canTakeItem = false;
+            playerOnIt = false;
+        }
     }
-
+    
     private void Roll()
     {
         roll = UnityEngine.Random.Range(0, 100);
     }
-    
+
     private void EndLevelItemDrop()
     {
         if (m_roomLoader._waveManager.GetComponent<WaveSpawner>().State == WaveSpawner.SpawnState.FINISHED)

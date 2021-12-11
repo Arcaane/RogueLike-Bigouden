@@ -11,8 +11,9 @@ public class PlayerAttribut : MonoBehaviour
 {
     private TimeManager timerManager;
 
-    [Header("Component Stats Manager")] 
-    [SerializeField] private PlayerStatsManager _playerStatsManager;
+    [Header("Component Stats Manager")] [SerializeField]
+    private PlayerStatsManager _playerStatsManager;
+
     [SerializeField] private PlayerInput_Final _playerInput;
     [SerializeField] private Inventory _playerInventory;
 
@@ -104,8 +105,9 @@ public class PlayerAttribut : MonoBehaviour
     //bool--------------------
     [SerializeField] private bool isUlting;
 
-    [Header("Boolean pour dialogue et Item")] 
-    [SerializeField] public bool canTakeItem;
+    [Header("Boolean pour dialogue et Item")] [SerializeField]
+    public bool canTakeItem;
+
     [SerializeField] public bool canTalk;
     [SerializeField] public bool canSkipDialogue;
 
@@ -124,8 +126,9 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private bool dodgeAbility;
     [SerializeField] private bool bulletIn;
 
-    [Header("Animation et Sprite Renderer Joueur")] 
-    [SerializeField] public SpriteRenderer playerMesh;
+    [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
+    public SpriteRenderer playerMesh;
+
     [SerializeField] private Animator animatorPlayer;
 
 
@@ -182,13 +185,17 @@ public class PlayerAttribut : MonoBehaviour
 
     private const float dashIntValue = 1.666667f;
 
+    private DropSystem _dropSystem;
+
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput_Final>();
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
+        _playerInventory = GetComponent<Inventory>();
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
+        _dropSystem = null;
 
         //_isDashing = _playerStatsManager.isDashing;
         _playerStatsManager.readyToDash = true;
@@ -757,6 +764,19 @@ public class PlayerAttribut : MonoBehaviour
         isBounce = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<DropSystem>() != null)
+        {
+            _dropSystem = other.GetComponent<DropSystem>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _dropSystem = null;
+    }
+
     void BounceSofa(Collision2D obj)
     {
         float speed = lastVelocity.magnitude * bounceForce;
@@ -773,6 +793,15 @@ public class PlayerAttribut : MonoBehaviour
         isBounce = true;
     }
 
+    public void AddItemToInventory()
+    {
+        if (_dropSystem != null)
+        {
+            _playerInventory.items.Add(_dropSystem.itemSelect);
+            _dropSystem.refUI.settingPanel.SetActive(false);
+            Destroy(_dropSystem.gameObject, 0.5f);
+        }
+    }
 
     [SerializeField] private float radiusBeforeDash;
     [SerializeField] List<Transform> target;
