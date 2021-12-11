@@ -62,21 +62,20 @@ public class PlayerInput_Final : MonoBehaviour
     //Concerne la valeur d'input de Y
     [SerializeField]
     public float buttonYValue;
+    //Can be delete for the Final Build
+    [SerializeField] private bool _Y_isDash;
+    [SerializeField] private bool _Y_isAttack;
+    [SerializeField] private bool _Y_isProjectile;
 
     [Header("Boutton pour les Menus")] [SerializeField]
     private float startButtonValue;
 
     [SerializeField] private float selectButtonValue;
 
-    //Can be delete for the Final Build
-    [SerializeField] private bool _Y_isDash;
-    [SerializeField] private bool _Y_isAttack;
-    [SerializeField] private bool _Y_isProjectile;
 
     [Header("Boutton Value Top Left ")]
     //Concerne la valeur d'input de Top Left Trigger
-    [SerializeField]
-    private float trigger_LeftTopValue;
+    [SerializeField] private float trigger_LeftTopValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _LeftTop_isDash;
@@ -358,7 +357,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_Y_isAttack)
             {
-                playerAttribut.AttackTypeX();
+                playerAttribut.AttackTypeY();
             }
 
             if (_Y_isProjectile)

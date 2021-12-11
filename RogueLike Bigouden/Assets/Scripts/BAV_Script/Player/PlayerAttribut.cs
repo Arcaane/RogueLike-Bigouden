@@ -37,15 +37,18 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
 
-    [Header("Bounce Collider")]
-    [SerializeField] private float bounceForce;
+    [Header("Bounce Collider")] [SerializeField]
+    private float bounceForce;
+
     [SerializeField] private bool isBounce;
     [SerializeField] private Vector3 lastVelocity;
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
     //Can be delete for the Final Build
-    [SerializeField] private bool useRBDash;
+    [SerializeField]
+    private bool useRBDash;
+
     [SerializeField] private Color colorDash;
 
     //float--------------------
@@ -63,6 +66,7 @@ public class PlayerAttribut : MonoBehaviour
 
     [SerializeField] public AttackSystemSpline attackSpline;
     [SerializeField] public ProjectilePath attackPath;
+    [SerializeField] public Transform pointAttackY;
 
     //float-------------------
     [SerializeField] public int attackType;
@@ -217,7 +221,7 @@ public class PlayerAttribut : MonoBehaviour
     private void Update()
     {
         _attackPath.Path();
-        if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX)
+        if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX || _playerStatsManager.isAttackingY)
         {
             ResetSmallMovement();
             DetectAttackCamera();
@@ -315,11 +319,14 @@ public class PlayerAttribut : MonoBehaviour
             attackPath.launchSecondAttack = true;
         }
 
-        else if (launchAOEAttack)
+        /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
+        */
+        
+
 
         else
         {
@@ -513,6 +520,15 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
+    public void AttackTypeY()
+    {
+        _playerStatsManager.isAttackingY = true;
+        attackPath.launchAttackY = true;
+        attackPath.projectile.transform.position = new Vector3(pointAttackY.position.x,
+            pointAttackY.position.y * _playerStatsManager.attackRangeY, 0f);
+        Debug.Log(attackPath.projectile.transform.position);
+    }
+
     public void Reset()
     {
         //--------------------DASH--------------------//
@@ -536,11 +552,12 @@ public class PlayerAttribut : MonoBehaviour
         {
             //Increment value Timer for AttackY Reset
             _timerAttackY += _timeManager.CustomDeltaTimePlayer;
-            
             //Reset for the Attack Y (Cooldown)
             if (_timerAttackY >= _playerStatsManager.attackCdY)
             {
+                Debug.Log("Ici");
                 _playerStatsManager.isAttackingY = false;
+                attackPath.launchAttackY = false;
                 _timerAttackY = 0;
             }
         }
@@ -551,7 +568,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             //Increment Value Timer for AttackX Reset
             _timerAttackX += _timeManager.CustomDeltaTimePlayer;
-            
+
             //Launch Sprite Frame Perfect on the Player----------
             if (_timerAttackX > _playerStatsManager.firstAttackReset.x &&
                 _timerAttackX < (_playerStatsManager.firstAttackReset.y))

@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
+
     #region Player Variable Assignation
 
     private string name
@@ -38,7 +40,7 @@ public class PlayerStatsManager : MonoBehaviour
         get => playerData.lifePointsSO;
         set => playerData.lifePointsSO = lifePointSO;
     }
-    
+
     private int dashCounterSO
     {
         get => playerData.dashCounterSO;
@@ -56,7 +58,7 @@ public class PlayerStatsManager : MonoBehaviour
         get => playerData.damageFirstXSO;
         set => playerData.damageFirstXSO = damageFirstXSO;
     }
-    
+
     private int damageSecondXSO
     {
         get => playerData.damageSecondXSO;
@@ -140,7 +142,7 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.dashSpeedSO; }
         set { playerData.dashSpeedSO = DashSpeedSo; }
     }
-    
+
     private float dashDurationSO
     {
         get { return playerData.dashDurationSO; }
@@ -152,7 +154,7 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.dashCooldownSO; }
         set { playerData.dashCooldownSO = dashCooldownSO; }
     }
-    
+
     private float ultDurationSO
     {
         get { return playerData.ultDurationSO; }
@@ -182,25 +184,26 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.readyToAttackXSO; }
         set { playerData.readyToAttackXSO = readyToAttackXSO; }
     }
+
     private bool isAttackFirstXSO
     {
         get { return playerData.isAttackFirstXSO; }
         set { playerData.isAttackFirstXSO = isAttackFirstXSO; }
     }
-    
+
     private bool isAttackSecondXSO
     {
         get { return playerData.isAttackSecondXSO; }
         set { playerData.isAttackSecondXSO = isAttackSecondXSO; }
     }
-    
+
     private bool isAttackingXSO
     {
         get { return playerData.isAttackingXSO; }
         set { playerData.isAttackingXSO = isAttackingXSO; }
     }
 
-    
+
     private bool readyToAttackYSO
     {
         get { return playerData.readyToAttackYSO; }
@@ -218,7 +221,7 @@ public class PlayerStatsManager : MonoBehaviour
         get { return playerData.readyToAttackBSO; }
         set { playerData.readyToAttackBSO = readyToAttackBSO; }
     }
-    
+
     private bool isAttackBSO
     {
         get { return playerData.isAttackBSO; }
@@ -290,10 +293,13 @@ public class PlayerStatsManager : MonoBehaviour
     public bool readyToDash;
     public bool onButter;
     public bool getHurt;
-    
+
     // Others
     public GameObject FloatingTextPrefab;
-    
+    public GameObject HurtDamagescreen;
+
+    [SerializeField] int lifePointSave;
+
     #endregion
 
     public static PlayerStatsManager playerStatsInstance;
@@ -302,7 +308,6 @@ public class PlayerStatsManager : MonoBehaviour
     {
         if (playerStatsInstance != null && playerStatsInstance != this)
             Destroy(gameObject);
-
         playerStatsInstance = this;
     }
 
@@ -356,6 +361,10 @@ public class PlayerStatsManager : MonoBehaviour
         readyToDash = readyToDashSO;
         onButter = onButterSO;
 
+
+        //Other
+        lifePointSave = lifePoint;
+        HurtDamagescreen.SetActive(false);
         getHurt = false;
     }
 
@@ -364,24 +373,23 @@ public class PlayerStatsManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         getHurt = true;
-        
         //if (!isDashing)
         //{
-            if (shieldPoint > 0)
-            {
-                shieldPoint -= damage;
-                if (shieldPoint < 0)
-                    shieldPoint = 0;
-            }
-            else
-                lifePoint -= damage;
+        if (shieldPoint > 0)
+        {
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
 
-            Debug.Log("Player took " + damage + " damage");
-            ShowFloatingText(damage);
-            UIManager.instance.RefreshUI();
-            
-            if (lifePoint <= 0)
-                Death();
+        Debug.Log("Player took " + damage + " damage");
+        ShowFloatingText(damage);
+        UIManager.instance.RefreshUI();
+
+        if (lifePoint <= 0)
+            Death();
         //}
 
         getHurt = false;
@@ -421,6 +429,31 @@ public class PlayerStatsManager : MonoBehaviour
         var go = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
         go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
-    
+
+    void ApplyDamageUIFeedBack()
+    {
+        if (lifePoint < lifePointSave / 4)
+        {
+            HurtDamagescreen.SetActive(true);
+            HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Intensity", 1);
+            HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Position", -0.15f);
+            if (lifePoint < lifePointSave / 8)
+            {
+                HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Intensity", 3);
+                HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Position", -0.14f);
+            }
+        }
+        else
+        {
+            HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Intensity", 1);
+            HurtDamagescreen.GetComponentInChildren<Image>().material.SetFloat("_Position", -0.15f);
+            HurtDamagescreen.SetActive(false);
+        }
+    }
+
+    public void LateUpdate()
+    {
+        ApplyDamageUIFeedBack();
+    }
     #endregion
 }
