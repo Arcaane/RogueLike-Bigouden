@@ -208,7 +208,7 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonA.performed)
         {
-            if (!playerAttribut.canTakeItem && !playerAttribut.canTalk && !playerAttribut.canSkipDialogue)
+            if (!playerAttribut.canTakeItem && !playerAttribut.canTalk && !playerAttribut.canSkipDialogue && !_uiManager.isPaused)
             {
                 if (_A_isDash)
                 {
