@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -797,8 +798,9 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dropSystem != null)
         {
-            _playerInventory.items.Add(_dropSystem.itemSelect);
             _dropSystem.refUI.settingPanel.SetActive(false);
+            _playerInventory.items.Add(_dropSystem.itemSelect);
+            canTakeItem = false;
             Destroy(_dropSystem.gameObject, 0.5f);
         }
     }

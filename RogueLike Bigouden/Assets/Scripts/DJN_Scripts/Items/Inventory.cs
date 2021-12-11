@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
 
     private PlayerInput_Final _playerInputFinal;
     private DropSystem _dropSystem;
+    private EnnemyStatsManager enemyStats;
     private IABarman ennemyBarman;
     private IAShooter ennemyShooter;
     private IARunner ennemyRunner;
@@ -32,6 +33,11 @@ public class Inventory : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
         _playerInputFinal = GetComponent<PlayerInput_Final>();
+        enemyStats = FindObjectOfType<EnnemyStatsManager>();
+        ennemyBarman = FindObjectOfType<IABarman>();
+        ennemyShooter = FindObjectOfType<IAShooter>();
+        ennemyRunner = FindObjectOfType<IARunner>();
+        ennemyCac = FindObjectOfType<IACac>();
         isChecking = false;
     }
 
@@ -141,56 +147,68 @@ public class Inventory : MonoBehaviour
                                         switch (i.actionEnemy)
                                         {
                                             case Items.ActionEnemy.All:
-                                                if (FindObjectOfType<EnnemyStatsManager>().lifePoint <= 0)
+                                                if (enemyStats != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (enemyStats.lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Barman:
-                                                if (FindObjectOfType<IABarman>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyBarman != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyBarman.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Cac:
-                                                if (FindObjectOfType<IACac>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyCac != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyCac.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Rush:
-                                                if (FindObjectOfType<IARunner>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyRunner != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyRunner.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Tir:
-                                                if (FindObjectOfType<IAShooter>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyShooter != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyShooter.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
-
-
                                                 break;
                                         }
-
                                         break;
 
                                     case Items.ActionTarget.Props:
