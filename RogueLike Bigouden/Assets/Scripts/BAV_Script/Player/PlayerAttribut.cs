@@ -182,6 +182,9 @@ public class PlayerAttribut : MonoBehaviour
     private const float dashIntValue = 1.666667f;
 
     private DropSystem _dropSystem;
+    private DialogueManager _dialogueManager;
+    public bool isTalking;
+    public int dialogueLine;
 
     void Awake()
     {
@@ -192,6 +195,11 @@ public class PlayerAttribut : MonoBehaviour
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
         _dropSystem = null;
+        
+        //dialogue
+        _dialogueManager = null;
+        dialogueLine = 0;
+        isTalking = false;
 
         //_isDashing = _playerStatsManager.isDashing;
         _playerStatsManager.readyToDash = true;
@@ -797,11 +805,21 @@ public class PlayerAttribut : MonoBehaviour
         {
             _dropSystem = other.GetComponent<DropSystem>();
         }
+
+        if (other.GetComponent<DialogueManager>() != null)
+        {
+            _dialogueManager = other.GetComponent<DialogueManager>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _dropSystem = null;
+        _dialogueManager = null;
+        
+        CloseDialogue();
+       
+       
     }
 
     void BounceSofa(Collision2D obj)
@@ -824,12 +842,63 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dropSystem != null)
         {
-            _dropSystem.refUI.settingPanel.SetActive(false);
-            _playerInventory.items.Add(_dropSystem.itemSelect);
-            FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
-            canTakeItem = false;
-            Destroy(_dropSystem.gameObject, 0.2f);
+            if (_dropSystem.shop && _playerStatsManager.money >= _dropSystem.itemSelect.price)
+            {
+                _dropSystem.refUI.settingPanel.SetActive(false);
+                _playerInventory.items.Add(_dropSystem.itemSelect);
+                _playerStatsManager.money -= _dropSystem.itemSelect.price;
+                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                canTakeItem = false;
+                Destroy(_dropSystem.gameObject, 0.2f);
+            }
+            else
+            {
+                _dropSystem.refUI.settingPanel.SetActive(false);
+                _playerInventory.items.Add(_dropSystem.itemSelect);
+                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                canTakeItem = false;
+                Destroy(_dropSystem.gameObject, 0.2f);
+            }
+            
         }
+    }
+
+    public void StartDialogue()
+    {
+        if (_dialogueManager != null)
+        {
+            _dialogueManager.selectDialogue = _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
+            var ui = FindObjectOfType<UIManager>();
+            isTalking = true;
+            ui.dialogueBox.SetActive(true);
+            ui.dialogueText.text = _dialogueManager.selectDialogue.dialogueLine[0];
+        }
+    }
+
+    public void DialogueSkipLine()
+    {
+        if (_dialogueManager != null)
+        {
+            var ui = FindObjectOfType<UIManager>();
+            if (dialogueLine < _dialogueManager.selectDialogue.dialogueLine.Length)
+            {
+                ui.dialogueText.text = _dialogueManager.selectDialogue.dialogueLine[dialogueLine];
+            }
+
+            if (dialogueLine >= _dialogueManager.selectDialogue.dialogueLine.Length)
+            {
+                CloseDialogue();
+            }
+        }
+    }
+
+    public void CloseDialogue()
+    {
+            var ui = FindObjectOfType<UIManager>();
+            
+            ui.dialogueBox.SetActive(false);
+            dialogueLine = 0;
+            isTalking = false;
     }
 
     [SerializeField] private float radiusBeforeDash;

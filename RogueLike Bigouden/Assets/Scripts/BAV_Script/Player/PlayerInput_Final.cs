@@ -230,13 +230,16 @@ public class PlayerInput_Final : MonoBehaviour
                 Debug.Log("Can take the Item");
                 playerAttribut.AddItemToInventory();
             }
-            else if (playerAttribut.canTalk)
+            else if (playerAttribut.canTalk && !playerAttribut.isTalking)
             {
                 Debug.Log("Can talk with the PNJ");
+                playerAttribut.StartDialogue();
             }
-            else if (playerAttribut.canSkipDialogue)
+            else if (playerAttribut.canTalk && playerAttribut.isTalking)
             {
                 Debug.Log("Can Skip Dialogue");
+                playerAttribut.dialogueLine++;
+                playerAttribut.DialogueSkipLine();
             }
 
             Debug.Log("Button A performed");
