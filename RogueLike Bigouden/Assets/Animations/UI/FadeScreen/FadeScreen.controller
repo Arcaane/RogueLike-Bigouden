@@ -11,6 +11,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Enter
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: LoadingScreen
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 169866237187242954}
   m_Solo: 0
@@ -142,6 +145,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Enter
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: LoadingScreen
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3551088784200454681}

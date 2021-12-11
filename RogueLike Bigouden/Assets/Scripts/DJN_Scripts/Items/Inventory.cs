@@ -390,17 +390,17 @@ public class Inventory : MonoBehaviour
 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseDamageX = playerStats.damageX;
+                                    float baseDamageX = playerStats.damageFirstX;
                                     float baseDamageY = playerStats.damageY;
                                     float baseDamageB = playerStats.damageProjectile;
 
-                                    playerStats.damageX += i.modAmount;
+                                    playerStats.damageFirstX += i.modAmount;
                                     playerStats.damageY += i.modAmount;
                                     playerStats.damageProjectile += i.modAmount;
 
                                     yield return new WaitForSeconds(i.overTimeDuration);
 
-                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    playerStats.damageFirstX = Mathf.FloorToInt(baseDamageX);
                                     playerStats.damageY = Mathf.FloorToInt(baseDamageY);
                                     playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
                                     isChecking = false;
@@ -408,7 +408,7 @@ public class Inventory : MonoBehaviour
                             }
                             else
                             {
-                                playerStats.damageX += i.modAmount;
+                                playerStats.damageFirstX += i.modAmount;
                                 playerStats.damageY += i.modAmount;
                                 playerStats.damageProjectile += i.modAmount;
                                 isChecking = false;
@@ -427,16 +427,16 @@ public class Inventory : MonoBehaviour
 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseDamageX = playerStats.damageX;
-                                    playerStats.damageX += i.modAmount;
+                                    float baseDamageX = playerStats.damageFirstX;
+                                    playerStats.damageFirstX += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
-                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    playerStats.damageFirstX = Mathf.FloorToInt(baseDamageX);
                                     isChecking = false;
                                 }
                             }
                             else
                             {
-                                playerStats.damageX += i.modAmount;
+                                playerStats.damageFirstX += i.modAmount;
                                 isChecking = false;
                             }
                         }

@@ -44,11 +44,6 @@ public class PlayerFeedBack : MonoBehaviour
         oldPivotCamPos = new Vector3(position.x, position.y, 0);
     }
 
-    private void Update()
-    {
-        
-    }
-
     public void MovingRumble(Vector3 force)
     {
         float resetValue = 0;
