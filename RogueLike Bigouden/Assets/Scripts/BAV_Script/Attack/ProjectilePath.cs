@@ -25,7 +25,6 @@ public class ProjectilePath : MonoBehaviour
     private void Start()
     {
         isAttacking = false;
-        projectile.SetActive(false);
     }
 
     private void Update()

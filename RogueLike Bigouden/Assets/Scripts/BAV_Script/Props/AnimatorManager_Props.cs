@@ -55,7 +55,6 @@ public class AnimatorManager_Props : MonoBehaviour
         foreach (ProjectorPropsProperties t in props)
         {
             //Get the privateFloat of Pillar;
-
             //Check the ID of the Pillar to setup the Function
             firstPillar = t.listOfPillar[firstProjectorF];
             endPillar = t.listOfPillar[endProjectorF];
