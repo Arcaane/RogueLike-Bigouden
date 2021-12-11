@@ -8,7 +8,7 @@ public class SmoothText : MonoBehaviour
     private TextMeshProUGUI m_textMeshPro;
     
     // Start is called before the first frame update
-    IEnumerator OnEnable()
+    IEnumerator Start()
     {
         m_textMeshPro.gameObject.GetComponent<TextMeshProUGUI>();
 

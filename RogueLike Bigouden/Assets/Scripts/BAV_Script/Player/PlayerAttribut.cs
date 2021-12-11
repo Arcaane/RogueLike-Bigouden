@@ -842,11 +842,24 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dropSystem != null)
         {
-            _dropSystem.refUI.settingPanel.SetActive(false);
-            _playerInventory.items.Add(_dropSystem.itemSelect);
-            FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
-            canTakeItem = false;
-            Destroy(_dropSystem.gameObject, 0.2f);
+            if (_dropSystem.shop && _playerStatsManager.money >= _dropSystem.itemSelect.price)
+            {
+                _dropSystem.refUI.settingPanel.SetActive(false);
+                _playerInventory.items.Add(_dropSystem.itemSelect);
+                _playerStatsManager.money -= _dropSystem.itemSelect.price;
+                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                canTakeItem = false;
+                Destroy(_dropSystem.gameObject, 0.2f);
+            }
+            else
+            {
+                _dropSystem.refUI.settingPanel.SetActive(false);
+                _playerInventory.items.Add(_dropSystem.itemSelect);
+                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                canTakeItem = false;
+                Destroy(_dropSystem.gameObject, 0.2f);
+            }
+            
         }
     }
 
