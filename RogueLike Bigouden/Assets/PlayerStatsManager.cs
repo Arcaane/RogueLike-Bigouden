@@ -51,10 +51,16 @@ public class PlayerStatsManager : MonoBehaviour
         set => playerData.shieldPointSO = shieldPointSO;
     }
 
-    private int damageXSO
+    private int damageFirstXSO
     {
-        get => playerData.damageXSO;
-        set => playerData.damageXSO = damageXSO;
+        get => playerData.damageFirstXSO;
+        set => playerData.damageFirstXSO = damageFirstXSO;
+    }
+    
+    private int damageSecondXSO
+    {
+        get => playerData.damageSecondXSO;
+        set => playerData.damageSecondXSO = damageSecondXSO;
     }
 
     private int damageYSO
@@ -243,7 +249,8 @@ public class PlayerStatsManager : MonoBehaviour
     public int ultMaxPoint; // Point d'ultime pour lancer l'ult
     public int lifePoint; // Point de vie du joueur
     public int shieldPoint; // Point de bouclier de l'ennemis
-    public int damageX; // Dégats de l'attaque de base
+    public int damageFirstX; // Dégats de l'attaque de base
+    public int damageSecondX; // Dégats de l'attaque de base
     public int damageY; // Dégats de l'attaque spé
     public int damageProjectile; // Dégats du projectile
     public int ultPointToAddPerHit;
@@ -276,7 +283,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isAttackFirstX;
     public bool isAttackSecondX;
     public bool readyToAttackY;
-    public bool isAttackY;
+    public bool isAttackingY;
     public bool readyToAttackB;
     public bool isAttackB;
     public bool isDashing;
@@ -309,7 +316,8 @@ public class PlayerStatsManager : MonoBehaviour
         maxLifePoint = lifePoint;
         shieldPoint = shieldPointSO;
         dashCounter = dashCounterSO;
-        damageX = damageXSO;
+        damageFirstX = damageFirstXSO;
+        damageSecondX = damageSecondXSO;
         damageY = damageYSO;
         damageProjectile = damageProjectileSO;
         ultPointToAddPerHit = ultPointToAddPerHitSO;
@@ -341,7 +349,7 @@ public class PlayerStatsManager : MonoBehaviour
         isAttackFirstX = isAttackFirstXSO;
         isAttackSecondX = isAttackSecondXSO;
         readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
-        isAttackY = isAttackYSO; // Peut utiliser l'attaque Y
+        isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
         readyToAttackB = readyToAttackBSO; // Peut utiliser l'attaque projectile
         isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
         isDashing = isDashingSO;

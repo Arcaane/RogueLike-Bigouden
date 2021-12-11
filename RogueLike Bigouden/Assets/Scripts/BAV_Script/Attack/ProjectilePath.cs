@@ -20,6 +20,7 @@ public class ProjectilePath : MonoBehaviour
     public int countAttack = 0;
     public bool launchFirstAttack;
     public bool launchSecondAttack;
+    public bool launchAttackY;
 
     private void Start()
     {
@@ -71,6 +72,12 @@ public class ProjectilePath : MonoBehaviour
                 launchFirstAttack = false;
                 launchSecondAttack = false;
             }
+        }
+
+        if (launchAttackY)
+        {
+            projectile.SetActive(true);
+            
         }
     }
 

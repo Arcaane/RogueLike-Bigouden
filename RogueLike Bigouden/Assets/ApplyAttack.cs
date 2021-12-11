@@ -32,22 +32,62 @@ public class ApplyAttack : MonoBehaviour
         EnnemyStatsManager objEnnemy = objTrigger.GetComponent<EnnemyStatsManager>();
         //Props
         Props_EnvironnementManager objProps = objTrigger.GetComponent<Props_EnvironnementManager>();
-        
+
         //Mannequin and Ennemy
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
         {
-            isDetect++;
-            posTarget = objTrigger.transform.position;
-            if (objTrigger.name == "Turret")
+            //Launch First Attack
+            if (_projectilePath.launchFirstAttack)
             {
-                TimeManager._timeManager.SlowDownGame(1);
-                objMannequin.TakeDamage(PlayerStatsManager.playerStatsInstance.damageX);
-                //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
+                isDetect++;
+                posTarget = objTrigger.transform.position;
+                if (objTrigger.name == "Turret")
+                {
+                    TimeManager._timeManager.SlowDownGame(1);
+                    objMannequin.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
+                }
+                else
+                {
+                    objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
+                }
             }
-            else
+
+            //Launch Second Attack
+            if (_projectilePath.launchSecondAttack)
             {
-                objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageX);
-                //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
+                isDetect++;
+                posTarget = objTrigger.transform.position;
+                if (objTrigger.name == "Turret")
+                {
+                    TimeManager._timeManager.SlowDownGame(1);
+                    objMannequin.TakeDamage(PlayerStatsManager.playerStatsInstance.damageSecondX);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
+                }
+                else
+                {
+                    objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageSecondX);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
+                }
+            }
+            
+            //Launch Attack Y
+            if (_projectilePath.launchAttackY)
+            {
+                isDetect++;
+                posTarget = objTrigger.transform.position;
+                if (objTrigger.name == "Turret")
+                {
+                    TimeManager._timeManager.SlowDownGame(1);
+                    objMannequin.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<MannequinStatsManager>().lifePoint);
+                }
+                else
+                {
+                    objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
+                    //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
+                }
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);

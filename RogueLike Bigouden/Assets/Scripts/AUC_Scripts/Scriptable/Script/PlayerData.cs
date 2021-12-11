@@ -14,7 +14,8 @@ public class PlayerData : ScriptableObject
     public int dashCounterSO; //Number of Dash
     public int shieldPointSO; // Point de bouclier de l'ennemis
 
-    public int damageXSO; // Dégat de l'attaque de base
+    public int damageFirstXSO; // Dégat de l'attaque de base
+    public int damageSecondXSO; // Dégat de l'attaque de base
     public int damageYSO; // Dégat de l'attaque spé
     public int damageProjectileSO; // Dégat du projectile
     public int damageUltSO;
