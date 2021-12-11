@@ -22,8 +22,8 @@ public class InterfacesScript : MonoBehaviour
     public void StartGame()
     {
         //HideMenu();
-        scenesToLoad.Add(SceneManager.LoadSceneAsync("Hub"));
-        // StartCoroutine(LoadingScreen());
+        UIManager.instance.gameOverPanel.SetActive(false);
+        scenesToLoad.Add(SceneManager.LoadSceneAsync("BAV_HUB_BED"));
     }
 
     public void StartCredits()
@@ -46,6 +46,7 @@ public class InterfacesScript : MonoBehaviour
 
     public void QuitGame()
     {
+        UIManager.instance.gameOverPanel.SetActive(false);
         Application.Quit();
     }
     

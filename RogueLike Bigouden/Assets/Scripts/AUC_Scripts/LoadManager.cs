@@ -61,9 +61,10 @@ public class LoadManager : MonoBehaviour
     [Header("Animator Duration")]
     public Animator launchAnimator;
     public float transitionDuration;
-
-    public const int RoomLevel1BeforeBoss = 9;
-    public const int RoomLevel2BeforeBoss = 19;
+    
+    public const int RoomLevel1BeforeBoss = 10;
+    public const int RoomLevel2BeforeBoss = 20;
+    
     private float x;
     private float y;
     private float z;
@@ -83,8 +84,6 @@ public class LoadManager : MonoBehaviour
      public void Start()
      {
          isLevel1 = true;
-         //mediumRoomMultiplicator = smallRoomMultiplicator + (smallRoomMultiplicator / multiplicatorSizeIndicator);
-         //largeRoomMultiplicator = smallRoomMultiplicator + (smallRoomMultiplicator / ( mediumRoomMultiplicator / 2 )) - 1;
          AlgoCompliquer();
      }
 
@@ -100,6 +99,10 @@ public class LoadManager : MonoBehaviour
      {
          SceneManager.LoadSceneAsync(finalList[currentRoom]);
          currentRoom++;
+         if (currentRoom >= 1)
+         {
+             SceneManager.UnloadSceneAsync(finalList[currentRoom - 1]);
+         }
      }
 
      private void ResetProcedural()
@@ -173,6 +176,12 @@ public class LoadManager : MonoBehaviour
 
      private void AlgoCompliquer()
      {
+
+         for (int i = 0; i < defaultRoom.Count; i++)
+         {
+             finalList.Add(defaultRoom[i]);
+         }
+         
          for (int i = 0; i < numberOfRoomToCreate; i++)
          {
              if (isLevel1)
@@ -180,7 +189,7 @@ public class LoadManager : MonoBehaviour
              else
                  AddRoomLevel2();
 
-             if (i == 3 || i == 13)
+             if (i == 4 || i == 14)
              {
                  shopApparitionValue = 3;
                  Debug.Log("Shop apparition value : " + shopApparitionValue);

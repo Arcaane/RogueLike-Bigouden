@@ -72,7 +72,7 @@ public class Player_FeedBack : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //StartCoroutine(Shake(s_duration, s_magnitude));
-            _mmFeedbacks.PlayFeedbacks();
+            //_mmFeedbacks.PlayFeedbacks();
         }
 
         if (p_attribut != null)

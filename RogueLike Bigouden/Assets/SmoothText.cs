@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SmoothText : MonoBehaviour
 {
-    private TextMeshProUGUI m_textMeshPro;
+    public TextMeshProUGUI m_textMeshPro;
     
     // Start is called before the first frame update
     IEnumerator Start()
@@ -31,11 +31,5 @@ public class SmoothText : MonoBehaviour
 
             yield return new WaitForSeconds(0.05f);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

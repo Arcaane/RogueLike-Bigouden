@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadRoomHUB : MonoBehaviour
 {
-    public string sceneToLoad;
     public float duration;
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,7 +15,7 @@ public class LoadRoomHUB : MonoBehaviour
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(duration);
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene("BAV_HUB_Restaurant");
     }
     
 }
