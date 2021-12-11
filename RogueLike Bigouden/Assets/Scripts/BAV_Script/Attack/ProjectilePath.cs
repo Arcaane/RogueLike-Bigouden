@@ -25,6 +25,9 @@ public class ProjectilePath : MonoBehaviour
     private void Start()
     {
         isAttacking = false;
+        launchFirstAttack = false;
+        launchSecondAttack = false;
+        launchAttackY = false;
     }
 
     private void Update()
@@ -64,7 +67,6 @@ public class ProjectilePath : MonoBehaviour
         }
 
         if (launchSecondAttack
-            && !launchFirstAttack
             && !launchAttackY)
         {
             projectile.SetActive(true);
@@ -77,7 +79,8 @@ public class ProjectilePath : MonoBehaviour
                 launchSecondAttack = false;
             }
         }
-
+        
+        /*
         if (launchAttackY
             && !launchFirstAttack
             && !launchSecondAttack)
@@ -88,6 +91,7 @@ public class ProjectilePath : MonoBehaviour
         {
             projectile.SetActive(false);
         }
+        */
     }
 
 

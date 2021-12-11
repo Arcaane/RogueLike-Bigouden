@@ -460,8 +460,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3716929092873486904}
-  - component: {fileID: 7364354910012230314}
-  - component: {fileID: 5862450009555618024}
   m_Layer: 0
   m_Name: AttackY
   m_TagString: Untagged
@@ -483,60 +481,6 @@ Transform:
   m_Father: {fileID: 5870951213560685521}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7364354910012230314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3465884194235578286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6d6a40fae0a1164393c6e8b65ce21c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrayVector:
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    pointAttack:
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 1, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    pointAttack:
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 0, z: 0}
-    - {x: -1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 1, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-  radiusAttack: 0.8
-  addPoint: 0
---- !u!114 &5862450009555618024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3465884194235578286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227ae30b777e2a04c83a406dc8a5999d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spline: {fileID: 7364354910012230314}
-  projectile: {fileID: 4157973708392652611}
-  progress: 0
-  isAttacking: 0
-  speed: 2
-  countAttack: 0
-  launchFirstAttack: 0
-  launchSecondAttack: 0
-  launchAttackY: 0
 --- !u!1 &3863209497884959310
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +700,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 79864
+  m_InstanceId: 96954
 --- !u!114 &5699756477071308118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,7 +907,7 @@ MonoBehaviour:
   _X_isProjectile: 0
   buttonYValue: 0
   _Y_isDash: 0
-  _Y_isAttack: 0
+  _Y_isAttack: 1
   _Y_isProjectile: 0
   startButtonValue: 0
   selectButtonValue: 0
