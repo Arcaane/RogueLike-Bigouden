@@ -7,12 +7,14 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public GameObject player;
+    private PlayerInput_Final _playerInputFinal;
 
     private Inventory inventory;
     public Transform[] imageItemPanel;
@@ -52,6 +54,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenu;
+
+    [SerializeField] private GameObject pauseMenuPanel;
     public bool isPaused;
     [SerializeField] private GameObject blur;
 
@@ -75,6 +79,8 @@ public class UIManager : MonoBehaviour
     private PlayerStatsManager _playerStatsManager;
     public List<GameObject> playerList;
 
+    public GameObject actualPanel;
+    
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -95,77 +101,15 @@ public class UIManager : MonoBehaviour
         
         itemInformationPanel.SetActive(false);
 
-        eventSystem.firstSelectedGameObject = pauseFirstSelectedButton;
 
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isPaused = !isPaused;
-        }
-        
-        Pause();
         UpdateItemPlayer();
     }
 
-    private void Pause()
-    {
-        if (isPaused)
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0;
-            if (blur)
-            {
-                blur.SetActive(true);
-            }
-        }
-
-        if (!isPaused)
-        {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1;
-
-            if (blur)
-            {
-                blur.SetActive(false);
-            }
-        }
-    }
-
-    void UpdateItemPlayer()
-    {
-        //ecart de 55 sur l'axe x
-        imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
-
-        if (inventory)
-        {
-            foreach (Transform itemsImage in imageItemPanel)
-            {
-                for (int i = 1; i < imageItemPanel.Length; i++)
-                {
-                    if (imageItemPanel.Length > inventory.items.Count)
-                        imageItemPanel[i].GetComponent<Image>().enabled = false;
-                }
-
-                for (int i = 0; i < inventory.items.Count; i++)
-                {
-                    imageItemPanel[i + 1].GetComponent<Image>().enabled = true;
-                    imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
-                }
-            }
-        }
-    }
-
-    public void InformationPanel(Items items)
-    {
-        itemIconImage.sprite = items.image;
-        itemNameText.text = items.itemName;
-        itemDescriptionText.text = items.description;
-        itemPriceText.text = items.price.ToString();
-        itemRarityText.text = items.rarity.ToString();
-    }
+    #region SETUP
 
     public void SearchPlayer(GameObject P)
     {
@@ -187,6 +131,8 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
+        _playerInputFinal = player.GetComponent<PlayerInput_Final>();
 
         Invoke(nameof(RefreshUI), 1);
     }
@@ -222,6 +168,133 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    #endregion
+    
+    
+    #region PAUSE
+    public void Pause()
+    {
+        if (!isPaused)
+        {
+            SetSelectedButton(pauseFirstSelectedButton);
+            isPaused = true;
+            pauseMenu.SetActive(true);
+            
+            Time.timeScale = 0;
+            
+            SetPanel(pauseMenuPanel);
+            
+            
+            if (blur)
+            {
+                blur.SetActive(true);
+            }
+        }
+
+    }
+
+    public void SetPanel(GameObject gameObject)
+    {
+        actualPanel = gameObject;
+        actualPanel.SetActive(true);
+    }
+
+    public void SetSelectedButton(GameObject buttonSelected)
+    {
+        eventSystem.SetSelectedGameObject(buttonSelected);
+    }
+
+    public void ClosePanel()
+    {
+        actualPanel.SetActive(false);
+
+        if (actualPanel == pauseMenuPanel)
+        {
+            Resume();
+        }
+        else
+        {
+            actualPanel = pauseMenuPanel;
+            SetSelectedButton(pauseFirstSelectedButton);
+            SetPanel(pauseMenuPanel);
+        }
+
+    }
+
+    public void Resume()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+            pauseMenu.SetActive(false);
+            
+            Time.timeScale = 1;
+            
+            SetPanel(null);
+            
+            if (blur)
+            {
+                blur.SetActive(false);
+            }
+        }
+    }
+
+    public void BackToHome()
+    {
+        SceneManager.LoadScene("Hub");
+        Debug.Log("Go To Hub");
+    }
+    
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("Quit Application");
+    }
+    #endregion
+   
+
+    #region ITEMS
+    void UpdateItemPlayer()
+    {
+        //ecart de 55 sur l'axe x
+        imageItemPanel = itemPanelParent.GetComponentsInChildren<Transform>();
+
+        if (inventory)
+        {
+            foreach (Transform itemsImage in imageItemPanel)
+            {
+                for (int i = 1; i < imageItemPanel.Length; i++)
+                {
+                    if (imageItemPanel.Length > inventory.items.Count)
+                        imageItemPanel[i].GetComponent<Image>().enabled = false;
+                }
+
+                for (int i = 0; i < inventory.items.Count; i++)
+                {
+                    imageItemPanel[i + 1].GetComponent<Image>().enabled = true;
+                    imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
+                }
+            }
+        }
+    }
+
+    public void InformationPanel(Items items)
+    {
+        itemIconImage.sprite = items.image;
+        itemNameText.text = items.itemName;
+        itemDescriptionText.text = items.description;
+        itemPriceText.text = items.price.ToString();
+        itemRarityText.text = items.rarity.ToString();
+    }
+    
+
+    #endregion
+
+    
+    
+
+    #region SOUND
+
     public void SetMasterVolume(float mstLvl)
     {
         masterMixer.SetFloat("masterVolume", mstLvl);
@@ -241,6 +314,9 @@ public class UIManager : MonoBehaviour
     {
         masterMixer.SetFloat("interfaceVolume", intLvl);
     }
+
+    #endregion
+   
 
 }
 

@@ -13,6 +13,9 @@ public class PlayerInput_Final : MonoBehaviour
 {
     private PlayerConfiguration playerConfig;
 
+    //UIManager
+    private UIManager _uiManager;
+    
     //PlayerController
     private BAV_PlayerController controls;
 
@@ -139,6 +142,7 @@ public class PlayerInput_Final : MonoBehaviour
     private void Awake()
     {
         controls = new BAV_PlayerController();
+        _uiManager = FindObjectOfType<UIManager>();
         isMoving = false;
     }
 
@@ -252,7 +256,7 @@ public class PlayerInput_Final : MonoBehaviour
     public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        if (PlayerStatsManager.playerStatsInstance.readyToAttackB)
+        if (PlayerStatsManager.playerStatsInstance.readyToAttackB && !_uiManager.isPaused)
         {
             if (buttonB.started)
             {
@@ -290,8 +294,19 @@ public class PlayerInput_Final : MonoBehaviour
                         }
                     }
                 }
+
             }
         }
+
+        if (_uiManager.isPaused)
+        {
+            if (buttonB.started)
+            {
+                _uiManager.ClosePanel();
+                Debug.Log(_uiManager.isPaused + "Menu close");
+            }
+        }
+
 
         if (buttonB.canceled)
         {
@@ -384,6 +399,7 @@ public class PlayerInput_Final : MonoBehaviour
         if (startButton.performed)
         {
             //Quand j'appuie pour mettre en pause.
+            _uiManager.Pause();
         }
 
         if (startButton.canceled)
