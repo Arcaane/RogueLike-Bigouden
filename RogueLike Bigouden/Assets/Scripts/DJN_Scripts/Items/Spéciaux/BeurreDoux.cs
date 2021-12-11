@@ -9,6 +9,7 @@ public class BeurreDoux : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshCollider _meshCollider;
     private GameObject player;
+    private Camera cam;
     
     private void Start()
     {
@@ -16,16 +17,18 @@ public class BeurreDoux : MonoBehaviour
         _meshFilter = GetComponent<MeshFilter>();
         _meshCollider = GetComponent<MeshCollider>();
         player = GameObject.FindGameObjectWithTag("Player");
+        cam = FindObjectOfType<Camera>();
     }
 
     private void Update()
     {
-        if(player)
-            gameObject.transform.position = player.transform.position;
-        
-        m_trail.BakeMesh(_meshFilter.mesh, Camera.main, true);
+        m_trail.BakeMesh(_meshFilter.mesh, cam, false);
         _meshCollider.sharedMesh = _meshFilter.mesh;
+
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("JE SUIS SUR DU BEURRE");
+    }
 }

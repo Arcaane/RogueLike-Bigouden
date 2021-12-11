@@ -26,7 +26,7 @@ public class Beam : MonoBehaviour
         
         isActive = false;
         line.enabled = false;
-        originPoint.gameObject.layer = 2;
+        //originPoint.gameObject.layer = 2;
     }
 
     private void Update()
