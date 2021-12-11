@@ -32,6 +32,8 @@ public class ApplyAttack : MonoBehaviour
         EnnemyStatsManager objEnnemy = objTrigger.GetComponent<EnnemyStatsManager>();
         //Props
         Props_EnvironnementManager objProps = objTrigger.GetComponent<Props_EnvironnementManager>();
+        //Pillier
+        PillarsStatsManager objPillier = objTrigger.GetComponent<PillarsStatsManager>();
         
         //Mannequin and Ennemy
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
@@ -48,6 +50,7 @@ public class ApplyAttack : MonoBehaviour
             {
                 objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageX);
                 //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
+                
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
@@ -57,6 +60,12 @@ public class ApplyAttack : MonoBehaviour
         if (objTrigger.CompareTag("Beam"))
         {
             objProps.TakeDamagePilarDestruction(1);
+        }
+        
+        //Boss Pillier
+        if (objTrigger.CompareTag("Pillier"))
+        {
+            objPillier.TakeDamage(1);
         }
     }
 

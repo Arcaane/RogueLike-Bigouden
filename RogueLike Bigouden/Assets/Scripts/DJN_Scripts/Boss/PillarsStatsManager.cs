@@ -11,8 +11,8 @@ public class PillarsStatsManager : MonoBehaviour
         public void TakeDamage(int damage)
         {
                 if (shieldPoint > 0)
-                { 
-                        damage -= shieldPoint;
+                {
+                        shieldPoint -= damage;
 
                         if (shieldPoint < 0)
                         {
