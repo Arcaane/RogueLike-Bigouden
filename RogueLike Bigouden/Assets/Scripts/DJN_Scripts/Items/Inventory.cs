@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
                         switch (i.action)
                         {
                             case Items.Action.AttackX:
-                                if (_playerInputFinal.buttonXValue > 0.1)
+                                if (playerStats.isAttackingX)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.AttackY:
-                                if (_playerInputFinal.buttonYValue != 0)
+                                if (playerStats.isAttackingY)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -82,7 +82,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.AttackDistance:
-                                if (_playerInputFinal.buttonBValue != 0)
+                                if (playerStats.isAttackB)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -95,7 +95,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.Dash:
-                                if (_playerInputFinal.buttonAValue != 0)
+                                if (playerStats.isDashing)
                                 {
                                     ApplyItemEffect(i);
                                     Debug.Log("Conditon OK");

@@ -826,8 +826,9 @@ public class PlayerAttribut : MonoBehaviour
         {
             _dropSystem.refUI.settingPanel.SetActive(false);
             _playerInventory.items.Add(_dropSystem.itemSelect);
+            FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
             canTakeItem = false;
-            Destroy(_dropSystem.gameObject, 0.5f);
+            Destroy(_dropSystem.gameObject, 0.2f);
         }
     }
 
