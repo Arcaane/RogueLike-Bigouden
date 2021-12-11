@@ -11,7 +11,7 @@ public class DropSystem : MonoBehaviour
     private GameObject gameManager;
     private UIManager _uiManager;
     private CircleCollider2D collider;
-    private RoomLoader m_roomLoader;
+    private WaveSpawner m_roomLoader;
 
     public bool shop;
     public bool levelEnding;
@@ -28,6 +28,7 @@ public class DropSystem : MonoBehaviour
     private Inventory playerInventory;
     public bool playerOnIt;
     public UIManager refUI;
+    private bool itemAlreadySpawn;
 
     // Start is called before the first frame update
     private void Awake()
@@ -37,8 +38,8 @@ public class DropSystem : MonoBehaviour
         collider = GetComponent<CircleCollider2D>();
         _uiManager = FindObjectOfType<UIManager>();
         refUI = _uiManager;
-        m_roomLoader = GetComponent<RoomLoader>();
 
+        itemAlreadySpawn = false;
         collider.enabled = false;
     }
 
@@ -50,7 +51,12 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!shop)
+        if (!m_roomLoader)
+        {
+            m_roomLoader = FindObjectOfType<WaveSpawner>();
+        }
+        
+        if (!shop && m_roomLoader.State == WaveSpawner.SpawnState.FINISHED && !itemAlreadySpawn)
         {
             EndLevelItemDrop();
         }
@@ -147,8 +153,7 @@ public class DropSystem : MonoBehaviour
 
     private void EndLevelItemDrop()
     {
-        if (m_roomLoader._waveManager.GetComponent<WaveSpawner>().State == WaveSpawner.SpawnState.FINISHED)
-        {
+        itemAlreadySpawn = true;
             Roll();
             collider.enabled = true;
             Debug.Log(roll);
@@ -188,6 +193,6 @@ public class DropSystem : MonoBehaviour
             {
                 //EndLevelItemDrop();
             }
-        }
+        
     }
 }
