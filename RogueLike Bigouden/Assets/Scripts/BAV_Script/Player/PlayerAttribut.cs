@@ -15,6 +15,7 @@ public class PlayerAttribut : MonoBehaviour
     private PlayerStatsManager _playerStatsManager;
 
     [SerializeField] private PlayerInput_Final _playerInput;
+    [SerializeField] private Inventory _playerInventory;
 
     [Header("Value Update In Background")]
     //Timer Value for the Delay.
@@ -98,10 +99,17 @@ public class PlayerAttribut : MonoBehaviour
     //float--------------------
     [SerializeField]
     private GameObject ultBulletSpawner;
+
     [SerializeField] private float ultDuration;
 
     //bool--------------------
     [SerializeField] private bool isUlting;
+
+    [Header("Boolean pour dialogue et Item")] [SerializeField]
+    public bool canTakeItem;
+
+    [SerializeField] public bool canTalk;
+    [SerializeField] public bool canSkipDialogue;
 
 
     [Header("Dogdge Ability")]
@@ -177,13 +185,17 @@ public class PlayerAttribut : MonoBehaviour
 
     private const float dashIntValue = 1.666667f;
 
+    private DropSystem _dropSystem;
+
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput_Final>();
         rb = GetComponent<Rigidbody2D>();
         _playerStatsManager = GetComponent<PlayerStatsManager>();
+        _playerInventory = GetComponent<Inventory>();
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
+        _dropSystem = null;
 
         //_isDashing = _playerStatsManager.isDashing;
         _playerStatsManager.readyToDash = true;
@@ -247,7 +259,7 @@ public class PlayerAttribut : MonoBehaviour
         }
         else
         {
-            _playerStatsManager.movementSpeed  = 5f;
+            _playerStatsManager.movementSpeed = 5f;
         }
 
         //Stock l'ancienne Velocity
@@ -277,10 +289,11 @@ public class PlayerAttribut : MonoBehaviour
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
-                transform.Translate(_move * _playerStatsManager.movementSpeed  * (1.3f) * _timeManager.CustomDeltaTimePlayer);
+                transform.Translate(_move * _playerStatsManager.movementSpeed * (1.3f) *
+                                    _timeManager.CustomDeltaTimePlayer);
             }
             else
-                transform.Translate(_move * _playerStatsManager.movementSpeed  * _timeManager.CustomDeltaTimePlayer);
+                transform.Translate(_move * _playerStatsManager.movementSpeed * _timeManager.CustomDeltaTimePlayer);
         }
     }
 
@@ -588,7 +601,7 @@ public class PlayerAttribut : MonoBehaviour
     public void MovementProjectile()
     {
         damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
-        _playerStatsManager.isAttackB  = false;
+        _playerStatsManager.isAttackB = false;
         p_delay = _playerStatsManager.attackCdB;
         _playerStatsManager.readyToAttackB = false;
 
@@ -721,7 +734,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector3 playerPos = transform.position;
         Vector3 dodgeRadius = new Vector3(playerPos.x * radiusDodge, playerPos.y * radiusDodge, 0);
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
-        _playerStatsManager.movementSpeed  *= speedModification;
+        _playerStatsManager.movementSpeed *= speedModification;
         _timerDodgeEffect += _timeManager.CustomDeltaTimePlayer;
         if (_timerAttack >= durationEffect)
         {
@@ -734,27 +747,61 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Sofa"))
         {
-            Debug.Log(_bounceCount);
-
-            float speed = lastVelocity.magnitude * bounceForce;
-            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, other.contacts[0].normal);
-            rb.velocity = direction * Mathf.Max(speed, 0f);
-
-            //For Projectile Only.
-            /*
-            _bounceCount--;
-            float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-            */
-
-            isBounce = true;
-        }
-        else
-        {
-            isBounce = false;
+            BounceSofa(other);
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Sofa"))
+        {
+            BounceSofa(other);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        isBounce = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<DropSystem>() != null)
+        {
+            _dropSystem = other.GetComponent<DropSystem>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _dropSystem = null;
+    }
+
+    void BounceSofa(Collision2D obj)
+    {
+        float speed = lastVelocity.magnitude * bounceForce;
+        Vector3 direction = Vector3.Reflect(lastVelocity.normalized, obj.contacts[0].normal);
+        rb.velocity = direction * Mathf.Max(speed, 0f);
+
+        //For Projectile Only.
+        /*
+        _bounceCount--;
+        float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        */
+
+        isBounce = true;
+    }
+
+    public void AddItemToInventory()
+    {
+        if (_dropSystem != null)
+        {
+            _playerInventory.items.Add(_dropSystem.itemSelect);
+            _dropSystem.refUI.settingPanel.SetActive(false);
+            Destroy(_dropSystem.gameObject, 0.5f);
+        }
+    }
 
     [SerializeField] private float radiusBeforeDash;
     [SerializeField] List<Transform> target;

@@ -67,6 +67,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": ""Hold(duration=1)""
                 },
                 {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff80ed31-ebf6-4d5b-bec8-5dc7c91e7cf1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""56947256-5838-4b17-a2bd-d16c82118be4"",
@@ -336,7 +344,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""202319ea-14b5-4377-9585-80a802713a40"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -451,6 +459,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Right_Stick_Press"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7376d19-b194-4cda-a4ed-fa39769e5a08"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -692,6 +711,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_Player_YButton = m_Player.FindAction("YButton", throwIfNotFound: true);
         m_Player_AButton = m_Player.FindAction("AButton", throwIfNotFound: true);
         m_Player_BButton = m_Player.FindAction("BButton", throwIfNotFound: true);
+        m_Player_Start = m_Player.FindAction("Start", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Left_Top_Trigger = m_Player.FindAction("Left_Top_Trigger", throwIfNotFound: true);
         m_Player_Left_Bottom_Trigger = m_Player.FindAction("Left_Bottom_Trigger", throwIfNotFound: true);
@@ -759,6 +779,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_YButton;
     private readonly InputAction m_Player_AButton;
     private readonly InputAction m_Player_BButton;
+    private readonly InputAction m_Player_Start;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Left_Top_Trigger;
     private readonly InputAction m_Player_Left_Bottom_Trigger;
@@ -776,6 +797,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         public InputAction @YButton => m_Wrapper.m_Player_YButton;
         public InputAction @AButton => m_Wrapper.m_Player_AButton;
         public InputAction @BButton => m_Wrapper.m_Player_BButton;
+        public InputAction @Start => m_Wrapper.m_Player_Start;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Left_Top_Trigger => m_Wrapper.m_Player_Left_Top_Trigger;
         public InputAction @Left_Bottom_Trigger => m_Wrapper.m_Player_Left_Bottom_Trigger;
@@ -810,6 +832,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @BButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
                 @BButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
                 @BButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBButton;
+                @Start.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStart;
+                @Start.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStart;
+                @Start.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStart;
                 @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
@@ -853,6 +878,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @BButton.started += instance.OnBButton;
                 @BButton.performed += instance.OnBButton;
                 @BButton.canceled += instance.OnBButton;
+                @Start.started += instance.OnStart;
+                @Start.performed += instance.OnStart;
+                @Start.canceled += instance.OnStart;
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
@@ -962,6 +990,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         void OnYButton(InputAction.CallbackContext context);
         void OnAButton(InputAction.CallbackContext context);
         void OnBButton(InputAction.CallbackContext context);
+        void OnStart(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnLeft_Top_Trigger(InputAction.CallbackContext context);
         void OnLeft_Bottom_Trigger(InputAction.CallbackContext context);

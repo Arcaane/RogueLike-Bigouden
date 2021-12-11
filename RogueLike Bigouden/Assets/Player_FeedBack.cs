@@ -8,25 +8,28 @@ using Random = UnityEngine.Random;
 public class Player_FeedBack : MonoBehaviour
 {
     #region Variables
+
     // Utilities
     public static Player_FeedBack fb_instance;
     [SerializeField] public PlayerAttribut p_attribut;
-    
+
     // Camera Move
     [SerializeField] public Transform p_transform;
     [SerializeField] private float smoothSpeedCamDash = 2.5f;
     [SerializeField] private float smoothSpeedCamWalk = 1.7f;
-    
+
     // Camera Shake 
     [SerializeField] private float s_duration;
     [SerializeField] private float s_magnitude;
-    
+
     // MM Feedback
     [SerializeField] private MMFeedbacks _mmFeedbacks;
     [SerializeField] private float radiusBPoint = 0.9f * 2;
+
     #endregion
 
     #region Shake
+
     public IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPos = transform.localPosition;
@@ -36,58 +39,62 @@ public class Player_FeedBack : MonoBehaviour
         {
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
-            transform.localPosition = Vector3.Lerp(transform.position, new Vector3(transform.position.x + x, transform.position.y + y, originalPos.z), duration * Time.deltaTime);
+            transform.localPosition = Vector3.Lerp(transform.position,
+                new Vector3(transform.position.x + x, transform.position.y + y, originalPos.z),
+                duration * Time.deltaTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
     }
+
     #endregion
 
-    
+
     private void Awake()
     {
-        if (fb_instance == null){
-
+        if (fb_instance == null)
+        {
             fb_instance = this;
             DontDestroyOnLoad(this.gameObject);
-    
+
             //Rest of Awake code
-    
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
-        
-        
     }
 
     public Vector3 offset;
-    
+
     private void LateUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
-           //StartCoroutine(Shake(s_duration, s_magnitude));
-           _mmFeedbacks.PlayFeedbacks();
+            //StartCoroutine(Shake(s_duration, s_magnitude));
+            _mmFeedbacks.PlayFeedbacks();
         }
 
-        if (p_attribut.launchProjectileFeedback.activeSelf)
-        {
-            Vector3 desiredPos = p_transform.position + p_attribut.shootPointPos * radiusBPoint;  // Desired pos = launchpos 
-            Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
-            transform.position = smoothedPos;
-        }
-        
         if (p_attribut != null)
         {
+            if (p_attribut.launchProjectileFeedback.activeSelf)
+            {
+                Vector3 desiredPos =
+                    p_transform.position + p_attribut.shootPointPos * radiusBPoint; // Desired pos = launchpos 
+                Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
+                transform.position = smoothedPos;
+            }
+
+
             if (p_attribut._isDashing)
             {
-                Vector3 desiredPos = p_transform.position + offset; 
+                Vector3 desiredPos = p_transform.position + offset;
                 Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
                 transform.position = smoothedPos;
             }
             else
             {
-                Vector3 desiredPos = p_transform.position + offset; 
+                Vector3 desiredPos = p_transform.position + offset;
                 Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamWalk * Time.deltaTime);
                 transform.position = smoothedPos;
             }

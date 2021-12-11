@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ public class PlayerInput_Final : MonoBehaviour
     private Vector2 _MousePos;
 
     [SerializeField] PlayerAttribut playerAttribut;
+    [SerializeField] Inventory playerInventory;
     public bool isMoving;
 
     [Header("Boutton Value A")]
@@ -60,6 +62,11 @@ public class PlayerInput_Final : MonoBehaviour
     //Concerne la valeur d'input de Y
     [SerializeField]
     public float buttonYValue;
+
+    [Header("Boutton pour les Menus")] [SerializeField]
+    private float startButtonValue;
+
+    [SerializeField] private float selectButtonValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _Y_isDash;
@@ -114,8 +121,8 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _LeftPress_isProjectile;
     [SerializeField] private bool _LeftPress_IsUlt;
 
-    [Header("Boutton Value Left Stick Press ")] 
-    [SerializeField] private float stick_RightPressValue;
+    [Header("Boutton Value Left Stick Press ")] [SerializeField]
+    private float stick_RightPressValue;
 
     //Can be delete for the Final Build
     [SerializeField] private bool _RightPress_isDash;
@@ -140,24 +147,35 @@ public class PlayerInput_Final : MonoBehaviour
         playerConfig = config;
         playerAttribut.playerMesh.material = config.playerMaterial;
 
-
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
-        controls.Player.BButton.performed += Input_BButton;
         controls.Player.BButton.started += Input_BButton;
+        controls.Player.BButton.performed += Input_BButton;
         controls.Player.BButton.canceled += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
+
+        //Use Stick Press------
         controls.Player.Left_Stick_Press.performed += LeftStickPress;
         controls.Player.Right_Stick_Press.performed += RightStickPress;
+
         //Use Trigger----------
         controls.Player.Left_Top_Trigger.performed += LeftTopTrigger;
         controls.Player.Left_Bottom_Trigger.performed += LeftBottomTrigger;
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
+
         //Use Stick----------
         controls.Player.Move.performed += OnMove;
         controls.Player.Move.canceled += OnMove;
+
+        //Use Button for Pause Menu
+        //Start Button
+        controls.Player.Start.performed += StartButton;
+        controls.Player.Start.canceled += StartButton;
+        //Select Button
+        controls.Player.Select.performed += SelectButton;
+        controls.Player.Select.canceled += SelectButton;
         //controls.Player.Look.performed += OnLook;
     }
 
@@ -186,19 +204,35 @@ public class PlayerInput_Final : MonoBehaviour
 
         if (buttonA.performed)
         {
-            if (_A_isDash)
+            if (!playerAttribut.canTakeItem && !playerAttribut.canTalk && !playerAttribut.canSkipDialogue)
             {
-                playerAttribut.Dash();
-            }
+                if (_A_isDash)
+                {
+                    playerAttribut.Dash();
+                }
 
-            if (_A_isAttack)
-            {
-                playerAttribut.AttackTypeX();
-            }
+                if (_A_isAttack)
+                {
+                    playerAttribut.AttackTypeX();
+                }
 
-            if (_A_isProjectile)
+                if (_A_isProjectile)
+                {
+                    //playerAttribut.LaunchProjectile();
+                }
+            }
+            else if (playerAttribut.canTakeItem)
             {
-                //playerAttribut.LaunchProjectile();
+                Debug.Log("Can take the Item");
+                playerAttribut.AddItemToInventory();
+            }
+            else if (playerAttribut.canTalk)
+            {
+                Debug.Log("Can talk with the PNJ");
+            }
+            else if (playerAttribut.canSkipDialogue)
+            {
+                Debug.Log("Can Skip Dialogue");
             }
 
             Debug.Log("Button A performed");
@@ -337,6 +371,39 @@ public class PlayerInput_Final : MonoBehaviour
         if (buttonY.canceled)
         {
             //Debug.Log("Button Y Canceled");
+        }
+    }
+
+    public void StartButton(CallbackContext startButton)
+    {
+        startButtonValue = startButton.ReadValue<float>();
+        if (startButton.started)
+        {
+        }
+
+        if (startButton.performed)
+        {
+            //Quand j'appuie pour mettre en pause.
+        }
+
+        if (startButton.canceled)
+        {
+        }
+    }
+
+    public void SelectButton(CallbackContext selectButton)
+    {
+        selectButtonValue = selectButton.ReadValue<float>();
+        if (selectButton.started)
+        {
+        }
+
+        if (selectButton.performed)
+        {
+        }
+
+        if (selectButton.canceled)
+        {
         }
     }
 
