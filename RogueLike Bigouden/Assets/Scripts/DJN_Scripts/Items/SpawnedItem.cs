@@ -176,10 +176,10 @@ public class SpawnedItem : MonoBehaviour
                                 break;
                             
                             case ValueToMod.DamageX:
-                                float currentDamageX = playerStats.damageX;
+                                float currentDamageX = playerStats.damageFirstX;
                                 if (!onTrigger)
                                 {
-                                    playerStats.damageX = Mathf.FloorToInt(currentDamageX);
+                                    playerStats.damageFirstX = Mathf.FloorToInt(currentDamageX);
                                 }
                                 
                                 if (onTime)
@@ -189,14 +189,14 @@ public class SpawnedItem : MonoBehaviour
                                     
                                     IEnumerator OnTimeEffect()
                                     {
-                                        playerStats.damageX += Mathf.FloorToInt(modAmount);
+                                        playerStats.damageFirstX += Mathf.FloorToInt(modAmount);
                                         yield return new WaitForSeconds(onTimeDuration);
-                                        playerStats.damageX = Mathf.FloorToInt(currentDamageX);
+                                        playerStats.damageFirstX = Mathf.FloorToInt(currentDamageX);
                                     }
                                 }
                                 else
                                 {
-                                    playerStats.damageX += Mathf.FloorToInt(modAmount);
+                                    playerStats.damageFirstX += Mathf.FloorToInt(modAmount);
                                 }
                                 break;
                             

@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
 
     private PlayerInput_Final _playerInputFinal;
     private DropSystem _dropSystem;
+    private EnnemyStatsManager enemyStats;
     private IABarman ennemyBarman;
     private IAShooter ennemyShooter;
     private IARunner ennemyRunner;
@@ -32,6 +33,11 @@ public class Inventory : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         playerStats = GetComponent<PlayerStatsManager>();
         _playerInputFinal = GetComponent<PlayerInput_Final>();
+        enemyStats = FindObjectOfType<EnnemyStatsManager>();
+        ennemyBarman = FindObjectOfType<IABarman>();
+        ennemyShooter = FindObjectOfType<IAShooter>();
+        ennemyRunner = FindObjectOfType<IARunner>();
+        ennemyCac = FindObjectOfType<IACac>();
         isChecking = false;
     }
 
@@ -58,7 +64,7 @@ public class Inventory : MonoBehaviour
                         switch (i.action)
                         {
                             case Items.Action.AttackX:
-                                if (_playerInputFinal.buttonXValue > 0.1)
+                                if (playerStats.isAttackingX)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -67,7 +73,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.AttackY:
-                                if (_playerInputFinal.buttonYValue != 0)
+                                if (playerStats.isAttackingY)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -76,7 +82,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.AttackDistance:
-                                if (_playerInputFinal.buttonBValue != 0)
+                                if (playerStats.isAttackB)
                                 {
                                     ApplyItemEffect(i);
                                     isChecking = true;
@@ -89,7 +95,7 @@ public class Inventory : MonoBehaviour
                                 break;
 
                             case Items.Action.Dash:
-                                if (_playerInputFinal.buttonAValue != 0)
+                                if (playerStats.isDashing)
                                 {
                                     ApplyItemEffect(i);
                                     Debug.Log("Conditon OK");
@@ -141,56 +147,68 @@ public class Inventory : MonoBehaviour
                                         switch (i.actionEnemy)
                                         {
                                             case Items.ActionEnemy.All:
-                                                if (FindObjectOfType<EnnemyStatsManager>().lifePoint <= 0)
+                                                if (enemyStats != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (enemyStats.lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Barman:
-                                                if (FindObjectOfType<IABarman>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyBarman != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyBarman.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Cac:
-                                                if (FindObjectOfType<IACac>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyCac != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyCac.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Rush:
-                                                if (FindObjectOfType<IARunner>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyRunner != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyRunner.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
 
                                                 break;
 
                                             case Items.ActionEnemy.Tir:
-                                                if (FindObjectOfType<IAShooter>().GetComponent<EnnemyStatsManager>()
-                                                    .lifePoint <= 0)
+                                                if (ennemyShooter != null)
                                                 {
-                                                    ApplyItemEffect(i);
-                                                    isChecking = true;
+                                                    if (ennemyShooter.GetComponent<EnnemyStatsManager>()
+                                                        .lifePoint <= 0)
+                                                    {
+                                                        ApplyItemEffect(i);
+                                                        isChecking = true;
+                                                    }
                                                 }
-
-
                                                 break;
                                         }
-
                                         break;
 
                                     case Items.ActionTarget.Props:
@@ -372,17 +390,17 @@ public class Inventory : MonoBehaviour
 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseDamageX = playerStats.damageX;
+                                    float baseDamageX = playerStats.damageFirstX;
                                     float baseDamageY = playerStats.damageY;
                                     float baseDamageB = playerStats.damageProjectile;
 
-                                    playerStats.damageX += i.modAmount;
+                                    playerStats.damageFirstX += i.modAmount;
                                     playerStats.damageY += i.modAmount;
                                     playerStats.damageProjectile += i.modAmount;
 
                                     yield return new WaitForSeconds(i.overTimeDuration);
 
-                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    playerStats.damageFirstX = Mathf.FloorToInt(baseDamageX);
                                     playerStats.damageY = Mathf.FloorToInt(baseDamageY);
                                     playerStats.damageProjectile = Mathf.FloorToInt(baseDamageB);
                                     isChecking = false;
@@ -390,7 +408,7 @@ public class Inventory : MonoBehaviour
                             }
                             else
                             {
-                                playerStats.damageX += i.modAmount;
+                                playerStats.damageFirstX += i.modAmount;
                                 playerStats.damageY += i.modAmount;
                                 playerStats.damageProjectile += i.modAmount;
                                 isChecking = false;
@@ -409,16 +427,16 @@ public class Inventory : MonoBehaviour
 
                                 IEnumerator OnTimeEffect()
                                 {
-                                    float baseDamageX = playerStats.damageX;
-                                    playerStats.damageX += i.modAmount;
+                                    float baseDamageX = playerStats.damageFirstX;
+                                    playerStats.damageFirstX += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
-                                    playerStats.damageX = Mathf.FloorToInt(baseDamageX);
+                                    playerStats.damageFirstX = Mathf.FloorToInt(baseDamageX);
                                     isChecking = false;
                                 }
                             }
                             else
                             {
-                                playerStats.damageX += i.modAmount;
+                                playerStats.damageFirstX += i.modAmount;
                                 isChecking = false;
                             }
                         }

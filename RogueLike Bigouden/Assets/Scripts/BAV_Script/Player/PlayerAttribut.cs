@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,7 +24,8 @@ public class PlayerAttribut : MonoBehaviour
     private float _timerDash;
 
     [SerializeField] private float _timerBetweenDash;
-    [SerializeField] private float _timerAttack;
+    [SerializeField] private float _timerAttackX;
+    [SerializeField] private float _timerAttackY;
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
 
@@ -35,25 +37,19 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Utiliser le Clavier ?")] [SerializeField]
     private bool useVibration;
 
-    [Header("Bounce Collider")] [SerializeField]
-    private float _bounceCount;
-
+    [Header("Bounce Collider")]
     [SerializeField] private float bounceForce;
     [SerializeField] private bool isBounce;
     [SerializeField] private Vector3 lastVelocity;
 
     [Header("Etat du dash")]
     //Check Si le player est a déjà Dash ou si le joueur est en train de Dash.
-
     //Can be delete for the Final Build
-    [SerializeField]
-    private bool useRBDash;
-
-    [SerializeField] public float dashSpeedRB = 5;
+    [SerializeField] private bool useRBDash;
+    [SerializeField] private Color colorDash;
 
     //float--------------------
     [SerializeField] float _dashSpeed;
-
     public float durationDash = 1f;
 
     //private value for Dash------------------
@@ -69,7 +65,7 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] public ProjectilePath attackPath;
 
     //float-------------------
-    [SerializeField] public float attackType;
+    [SerializeField] public int attackType;
     [SerializeField] public float attackMovingSpeed;
     public bool launchAOEAttack;
 
@@ -446,6 +442,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
+        spriteRendererFrame.material.SetColor("_DiffuseColor", colorDash);
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;
         Vector2 dir = _lastPosition;
@@ -469,6 +466,7 @@ public class PlayerAttribut : MonoBehaviour
             playerFeedBack.MovingRumble(Vector2.zero);
         }
 
+        spriteRendererFrame.material.SetColor("_DiffuseColor", colorReset);
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
         _playerStatsManager.isDashing = false;
@@ -492,7 +490,7 @@ public class PlayerAttribut : MonoBehaviour
 
     #endregion DashAttribut
 
-    #region AttackAttribute
+    #region AttackAttributeX
 
     public void AttackTypeX()
     {
@@ -506,8 +504,8 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         if (attackType == 2 &&
-            _timerAttack > _playerStatsManager.firstAttackReset.x &&
-            _timerAttack < _playerStatsManager.firstAttackReset.y + 0.2f)
+            _timerAttackX > _playerStatsManager.firstAttackReset.x &&
+            _timerAttackX < _playerStatsManager.firstAttackReset.y + 0.2f)
         {
             attackType = 2;
             _playerStatsManager.isAttackFirstX = false;
@@ -517,9 +515,12 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Reset()
     {
+        //--------------------DASH--------------------//
         if (_playerStatsManager.isDashing)
         {
+            //Increment Value Timer for Dash Reset
             _timerDash += _timeManager.CustomDeltaTimePlayer;
+            //Reset for the Dash (Cooldown)
             if (_timerDash >= _playerStatsManager.dashCooldown)
             {
                 _playerStatsManager.readyToDash = true;
@@ -529,35 +530,61 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
 
+        //--------------------Attack Y--------------------//
+        //If player launch an Attack Y
+        if (_playerStatsManager.isAttackingY)
+        {
+            //Increment value Timer for AttackY Reset
+            _timerAttackY += _timeManager.CustomDeltaTimePlayer;
+            
+            //Reset for the Attack Y (Cooldown)
+            if (_timerAttackY >= _playerStatsManager.attackCdY)
+            {
+                _playerStatsManager.isAttackingY = false;
+                _timerAttackY = 0;
+            }
+        }
+
+        //--------------------Attack X--------------------//
+        //If player launch an Attack X
         if (_playerStatsManager.isAttackingX)
         {
-            _timerAttack += _timeManager.CustomDeltaTimePlayer;
-            if (_timerAttack > _playerStatsManager.firstAttackReset.x &&
-                _timerAttack < (_playerStatsManager.firstAttackReset.y))
+            //Increment Value Timer for AttackX Reset
+            _timerAttackX += _timeManager.CustomDeltaTimePlayer;
+            
+            //Launch Sprite Frame Perfect on the Player----------
+            if (_timerAttackX > _playerStatsManager.firstAttackReset.x &&
+                _timerAttackX < (_playerStatsManager.firstAttackReset.y))
             {
                 spriteRendererFrame.material.color = perfectFrameColor;
                 spriteRendererFrame.color = perfectFrameColor;
             }
 
-            if (_timerAttack > _playerStatsManager.firstAttackReset.y)
+            //Reset Sprite Frame Perfect on the Player----------
+            if (_timerAttackX > _playerStatsManager.firstAttackReset.y)
             {
                 spriteRendererFrame.material.color = colorReset;
                 spriteRendererFrame.color = colorReset;
             }
 
-            if (_playerStatsManager.isAttackFirstX && _timerAttack >= _playerStatsManager.firstAttackReset.x + 0.2f)
+            //Reset for the First Attack if the player didn't hit the frame Perfect (Cooldown)
+            if (_playerStatsManager.isAttackFirstX)
             {
-                attackType = 0;
-                _playerStatsManager.isAttackingX = false;
-                _playerStatsManager.isAttackFirstX = false;
-                attackPath.launchFirstAttack = false;
-                attackPath.progress = 0f;
-                _timerAttack = 0f;
+                if (_timerAttackX >= _playerStatsManager.firstAttackReset.x + 0.2f)
+                {
+                    attackType = 0;
+                    _playerStatsManager.isAttackingX = false;
+                    _playerStatsManager.isAttackFirstX = false;
+                    attackPath.launchFirstAttack = false;
+                    attackPath.progress = 0f;
+                    _timerAttackX = 0f;
+                }
             }
 
+            //Reset for the Second AttackX if the player hit the frame Perfect (Cooldown)
             if (_playerStatsManager.isAttackSecondX)
             {
-                if (_timerAttack >= (_playerStatsManager.firstAttackReset.y + 0.2f))
+                if (_timerAttackX >= (_playerStatsManager.firstAttackReset.y + 0.2f))
                 {
                     attackType = 0;
                     _playerStatsManager.isAttackingX = false;
@@ -566,7 +593,7 @@ public class PlayerAttribut : MonoBehaviour
                     attackPath.launchFirstAttack = false;
                     attackPath.launchSecondAttack = false;
                     attackPath.progress = 0f;
-                    _timerAttack = 0f;
+                    _timerAttackX = 0f;
                 }
             }
         }
@@ -736,7 +763,7 @@ public class PlayerAttribut : MonoBehaviour
         float distPlayerRadius = Vector3.Distance(playerPos, dodgeRadius);
         _playerStatsManager.movementSpeed *= speedModification;
         _timerDodgeEffect += _timeManager.CustomDeltaTimePlayer;
-        if (_timerAttack >= durationEffect)
+        if (_timerAttackX >= durationEffect)
         {
             useDodgeAbility = false;
         }
@@ -797,9 +824,11 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dropSystem != null)
         {
-            _playerInventory.items.Add(_dropSystem.itemSelect);
             _dropSystem.refUI.settingPanel.SetActive(false);
-            Destroy(_dropSystem.gameObject, 0.5f);
+            _playerInventory.items.Add(_dropSystem.itemSelect);
+            FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+            canTakeItem = false;
+            Destroy(_dropSystem.gameObject, 0.2f);
         }
     }
 
@@ -820,7 +849,7 @@ public class PlayerAttribut : MonoBehaviour
 
             if (range < radiusBeforeDash)
             {
-                TimeManager._timeManager.SlowDownGame(3);
+                _timeManager.SlowDownGame(3);
                 Debug.Log(range);
             }
         }

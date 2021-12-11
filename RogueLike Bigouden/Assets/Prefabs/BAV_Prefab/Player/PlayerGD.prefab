@@ -582,6 +582,7 @@ MonoBehaviour:
   kbMouse: 0
   _Camera: {fileID: 7942845891648079585}
   playerAttribut: {fileID: 2032507264982532866}
+  playerInventory: {fileID: 0}
   isMoving: 0
   buttonAValue: 0
   _A_isDash: 1
@@ -597,6 +598,8 @@ MonoBehaviour:
   _X_isAttack: 1
   _X_isProjectile: 0
   buttonYValue: 0
+  startButtonValue: 0
+  selectButtonValue: 0
   _Y_isDash: 0
   _Y_isAttack: 0
   _Y_isProjectile: 0
@@ -640,12 +643,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerStatsManager: {fileID: 0}
   _playerInput: {fileID: 0}
+  _playerInventory: {fileID: 0}
   _timerDash: 0
   _timerBetweenDash: 0
-  _timerAttack: 0
-  _timerDelayAttack: 0
-  _timerDodgeEffect: 0
-  _delayProjectile: 0
+  _timerAttackX: 0
+  _timerAttackY: 0
   _timerUltimate: 0
   _timerCamera: 0
   colorReset: {r: 1, g: 1, b: 1, a: 1}
@@ -655,47 +657,37 @@ MonoBehaviour:
   bounceForce: 5
   isBounce: 0
   lastVelocity: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
   useRBDash: 1
   dashSpeedRB: 8
   _dashSpeed: 50
   durationDash: 0.2
-  durationCooldownDash: 0.5
-  dashCount: 3
-  isDash: 0
-  canDash: 0
   dashCounter: 0
   spriteRendererFrame: {fileID: 4449841256603219750}
   perfectFrameColor: {r: 0.8113208, g: 0.2793699, b: 0.8023036, a: 1}
   splinePivot: {fileID: 6888110428959059061}
-  offsetAttackXY: {fileID: 9191476555525687113}
   attackSpline: {fileID: 8125084828788947435}
   attackPath: {fileID: 1617845058245928534}
-  valueBeforeResetAttack: 0.5
   attackType: 0
   attackMovingSpeed: 0
-  isAttacking: 0
-  launchFirstAttack: 0
-  launchSecondAttack: 0
   launchAOEAttack: 0
+  shootPointPos: {x: 0, y: 0, z: 0}
   AttackProjectile: {fileID: 8011668922826876698, guid: 536d84dd25da7b147a18da013a48bde0, type: 3}
   launchProjectileFeedback: {fileID: 1949162064}
-  speedProjectile: 1
   damageProjectile: 0
   delayProjectile: 7
   delayProjectileReduction: 4.5
   p_delay: 0
   offsetEndPosProjectile: 2
-  launchProjectile: 0
-  canLaunchProjectile: 0
   ultBulletSpawner: {fileID: 7076735778691649299}
-  numberOfBullet: 50
-  incrementValue: 0
   ultDuration: 10
   isUlting: 0
+  canTakeItem: 0
+  canTalk: 0
+  canSkipDialogue: 0
   radiusDodge: 0
   durationEffect: 5
   speedModification: 2
+  _timerDodgeEffect: 0
   useDodgeAbility: 0
   dodgeAbility: 0
   bulletIn: 0
@@ -705,13 +697,10 @@ MonoBehaviour:
   posCam: {fileID: 6651101308080350034}
   cam: {fileID: 7942845891648079585}
   _timerBeforeResetPosCamera: 10
-  durationMove: 100
-  offset: {x: 0, y: 0, z: 0}
   limitationArray: {x: 100, y: 100}
   _attackPath: {fileID: 1617845058245928534}
   _directionNormalized: {x: 0, y: 0, z: 0}
   _look: {x: 0, y: 0, z: 0}
-  _objPosition: {x: 0, y: 0, z: 0}
   _move: {x: 0, y: 0, z: 0}
   _isDashing: 0
   _launchDebug: 0
@@ -737,12 +726,14 @@ MonoBehaviour:
   ultMaxPoint: 0
   lifePoint: 0
   shieldPoint: 0
-  damageX: 0
+  damageFirstX: 0
+  damageSecondX: 0
   damageY: 0
   damageProjectile: 0
   ultPointToAddPerHit: 0
   ultPointToAddPerKill: 0
   damageUlt: 0
+  money: 0
   movementSpeed: 0
   attackRangeX: 0
   attackCdX: 0
@@ -750,18 +741,26 @@ MonoBehaviour:
   attackCdY: 0
   attackRangeProjectile: 0
   attackCdB: 0
-  dashRange: 0
+  dashSpeed: 0
+  dashCounter: 0
+  dashDuration: 0
   dashCooldown: 0
   ultDuration: 0
   bonusSpeed: 0
   firstAttackReset: {x: 0, y: 0}
   secondAttackReset: {x: 0, y: 0}
+  isAttackingX: 0
   readyToAttackX: 0
+  isAttackFirstX: 0
+  isAttackSecondX: 0
   readyToAttackY: 0
+  isAttackingY: 0
   readyToAttackB: 0
+  isAttackB: 0
   isDashing: 0
   readyToDash: 0
   onButter: 0
+  getHurt: 0
   FloatingTextPrefab: {fileID: 2722654959424730303, guid: ca82c292d0009ce4087feff5a2b2658f, type: 3}
 --- !u!50 &3476714759994905525
 Rigidbody2D:
@@ -857,7 +856,6 @@ MonoBehaviour:
   items: []
   itemOnTheFloor: {fileID: 0}
   conditionActivate: 0
-  currentMoney: 0
   roll: 0
 --- !u!1 &3632020992787001408
 GameObject:
@@ -978,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6651101308080350034
 Transform:
   m_ObjectHideFlags: 0
@@ -1323,6 +1321,7 @@ GameObject:
   - component: {fileID: 4449841256603219750}
   - component: {fileID: 712107752893462505}
   - component: {fileID: 8223871295180231385}
+  - component: {fileID: 7474579992371421002}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -1443,7 +1442,19 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 75460
+  m_InstanceId: -11306
+--- !u!114 &7474579992371421002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8281340988633433044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11104a0404fb0ee47b9737e255095198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8341808548085941263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,3 +1649,4 @@ MonoBehaviour:
   countAttack: 0
   launchFirstAttack: 0
   launchSecondAttack: 0
+  launchAttackY: 0
