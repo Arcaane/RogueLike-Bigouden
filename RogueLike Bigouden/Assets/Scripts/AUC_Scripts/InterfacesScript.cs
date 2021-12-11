@@ -18,24 +18,37 @@ public class InterfacesScript : MonoBehaviour
         menu.SetActive(true);
         loadingInterface.SetActive(false);
     }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
+    
     public void StartGame()
     {
-        HideMenu();
+        //HideMenu();
         scenesToLoad.Add(SceneManager.LoadSceneAsync("Hub"));
-        StartCoroutine(LoadingScreen());
+        // StartCoroutine(LoadingScreen());
     }
 
+    public void StartCredits()
+    {
+        UIManager.instance.gameOverPanel.SetActive(false);
+        SceneManager.LoadScene("Credits");
+
+    }
+
+    public void StartMenu()
+    {
+        UIManager.instance.gameOverPanel.SetActive(false);
+        SceneManager.LoadScene("Menu");
+    }
+    
     public void HideMenu()
     {
         menu.SetActive(false);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    
     public void ShowLoadingScreen()
     {
         loadingInterface.SetActive(true);

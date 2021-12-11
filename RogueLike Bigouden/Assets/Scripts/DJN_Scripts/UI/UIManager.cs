@@ -80,6 +80,8 @@ public class UIManager : MonoBehaviour
     public List<GameObject> playerList;
 
     public GameObject actualPanel;
+
+    public GameObject gameOverPanel;
     
     private void Awake()
     {
@@ -92,6 +94,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameOverPanel.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
         searchInventory = false;
@@ -100,8 +103,6 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
-
-
     }
 
     private void Update()
@@ -207,7 +208,8 @@ public class UIManager : MonoBehaviour
     public void ClosePanel()
     {
         actualPanel.SetActive(false);
-
+        gameOverPanel.SetActive(false);
+        
         if (actualPanel == pauseMenuPanel)
         {
             Resume();
@@ -241,6 +243,7 @@ public class UIManager : MonoBehaviour
 
     public void BackToHome()
     {
+        
         SceneManager.LoadScene("Hub");
         Debug.Log("Go To Hub");
     }
@@ -291,8 +294,6 @@ public class UIManager : MonoBehaviour
     #endregion
 
     
-    
-
     #region SOUND
 
     public void SetMasterVolume(float mstLvl)
@@ -316,7 +317,6 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
-   
-
+    
 }
 
