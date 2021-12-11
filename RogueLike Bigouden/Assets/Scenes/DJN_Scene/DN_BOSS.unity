@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 175173167}
   - component: {fileID: 175173169}
   - component: {fileID: 175173168}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 223361839}
   - component: {fileID: 223361841}
   - component: {fileID: 223361840}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 251210280}
   - component: {fileID: 251210281}
   - component: {fileID: 251210282}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: B
   m_TagString: Pillier
   m_Icon: {fileID: 0}
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 265585799}
   - component: {fileID: 265585800}
   - component: {fileID: 265585801}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: C
   m_TagString: Pillier
   m_Icon: {fileID: 0}
@@ -791,6 +791,11 @@ MonoBehaviour:
   health: 10
   shieldPoint: 0
   isDestroyed: 0
+--- !u!4 &281602396 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
+  m_PrefabInstance: {fileID: 1005476974}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &489962035 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6386744537322031146, guid: 90f4d91a9ef0a38488c15fe8173dc77e, type: 3}
@@ -1108,7 +1113,7 @@ GameObject:
   - component: {fileID: 681857100}
   - component: {fileID: 681857099}
   - component: {fileID: 681857098}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: PillierLifeInformation (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1950,6 +1955,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 151607722}
+  - {fileID: 281602396}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1976,7 +1982,7 @@ GameObject:
   - component: {fileID: 901063707}
   - component: {fileID: 901063706}
   - component: {fileID: 901063709}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: PillierLifeInformation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2089,7 +2095,7 @@ GameObject:
   - component: {fileID: 902374731}
   - component: {fileID: 902374733}
   - component: {fileID: 902374732}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2475,7 +2481,7 @@ GameObject:
   - component: {fileID: 946410203}
   - component: {fileID: 946410205}
   - component: {fileID: 946410206}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: A
   m_TagString: Pillier
   m_Icon: {fileID: 0}
@@ -2599,23 +2605,23 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 847570956}
     m_Modifications:
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4808817
+      value: 7.5983195
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17347777
+      value: -3.864419
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -447.64413
+      value: -439.0718
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2623,15 +2629,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8129741370239878658, guid: 83877f30cb50bad41a847c65ec126c99, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2664,7 +2670,7 @@ GameObject:
   - component: {fileID: 1007475701}
   - component: {fileID: 1007475700}
   - component: {fileID: 1007475699}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: PillierLifeInformation (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3698,7 +3704,7 @@ GameObject:
   - component: {fileID: 1337203148}
   - component: {fileID: 1337203149}
   - component: {fileID: 1337203150}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: D
   m_TagString: Pillier
   m_Icon: {fileID: 0}
@@ -4451,7 +4457,7 @@ GameObject:
   - component: {fileID: 1776709248}
   - component: {fileID: 1776709247}
   - component: {fileID: 1776709246}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: PillierLifeInformation (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4760,7 +4766,7 @@ GameObject:
   - component: {fileID: 1947331688}
   - component: {fileID: 1947331690}
   - component: {fileID: 1947331689}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
