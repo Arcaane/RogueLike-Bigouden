@@ -199,7 +199,7 @@ public class PlayerAttribut : MonoBehaviour
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
         _dropSystem = null;
-        
+
         //dialogue
         _dialogueManager = null;
         dialogueLine = 0;
@@ -326,14 +326,12 @@ public class PlayerAttribut : MonoBehaviour
             SetAttackValue(attack2: true);
             attackPath.launchSecondAttack = true;
         }
-
         /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
         */
-        
 
 
         else
@@ -833,10 +831,8 @@ public class PlayerAttribut : MonoBehaviour
     {
         _dropSystem = null;
         _dialogueManager = null;
-        
+
         CloseDialogue();
-       
-       
     }
 
     void BounceSofa(Collision2D obj)
@@ -876,7 +872,6 @@ public class PlayerAttribut : MonoBehaviour
                 canTakeItem = false;
                 Destroy(_dropSystem.gameObject, 0.2f);
             }
-            
         }
     }
 
@@ -884,7 +879,8 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dialogueManager != null)
         {
-            _dialogueManager.selectDialogue = _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
+            _dialogueManager.selectDialogue =
+                _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
             var ui = FindObjectOfType<UIManager>();
             isTalking = true;
             ui.dialogueBox.SetActive(true);
@@ -911,11 +907,11 @@ public class PlayerAttribut : MonoBehaviour
 
     public void CloseDialogue()
     {
-            var ui = FindObjectOfType<UIManager>();
-            
-            ui.dialogueBox.SetActive(false);
-            dialogueLine = 0;
-            isTalking = false;
+        var ui = FindObjectOfType<UIManager>();
+
+        ui.dialogueBox.SetActive(false);
+        dialogueLine = 0;
+        isTalking = false;
     }
 
     [SerializeField] private float radiusBeforeDash;
