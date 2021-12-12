@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Management.Instrumentation;
 using System.Timers;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ApplyAttack : MonoBehaviour
@@ -32,6 +33,8 @@ public class ApplyAttack : MonoBehaviour
         EnnemyStatsManager objEnnemy = objTrigger.GetComponent<EnnemyStatsManager>();
         //Props
         Props_EnvironnementManager objProps = objTrigger.GetComponent<Props_EnvironnementManager>();
+
+        PillarsStatsManager objPillar = objTrigger.GetComponent<PillarsStatsManager>();
 
         //Mannequin and Ennemy
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
@@ -98,6 +101,25 @@ public class ApplyAttack : MonoBehaviour
         {
             objProps.TakeDamagePilarDestruction(1);
         }
+
+        if (objTrigger.CompareTag("Pillier"))
+        {
+            if (_projectilePath.launchFirstAttack)
+            {
+                objPillar.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
+            }
+
+            if (_projectilePath.launchSecondAttack)
+            {
+                objPillar.TakeDamage(PlayerStatsManager.playerStatsInstance.damageSecondX);
+            }
+
+            if (_projectilePath.launchAttackY)
+            {
+                objPillar.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
+            }
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D trigger2D)
