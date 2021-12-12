@@ -271,6 +271,7 @@ public class PlayerAttribut : MonoBehaviour
             _playerStatsManager.movementSpeed = 5f;
         }
 
+        /*
         if (isBounce)
         {
             _timerBounceSofa += _timeManager.CustomDeltaTimePlayer;
@@ -281,6 +282,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerBounceSofa = 0;
             }
         }
+        */
 
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
@@ -804,6 +806,7 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
+    /*
     //Bounce Without Physics Material;
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -825,6 +828,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         isBounce = false;
     }
+    */
 
     private void OnTriggerEnter2D(Collider2D other)
     {
