@@ -25,14 +25,12 @@ public class ProjectilePath : MonoBehaviour
     private void Start()
     {
         isAttacking = false;
-        launchFirstAttack = false;
-        launchSecondAttack = false;
-        launchAttackY = false;
+        projectile.SetActive(false);
     }
 
     private void Update()
     {
-        if (progress < 1 && progress > 0)
+        if ( progress < 1 && progress > 0)
         {
             isAttacking = true;
         }
@@ -52,12 +50,10 @@ public class ProjectilePath : MonoBehaviour
     /// /// </summary>
     public void Path()
     {
-        if (launchFirstAttack
-            && !launchSecondAttack
-            && !launchAttackY)
+        if (launchFirstAttack && !launchSecondAttack)
         {
             projectile.SetActive(true);
-            progress += (TimeManager._timeManager.CustomDeltaTimeProjectile / (speed / 10));
+            progress += (TimeManager._timeManager.CustomDeltaTimeProjectile/ (speed / 10));
             if (progress > 1f)
             {
                 progress = 1f;
@@ -65,9 +61,7 @@ public class ProjectilePath : MonoBehaviour
                 projectile.SetActive(false);
             }
         }
-
-        if (launchSecondAttack
-            && !launchAttackY)
+        if(launchSecondAttack)
         {
             projectile.SetActive(true);
             progress -= (TimeManager._timeManager.CustomDeltaTimeProjectile / (speed / 10));
@@ -79,19 +73,11 @@ public class ProjectilePath : MonoBehaviour
                 launchSecondAttack = false;
             }
         }
-        
-        /*
-        if (launchAttackY
-            && !launchFirstAttack
-            && !launchSecondAttack)
+
+        if (launchAttackY)
         {
             projectile.SetActive(true);
         }
-        else
-        {
-            projectile.SetActive(false);
-        }
-        */
     }
 
 
