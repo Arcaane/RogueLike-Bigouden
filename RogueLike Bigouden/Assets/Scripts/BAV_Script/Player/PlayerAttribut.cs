@@ -798,6 +798,7 @@ public class PlayerAttribut : MonoBehaviour
         if (other.gameObject.CompareTag("Sofa"))
         {
             BounceSofa(other);
+            isBounce = true;
         }
     }
 
@@ -806,6 +807,7 @@ public class PlayerAttribut : MonoBehaviour
         if (other.gameObject.CompareTag("Sofa"))
         {
             BounceSofa(other);
+            isBounce = true;
         }
     }
 
