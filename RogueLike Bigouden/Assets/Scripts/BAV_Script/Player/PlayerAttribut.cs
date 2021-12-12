@@ -28,6 +28,7 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float _timerAttackY;
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
+    [SerializeField] private float _timerBounceSofa;
 
     [Header("Component Rigidbody")] [SerializeField]
     private Color colorReset;
@@ -199,7 +200,7 @@ public class PlayerAttribut : MonoBehaviour
         cam = _playerInput.GetComponent<Camera>();
         ultBulletSpawner.SetActive(false);
         _dropSystem = null;
-        
+
         //dialogue
         _dialogueManager = null;
         dialogueLine = 0;
@@ -270,6 +271,17 @@ public class PlayerAttribut : MonoBehaviour
             _playerStatsManager.movementSpeed = 5f;
         }
 
+        if (isBounce)
+        {
+            _timerBounceSofa += _timeManager.CustomDeltaTimePlayer;
+            if (_timerBounceSofa >= 0.2f)
+            {
+                isBounce = false;
+                rb.velocity = Vector2.zero;
+                _timerBounceSofa = 0;
+            }
+        }
+
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
     }
@@ -326,14 +338,12 @@ public class PlayerAttribut : MonoBehaviour
             SetAttackValue(attack2: true);
             attackPath.launchSecondAttack = true;
         }
-
         /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
         */
-        
 
 
         else
@@ -833,14 +843,13 @@ public class PlayerAttribut : MonoBehaviour
     {
         _dropSystem = null;
         _dialogueManager = null;
-        
+
         CloseDialogue();
-       
-       
     }
 
     void BounceSofa(Collision2D obj)
     {
+        isBounce = true;
         float speed = lastVelocity.magnitude * bounceForce;
         Vector3 direction = Vector3.Reflect(lastVelocity.normalized, obj.contacts[0].normal);
         rb.velocity = direction * Mathf.Max(speed, 0f);
@@ -851,8 +860,6 @@ public class PlayerAttribut : MonoBehaviour
         float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         transform.rotation = Quaternion.Euler(0, 0, angle);
         */
-
-        isBounce = true;
     }
 
     public void AddItemToInventory()
@@ -876,7 +883,6 @@ public class PlayerAttribut : MonoBehaviour
                 canTakeItem = false;
                 Destroy(_dropSystem.gameObject, 0.2f);
             }
-            
         }
     }
 
@@ -884,7 +890,8 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dialogueManager != null)
         {
-            _dialogueManager.selectDialogue = _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
+            _dialogueManager.selectDialogue =
+                _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
             var ui = FindObjectOfType<UIManager>();
             isTalking = true;
             ui.dialogueBox.SetActive(true);
@@ -911,11 +918,11 @@ public class PlayerAttribut : MonoBehaviour
 
     public void CloseDialogue()
     {
-            var ui = FindObjectOfType<UIManager>();
-            
-            ui.dialogueBox.SetActive(false);
-            dialogueLine = 0;
-            isTalking = false;
+        var ui = FindObjectOfType<UIManager>();
+
+        ui.dialogueBox.SetActive(false);
+        dialogueLine = 0;
+        isTalking = false;
     }
 
     [SerializeField] private float radiusBeforeDash;
