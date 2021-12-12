@@ -165,10 +165,6 @@ public class DropSystem : MonoBehaviour
                 gameobjectSprite.sprite = itemSelect.image;
                 gameobjectSprite.color = Color.red;
             }
-            else
-            {
-                //EndLevelItemDrop();
-            }
 
             if (roll > epicValue && roll < rareValue)
             {
@@ -177,22 +173,19 @@ public class DropSystem : MonoBehaviour
                 gameobjectSprite.sprite = itemSelect.image;
                 gameobjectSprite.color = Color.blue;
             }
-            else
-            {
-                //EndLevelItemDrop();
-            }
 
             if (roll > rareValue && roll < commonValue)
             {
                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
+                
                 Debug.Log("It will be common");
                 gameobjectSprite.sprite = itemSelect.image;
                 gameobjectSprite.color = Color.green;
             }
-            else
-            {
-                //EndLevelItemDrop();
-            }
+            
+            itemManager.itemsInRoom.Add(this);
         
+            
+            
     }
 }

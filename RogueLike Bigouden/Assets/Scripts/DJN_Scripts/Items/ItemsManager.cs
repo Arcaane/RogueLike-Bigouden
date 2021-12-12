@@ -66,6 +66,7 @@ public class ItemsManager : MonoBehaviour
         {
             for (int i = 0; i < players.Length; i++)
             {
+                Debug.Log("You take a malus.");
                 players[i].GetComponent<Inventory>().items.Add(selectedMalus);
             }
         }
