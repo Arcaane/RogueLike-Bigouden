@@ -28,6 +28,7 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float _timerAttackY;
     [SerializeField] private float _timerUltimate;
     [SerializeField] private float _timerCamera;
+    [SerializeField] private float _timerBounceSofa;
 
     [Header("Component Rigidbody")] [SerializeField]
     private Color colorReset;
@@ -268,6 +269,17 @@ public class PlayerAttribut : MonoBehaviour
         else
         {
             _playerStatsManager.movementSpeed = 5f;
+        }
+
+        if (isBounce)
+        {
+            _timerBounceSofa += _timeManager.CustomDeltaTimePlayer;
+            if (_timerBounceSofa >= 0.2f)
+            {
+                isBounce = false;
+                rb.velocity = Vector2.zero;
+                _timerBounceSofa = 0;
+            }
         }
 
         //Stock l'ancienne Velocity
@@ -798,7 +810,6 @@ public class PlayerAttribut : MonoBehaviour
         if (other.gameObject.CompareTag("Sofa"))
         {
             BounceSofa(other);
-            isBounce = true;
         }
     }
 
@@ -807,7 +818,6 @@ public class PlayerAttribut : MonoBehaviour
         if (other.gameObject.CompareTag("Sofa"))
         {
             BounceSofa(other);
-            isBounce = true;
         }
     }
 
@@ -839,6 +849,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void BounceSofa(Collision2D obj)
     {
+        isBounce = true;
         float speed = lastVelocity.magnitude * bounceForce;
         Vector3 direction = Vector3.Reflect(lastVelocity.normalized, obj.contacts[0].normal);
         rb.velocity = direction * Mathf.Max(speed, 0f);
@@ -849,8 +860,6 @@ public class PlayerAttribut : MonoBehaviour
         float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         transform.rotation = Quaternion.Euler(0, 0, angle);
         */
-
-        isBounce = true;
     }
 
     public void AddItemToInventory()
