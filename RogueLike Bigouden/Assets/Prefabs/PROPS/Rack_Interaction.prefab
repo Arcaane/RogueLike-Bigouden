@@ -102,7 +102,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195033838211385321}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0333333, y: 0.13333344, z: 0}
+  m_LocalPosition: {x: -0.5656667, y: 0.13333344, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1195033837994263902}
@@ -132,14 +132,7 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
-  spriteProps: {fileID: 0}
-  propsCollider: []
   hitcolor: {r: 1, g: 1, b: 1, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
-  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
 --- !u!114 &1195033838211385318
@@ -286,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195033838238666747}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6333337, y: 0.1333332, z: 0}
+  m_LocalPosition: {x: 2.5738332, y: 0.1333332, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1195033838814680589}
@@ -316,14 +309,7 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
-  spriteProps: {fileID: 0}
-  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
-  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
 --- !u!114 &1195033838238666736
@@ -585,7 +571,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1665637897675245981, guid: b0782c078b45da54c8e30e8b15204b00, type: 3}
+  m_Sprite: {fileID: -5779275662128598055, guid: 1cb607b9877d61443a5af34fa4b49ff6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -655,7 +641,7 @@ GameObject:
   - component: {fileID: 7161180849540800458}
   - component: {fileID: 7161180849540800456}
   m_Layer: 0
-  m_Name: Beam_R
+  m_Name: Beam_F_R
   m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -669,7 +655,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7161180849540800462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 0, z: 0}
+  m_LocalPosition: {x: 2.9666667, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7161180851439734261}
@@ -699,14 +685,7 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
-  spriteProps: {fileID: 0}
-  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
-  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
 --- !u!212 &7161180849540800459
@@ -1031,7 +1010,7 @@ GameObject:
   - component: {fileID: 8532793396222418109}
   - component: {fileID: 5377707456665416208}
   m_Layer: 0
-  m_Name: Beam_L
+  m_Name: Beam_F_L
   m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1045,7 +1024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8532793396222418082}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.9666667, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1012585167731816805}
@@ -1075,14 +1054,7 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
-  spriteProps: {fileID: 0}
-  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
-  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
 --- !u!212 &2924936412542722119

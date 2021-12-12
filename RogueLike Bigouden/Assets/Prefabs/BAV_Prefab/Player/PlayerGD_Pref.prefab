@@ -669,7 +669,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 72436
+  m_InstanceId: 156810
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,10 +927,11 @@ MonoBehaviour:
   _timerAttackY: 0
   _timerUltimate: 0
   _timerCamera: 0
+  _timerBounceSofa: 0
   colorReset: {r: 1, g: 1, b: 1, a: 1}
   rb: {fileID: 8813504909552388345}
   useVibration: 0
-  bounceForce: 0
+  bounceForce: 0.5
   isBounce: 0
   lastVelocity: {x: 0, y: 0, z: 0}
   useRBDash: 1
@@ -1136,7 +1137,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.17, y: 0.06}
+  m_Size: {x: 0.35, y: 0.06}
   m_EdgeRadius: 0.03
 --- !u!1 &8653559456594275084
 GameObject:
