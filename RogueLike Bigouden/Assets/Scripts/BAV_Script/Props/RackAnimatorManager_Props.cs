@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorManager_Props : MonoBehaviour
+public class RackAnimatorManager_Props : MonoBehaviour
 {
     public List<ProjectorPropsProperties> props;
 
