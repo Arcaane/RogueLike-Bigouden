@@ -4948,7 +4948,7 @@ GameObject:
   - component: {fileID: 8212834822161053188}
   - component: {fileID: 8212834822161053191}
   - component: {fileID: 2201296396745458032}
-  - component: {fileID: 3064213829674230265}
+  - component: {fileID: 3646131139160310149}
   - component: {fileID: 2335641121558727314}
   m_Layer: 0
   m_Name: Table_A_Dancefloor_Down
@@ -5080,7 +5080,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &3064213829674230265
+--- !u!114 &3646131139160310149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5089,7 +5089,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8212834822161053190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a39f3617d6ee9843ab03a56343f7fc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 520542a3829b51e42a5545e3e4688422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   props: {fileID: 2335641121558727314}
@@ -5106,7 +5106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe8d8cb1c3d97240b571429d792a825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propsData: {fileID: 11400000, guid: 1a65dfe374b2c90438e6faafbc7d8278, type: 2}
+  propsData: {fileID: 11400000, guid: ad20039f816f14d4e904d493edfc535c, type: 2}
   incrementFloat: 0
   lifePoint: 1
   damage: 0
@@ -5117,6 +5117,13 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
+  spriteProps: {fileID: 0}
+  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 0}
+  needLaunchAnim: 0
+  animCounter: 0
+  reachAnimCounter: 0
+  animStockage: []
+  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
