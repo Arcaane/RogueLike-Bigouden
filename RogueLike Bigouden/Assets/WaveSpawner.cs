@@ -6,8 +6,14 @@ using Random = UnityEngine.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public enum SpawnState { SPAWNING, WAINTING, COUNTING, FINISHED }
-    
+    public enum SpawnState
+    {
+        SPAWNING,
+        WAINTING,
+        COUNTING,
+        FINISHED
+    }
+
     [System.Serializable]
     public class Wave // Createur de wave d'ennemis
     {
@@ -21,19 +27,21 @@ public class WaveSpawner : MonoBehaviour
     }
 
     public List<GameObject> EnnemiesSpawned;
+    public Animator openTheDoor;
     public Wave[] waves;
     public int nextWave;
     public LayerMask isEnemy;
 
     public Transform[] spawnPoints;
-    
+
     public float timeBetweenWave = 5f;
     public float waveCountDown;
     private float searchCountDown = 1f;
     public SpawnState State = SpawnState.COUNTING;
+    public List<Animator> doorAnimator;
 
     public GameObject _roomLoader;
-    
+
     private void Start()
     {
         if (spawnPoints.Length == 0)
@@ -50,11 +58,17 @@ public class WaveSpawner : MonoBehaviour
             {
                 _roomLoader.GetComponent<RoomLoader>().ClearedRoom(); // Fonction qui ouvre les portes de la salle
             }
+
             return;
         }
-        
+
         if (State == SpawnState.WAINTING) // Attente avant de spawn la next wave
         {
+            foreach (Animator t in doorAnimator)
+            {
+                t.SetBool("Spawn", false);
+            }
+
             if (!IsEnemyAlive())
             {
                 WaveCompleted();
@@ -69,7 +83,12 @@ public class WaveSpawner : MonoBehaviour
         {
             if (State != SpawnState.SPAWNING) // Spawn la next wave
             {
-                StartCoroutine( SpawnWave(waves[nextWave]) );
+                StartCoroutine(SpawnWave(waves[nextWave]));
+                foreach (Animator t in doorAnimator)
+                {
+                    
+                    t.SetBool("Spawn", true);
+                }
             }
         }
         else
@@ -84,7 +103,7 @@ public class WaveSpawner : MonoBehaviour
         {
             return;
         }
-        else 
+        else
         {
             Debug.Log("Wave Completed!");
             State = SpawnState.COUNTING;
@@ -102,7 +121,7 @@ public class WaveSpawner : MonoBehaviour
             }
         }
     }
-    
+
     IEnumerator SpawnWave(Wave _wave)
     {
         Debug.Log("Spawning wave: " + _wave.name);
@@ -117,7 +136,7 @@ public class WaveSpawner : MonoBehaviour
                 yield return new WaitForSeconds(1f / _wave.rate);
             }
         }
-        
+
         State = SpawnState.WAINTING;
         yield break;
     }
@@ -128,9 +147,9 @@ public class WaveSpawner : MonoBehaviour
 
         Transform sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Transform _esp = Instantiate(_enemy, sp.transform.position, sp.transform.rotation);
-        
+
         _esp.gameObject.GetComponent<EnnemyStatsManager>().lifePoint += _wave.bonusLife;
-        _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage; 
+        _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage;
         _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield;
     }
 
@@ -142,7 +161,7 @@ public class WaveSpawner : MonoBehaviour
             Debug.Log("Check");
             searchCountDown = 1;
             EnnemiesSpawned.Clear();
-           
+
             Collider2D[] ennemyInRoom = Physics2D.OverlapCircleAll(transform.position, 10f, isEnemy);
             foreach (var ctx in ennemyInRoom)
             {
@@ -156,12 +175,13 @@ public class WaveSpawner : MonoBehaviour
                     EnnemiesSpawned.Remove(_e);
                 }
             }
-            
+
             if (EnnemiesSpawned.Count == 0)
             {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -171,5 +191,3 @@ public class WaveSpawner : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, 10f);
     }
 }
-
-
