@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,7 +12,14 @@ public class InterfacesScript : MonoBehaviour
     public GameObject loadingInterface;
     public Image loadingProgressBar;
 
+    public GameObject firstSelectedButton;
+    
     private readonly List<AsyncOperation> scenesToLoad = new List<AsyncOperation>();
+
+    private void OnEnable()
+    {
+        FindObjectOfType<EventSystem>().SetSelectedGameObject(firstSelectedButton);
+    }
 
     // Start is called before the first frame update
     private void Start()
