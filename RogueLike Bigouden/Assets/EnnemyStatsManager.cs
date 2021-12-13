@@ -198,10 +198,12 @@ public class EnnemyStatsManager : MonoBehaviour
         rushDelay = rushDelaySO;
         isReadyToDash = isReadyToDashSO;
     }
+    [SerializeField] public float counterBeforeReset = 1f;
     
     #region Ennemy Damage & Heal Gestion 
     public void TakeDamage(int damage)
     {
+        hurt = true;
         if (shieldPoint > 0)
         {
             shieldPoint -= damage;
@@ -254,5 +256,43 @@ public class EnnemyStatsManager : MonoBehaviour
         var go = Instantiate(FloatingTextEnnemiPrefab, transform.position, Quaternion.identity, transform);
         go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
+    
+    private Color hitcolor = Color.red;
+    private Color notHurtColor = Color.white;
+    [SerializeField] bool hurt = false;
+
+    public void Update()
+    {
+        if (hurt)
+        {
+            SpriteSwap();
+            CounterBeforeReset();
+        }
+    }
+
+    public void SpriteSwap()
+    {
+        if (hurt)
+        {
+            //TimeManager.SlowDownGame();
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+        }
+    }
+    
+    public void CounterBeforeReset()
+    {
+        counterBeforeReset += Time.deltaTime;
+        if (counterBeforeReset > 0.2f)
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            counterBeforeReset = 0f;
+            hurt = false;
+        }
+    }
+    
     #endregion
 }

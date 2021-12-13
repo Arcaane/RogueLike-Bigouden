@@ -190,7 +190,7 @@ public class MannequinStatsManager : MonoBehaviour
     private Color hitcolor = Color.red;
     private Color notHurtColor = Color.white;
     [SerializeField] bool hurt = false;
-    [SerializeField] private float counterBeforeReset;
+    [SerializeField] public float counterBeforeReset;
 
     #endregion
 
@@ -265,11 +265,11 @@ public class MannequinStatsManager : MonoBehaviour
         if (hurt)
         {
             //TimeManager.SlowDownGame();
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_DiffuseColor", hitcolor);
         }
         else
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_DiffuseColor", notHurtColor);
         }
     }
 
@@ -278,7 +278,7 @@ public class MannequinStatsManager : MonoBehaviour
         counterBeforeReset += Time.deltaTime;
         if (counterBeforeReset > 0.2f)
         {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            gameObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_DiffuseColor", notHurtColor);
             counterBeforeReset = 0f;
             hurt = false;
         }
