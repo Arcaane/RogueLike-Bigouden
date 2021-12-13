@@ -22,8 +22,8 @@ public class InterfacesScript : MonoBehaviour
     public void StartGame()
     {
         //HideMenu();
-        UIManager.instance.gameOverPanel.SetActive(false);
-        scenesToLoad.Add(SceneManager.LoadSceneAsync("BAV_HUB_BED"));
+        //UIManager.instance.gameOverPanel.SetActive(false);
+        SceneManager.LoadScene("BAV_HUB_BED");
     }
 
     public void StartCredits()
