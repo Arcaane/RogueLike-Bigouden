@@ -93,6 +93,7 @@ public class LoadManager : MonoBehaviour
          {
              ChangeRoom();
          }
+         
      }
      
      public void ChangeRoom()
@@ -102,6 +103,11 @@ public class LoadManager : MonoBehaviour
          if (currentRoom >= 1)
          {
              SceneManager.UnloadSceneAsync(finalList[currentRoom - 1]);
+         }
+
+         if (currentRoom == 2)
+         {
+            // FindObjectOfType<SoundManager>().LoadMusic("Placeholder");
          }
      }
 
