@@ -340,6 +340,18 @@ public class UIManager : MonoBehaviour
         masterMixer.SetFloat("interfaceVolume", intLvl);
     }
 
+    public void MuteSound(bool isMute)
+    {
+        if (isMute)
+        {
+            masterMixer.SetFloat("masterVolume", -80);
+        }
+        else
+        {
+            masterMixer.SetFloat("masterVolume", 0);
+        }
+    }
+
     #endregion
     
 }
