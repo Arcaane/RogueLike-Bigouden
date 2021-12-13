@@ -170,6 +170,30 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
+
+    #region MAIN MENU
+
+    //LOOK AT INTERFACE SCRIPT
+
+    #endregion
+
+    #region GAMEOVER
+
+    public void TryAgain()
+    {
+        SceneManager.LoadScene("BAV_HUB_BED");
+        Time.timeScale = 1;
+        gameOverPanel.SetActive(false);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1;
+        gameOverPanel.SetActive(false);
+    }
+
+    #endregion
     
     
     #region PAUSE
@@ -244,7 +268,7 @@ public class UIManager : MonoBehaviour
     public void BackToHome()
     {
         
-        SceneManager.LoadScene("Hub");
+        SceneManager.LoadScene(0);
         Debug.Log("Go To Hub");
     }
     
@@ -314,6 +338,18 @@ public class UIManager : MonoBehaviour
     public void SetInterfaceVolume(float intLvl)
     {
         masterMixer.SetFloat("interfaceVolume", intLvl);
+    }
+
+    public void MuteSound(bool isMute)
+    {
+        if (isMute)
+        {
+            masterMixer.SetFloat("masterVolume", -80);
+        }
+        else
+        {
+            masterMixer.SetFloat("masterVolume", 0);
+        }
     }
 
     #endregion

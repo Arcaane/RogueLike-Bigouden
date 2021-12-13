@@ -23,8 +23,17 @@ public class SoundManager : MonoBehaviour
                 s.source.outputAudioMixerGroup = s.mixerGroup;
         }
         
-        //MusicZone();
+        foreach (Sound m in musics)
+        {
+            m.source = gameObject.AddComponent<AudioSource>();
+            m.source.clip = m.clip;
+            m.source.volume = m.volume;
+            m.source.loop = m.loop;
+            m.source.outputAudioMixerGroup = m.mixerGroup;
+        }
+        
     }
+    
 
     public void PlaySound(string name)
     {
@@ -32,18 +41,10 @@ public class SoundManager : MonoBehaviour
         s.source.Play();
     }
 
-    private void MusicZone()
+    public void LoadMusic(string name)
     {
-        //if level.type = beginning
-        PlaySound(lowLevelMusic);
+        Sound m = Array.Find(musics, music => music.soundName == name);
+        m.source.Play();
         
-        //if level.type = middle
-        PlaySound(mediumLevelMusic);
-        
-        //if level.type = end
-        PlaySound(highLevelMusic);
-        
-        //if level.type = boss room
-        PlaySound(bossLevelMusic);
     }
 }
