@@ -27,7 +27,6 @@ public class WaveSpawner : MonoBehaviour
     }
 
     public List<GameObject> EnnemiesSpawned;
-    public Animator openTheDoor;
     public Wave[] waves;
     public int nextWave;
     public LayerMask isEnemy;
