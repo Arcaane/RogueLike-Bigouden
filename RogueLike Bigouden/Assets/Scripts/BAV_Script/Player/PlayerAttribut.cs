@@ -475,6 +475,7 @@ public class PlayerAttribut : MonoBehaviour
         Vector2 dir = _lastPosition;
         velocity += dir.normalized * (_playerStatsManager.dashSpeed * dashIntValue);
         rb.velocity = velocity;
+        FindObjectOfType<SoundManager>().PlaySound("P_Dash");
         StartCoroutine(DashWaitCorou());
     }
 

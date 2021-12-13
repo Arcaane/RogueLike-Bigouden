@@ -93,6 +93,8 @@ public class ApplyAttack : MonoBehaviour
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
+            
+            FindObjectOfType<SoundManager>().PlaySound("P_Hit2");
         }
 
         ////Props Environnement
