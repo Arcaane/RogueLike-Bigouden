@@ -37,8 +37,11 @@ public class PaternTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimersPhases();
-        EventPhases();
+        if (!_bossEventManager.cinIsEnable)
+        {
+            TimersPhases();
+            EventPhases();
+        }
     }
 
     private void TimersPhases()
