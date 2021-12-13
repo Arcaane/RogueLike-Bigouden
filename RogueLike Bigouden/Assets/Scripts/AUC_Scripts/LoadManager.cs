@@ -308,17 +308,17 @@ public class LoadManager : MonoBehaviour
          {
              if (rand <= x && roomLevel1Small != null)
              {
-                 finalList.Add(roomLevel1Small[Random.Range(0, roomLevel1Small.Count - 1)]);
+                 finalList.Add(roomLevel1Small[Random.Range(0, roomLevel1Small.Count)]);
                  Debug.Log("Salle choisie : Small");
              }
              else if ( rand > x && rand <= y && roomLevel1Medium != null)
              {
-                 finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel1Medium.Count - 1)]);
+                 finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel1Medium.Count)]);
                  Debug.Log("Salle choisie : Medium");
              }
              else if (rand > y && roomLevel1Large != null)
              {
-                 finalList.Add(roomLevel1Large[Random.Range(0, roomLevel1Large.Count - 1)]);
+                 finalList.Add(roomLevel1Large[Random.Range(0, roomLevel1Large.Count)]);
                  Debug.Log("Salle choisie : Large");
              }
          }
@@ -326,17 +326,17 @@ public class LoadManager : MonoBehaviour
          {
              if (rand <= x && roomLevel2Small != null)
              {
-                 finalList.Add(roomLevel1Small[Random.Range(0, roomLevel2Small.Count - 1)]);
+                 finalList.Add(roomLevel1Small[Random.Range(0, roomLevel2Small.Count)]);
                  Debug.Log("Salle choisie : Small");
              }
              else if ( rand > x && rand <= y && roomLevel2Medium != null)
              {
-                 finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel2Medium.Count - 1)]);
+                 finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel2Medium.Count)]);
                  Debug.Log("Salle choisie : Medium");
              }
              else if (rand > y && roomLevel2Large != null)
              {
-                 finalList.Add(roomLevel2Large[Random.Range(0, roomLevel2Large.Count - 1)]);
+                 finalList.Add(roomLevel2Large[Random.Range(0, roomLevel2Large.Count)]);
                  Debug.Log("Salle choisie : Large");
              }
          }

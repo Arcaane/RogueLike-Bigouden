@@ -63,6 +63,12 @@ public class Props_EnvironnementManager : MonoBehaviour
         get => propsData.isTriggerSO;
         set => propsData.isTriggerSO = isTriggerSO;
     }
+
+    private Sprite spritePropsSO
+    {
+        get => propsData.spritePropsSO;
+        set => propsData.spritePropsSO = spritePropsSO;
+    }
     
     private Color spriteHitColorSO
     {
@@ -88,8 +94,17 @@ public class Props_EnvironnementManager : MonoBehaviour
     public bool isTrigger; //Le Collider est-il trigger ?
 
     //Common Animation.
+    public Sprite spriteProps;
+    public List<Collider2D> propsCollider;
     public Color hitcolor;
     
+    //Common 
+    public bool needLaunchAnim;
+    public float animCounter;
+    public float reachAnimCounter;
+    public List<Animation> animStockage;
+
+    public bool isProjector;
     //public List<Project> projector;
 
     //private 
@@ -112,6 +127,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         isDamage = isDamageSO;
         isDestruct = isDestructSO;
         isTrigger = isTriggerSO;
+        spriteProps = spritePropsSO;
         hitcolor = spriteHitColorSO;
     }
 

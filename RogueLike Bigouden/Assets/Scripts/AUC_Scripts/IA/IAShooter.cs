@@ -248,10 +248,6 @@ public class IAShooter : MonoBehaviour
             shooterAnimator.SetBool("isAttack", _isAttack);
             shooterAnimator.SetBool("isWalk", _isWalk);
         }
-        
-        Debug.Log("is attack " + _isAttack);           
-        Debug.Log("is Walk " + _isWalk);
-        
     }
 
     private void SpottedPlayer()
