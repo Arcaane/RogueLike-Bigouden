@@ -28,7 +28,7 @@ public class BulletBehaviour : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        if (objColid.CompareTag("Border"))
+        if (objColid.CompareTag("Border") || objColid.CompareTag("Sofa") || objColid.CompareTag("Pillier") || objColid.CompareTag("Obstacle"))
         {
             gameObject.SetActive(false);
         }
