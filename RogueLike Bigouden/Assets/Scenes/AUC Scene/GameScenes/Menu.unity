@@ -1076,7 +1076,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156263893}
         m_TargetAssemblyTypeName: InterfacesScript, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1237,7 +1237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &905348601
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1568,9 +1568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00d5928a1a0ef6499314f4c6e4a415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 2107203181}
-  loadingInterface: {fileID: 69054140}
-  loadingProgressBar: {fileID: 1950942092}
   firstSelectedButton: {fileID: 11642725}
 --- !u!1 &1290994249
 GameObject:

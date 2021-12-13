@@ -57,7 +57,7 @@ public class ItemsManager : MonoBehaviour
 
     private void Update()
     {
-        Malus();
+        //Malus();
     }
 
     private void Malus()

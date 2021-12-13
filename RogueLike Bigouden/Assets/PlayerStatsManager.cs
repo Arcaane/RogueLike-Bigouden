@@ -400,6 +400,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Play Death Animation
         Debug.Log(gameObject.name + " is Dead !");
         UIManager.instance.gameOverPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void TakeShield(int shield)
