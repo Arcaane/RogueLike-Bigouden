@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4432192805721531484}
   - component: {fileID: 4949931207093850169}
-  - component: {fileID: 5917805772443908835}
-  - component: {fileID: 8627089295614746766}
+  - component: {fileID: 8520212477627166745}
+  - component: {fileID: 2809020203055635062}
   m_Layer: 5
   m_Name: BigoudenTurn
   m_TagString: Untagged
@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 2687476775970605070}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 866, y: -448}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -203, y: 204}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4949931207093850169
 CanvasRenderer:
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942153837609845720}
   m_CullTransparentMesh: 1
---- !u!114 &5917805772443908835
+--- !u!114 &8520212477627166745
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &8627089295614746766
+--- !u!95 &2809020203055635062
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ Animator:
   m_GameObject: {fileID: 1942153837609845720}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88e52c190c2d00e4f97dee1a279caff8, type: 2}
+  m_Controller: {fileID: 9100000, guid: b10fa324c4770c94487f925443368d5c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
