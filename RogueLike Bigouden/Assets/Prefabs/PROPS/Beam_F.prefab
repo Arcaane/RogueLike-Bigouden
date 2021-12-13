@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8386544673310415735}
   - component: {fileID: 3071201763417171853}
   - component: {fileID: 1609192069285841184}
+  - component: {fileID: 1193654857202600148}
   m_Layer: 0
   m_Name: Beam_F
   m_TagString: Beam
@@ -58,7 +59,14 @@ MonoBehaviour:
   isDamage: 0
   isDestruct: 0
   isTrigger: 0
+  spriteProps: {fileID: 0}
+  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 1}
+  needLaunchAnim: 0
+  animCounter: 0
+  reachAnimCounter: 0
+  animStockage: []
+  isProjector: 0
   hurt: 0
   counterBeforeReset: 0
 --- !u!212 &8386544673310415735
@@ -154,6 +162,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.075}
   serializedVersion: 2
   m_Radius: 0.15
+--- !u!114 &1193654857202600148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3071201763417171858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &3193254295446852269
 GameObject:
   m_ObjectHideFlags: 0
