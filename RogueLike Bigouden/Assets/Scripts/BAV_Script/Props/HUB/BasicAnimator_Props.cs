@@ -33,9 +33,4 @@ public class BasicAnimator_Props : MonoBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        Debug.Log(props.incrementDamage);
-    }
 }
