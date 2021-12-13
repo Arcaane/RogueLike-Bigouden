@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7560056568183101184}
   - component: {fileID: 7560056568183101187}
   - component: {fileID: 7560056568183101186}
+  - component: {fileID: 3737839616856351998}
+  - component: {fileID: 316934073262140860}
   m_Layer: 0
   m_Name: Doors_A_Down
   m_TagString: Untagged
@@ -25,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7560056568183101189}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -72,12 +74,12 @@ SpriteRenderer:
   m_SortingLayerID: -1602449181
   m_SortingLayer: -2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7456636075074817458, guid: 708b1b8650bc1894589f45a9276c3e68, type: 3}
+  m_Sprite: {fileID: 7881465952244936666, guid: 708b1b8650bc1894589f45a9276c3e68, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.6, y: 1.7666667}
+  m_Size: {x: 1.6, y: 1.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -93,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 7560056568183101189}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9a6ebef12a992f843b201c2ad9db3502, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8316d5580a097164da6704061a8dc6a2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -102,3 +104,42 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3737839616856351998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560056568183101189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba3035144c28a14381f78599e5b168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRoomClear: 0
+--- !u!61 &316934073262140860
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560056568183101189}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.017346144, y: 0.618001}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.1111111}
+    oldSize: {x: 1.6, y: 1.8}
+    newSize: {x: 1.6, y: 1.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1174674, y: 1.2323163}
+  m_EdgeRadius: 0
