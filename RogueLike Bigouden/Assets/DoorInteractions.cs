@@ -29,7 +29,7 @@ public class DoorInteractions : MonoBehaviour
         }
         else
         {
-            animatorDoor.SetBool(Open, false);
+            //animatorDoor.SetBool(Open, false);
         }
     }
 

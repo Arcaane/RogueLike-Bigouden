@@ -94,13 +94,15 @@ public class IAShooter : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(enemyPos, targetPos) < _detectZone;
         bool _isPlayerTooClose = Vector2.Distance(enemyPos, targetPos) < tooClose;
         
+        /*
         if (_isPlayerTooClose)
         {
-            Flee();
+            //Flee();
             _isPlayerInAttackRange = false;
             _isPlayerInAggroRange = false;
         }
-        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange && !_isPlayerTooClose) 
+        */
+        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             Patrolling();
         if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
             ChasePlayer();
@@ -163,7 +165,6 @@ public class IAShooter : MonoBehaviour
         
         if(!isSpot)
             SpottedPlayer();
-
     }
     #endregion
 
@@ -217,6 +218,7 @@ public class IAShooter : MonoBehaviour
     }
     #endregion
 
+    /*
     #region FleeState
     private void Flee()
     {
@@ -225,7 +227,8 @@ public class IAShooter : MonoBehaviour
         
         StartCoroutine(ResetPath());;
     }
-    #endregion
+    #endregion 
+    */
     
     private void WaitToGo()
     {
