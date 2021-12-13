@@ -153,7 +153,7 @@ public class DropSystem : MonoBehaviour
 
     private void EndLevelItemDrop()
     {
-        itemAlreadySpawn = true;
+         itemAlreadySpawn = true;
             Roll();
             collider.enabled = true;
             Debug.Log(roll);

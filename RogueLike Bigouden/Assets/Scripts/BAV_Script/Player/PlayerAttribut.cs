@@ -878,7 +878,7 @@ public class PlayerAttribut : MonoBehaviour
                 _playerStatsManager.money -= _dropSystem.itemSelect.price;
                 FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                 canTakeItem = false;
-                Destroy(_dropSystem.gameObject, 0.2f);
+                Destroy(_dropSystem.gameObject, 0.4f);
             }
             else
             {
@@ -887,7 +887,7 @@ public class PlayerAttribut : MonoBehaviour
                 FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
                 FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                 canTakeItem = false;
-                Destroy(_dropSystem.gameObject, 0.2f);
+                Destroy(_dropSystem.gameObject, 0.4f);
             }
         }
     }

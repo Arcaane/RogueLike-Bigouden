@@ -1213,7 +1213,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -22.744995
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2311241484907867887, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
 --- !u!4 &4595606848164412267 stripped
 Transform:
@@ -1389,6 +1390,18 @@ PrefabInstance:
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: mediumRoomApparitionValue
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Small.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Small.Array.data[0]
+      value: D_DanceFloor_S
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: roomLevel1Small.Array.data[1]
+      value: DN_C_DanceFloor_S
       objectReference: {fileID: 0}
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: roomLevel1Medium.Array.data[1]
