@@ -26,11 +26,11 @@ public class BossEventManager : MonoBehaviour
         pillars.AddRange(FindObjectsOfType<PillarsStatsManager>());
         player = GameObject.FindGameObjectWithTag("Player");
         
-        if (player)
+       /* if (player)
         {
             cinIsEnable = true;
             StartCoroutine(StartCinematic());
-        }
+        } */
     }
 
     private void Update()

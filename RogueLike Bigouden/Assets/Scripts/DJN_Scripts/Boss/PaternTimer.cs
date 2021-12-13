@@ -32,6 +32,7 @@ public class PaternTimer : MonoBehaviour
     {
         _bossEventManager = GetComponent<BossEventManager>();
         Debug.Log("This boss legal duration is " + ((P1Lenght + P2Lenght) * loop) + " seconds");
+        
     }
 
     // Update is called once per frame
