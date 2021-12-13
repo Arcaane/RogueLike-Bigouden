@@ -3579,11 +3579,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 365861735, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.34
+      value: 0.97
       objectReference: {fileID: 0}
     - target: {fileID: 365861735, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.26
+      value: -3.8
       objectReference: {fileID: 0}
     - target: {fileID: 1003537792, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3614,7 +3614,15 @@ PrefabInstance:
       value: 5.859
       objectReference: {fileID: 0}
     - target: {fileID: 7189817047059349807, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+      propertyPath: _roomLoader
+      value: 
+      objectReference: {fileID: 1544092691}
+    - target: {fileID: 7189817047059349807, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
       propertyPath: waves.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7189817047059349807, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
+      propertyPath: spawnPoints.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7189817047059349807, guid: 37229ed777c7e284bb5071234bd88cdb, type: 3}
@@ -4388,6 +4396,7 @@ GameObject:
   - component: {fileID: 847570956}
   - component: {fileID: 847570955}
   - component: {fileID: 847570954}
+  - component: {fileID: 847570957}
   m_Layer: 0
   m_Name: Boss Manager
   m_TagString: Untagged
@@ -4555,9 +4564,23 @@ Transform:
   m_Children:
   - {fileID: 151607722}
   - {fileID: 281602396}
+  - {fileID: 1544092692}
   m_Father: {fileID: 772327235}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &847570957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847570953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b9144711fb6104b80882d57c3795f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 0}
 --- !u!1 &867925981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6180,7 +6203,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: e29788362b20d0244b20187b53c0ddc0, type: 3}
 --- !u!4 &1185670426 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 818951997745975496, guid: e29788362b20d0244b20187b53c0ddc0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1185670425}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1295951443
@@ -7364,6 +7387,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6386744537322031148, guid: 90f4d91a9ef0a38488c15fe8173dc77e, type: 3}
   m_PrefabInstance: {fileID: 1528445931}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1544092691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1544092692}
+  m_Layer: 0
+  m_Name: Sp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1544092692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544092691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: -3.39, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 847570956}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576057406
 GameObject:
   m_ObjectHideFlags: 0
@@ -14092,7 +14145,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.2
+  m_VoxelSize: 0.21
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: e0e53a553953f284db5ab2e51e4eb343, type: 2}
