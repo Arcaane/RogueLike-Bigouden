@@ -5093,6 +5093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520542a3829b51e42a5545e3e4688422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageToLaunchHitAnim: 1
   props: {fileID: 2335641121558727314}
   animator: {fileID: 8212834822161053188}
 --- !u!114 &2335641121558727314
@@ -5128,6 +5129,7 @@ MonoBehaviour:
   isProjector: 0
   hurt: 0
   counterBeforeReset: 0
+  incrementDamage: 0
 --- !u!114 &8404696423437341827
 MonoBehaviour:
   m_ObjectHideFlags: 0

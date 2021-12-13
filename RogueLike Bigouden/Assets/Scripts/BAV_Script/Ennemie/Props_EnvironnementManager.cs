@@ -112,6 +112,7 @@ public class Props_EnvironnementManager : MonoBehaviour
     public bool hurt = false;
     [SerializeField] private float counterBeforeReset;
     private SpriteRenderer spriteRenderer;
+    public int incrementDamage;
 
     #endregion
 
@@ -157,9 +158,9 @@ public class Props_EnvironnementManager : MonoBehaviour
         }
     }
 
-    public void TakeDamagePropsDestruction(int damage)
+    public void TakeDamagePropsDestruction()
     {
-        
+        incrementDamage++;
     }
 
     #endregion
