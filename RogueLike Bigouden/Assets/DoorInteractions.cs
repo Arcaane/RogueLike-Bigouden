@@ -40,10 +40,13 @@ public class DoorInteractions : MonoBehaviour
         {
             StartCoroutine(Fade());
             LoadManager.LoadManagerInstance.launchAnimator.SetBool("Enter", true);
+            isRoomClear = false;
+            
+            Debug.Log("Switch Scene" + gameObject.name);
         }
     }
-
-
+    
+    
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(LoadManager.LoadManagerInstance.transitionDuration);

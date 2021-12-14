@@ -52,6 +52,7 @@ public class ApplyAttack : MonoBehaviour
                 else
                 {
                     objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
+                    
                     //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
                 }
             }
