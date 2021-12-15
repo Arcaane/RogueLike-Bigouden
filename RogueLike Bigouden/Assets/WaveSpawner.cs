@@ -157,7 +157,6 @@ public class WaveSpawner : MonoBehaviour
         searchCountDown -= Time.deltaTime;
         if (searchCountDown <= 0f)
         {
-            Debug.Log("Check");
             searchCountDown = 1;
             EnnemiesSpawned.Clear();
 

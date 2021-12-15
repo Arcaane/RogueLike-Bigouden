@@ -355,7 +355,7 @@ public class PlayerStatsManager : MonoBehaviour
         isAttackSecondX = isAttackSecondXSO;
         readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
         isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
-        readyToAttackB = readyToAttackBSO; // Peut utiliser l'attaque projectile
+        readyToAttackB = true; // Peut utiliser l'attaque projectile
         isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
