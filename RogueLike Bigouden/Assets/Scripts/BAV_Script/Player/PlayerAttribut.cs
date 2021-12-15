@@ -512,6 +512,7 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
+        
         spriteRendererFrame.material.SetColor("_DiffuseColor", colorDash);
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;

@@ -93,7 +93,6 @@ public class LoadManager : MonoBehaviour
          {
              ChangeRoom();
          }
-         
      }
      
      public void ChangeRoom()
@@ -297,14 +296,15 @@ public class LoadManager : MonoBehaviour
 
      private void LaMoulinette(float sValue, float mValue, float lValue)
      {
+         string lastRoom = String.Empty;
+         if (finalList.Count > 1)
+         {
+             lastRoom = finalList[finalList.Count - 1];
+         }
          
          x = sValue;
-         y = sValue + mValue; 
-         z = y + lValue + 1;
-         
-         //Debug.Log("X : " + x);
-         //Debug.Log("Y : " + y);
-         //Debug.Log("Z : " + z);
+         y = x + mValue; 
+         z = y + lValue;
          
          var rand = Random.Range(0, z);
          if (isLevel1)
@@ -342,6 +342,12 @@ public class LoadManager : MonoBehaviour
                  finalList.Add(roomLevel2Large[Random.Range(0, roomLevel2Large.Count)]);
                  Debug.Log("Salle choisie : Large");
              }
+         }
+
+         if (finalList[finalList.Count - 1] == lastRoom)
+         {
+             finalList.Remove(finalList[finalList.Count - 1]);
+             LaMoulinette(x, y ,z);
          }
      }
 }
