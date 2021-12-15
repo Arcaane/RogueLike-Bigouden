@@ -26,7 +26,6 @@ public class Beam : MonoBehaviour
         
         isActive = false;
         line.enabled = false;
-        //originPoint.gameObject.layer = 2;
     }
 
     private void Update()
@@ -47,7 +46,6 @@ public class Beam : MonoBehaviour
         if (hit)
         {
             line.SetPosition(1, hit.point);
-            //Debug.Log(hit.collider.name);
             
             if (hit.collider.GetComponent<PlayerStatsManager>())
             {
@@ -79,9 +77,5 @@ public class Beam : MonoBehaviour
             line.enabled = false;
             isActive = false;
         }
-
-       
-        
-        
     }
 }
