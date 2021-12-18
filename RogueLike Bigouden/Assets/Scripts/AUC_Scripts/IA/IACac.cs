@@ -214,9 +214,6 @@ public class IACac : MonoBehaviour
             cacAnimator.SetBool("isAttack", _isAttack);
             cacAnimator.SetBool("isWalk", _isWalk);
         }
-        
-        Debug.Log("is attack " + _isAttack);           
-        Debug.Log("is Walk " + _isWalk);
     }
     #endregion
     

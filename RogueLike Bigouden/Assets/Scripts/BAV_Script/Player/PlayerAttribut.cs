@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -94,6 +95,18 @@ public class PlayerAttribut : MonoBehaviour
     //Offset of the end Position
     [SerializeField] private float offsetEndPosProjectile;
 
+    
+    
+    // TEST 
+    private bool isCastingTime;
+    private bool shooting;
+    private bool readyToShoot;
+    
+    
+    private float castedTime;
+    private float castingTime;
+    
+     
 
     [Space(10)]
     [Header("Player Ultimate")]
@@ -229,6 +242,10 @@ public class PlayerAttribut : MonoBehaviour
 
     private void Update()
     {
+        bool xbox_b = Input.GetButton("XboxB");
+        bool xbox_b_UP = Input.GetButtonUp("XboxB");
+        
+        
         _attackPath.Path();
         if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX || _playerStatsManager.isAttackingY)
         {
@@ -238,17 +255,14 @@ public class PlayerAttribut : MonoBehaviour
             Reset();
             DodgeAbility_T();
         }
-
-        if (_playerStatsManager.isAttackB && _playerStatsManager.readyToAttackB)
-        {
-            MovementProjectile();
-        }
+        
 
         if (isUlting)
         {
             UltimateDelay();
         }
-
+        
+        /*
         if (!_playerStatsManager.readyToAttackB)
         {
             ResetLaunchProjectile();
@@ -261,15 +275,7 @@ public class PlayerAttribut : MonoBehaviour
             float angle = Mathf.Atan2(shootPointPos.y, shootPointPos.x) * Mathf.Rad2Deg;
             launchProjectileFeedback.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
-
-        if (launchProjectileFeedback.activeSelf)
-        {
-            _playerStatsManager.movementSpeed = 0.5f;
-        }
-        else
-        {
-            _playerStatsManager.movementSpeed = 5f;
-        }
+        */
 
         /*
         if (isBounce)
@@ -286,6 +292,43 @@ public class PlayerAttribut : MonoBehaviour
 
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
+
+        Debug.Log(_playerStatsManager.readyToAttackB);
+            if (xbox_b && _playerStatsManager.readyToAttackB)
+            {
+                Debug.Log("OUII");
+                isCastingTime = true;
+                castedTime = 0f;
+                castingTime = 0f;
+            }
+            else if (xbox_b_UP && _playerStatsManager.readyToAttackB)
+            {
+                isCastingTime = false;
+                if (castingTime > 2.0f)
+                {
+                    castingTime = 2.0f;
+                }
+                else if (castingTime < 0.3f)
+                { castingTime = 1f; }
+                castedTime = castingTime;
+                shooting = true;
+            }
+
+            if (isCastingTime)
+            {
+                launchProjectileFeedback.SetActive(true);
+                castingTime = castingTime + Time.deltaTime;
+                shootPointPos = (_lastPosition);
+                shootPointPos.Normalize();
+                float angle = Mathf.Atan2(shootPointPos.y, shootPointPos.x) * Mathf.Rad2Deg;
+                launchProjectileFeedback.transform.rotation = Quaternion.Euler(0, 0, angle);
+                _playerStatsManager.movementSpeed = 0.5f;
+            }
+
+            // Si tout est bon, appele la fonction de tir
+            if (_playerStatsManager.readyToAttackB && shooting)
+            { MovementProjectile(castedTime); }
+        
     }
 
 
@@ -662,10 +705,9 @@ public class PlayerAttribut : MonoBehaviour
     #region Projectile
 
     public const float radiusShootPoint = 0.9f;
-
-    public void MovementProjectile()
+    public void MovementProjectile(float castingT)
     {
-        damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
+        int damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
         _playerStatsManager.isAttackB = false;
         p_delay = _playerStatsManager.attackCdB;
         _playerStatsManager.readyToAttackB = false;
@@ -673,8 +715,8 @@ public class PlayerAttribut : MonoBehaviour
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
         obj.GetComponent<ProjectilePlayer>()
-            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, 2,
-                damageProjectile); // Direction puis Speed des balles
+            .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 3.5f * castingT, damageProjectile,
+                2); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
 
         launchProjectileFeedback.SetActive(false);
@@ -682,6 +724,8 @@ public class PlayerAttribut : MonoBehaviour
 
     private void ResetLaunchProjectile()
     {
+        readyToShoot = true;
+        shooting = false;
         _playerStatsManager.readyToAttackB = false;
         Debug.Log("pls sir");
         p_delay -= Time.deltaTime;
