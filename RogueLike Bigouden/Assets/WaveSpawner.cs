@@ -41,6 +41,14 @@ public class WaveSpawner : MonoBehaviour
 
     public GameObject _roomLoader;
 
+    private void Awake()
+    {
+        if (waves.Length == 0)
+        {
+            State = SpawnState.FINISHED;
+        }
+    }
+
     private void Start()
     {
         if (spawnPoints.Length == 0)
@@ -85,7 +93,6 @@ public class WaveSpawner : MonoBehaviour
                 StartCoroutine(SpawnWave(waves[nextWave]));
                 foreach (Animator t in doorAnimator)
                 {
-                    
                     t.SetBool("Spawn", true);
                 }
             }

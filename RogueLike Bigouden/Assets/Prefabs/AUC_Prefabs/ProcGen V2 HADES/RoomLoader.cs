@@ -1,6 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class RoomLoader : MonoBehaviour
 {
@@ -9,8 +14,25 @@ public class RoomLoader : MonoBehaviour
     public LayerMask isEnnemy;
     public GameObject _waveManager;
     private bool stopCheckEnemies;
+
+    private bool isDoorOpen;
+    public List<GameObject> LightsObj;
+    public GameObject DoorLight;
+    // PostProcess
+    public Volume volume;
+    private Bloom bloom;
+    private ChromaticAberration _chromaticAberration;
+    private float blurTime = 1f;
     
     public List<GameObject> enemyList = new List<GameObject>();
+
+    private void Update()
+    {
+        if (isDoorOpen)
+        {
+            RoomIntensity();
+        }
+    }
 
     private void Awake()
     {
@@ -19,6 +41,9 @@ public class RoomLoader : MonoBehaviour
 
     private void Start()
     {
+        volume.profile.TryGet<Bloom>(out bloom);
+        volume.profile.TryGet<ChromaticAberration>(out _chromaticAberration);
+
         InvokeRepeating(nameof(CheckforEnnemies), 1, 2f);
     }
     
@@ -55,9 +80,30 @@ public class RoomLoader : MonoBehaviour
 
     public void ClearedRoom()
     {
-        foreach (var d  in doors)
+        isDoorOpen = true;
+        foreach (var d in doors)
         {
             d.GetComponent<DoorInteractions>().isRoomClear = true;
         }
+        
     }
+    
+    private void RoomIntensity()
+    {
+        blurTime -= Time.deltaTime;
+        if (blurTime <= 0)
+        {
+            blurTime = 0;
+            isDoorOpen = false;
+        }
+        
+        foreach (var light in LightsObj)
+        {
+            light.GetComponent<Light2D>().intensity = Mathf.Lerp(light.GetComponent<Light2D>().intensity, 8f, blurTime);
+        }
+        _chromaticAberration.intensity.value = Mathf.Lerp(0, 1, blurTime);
+        bloom.intensity.value = Mathf.Lerp(1, 5, blurTime);
+        
+    }
+    
 }

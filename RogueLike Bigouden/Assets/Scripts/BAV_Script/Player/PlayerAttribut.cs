@@ -246,7 +246,6 @@ public class PlayerAttribut : MonoBehaviour
         bool xbox_b = Input.GetButton("XboxB");
         bool xbox_b_UP = Input.GetButtonUp("XboxB");
         
-        Debug.Log(p_delay);
         _attackPath.Path();
         if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX || _playerStatsManager.isAttackingY)
         {
@@ -294,8 +293,7 @@ public class PlayerAttribut : MonoBehaviour
 
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
-
-        Debug.Log(readyToShoot);
+        
             if (xbox_b && readyToShoot)
             {
                 Debug.Log("OUII");
