@@ -33,7 +33,7 @@ public class WaveSpawner : MonoBehaviour
 
     public Transform[] spawnPoints;
 
-    public float timeBetweenWave = 5f;
+    public float timeBetweenWave = 1f;
     public float waveCountDown;
     private float searchCountDown = 1f;
     public SpawnState State = SpawnState.COUNTING;

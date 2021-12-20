@@ -18,15 +18,8 @@ public class YellowCocktailBehaviour : MonoBehaviour
         foreach (var p in playerCircleAll)
         {
             p.GetComponent<PlayerStatsManager>().TakeDamage(1);
-            Debug.Log("Player hit : " + p.name + " by yellow cocktail");
         }
     }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PlayerStatsManager.playerStatsInstance.movementSpeed *= 0.8f;
-        }
-    }
+    
+    
 }

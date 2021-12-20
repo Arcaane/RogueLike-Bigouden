@@ -194,7 +194,7 @@ public class IAShooter : MonoBehaviour
     }
 
     private const float radiusShootPoint = 0.75f;
-    private const float upTofitPlayer = 0.18f;
+    private const float upTofitPlayer = 0.15f;
     IEnumerator BulletShoot()
     {
         

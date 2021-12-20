@@ -249,7 +249,7 @@ public class IARunner : MonoBehaviour
             other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
-    
+
     private void SpottedPlayer()
     {
         isSpot = true;
