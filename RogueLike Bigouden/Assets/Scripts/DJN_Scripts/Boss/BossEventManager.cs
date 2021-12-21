@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class BossEventManager : MonoBehaviour
@@ -77,23 +78,5 @@ public class BossEventManager : MonoBehaviour
     
     #endregion
     
-    #region CINEMATIC
-
-    IEnumerator StartCinematic()
-    {
-        yield return new WaitForSeconds(0.5f);
-        player.transform.position =
-            Vector3.MoveTowards(player.transform.position, targetPDir.position, walkSpeed * Time.deltaTime);
-        
-        if (player.transform.position == targetPDir.position)
-        {
-            UIManager uiManager = FindObjectOfType<UIManager>();
-            uiManager.dialogueBox.SetActive(true);
-            uiManager.dialogueText.text = "Let's go to the fight"; //placeholder
-            yield return new WaitForSeconds(2f);
-            cinIsEnable = false;
-        }
-    }
-    
-    #endregion
+  
 }

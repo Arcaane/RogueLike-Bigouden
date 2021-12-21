@@ -45,6 +45,7 @@ public class RotationBeam : MonoBehaviour
         {
             line.enabled = false;
             isActive = false;
+            p = 0;
         }
        
     }
