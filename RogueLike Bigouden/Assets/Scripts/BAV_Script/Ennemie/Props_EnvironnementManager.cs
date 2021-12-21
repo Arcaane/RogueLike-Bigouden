@@ -143,7 +143,7 @@ public class Props_EnvironnementManager : MonoBehaviour
         if (lifePoint <= 0)
         {
             //Si le joueur spamm sur le props 
-            if (lifePoint <= -6)
+            if (lifePoint <= -3)
             {
                 isDestruct = true;
                 Destroy(gameObject);

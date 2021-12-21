@@ -22,7 +22,6 @@ public class ApplyAttack : MonoBehaviour
         _projectilePath = _projectilePathHolder.GetComponent<ProjectilePath>();
     }
 
-
     private void OnTriggerEnter2D(Collider2D trigger2D)
     {
         GameObject objTrigger = trigger2D.gameObject;
@@ -52,7 +51,7 @@ public class ApplyAttack : MonoBehaviour
                 else
                 {
                     objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
-                    
+
                     //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
                 }
             }
@@ -74,7 +73,7 @@ public class ApplyAttack : MonoBehaviour
                     //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
                 }
             }
-            
+
             //Launch Attack Y
             if (_projectilePath.launchAttackY)
             {
@@ -94,17 +93,18 @@ public class ApplyAttack : MonoBehaviour
             }
 
             Debug.Log("Ennemy damaged : " + trigger2D.gameObject.name);
-            
+
             FindObjectOfType<SoundManager>().PlaySound("P_Hit2");
         }
 
         ////Props Environnement
-        if (objTrigger.CompareTag("Beam"))
+        if (objTrigger.CompareTag("Beam") && PlayerStatsManager.playerStatsInstance.isAttackingX)
         {
             objProps.TakeDamagePilarDestruction(1);
         }
 
-        if (objTrigger.CompareTag("Pillier"))
+        /*
+        if (objTrigger.CompareTag("Pillier") && PlayerStatsManager.playerStatsInstance.isAttackingX)
         {
             if (_projectilePath.launchFirstAttack)
             {
@@ -121,7 +121,7 @@ public class ApplyAttack : MonoBehaviour
                 objPillar.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
             }
         }
-        
+        */
     }
 
     private void OnTriggerExit2D(Collider2D trigger2D)
