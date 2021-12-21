@@ -396,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 6417968757916694035}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.0003333, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.0000007, z: 1}
   m_Children: []
   m_Father: {fileID: 7161180850381186511}
   m_RootOrder: 2
@@ -445,13 +445,13 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 2
   m_Size: {x: 3.7333333, y: 0.53333336}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 1
+  m_SpriteSortPoint: 0
 --- !u!95 &6417968757916694034
 Animator:
   serializedVersion: 3
@@ -491,11 +491,11 @@ BoxCollider2D:
     oldSize: {x: 3.7333333, y: 0.53333336}
     newSize: {x: 3.7333333, y: 0.53333336}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.799921, y: 0.41570306}
+  m_Size: {x: 3.733333, y: 0.41570306}
   m_EdgeRadius: 0
 --- !u!1 &7161180849540800462
 GameObject:
@@ -707,28 +707,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   props:
-  - pillarCount: 2
-    listOfPillar:
+  - listOfPillar:
     - {fileID: 8532793396222418108}
     - {fileID: 7161180849540800453}
-    lifeLaunchProjectorAnim: 0
-    projectorCount: 2
-    animatorProjectorList:
+    lifeLaunchProjectorAnim: 2
+    animatorProjectorList_Left:
     - {fileID: 1195033838211385320}
+    animatorProjectorList_Right:
     - {fileID: 1195033838238666746}
-    lifeLaunchRackAnim: 0
-    rackCount: 0
     animatorRackList:
-    - {fileID: 6417968757916694034}
+    - {fileID: 6417968757916694035}
   firstPillar: {fileID: 0}
   endPillar: {fileID: 0}
-  projectorCount: 0
-  pillarCount: 0
-  rackCount: 0
-  firstBeamF: 0
-  endBeamF: 0
+  firstRackF: 0
   firstProjectorF: 0
   endProjectorF: 0
+  updateData: 1
+  sizeXY_offsetZW: {x: 1, y: 0}
 --- !u!1 &8532793396222418082
 GameObject:
   m_ObjectHideFlags: 0
