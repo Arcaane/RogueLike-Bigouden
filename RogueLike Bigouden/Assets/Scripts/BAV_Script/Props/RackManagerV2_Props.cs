@@ -6,8 +6,10 @@ public class RackManagerV2_Props : MonoBehaviour
 {
     public List<ProjectorPropsPropertiesV2> props;
 
-    //private----------
-    //Props Environnement----------
+    //--------------------IF IS GENERATED (LIST GOT GAMEOBJECT)--------------------//
+    [SerializeField] private bool isGeneretedAlready;
+
+    //--------------------Props ENVIRONNEMENT REF--------------------//
     [SerializeField] private Props_EnvironnementManager firstPillar;
     [SerializeField] private Props_EnvironnementManager endPillar;
 
@@ -51,6 +53,9 @@ public class RackManagerV2_Props : MonoBehaviour
     private Vector2 boxColliderRackSizeData;
     private Vector2 spriteRendererRackSize;
     private Vector2 spriteRendererRackSizeData;
+
+    private Vector2 originPosRack;
+
     //--------------------DATA OF THE ORIGIN OF THE PROJECTOR--------------------//
     private Vector2 originProjectorA;
     private Vector2 originProjectorB;
@@ -62,7 +67,10 @@ public class RackManagerV2_Props : MonoBehaviour
 
     public void Start()
     {
-        LaunchGeneration();
+        if (!isGeneretedAlready)
+        {
+            LaunchGeneration();
+        }
     }
 
     public void FixedUpdate()
@@ -87,6 +95,7 @@ public class RackManagerV2_Props : MonoBehaviour
             endPillar = t.listOfPillar[1];
             boxColliderRackSizeData = t.animatorRackList[0].GetComponent<BoxCollider2D>().size;
             spriteRendererRackSizeData = t.animatorRackList[0].GetComponent<SpriteRenderer>().size;
+            originPosRack = t.animatorRackList[0].gameObject.transform.position;
 
             #region Instantiate Number of Projector from the first Pillar
 
@@ -191,11 +200,14 @@ public class RackManagerV2_Props : MonoBehaviour
 
             #endregion
 
+            /*
             //--------------------CHANGE THE SIZE OF THE RACK BETWEEN TWO BEAM--------------------//
             t.animatorRackList[0].transform.position = new Vector3(
-                posEndtPilarForProjB.x - posFirstPilarForProjA.x,
-                posEndtPilarForProjB.y - posEndtPilarForProjB.y,
+                originPosRack.x + ((posEndtPilarForProjB.x - posFirstPilarForProjA.x)/2),
+                //originPosRack.y * (posEndtPilarForProjB.y - posEndtPilarForProjB.y),
+                originPosRack.y ,
                 0);
+                */
         }
     }
 
@@ -219,7 +231,8 @@ public class RackManagerV2_Props : MonoBehaviour
                     {
                         case 0:
                             break;
-                        case 5:
+
+                        case var _ when (firstPillar.incrementFloat >= 5 && firstPillar.incrementFloat < 7):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - (numberOfProjectorA)]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -229,7 +242,8 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count -
                                                                   numberOfProjectorA);
                             break;
-                        case 10:
+
+                        case var _ when (firstPillar.incrementFloat >= 11 && firstPillar.incrementFloat < 13):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 4]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -237,7 +251,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 4);
                             break;
-                        case 15:
+
+                        case var _ when (firstPillar.incrementFloat >= 17 && firstPillar.incrementFloat < 19):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 3]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -245,7 +260,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 3);
                             break;
-                        case 20:
+
+                        case var _ when (firstPillar.incrementFloat >= 23 && firstPillar.incrementFloat < 25):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 2]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -253,7 +269,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 2);
                             break;
-                        case 25:
+
+                        case var _ when (firstPillar.incrementFloat >= 25 && firstPillar.incrementFloat < 27):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 1]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -261,7 +278,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 1);
                             break;
-                        case 28:
+
+                        case var _ when (firstPillar.incrementFloat >= 28):
                             t.animatorProjectorList_Left[
                                     t.animatorProjectorList_Left.Count - t.animatorProjectorList_Left.Count]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -286,22 +304,21 @@ public class RackManagerV2_Props : MonoBehaviour
                     {
                         case 0:
                             break;
-                        case 5:
+                        case var _ when (endPillar.incrementFloat >= 5 && endPillar.incrementFloat < 7):
 
                             t.animatorProjectorList_Right[
-                                    t.animatorProjectorList_Right.Count - (numberOfProjectorA)]
+                                    t.animatorProjectorList_Right.Count - (numberOfProjectorB)]
                                 .GetComponent<Animator>()
                                 .SetTrigger("Fall");
                             //Insert Particules System
                             Destroy(
                                 t.animatorProjectorList_Right[
-                                    t.animatorProjectorList_Right.Count - numberOfProjectorA].gameObject, 3f);
+                                    t.animatorProjectorList_Right.Count - numberOfProjectorB].gameObject, 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count -
-                                                                   numberOfProjectorA);
-
+                                                                   numberOfProjectorB);
 
                             break;
-                        case 10:
+                        case var _ when (endPillar.incrementFloat >= 11 && endPillar.incrementFloat < 13):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 4]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -312,9 +329,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 4);
 
-
                             break;
-                        case 15:
+                        case var _ when (endPillar.incrementFloat >= 17 && endPillar.incrementFloat < 19):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 3]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -325,10 +341,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 3);
 
-
                             break;
-                        case 20:
-
+                        case var _ when (endPillar.incrementFloat >= 23 && endPillar.incrementFloat < 25):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 2]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -339,9 +353,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 2);
 
-
                             break;
-                        case 25:
+                        case var _ when (endPillar.incrementFloat >= 25 && endPillar.incrementFloat < 27):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 1]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -352,9 +365,8 @@ public class RackManagerV2_Props : MonoBehaviour
                                 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 1);
 
-
                             break;
-                        case 28:
+                        case var _ when (endPillar.incrementFloat >= 28):
 
                             t.animatorProjectorList_Right[
                                     t.animatorProjectorList_Right.Count - t.animatorProjectorList_Right.Count]
@@ -367,7 +379,6 @@ public class RackManagerV2_Props : MonoBehaviour
                                     .gameObject, 3f);
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count -
                                                                    t.animatorProjectorList_Right.Count);
-
 
                             break;
                     }
@@ -399,14 +410,22 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Right.RemoveAt(i);
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < t.animatorProjectorList_Right.Count; i++)
+                        {
+                            Destroy(t.animatorProjectorList_Right[i].gameObject);
+                            t.animatorProjectorList_Right.Clear();
+                        }
+                    }
 
                     t.listOfPillar.RemoveAt(t.listOfPillar.Count - t.listOfPillar.Count);
                     if (t.animatorRackList.Count != 0 || t.animatorProjectorList_Right.Count == 0)
                     {
-                        t.animatorRackList[firstRackF].GetComponent<Animator>().SetTrigger("Fall");
+                        t.animatorRackList[0].GetComponent<Animator>().SetTrigger("Fall");
                         //Insert Particules System
-                        Destroy(t.animatorRackList[firstRackF].gameObject, 3f);
-                        t.animatorRackList.RemoveAt(firstRackF);
+                        Destroy(t.animatorRackList[0].gameObject, 3f);
+                        t.animatorRackList.RemoveAt(0);
                     }
                 }
 
@@ -424,13 +443,21 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(i);
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < t.animatorProjectorList_Left.Count; i++)
+                        {
+                            Destroy(t.animatorProjectorList_Left[i].gameObject);
+                            t.animatorProjectorList_Left.Clear();
+                        }
+                    }
 
                     if (t.animatorRackList.Count != 0 || t.animatorProjectorList_Left.Count == 0)
                     {
-                        t.animatorRackList[firstRackF].GetComponent<Animator>().SetTrigger("Fall");
+                        t.animatorRackList[0].GetComponent<Animator>().SetTrigger("Fall");
                         //Insert Particules System
-                        Destroy(t.animatorRackList[firstRackF].gameObject, 3f);
-                        t.animatorRackList.RemoveAt(firstRackF);
+                        Destroy(t.animatorRackList[0].gameObject, 3f);
+                        t.animatorRackList.RemoveAt(0);
                     }
                 }
             }
@@ -494,7 +521,6 @@ public class RackManagerV2_Props : MonoBehaviour
             }
         }
     }
-
 
     public void Reset()
     {
