@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 3770380719716988701}
   - component: {fileID: 3770380719716988689}
   m_Layer: 0
-  m_Name: Rack_Interaction _V2
+  m_Name: Rack_Interaction _V2_GENERATOR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -342,20 +342,24 @@ MonoBehaviour:
   - listOfPillar:
     - {fileID: 2402713427754110574}
     - {fileID: 3770380720490351895}
-    lifeLaunchProjectorAnim: 0
+    lifeLaunchProjectorAnim: 6
     animatorProjectorList_Left: []
     animatorProjectorList_Right: []
     animatorRackList:
     - {fileID: 1018800703932949697}
+  isGeneretedAlready: 0
   firstPillar: {fileID: 0}
   endPillar: {fileID: 0}
+  isRackInXAxis: 1
   numberOfProjectorA: 2
-  numberOfProjectorB: 2
+  numberOfProjectorB: 4
   spaceBetweenProjector: 24
-  projecteurAFolder: {fileID: 8742672401060719644}
-  projecteurBFolder: {fileID: 8742672399493843155}
-  projecteurA: {fileID: 7044159556560514224, guid: e711ed7980cbac64eb435227171788ea, type: 3}
-  projecteurB: {fileID: 7819791783812514574, guid: 7c02cad629fb59546a15b8d4f90db62f, type: 3}
+  projFolderTransform:
+  - {fileID: 8742672401060719647}
+  - {fileID: 8742672399493843154}
+  projecteurList:
+  - {fileID: 7044159556560514224, guid: e711ed7980cbac64eb435227171788ea, type: 3}
+  - {fileID: 7819791783812514574, guid: 7c02cad629fb59546a15b8d4f90db62f, type: 3}
   firstProjectorF: 0
   endProjectorF: 0
   updateData: 0
@@ -390,7 +394,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3770380720490351900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8086796, y: 0, z: 0}
+  m_LocalPosition: {x: 2.9753466, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3770380719716988701}

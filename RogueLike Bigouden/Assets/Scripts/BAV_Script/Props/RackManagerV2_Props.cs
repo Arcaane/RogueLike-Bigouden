@@ -232,7 +232,7 @@ public class RackManagerV2_Props : MonoBehaviour
                         case 0:
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 5 && firstPillar.incrementFloat < 7):
+                        case var _ when (firstPillar.incrementFloat >= (t.lifeLaunchProjectorAnim - 1) && firstPillar.incrementFloat < (t.lifeLaunchProjectorAnim +1)):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - (numberOfProjectorA)]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -243,7 +243,7 @@ public class RackManagerV2_Props : MonoBehaviour
                                                                   numberOfProjectorA);
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 11 && firstPillar.incrementFloat < 13):
+                        case var _ when (firstPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 2) - 1) && firstPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 2) +1)):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 4]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -252,7 +252,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 4);
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 17 && firstPillar.incrementFloat < 19):
+                        case var _ when (firstPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 3) - 1) && firstPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 3) +1)):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 3]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -261,7 +261,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 3);
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 23 && firstPillar.incrementFloat < 25):
+                        case var _ when (firstPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 4) - 1) && firstPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 4) +1)):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 2]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -270,7 +270,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 2);
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 25 && firstPillar.incrementFloat < 27):
+                        case var _ when (firstPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 4) +1) && firstPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 4) +3)):
                             t.animatorProjectorList_Left[t.animatorProjectorList_Left.Count - 1]
                                 .GetComponent<Animator>().SetTrigger("Fall");
                             //Insert Particules System
@@ -279,7 +279,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Left.RemoveAt(t.animatorProjectorList_Left.Count - 1);
                             break;
 
-                        case var _ when (firstPillar.incrementFloat >= 28):
+                        case var _ when (firstPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 5) -2)):
                             t.animatorProjectorList_Left[
                                     t.animatorProjectorList_Left.Count - t.animatorProjectorList_Left.Count]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -304,7 +304,7 @@ public class RackManagerV2_Props : MonoBehaviour
                     {
                         case 0:
                             break;
-                        case var _ when (endPillar.incrementFloat >= 5 && endPillar.incrementFloat < 7):
+                        case var _ when (endPillar.incrementFloat >= (t.lifeLaunchProjectorAnim - 1) && endPillar.incrementFloat < (t.lifeLaunchProjectorAnim +1)):
 
                             t.animatorProjectorList_Right[
                                     t.animatorProjectorList_Right.Count - (numberOfProjectorB)]
@@ -318,7 +318,7 @@ public class RackManagerV2_Props : MonoBehaviour
                                                                    numberOfProjectorB);
 
                             break;
-                        case var _ when (endPillar.incrementFloat >= 11 && endPillar.incrementFloat < 13):
+                        case var _ when (endPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 2) - 1) && endPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 2) +1)):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 4]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -330,7 +330,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 4);
 
                             break;
-                        case var _ when (endPillar.incrementFloat >= 17 && endPillar.incrementFloat < 19):
+                        case var _ when (endPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 3) - 1) && endPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 3) +1)):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 3]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -342,7 +342,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 3);
 
                             break;
-                        case var _ when (endPillar.incrementFloat >= 23 && endPillar.incrementFloat < 25):
+                        case var _ when (endPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 4) - 1) && endPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 4) +1)):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 2]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -354,7 +354,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 2);
 
                             break;
-                        case var _ when (endPillar.incrementFloat >= 25 && endPillar.incrementFloat < 27):
+                        case var _ when (endPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 4) +1) && endPillar.incrementFloat < ((t.lifeLaunchProjectorAnim * 4) +3)):
 
                             t.animatorProjectorList_Right[t.animatorProjectorList_Right.Count - 1]
                                 .GetComponent<Animator>().SetTrigger("Fall");
@@ -366,7 +366,7 @@ public class RackManagerV2_Props : MonoBehaviour
                             t.animatorProjectorList_Right.RemoveAt(t.animatorProjectorList_Right.Count - 1);
 
                             break;
-                        case var _ when (endPillar.incrementFloat >= 28):
+                        case var _ when (endPillar.incrementFloat >= ((t.lifeLaunchProjectorAnim * 5) -2)):
 
                             t.animatorProjectorList_Right[
                                     t.animatorProjectorList_Right.Count - t.animatorProjectorList_Right.Count]
