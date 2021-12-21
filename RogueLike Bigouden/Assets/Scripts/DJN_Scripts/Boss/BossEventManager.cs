@@ -14,6 +14,9 @@ public class BossEventManager : MonoBehaviour
     [HideInInspector] public List<PillarsStatsManager> pillars;
     public float waitTime;
 
+    [Header("Rotation Laser")] 
+    public GameObject[] rotationLaser;
+    
     [Header("Cinematic")] 
     public Transform targetPDir;
     public bool cinIsEnable;

@@ -20,9 +20,18 @@ public class RotationBeam : MonoBehaviour
     
     private PlayerStatsManager _playerStatsManager;
     private bool pHit;
-    
-    private bool isMoving;
-    [HideInInspector] public bool isActive;
+     
+    public bool isActive;
+
+    public int p;
+
+    private void Start()
+    {
+        line = GetComponent<LineRenderer>();
+        p = 0;
+        
+        ghostTarget.position = keyPoints[0].position;
+    }
 
     private void Update()
     {
@@ -31,12 +40,17 @@ public class RotationBeam : MonoBehaviour
             LoadRBeam();
             line.enabled = true;
         }
-    
+        
+        if (ghostTarget.position == keyPoints[5].position)
+        {
+            line.enabled = false;
+            isActive = false;
+        }
+       
     }
 
     void LoadRBeam()
     {
-        
             hit = Physics2D.Linecast(startPoint.position, ghostTarget.position, layerMask);
             
             line.SetPosition(0, startPoint.position);
@@ -62,31 +76,24 @@ public class RotationBeam : MonoBehaviour
                 pHit = false;
             }
 
-            StartCoroutine(MoveBeam());
-    }
-
-    IEnumerator MoveBeam()
-    {
-        yield return new WaitForSeconds(startingTime);
-
-        int p = 0;
-
-        if (ghostTarget.position != keyPoints[keyPoints.Length].position)
-        {
-            ghostTarget.position =
-                Vector2.MoveTowards(ghostTarget.position, keyPoints[p].position, raySpeed * Time.deltaTime);
-        
-            if (ghostTarget.position == keyPoints[p].position)
+            if (ghostTarget.position != keyPoints[p].position && p < keyPoints.Length)
+            {
+                MoveBeam();
+            }
+            else
             {
                 p++;
             }
-        }
+
+
+    }
+
+    private void MoveBeam()
+    { 
         
-        if (ghostTarget.position == keyPoints[keyPoints.Length].position)
-        {
-            line.enabled = false;
-            isActive = false;
-        }
+        ghostTarget.position =
+                Vector2.MoveTowards(ghostTarget.position, keyPoints[p].position, raySpeed * Time.deltaTime);
+        
         
     }
 }
