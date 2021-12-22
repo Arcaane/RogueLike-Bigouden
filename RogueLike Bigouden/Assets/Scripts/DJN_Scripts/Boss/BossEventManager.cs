@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class BossEventManager : MonoBehaviour
@@ -11,17 +12,34 @@ public class BossEventManager : MonoBehaviour
 
     [Header("Flame Strike")] 
     [SerializeField] private GameObject[] _dalles;
-
     [HideInInspector] public List<PillarsStatsManager> pillars;
     public float waitTime;
 
+    [Header("Rotation Laser")] 
+    public GameObject[] rotationLaser;
+    
+    [Header("Cinematic")] 
+    public Transform targetPDir;
+    public bool cinIsEnable;
+    private GameObject player;
+    [SerializeField] private float walkSpeed;
+   
+    
     private void Start()
     {
         pillars.AddRange(FindObjectsOfType<PillarsStatsManager>());
+        player = GameObject.FindGameObjectWithTag("Player");
+        
+       /* if (player)
+        {
+            cinIsEnable = true;
+            StartCoroutine(StartCinematic());
+        } */
     }
 
     private void Update()
     {
+        //Update Pillars
         foreach (PillarsStatsManager p in pillars)
         {
             if (p.isDestroyed)
@@ -31,7 +49,8 @@ public class BossEventManager : MonoBehaviour
             
         }
     }
-
+    
+    #region ABILITIES
     public void LoadBeam(int pillardSelect)
     {
         laserBeam = laser[pillardSelect].GetComponent<Beam>();
@@ -57,4 +76,7 @@ public class BossEventManager : MonoBehaviour
        _dalles[rFS].GetComponent<FlameStrike>().LoadTint();
     }
     
+    #endregion
+    
+  
 }

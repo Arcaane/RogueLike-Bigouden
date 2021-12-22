@@ -32,13 +32,17 @@ public class PaternTimer : MonoBehaviour
     {
         _bossEventManager = GetComponent<BossEventManager>();
         Debug.Log("This boss legal duration is " + ((P1Lenght + P2Lenght) * loop) + " seconds");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        TimersPhases();
-        EventPhases();
+        if (!_bossEventManager.cinIsEnable)
+        {
+            TimersPhases();
+            EventPhases();
+        }
     }
 
     private void TimersPhases()
@@ -126,7 +130,7 @@ public class PaternTimer : MonoBehaviour
             {
                 switch (t.target)
                 {
-                    case Timer.TargetP.A:
+                    case Timer.TargetP.AOrUp:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -140,11 +144,15 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.Wave:
                                     waveSpawner.SetActive(true);
                                 break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(0);
+                                break;
                         }
 
                         break;
 
-                    case Timer.TargetP.B:
+                    case Timer.TargetP.BOrDown:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -158,11 +166,15 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.Wave:
                                 waveSpawner.SetActive(true);
                                 break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(1);
+                                break;
                         }
 
                         break;
 
-                    case Timer.TargetP.C:
+                    case Timer.TargetP.COrLeft:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -176,11 +188,15 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.Wave:
                                 waveSpawner.SetActive(true);
                                 break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(2);
+                                break;
                         }
 
                         break;
 
-                    case Timer.TargetP.D:
+                    case Timer.TargetP.DOrRight:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -193,6 +209,10 @@ public class PaternTimer : MonoBehaviour
                             
                             case Timer.BossParterns.Wave:
                                 waveSpawner.SetActive(true);
+                                break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(3);
                                 break;
                         }
 
@@ -221,7 +241,7 @@ public class PaternTimer : MonoBehaviour
             {
                 switch (t.target)
                 {
-                    case Timer.TargetP.A:
+                    case Timer.TargetP.AOrUp:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -235,7 +255,7 @@ public class PaternTimer : MonoBehaviour
 
                         break;
 
-                    case Timer.TargetP.B:
+                    case Timer.TargetP.BOrDown:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -249,7 +269,7 @@ public class PaternTimer : MonoBehaviour
 
                         break;
 
-                    case Timer.TargetP.C:
+                    case Timer.TargetP.COrLeft:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -263,7 +283,7 @@ public class PaternTimer : MonoBehaviour
 
                         break;
 
-                    case Timer.TargetP.D:
+                    case Timer.TargetP.DOrRight:
                         switch (t.bossParterns)
                         {
                             case Timer.BossParterns.Laser:
@@ -292,6 +312,12 @@ public class PaternTimer : MonoBehaviour
     {
         _bossEventManager.LoadFS();
     }
+
+    void LoadRotationBeam(int selectedSide)
+    {
+        RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
+        rotationBeam.isActive = true;
+    }
     
     
     [Serializable]
@@ -300,9 +326,8 @@ public class PaternTimer : MonoBehaviour
         public float timeCode;
         public BossParterns bossParterns;
         public TargetP target;
-
         
-        public enum TargetP{A, B, C, D}
-        public enum BossParterns{Laser, FlameStrike, Wave}
+        public enum TargetP{AOrUp, BOrDown, COrLeft, DOrRight}
+        public enum BossParterns{Laser, FlameStrike, Wave, RotationLaser}
     }
 }

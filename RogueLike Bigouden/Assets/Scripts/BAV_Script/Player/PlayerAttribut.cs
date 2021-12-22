@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DG.Tweening;
 using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -936,7 +937,7 @@ public class PlayerAttribut : MonoBehaviour
             var ui = FindObjectOfType<UIManager>();
             isTalking = true;
             ui.dialogueBox.SetActive(true);
-            ui.dialogueText.text = _dialogueManager.selectDialogue.dialogueLine[0];
+            ui.dialogueText.DOText(_dialogueManager.selectDialogue.dialogueLine[0], 0.2f, false);
         }
     }
 
@@ -947,7 +948,7 @@ public class PlayerAttribut : MonoBehaviour
             var ui = FindObjectOfType<UIManager>();
             if (dialogueLine < _dialogueManager.selectDialogue.dialogueLine.Length)
             {
-                ui.dialogueText.text = _dialogueManager.selectDialogue.dialogueLine[dialogueLine];
+                ui.dialogueText.DOText(_dialogueManager.selectDialogue.dialogueLine[dialogueLine], 0.2f, false);
             }
 
             if (dialogueLine >= _dialogueManager.selectDialogue.dialogueLine.Length)
