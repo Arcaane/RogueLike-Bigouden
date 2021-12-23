@@ -82,6 +82,9 @@ public class UIManager : MonoBehaviour
     public GameObject actualPanel;
 
     public GameObject gameOverPanel;
+
+    public bool open;
+    public Animator itemAnimation;
     
     private void Awake()
     {
@@ -103,6 +106,9 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
+        
+        
+      
     }
 
     private void Update()
@@ -153,10 +159,10 @@ public class UIManager : MonoBehaviour
             {
                 p1_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
                 p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
-                p1_healthText.text = rlifePoint + "/" + rmaxLifePoint;
                 p1_moneyText.text = currentMoney.ToString();
                 p1_moneyText.text = PlayerStatsManager.playerStatsInstance.money.ToString();
             }
+            
             /*
             if (i == 1)
             {
@@ -167,6 +173,7 @@ public class UIManager : MonoBehaviour
             }
             */
         }
+        
     }
 
     #endregion
@@ -281,6 +288,15 @@ public class UIManager : MonoBehaviour
    
 
     #region ITEMS
+
+    public void OpenItemPanel()
+    {
+        //Load Animation OPENING
+        itemAnimation.SetBool("open", open);
+        //
+        
+    }
+    
     void UpdateItemPlayer()
     {
         //ecart de 55 sur l'axe x
@@ -288,8 +304,7 @@ public class UIManager : MonoBehaviour
 
         if (inventory)
         {
-            foreach (Transform itemsImage in imageItemPanel)
-            {
+          
                 for (int i = 1; i < imageItemPanel.Length; i++)
                 {
                     if (imageItemPanel.Length > inventory.items.Count)
@@ -298,10 +313,17 @@ public class UIManager : MonoBehaviour
 
                 for (int i = 0; i < inventory.items.Count; i++)
                 {
-                    imageItemPanel[i + 1].GetComponent<Image>().enabled = true;
-                    imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
+                    if (open)
+                    {
+                        imageItemPanel[i + 1].GetComponent<Image>().enabled = true;
+                        imageItemPanel[i + 1].GetComponent<Image>().sprite = inventory.items[i].image;
+                    }
+                    else
+                    {
+                        imageItemPanel[i + 1].GetComponent<Image>().enabled = false;
+                    }
                 }
-            }
+            
         }
     }
 
