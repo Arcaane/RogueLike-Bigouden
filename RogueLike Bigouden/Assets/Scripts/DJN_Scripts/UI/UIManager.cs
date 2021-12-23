@@ -85,6 +85,8 @@ public class UIManager : MonoBehaviour
 
     public bool open;
     public Animator itemAnimation;
+
+    public Animator playerAnimation;
     
     private void Awake()
     {
@@ -114,6 +116,13 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         UpdateItemPlayer();
+
+        if (_playerStatsManager.getHurt)
+        {
+            
+            playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
+
+        }
     }
 
     #region SETUP

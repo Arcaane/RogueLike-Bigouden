@@ -392,7 +392,14 @@ public class PlayerStatsManager : MonoBehaviour
             Death();
         //}
 
-        getHurt = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (getHurt)
+        {
+            getHurt = false;
+        }
     }
 
     private void Death()
