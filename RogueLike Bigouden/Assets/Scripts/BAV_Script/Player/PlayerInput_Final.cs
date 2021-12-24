@@ -415,10 +415,13 @@ public class PlayerInput_Final : MonoBehaviour
         selectButtonValue = selectButton.ReadValue<float>();
         if (selectButton.started)
         {
+           
         }
 
         if (selectButton.performed)
         {
+            _uiManager.open = !_uiManager.open;
+            _uiManager.OpenItemPanel();
         }
 
         if (selectButton.canceled)

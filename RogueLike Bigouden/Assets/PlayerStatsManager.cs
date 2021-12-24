@@ -372,30 +372,32 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!isDashing)
+        getHurt = true;
+        //if (!isDashing)
+        //{
+        if (shieldPoint > 0)
         {
-            getHurt = true;
-            //if (!isDashing)
-            //{
-            if (shieldPoint > 0)
-            {
-                shieldPoint -= damage;
-                if (shieldPoint < 0)
-                    shieldPoint = 0;
-            }
-            else
-            {
-                lifePoint -= damage;
-            }
+            shieldPoint -= damage;
+            if (shieldPoint < 0)
+                shieldPoint = 0;
+        }
+        else
+            lifePoint -= damage;
 
-            Debug.Log("Player took " + damage + " damage");
-            ShowFloatingText(damage);
-            UIManager.instance.RefreshUI();
+        Debug.Log("Player took " + damage + " damage");
+        ShowFloatingText(damage);
+        UIManager.instance.RefreshUI();
 
-            if (lifePoint <= 0)
-                Death();
-            //}
+        if (lifePoint <= 0)
+            Death();
+        //}
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (getHurt)
+        {
             getHurt = false;
         }
     }
