@@ -113,6 +113,21 @@ public class Props_EnvironnementManager : MonoBehaviour
     [SerializeField] private float counterBeforeReset;
     private SpriteRenderer spriteRenderer;
     public int incrementDamage;
+    
+    //Common Sprite--
+    public Sprite baseSpriteData;
+    public List<Sprite> spriteSwap;
+    [Range(0, 2)] public int variantNumber;
+
+    //SpriteRenderer
+    [Header("Tcheker")] public bool useBaseSprite;
+    public bool useRandomNumber;
+    public bool updateInRealtime;
+    [Header("Component of Props")] public SpriteRenderer baseSprite;
+    public SpriteRenderer variantSprite;
+    [Header("Color of the props")] public Color propsColor;
+    public Color emissiveColor;
+    [Range(-10, 10)] public float intensity;
 
     #endregion
 
@@ -134,7 +149,6 @@ public class Props_EnvironnementManager : MonoBehaviour
 
     #region Props Damage & Heal Gestion
 
-    //public void TakeDamage(int damage, Animator animatorProps, bool hurtAnim, bool destroyAnim)
     public void TakeDamagePilarDestruction(int damage)
     {
         incrementFloat++;
