@@ -108,9 +108,6 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         
         itemInformationPanel.SetActive(false);
-        
-        
-      
     }
 
     private void Update()
@@ -119,9 +116,7 @@ public class UIManager : MonoBehaviour
 
         if (_playerStatsManager.getHurt)
         {
-            
             playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
-
         }
     }
 
