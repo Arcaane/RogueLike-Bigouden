@@ -114,10 +114,9 @@ public class UIManager : MonoBehaviour
     {
         UpdateItemPlayer();
 
-        if (_playerStatsManager.getHurt)
-        {
-            playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
-        }
+       
+        playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
+        
     }
 
     #region SETUP
