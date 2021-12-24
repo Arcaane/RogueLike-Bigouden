@@ -20,8 +20,9 @@ public class IARunner : MonoBehaviour
 
     //Anims
     [SerializeField] private Animator runnerAnimator;
-    private bool _isAttack;
-    private bool _isWalk;
+    public bool _isAttack;
+    public bool _isWalk;
+    public bool _isCharging;
     
     //Int
     [SerializeField] private int _damageDealt;
@@ -38,10 +39,6 @@ public class IARunner : MonoBehaviour
     [SerializeField] private bool _isPlayerInAttackRange;
     [SerializeField] private bool _isAggro;
     [SerializeField] private bool _isDashing;
-    
-    [SerializeField] private bool _isCharging;
-    [SerializeField] private bool _isRushing;
-    
     [SerializeField] private float _dashSpeed;
     [SerializeField] private Vector2 shootPointPos;
     [SerializeField] private bool _isReadyToDash;
@@ -81,7 +78,6 @@ public class IARunner : MonoBehaviour
         _isWalk = false;
         _isAggro = false;
         _isReadyToDash = true;
-        _isRushing = false;
         _isCharging = false;
         _isPlayerInAggroRange = false;
         _isPlayerInAttackRange = false;
@@ -100,19 +96,14 @@ public class IARunner : MonoBehaviour
         if (_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
             Attacking();
         
-        //Animations(agent);
+        Animations(agent);
         if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
         {
             _isWalk = false;
         }
         else { _isWalk = true; }
     }
-
-    private void FixedUpdate()
-    {
-        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
-    }
-
+    
     #region PatrollingState
 
     private void Patrolling()
@@ -154,7 +145,7 @@ public class IARunner : MonoBehaviour
     {
         _isCharging = true;
         agent.SetDestination(target.position);
-        _isWalk = true; // Anim
+        _isWalk = false; // Anim
         _isAttack = false; // Anim
         var acceleration = (_moveSpeedCharge - _movementSpeed) / 3;
         agent.speed += acceleration * Time.deltaTime;
@@ -261,23 +252,21 @@ public class IARunner : MonoBehaviour
     
     private void Animations(NavMeshAgent agent)
     {
-        if (_isAttack)
+        if (_isAttack || _isCharging)
         {
             runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
             runnerAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
             runnerAnimator.SetBool("isAttack", _isAttack);
             runnerAnimator.SetBool("isWalk", _isWalk);
+            runnerAnimator.SetBool("isChasing", _isCharging);
         }
         else
         {
-            runnerAnimator.SetFloat("Horizontal", agent.velocity.x);
-            runnerAnimator.SetFloat("Vertical", agent.velocity.y);
+            runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
+            runnerAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
             runnerAnimator.SetBool("isAttack", _isAttack);
             runnerAnimator.SetBool("isWalk", _isWalk);
+            runnerAnimator.SetBool("isChasing", _isCharging);
         }
-        
-        Debug.Log("is attack " + _isAttack);           
-        Debug.Log("is Walk " + _isWalk);
     }
-    
 }

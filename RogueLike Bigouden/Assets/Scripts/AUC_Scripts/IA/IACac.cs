@@ -165,7 +165,7 @@ public class IACac : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector3(target.position.x - transform.position.x, target.position.y - transform.position.y + upTofitPlayer), Color.green);
     }
     private const float radiusShootPoint = 0.75f;
-    private const float upTofitPlayer = 0.28f;
+    private const float upTofitPlayer = 0.5f;
     private void GoHit()
     {
         _isWalk = false; // Anim

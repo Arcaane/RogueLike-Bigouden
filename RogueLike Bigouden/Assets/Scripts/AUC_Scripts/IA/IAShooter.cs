@@ -194,7 +194,7 @@ public class IAShooter : MonoBehaviour
     }
 
     private const float radiusShootPoint = 0.75f;
-    private const float upTofitPlayer = 0.15f;
+    private const float upTofitPlayer = 0.35f;
     IEnumerator BulletShoot()
     {
         
@@ -204,9 +204,9 @@ public class IAShooter : MonoBehaviour
             {
                 shootPointPos = (target.position - transform.position);
                 shootPointPos.Normalize();
-                yield return new WaitForSeconds(0.2f);
-                GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
-                obj.GetComponent<BulletBehaviour>().GoDirection(new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer), 6f); // Direction puis Speed des balles
+                yield return new WaitForSeconds(0.15f);
+                GameObject obj = ObjectPooler.Instance.SpawnFromPool("Bullet", transform.position + new Vector3(0, upTofitPlayer, 0) + shootPointPos * radiusShootPoint, Quaternion.identity);
+                obj.GetComponent<BulletBehaviour>().GoDirection(shootPointPos, 3f); // Direction puis Speed des balles
             }
 
             yield return new WaitForSeconds(0.05f);
@@ -268,7 +268,7 @@ public class IAShooter : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, radiusShootPoint);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, upTofitPlayer, 0), radiusShootPoint);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, tooClose);
     }
