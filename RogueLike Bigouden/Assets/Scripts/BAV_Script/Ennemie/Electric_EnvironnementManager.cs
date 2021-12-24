@@ -76,7 +76,7 @@ public class Electric_EnvironnementManager : MonoBehaviour
 
     [Header("Property of the Electric Trap")]
     //Common Int
-    public int damage;
+    public int damageElect;
 
     public int incrementDamage;
 
@@ -93,7 +93,6 @@ public class Electric_EnvironnementManager : MonoBehaviour
 
     //Color
     public Color spriteIsActiveColor;
-    public Color spriteIsInactiveColor;
 
 
     //Sprite swap
@@ -103,7 +102,9 @@ public class Electric_EnvironnementManager : MonoBehaviour
     //private 
     private Color resetColor = Color.white;
     [SerializeField] private float counterBeforeReset;
+    [SerializeField] private float incrementFloatDamage;
     private SpriteRenderer spriteRenderer;
+    [SerializeField] private int damageElectData;
 
     //SpriteRenderer
     [Header("Tcheker")] public bool useBaseSprite;
@@ -127,7 +128,8 @@ public class Electric_EnvironnementManager : MonoBehaviour
 
     private void Start()
     {
-        damage = damageSO;
+        damageElect = damageSO;
+        damageElectData = damageElect;
         incrementDamage = incrementDamageSO;
         numberOfCollider = numberOfColliderSO;
         delayBetweenArc = delayBetweenArcSO;
@@ -136,7 +138,7 @@ public class Electric_EnvironnementManager : MonoBehaviour
         isTrigger = isTriggerSO;
         spriteSwap = spriteSwapSO;
         spriteIsActiveColor = spriteInactiveColorSO;
-        spriteIsInactiveColor = spriteActiveColorSO;
+        //--------------------IF USE DEBUG--------------------//
         if (debugLine != null && debug)
         {
             debugLine.SetActive(false);
@@ -148,12 +150,19 @@ public class Electric_EnvironnementManager : MonoBehaviour
         if (isActive)
         {
             SpriteSwap();
-            //Launch jiggle Animation si Props Projecteur.
-            CounterBeforeReset();
+            //Launch Particule system for Spark
+            CounterBeforeElectricity();
+        }
+
+        if (isTrigger)
+        {
+            DamageElectrity();
         }
 
         StartCheckSprite();
     }
+
+    #region Swap Sprite
 
     public void SpriteSwap()
     {
@@ -166,6 +175,7 @@ public class Electric_EnvironnementManager : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().color = resetColor;
         }
 
+        //--------------------IF UPDATE MODE FOR SWITCHING PROPS--------------------//
         if (updateInRealtime)
         {
             baseSprite.sprite = spriteSwap[variantNumber];
@@ -175,7 +185,9 @@ public class Electric_EnvironnementManager : MonoBehaviour
         }
     }
 
-    public void CounterBeforeReset()
+    #endregion
+
+    public void CounterBeforeElectricity()
     {
         counterBeforeReset += Time.deltaTime;
         if (counterBeforeReset > delayBetweenArc)
@@ -185,6 +197,22 @@ public class Electric_EnvironnementManager : MonoBehaviour
             isActive = false;
         }
     }
+
+    public void DamageElectrity()
+    {
+        incrementFloatDamage += Time.deltaTime;
+        if (incrementFloatDamage >= delayBetweenArc)
+        {
+            if (debug)
+            {
+                debugLine.GetComponent<SpriteRenderer>().color = Color.yellow;
+            }
+            incrementFloatDamage = 0f;
+            damageElect++;
+        }
+    }
+
+    #region BasicSetupSprite
 
     public void StartCheckSprite()
     {
@@ -215,7 +243,7 @@ public class Electric_EnvironnementManager : MonoBehaviour
         if (debug)
         {
             debugLine.SetActive(true);
-            if (isActive)
+            if (isActive && !isTrigger)
             {
                 debugLine.SetActive(true);
                 debugLine.GetComponent<SpriteRenderer>().color = Color.green;
@@ -230,4 +258,6 @@ public class Electric_EnvironnementManager : MonoBehaviour
             debugLine.SetActive(false);
         }
     }
+
+    #endregion
 }
