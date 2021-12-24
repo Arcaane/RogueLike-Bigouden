@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propsData: {fileID: 11400000, guid: 2b0233ea982dee8439878f1a8f79e409, type: 2}
-  damage: 0
+  damageElect: 0
   incrementDamage: 0
   numberOfCollider: 0
   delayBetweenArc: 0
@@ -137,10 +137,11 @@ MonoBehaviour:
   isContactWater: 0
   isTrigger: 0
   spriteIsActiveColor: {r: 1, g: 1, b: 1, a: 1}
-  spriteIsInactiveColor: {r: 1, g: 1, b: 1, a: 1}
   spriteSwap: []
   variantNumber: 0
   counterBeforeReset: 0
+  incrementFloatDamage: 0
+  damageElectData: 0
   useBaseSprite: 1
   useRandomNumber: 0
   updateInRealtime: 1
@@ -149,8 +150,8 @@ MonoBehaviour:
   propsColor: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   intensity: 0
-  debug: 0
-  debugLine: {fileID: 0}
+  debug: 1
+  debugLine: {fileID: 3853527238082190221}
 --- !u!212 &3853527238301017611
 SpriteRenderer:
   m_ObjectHideFlags: 0
