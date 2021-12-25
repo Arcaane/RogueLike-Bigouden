@@ -96,14 +96,27 @@ public class IARunner : MonoBehaviour
         if (_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
             Attacking();
         
-        Animations(agent);
+        
         if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
         {
             _isWalk = false;
         }
         else { _isWalk = true; }
+        
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
+
+        if (_isAttack)
+        {
+            _isWalk = false;
+        }
     }
-    
+
+    private void LateUpdate()
+    {
+        Animations(agent);
+    }
+
     #region PatrollingState
 
     private void Patrolling()
@@ -168,22 +181,19 @@ public class IARunner : MonoBehaviour
         }
     }
     
-    private const float upTofitPlayer = 0.1f;
     IEnumerator Dash()
     {
         // Prepare Variables
         _isReadyToDash = false;
         rb.velocity = Vector2.zero;
-        shootPointPos = (target.position - transform.position);
-        shootPointPos.Normalize();
         
         // Dash
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.661f);
         _isDashing = true;
-        rb.velocity =  new Vector2(shootPointPos.x, shootPointPos.y + upTofitPlayer) * _dashSpeed;
+        rb.velocity =  shootPointPos * _dashSpeed;
        
         // StopDash
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(0.5f);
         rb.velocity = Vector2.zero;
         _isDashing = false;
         agent.speed = _movementSpeed;
@@ -196,7 +206,6 @@ public class IARunner : MonoBehaviour
     
     private IEnumerator TakeObstacle()
     {
-        StopCoroutine(nameof(Dash));
         _isReadyToDash = false;
         agent.speed = 0;
 
@@ -237,10 +246,20 @@ public class IARunner : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && _isDashing)
         {
             other.gameObject.GetComponent<PlayerStatsManager>().TakeDamage(_damageDealt);
-            other.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            Invoke(nameof(ResetPlayerVelocity), 0.3f);
+        }
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Invoke(nameof(ResetPlayerVelocity), 0.3f);
         }
     }
 
+    void ResetPlayerVelocity()
+    {
+        target.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    }
+    
     private void SpottedPlayer()
     {
         isSpot = true;
@@ -252,21 +271,10 @@ public class IARunner : MonoBehaviour
     
     private void Animations(NavMeshAgent agent)
     {
-        if (_isAttack || _isCharging)
-        {
-            runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
-            runnerAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
-            runnerAnimator.SetBool("isAttack", _isAttack);
-            runnerAnimator.SetBool("isWalk", _isWalk);
-            runnerAnimator.SetBool("isChasing", _isCharging);
-        }
-        else
-        {
-            runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
-            runnerAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
-            runnerAnimator.SetBool("isAttack", _isAttack);
-            runnerAnimator.SetBool("isWalk", _isWalk);
-            runnerAnimator.SetBool("isChasing", _isCharging);
-        }
+        runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
+        runnerAnimator.SetFloat("Vertical", shootPointPos.y + 0.1f);
+        runnerAnimator.SetBool("isAttacking", _isAttack);
+        runnerAnimator.SetBool("isWalking", _isWalk);
+        runnerAnimator.SetBool("isChasing", _isDashing);
     }
 }
