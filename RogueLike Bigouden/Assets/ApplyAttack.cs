@@ -122,8 +122,14 @@ public class ApplyAttack : MonoBehaviour
             }
         }
         */
-    }
 
+        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Destructible"))
+        {
+            Destroy(trigger2D.gameObject);
+            NavMeshUpdater.instance.UpdateSurface();
+        }
+    }
+    
     private void OnTriggerExit2D(Collider2D trigger2D)
     {
         _target = 0;

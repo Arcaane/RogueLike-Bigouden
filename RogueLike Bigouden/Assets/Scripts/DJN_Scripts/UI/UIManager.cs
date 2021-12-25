@@ -113,10 +113,8 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         UpdateItemPlayer();
-
-       
-        playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
         
+        //playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
     }
 
     #region SETUP
