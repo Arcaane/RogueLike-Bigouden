@@ -128,6 +128,12 @@ public class ApplyAttack : MonoBehaviour
             Destroy(trigger2D.gameObject);
             NavMeshUpdater.instance.UpdateSurface();
         }
+
+        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Projectile"))
+        {
+            trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity =
+                - trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity;
+        }
     }
     
     private void OnTriggerExit2D(Collider2D trigger2D)
