@@ -374,6 +374,7 @@ public class PlayerAttribut : MonoBehaviour
             SetAttackValue(attack2: true);
             attackPath.launchSecondAttack = true;
         }
+        
         /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
@@ -402,7 +403,7 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false)
+    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false, bool attack4 = false)
     {
         animatorPlayer.SetBool("AttackX1", attack1);
         animatorPlayer.SetBool("AttackX2", attack2);

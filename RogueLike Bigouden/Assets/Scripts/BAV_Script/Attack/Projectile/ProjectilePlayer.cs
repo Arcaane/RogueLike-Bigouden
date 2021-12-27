@@ -14,6 +14,7 @@ public class ProjectilePlayer : MonoBehaviour
     
     [Header("Component")] 
     [SerializeField] private Animator animator;
+    [SerializeField] float m_MySliderValue;
 
 
     private void Awake()
@@ -27,6 +28,7 @@ public class ProjectilePlayer : MonoBehaviour
         rb.velocity = (direction * p_speed);
         damage = p_dmg;
         Invoke(nameof(ProjectileStop), p_delay);
+        animator.SetBool("isRotate", true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -54,7 +56,19 @@ public class ProjectilePlayer : MonoBehaviour
     private void ProjectileStop()
     {
         rb.velocity = Vector2.zero;
+        animator.SetBool("isRotate", false);
         isDeploy = true;
         Debug.Log(isDeploy);
+    }
+    
+    void OnGUI()
+    {
+        //Create a Label in Game view for the Slider
+        GUI.Label(new Rect(0, 25, 40, 60), "Speed");
+        //Create a horizontal Slider to control the speed of the Animator. Drag the slider to 1 for normal speed.
+
+        m_MySliderValue = GUI.HorizontalSlider(new Rect(45, 25, 200, 60), m_MySliderValue, 0.0F, 1.0F);
+        //Make the speed of the Animator match the Slider value
+        animator.speed = m_MySliderValue;
     }
 }

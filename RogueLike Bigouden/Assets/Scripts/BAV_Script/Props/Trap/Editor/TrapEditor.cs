@@ -25,6 +25,8 @@ public class TrapEditor : Editor
     const float gridSnap = 0.53333f;
     const float gridSnapSmooth = 0.53333f;
 
+    //private----------
+    private Rect rect;
     public override void OnInspectorGUI()
     {
         var trap = target as ElectrickTrap;
@@ -120,7 +122,7 @@ public class TrapEditor : Editor
                 #endregion
 
                 ////--------------------BUTTON POSITION SECOND LINE----------------------////
-                DrawUILine(Color.black);
+                rect.DrawUILine(Color.black);
 
                 //--------------------USE BASIC ORIGIN----------------------//
                 using (new EditorGUI.DisabledScope(useCustomOrigin))
@@ -129,7 +131,7 @@ public class TrapEditor : Editor
                     useBasicOrigin = EditorGUILayout.Toggle("Use Basic Origin", useBasicOrigin);
                 }
 
-                DrawUILine(Color.black);
+                rect.DrawUILine(Color.black);
 
                 //--------------------USE CUSTOM ORIGIN----------------------//
                 GUILayout.BeginHorizontal();
@@ -147,7 +149,7 @@ public class TrapEditor : Editor
                                 true);
                         if (originTrap != null)
                         {
-                            DrawUILine(Color.white);
+                            rect.DrawUILine(Color.white);
                             EditorGUI.BeginChangeCheck();
                             GUILayout.Label("Origin point Coordinate is", EditorStyles.boldLabel);
                             useSmoothMovement = EditorGUILayout.Toggle("Use SmoothMovement", useSmoothMovement);
@@ -180,17 +182,7 @@ public class TrapEditor : Editor
         serializedObject.Update();
         serializedObject.ApplyModifiedProperties();
     }
-
-
-    public static void DrawUILine(Color color, int thickness = 1, int padding = 10)
-    {
-        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding + thickness));
-        r.height = thickness;
-        r.y += padding / 2;
-        r.x -= 10;
-        r.width += 6;
-        EditorGUI.DrawRect(r, color);
-    }
+    
 
     void GetTransform()
     {
