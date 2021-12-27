@@ -1,19 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
 public class ProjectilePlayer : MonoBehaviour
 {
-    [Header("Projectile Rouleau")]
-    [SerializeField] private int damage;
+    [Header("Projectile Rouleau")] [SerializeField]
+    private int damage;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private bool isDeploy;
-    
-    [Header("Component")] 
-    [SerializeField] private Animator animator;
+
+    [Header("Component")] [SerializeField] private Animator animator;
     [SerializeField] float m_MySliderValue;
 
 
@@ -23,12 +22,17 @@ public class ProjectilePlayer : MonoBehaviour
         isDeploy = false;
     }
 
+    public void Start()
+    {
+        GoDirection(Vector2.up, 1,1,20);
+    }
+
+
     public void GoDirection(Vector2 direction, float p_speed, int p_dmg, float p_delay)
     {
         rb.velocity = (direction * p_speed);
         damage = p_dmg;
         Invoke(nameof(ProjectileStop), p_delay);
-        animator.SetBool("isRotate", true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -48,7 +52,8 @@ public class ProjectilePlayer : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player") && isDeploy)
         {
-            other.gameObject.GetComponent<PlayerAttribut>().p_delay -= other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
+            other.gameObject.GetComponent<PlayerAttribut>().p_delay -=
+                other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
             Destroy(gameObject, 0.2f);
         }
     }
@@ -56,11 +61,10 @@ public class ProjectilePlayer : MonoBehaviour
     private void ProjectileStop()
     {
         rb.velocity = Vector2.zero;
-        animator.SetBool("isRotate", false);
         isDeploy = true;
         Debug.Log(isDeploy);
     }
-    
+
     void OnGUI()
     {
         //Create a Label in Game view for the Slider
@@ -70,5 +74,17 @@ public class ProjectilePlayer : MonoBehaviour
         m_MySliderValue = GUI.HorizontalSlider(new Rect(45, 25, 200, 60), m_MySliderValue, 0.0F, 1.0F);
         //Make the speed of the Animator match the Slider value
         animator.speed = m_MySliderValue;
+    }
+
+    void Update()
+    {
+        if (!isDeploy)
+        {
+            animator.SetBool("isRotate", true);
+        }
+        else
+        {
+            animator.SetBool("isRotate", false);
+        }
     }
 }
