@@ -1,19 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
 public class ProjectilePlayer : MonoBehaviour
 {
-    [Header("Projectile Rouleau")]
-    [SerializeField] private int damage;
+    [Header("Projectile Rouleau")] [SerializeField]
+    private int damage;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private bool isDeploy;
-    
-    [Header("Component")] 
-    [SerializeField] private Animator animator;
+
+    [Header("Component")] [SerializeField] private Animator animator;
+    [SerializeField] float m_MySliderValue;
 
 
     private void Awake()
@@ -21,6 +21,13 @@ public class ProjectilePlayer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         isDeploy = false;
     }
+
+    public void Start()
+    {
+        //GoDirection(Vector2.up, 1,1,20);
+        animator.speed = m_MySliderValue;
+    }
+
 
     public void GoDirection(Vector2 direction, float p_speed, int p_dmg, float p_delay)
     {
@@ -46,7 +53,8 @@ public class ProjectilePlayer : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player") && isDeploy)
         {
-            other.gameObject.GetComponent<PlayerAttribut>().p_delay -= other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
+            other.gameObject.GetComponent<PlayerAttribut>().p_delay -=
+                other.gameObject.GetComponent<PlayerAttribut>().delayProjectileReduction;
             Destroy(gameObject, 0.2f);
         }
     }
@@ -56,5 +64,22 @@ public class ProjectilePlayer : MonoBehaviour
         rb.velocity = Vector2.zero;
         isDeploy = true;
         Debug.Log(isDeploy);
+    }
+
+    void Update()
+    {
+        if (!isDeploy)
+        {
+            animator.SetBool("isRotate", true);
+        }
+        else
+        {
+            animator.SetBool("isRotate", false);
+        }
+    }
+
+    void IncrementeFloat(int damage)
+    {
+        
     }
 }

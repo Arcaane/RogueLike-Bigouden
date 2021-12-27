@@ -29,9 +29,7 @@ public class RackManagerV2_Props : MonoBehaviour
 
     [Header("Prefab to Instantiate")]
     //--------------------PREFAB--------------------//
-    [SerializeField]
-    private List<Transform> projFolderTransform;
-
+    [SerializeField] private List<Transform> projFolderTransform;
     [SerializeField] private List<GameObject> projecteurList;
 
     //Projector Range
