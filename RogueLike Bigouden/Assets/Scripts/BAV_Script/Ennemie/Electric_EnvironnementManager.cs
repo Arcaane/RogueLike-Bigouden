@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-
+[ExecuteAlways]
 public class Electric_EnvironnementManager : MonoBehaviour
 {
     #region Ennemy Stats Assignation
@@ -97,7 +97,11 @@ public class Electric_EnvironnementManager : MonoBehaviour
 
     //Sprite swap
     public List<Sprite> spriteSwap;
-    [Range(0, 8)] public int variantNumber;
+
+    [Tooltip(
+        "0 = TOP/DOWN, 1 = LEFT/RIGHT, 2 = TOP/LEFT, 3 = TOP/RIGHT, 4 = DOWN/LEFT, 5 = DOWN/RIGHT, 6 = RIGHT/TOP/LEFT, 7 = TOP/LEFT/DOWN, 8 = LEFT/DOWN/RIGHT, 9 = DOWN/RIGHT/TOP")]
+    [Range(0, 7)]
+    public int variantNumber;
 
     //private 
     private Color resetColor = Color.white;
@@ -207,6 +211,7 @@ public class Electric_EnvironnementManager : MonoBehaviour
             {
                 debugLine.GetComponent<SpriteRenderer>().color = Color.yellow;
             }
+
             incrementFloatDamage = 0f;
             damageElect++;
         }
@@ -260,4 +265,59 @@ public class Electric_EnvironnementManager : MonoBehaviour
     }
 
     #endregion
+
+    public void SpriteDirection(int direction)
+    {
+        switch (direction)
+        {
+            ////--------------------MONO DIRECTION--------------------////
+            //--------------------TOP/DOWN DIRECTION--------------------//
+            case 0:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------LEFT/RIGHT DIRECTION--------------------//
+            case 1:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            ////--------------------TWO DIRECTION--------------------////
+            //--------------------TOP LEFT DIRECTION--------------------//
+            case 2:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------TOP RIGHT DIRECTION--------------------//
+            case 3:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------DOWN LEFT DIRECTION--------------------//
+            case 4:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------DOWN RIGHT DIRECTION--------------------//
+            case 5:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            ////--------------------THREE DIRECTION--------------------////
+            //--------------------RIGHT TOP AND LEFT DIRECTION--------------------//
+            case 6:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------TOP LEFT AND DOWN DIRECTION--------------------//
+            case 7:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------LEFT DOWN AND RIGHT DIRECTION--------------------//
+            case 8:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            //--------------------DOWN RIGHT AND TOP DIRECTION--------------------//
+            case 9:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+            ////--------------------FOUR DIRECTION--------------------////
+            //--------------------ALL DIRECTION--------------------//
+            case 10:
+                baseSprite.sprite = spriteSwap[0];
+                break;
+        }
+    }
 }
