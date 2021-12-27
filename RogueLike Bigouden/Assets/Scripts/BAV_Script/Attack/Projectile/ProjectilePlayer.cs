@@ -24,7 +24,8 @@ public class ProjectilePlayer : MonoBehaviour
 
     public void Start()
     {
-        GoDirection(Vector2.up, 1,1,20);
+        //GoDirection(Vector2.up, 1,1,20);
+        animator.speed = m_MySliderValue;
     }
 
 
@@ -65,17 +66,6 @@ public class ProjectilePlayer : MonoBehaviour
         Debug.Log(isDeploy);
     }
 
-    void OnGUI()
-    {
-        //Create a Label in Game view for the Slider
-        GUI.Label(new Rect(0, 25, 40, 60), "Speed");
-        //Create a horizontal Slider to control the speed of the Animator. Drag the slider to 1 for normal speed.
-
-        m_MySliderValue = GUI.HorizontalSlider(new Rect(45, 25, 200, 60), m_MySliderValue, 0.0F, 1.0F);
-        //Make the speed of the Animator match the Slider value
-        animator.speed = m_MySliderValue;
-    }
-
     void Update()
     {
         if (!isDeploy)
@@ -86,5 +76,10 @@ public class ProjectilePlayer : MonoBehaviour
         {
             animator.SetBool("isRotate", false);
         }
+    }
+
+    void IncrementeFloat(int damage)
+    {
+        
     }
 }
