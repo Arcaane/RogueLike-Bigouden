@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7044159556560514237}
   - component: {fileID: 7044159556560514236}
   m_Layer: 0
-  m_Name: Projecteur_A
+  m_Name: Projecteur_A_F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,6 +70,17 @@ MonoBehaviour:
   hurt: 0
   counterBeforeReset: 0
   incrementDamage: 0
+  baseSpriteData: {fileID: 0}
+  spriteSwap: []
+  variantNumber: 0
+  useBaseSprite: 0
+  useRandomNumber: 0
+  updateInRealtime: 0
+  baseSprite: {fileID: 0}
+  variantSprite: {fileID: 0}
+  propsColor: {r: 1, g: 1, b: 1, a: 1}
+  emissiveColor: {r: 1, g: 1, b: 1, a: 1}
+  intensity: 0
 --- !u!114 &7044159556560514239
 MonoBehaviour:
   m_ObjectHideFlags: 0
