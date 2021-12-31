@@ -372,7 +372,7 @@ public class PlayerAttribut : MonoBehaviour
 
         {
             SetJoystickValue(moving);
-            SetAttackValue(attack2: true);
+            SetAttackValue(attackX2: true);
             attackPath.launchSecondAttack = true;
         }
         
@@ -404,11 +404,15 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false, bool attack4 = false)
+    void SetAttackValue(bool attackX1 = false, bool attackX2 = false, bool attackY1 = false, bool attackB_Aim = false, bool attackB_Launch = false, bool ultimateDeploy = false, bool ultimateAction = false)
     {
-        animatorPlayer.SetBool("AttackX1", attack1);
-        animatorPlayer.SetBool("AttackX2", attack2);
-        animatorPlayer.SetBool("AttackY", attack3);
+        animatorPlayer.SetBool("AttackX1", attackX1);
+        animatorPlayer.SetBool("AttackX2", attackX2);
+        animatorPlayer.SetBool("AttackY", attackY1);
+        animatorPlayer.SetBool("AimAttackB", attackB_Aim);
+        animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
+        //animatorPlayer.SetBool("AttackY", ultimateDeploy);
+        //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
     #endregion AnimatorProcess
