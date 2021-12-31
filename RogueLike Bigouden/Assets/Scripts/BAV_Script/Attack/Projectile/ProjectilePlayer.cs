@@ -77,4 +77,9 @@ public class ProjectilePlayer : MonoBehaviour
             animator.SetBool("isRotate", false);
         }
     }
+
+    void IncrementeFloat(int damage)
+    {
+        
+    }
 }
