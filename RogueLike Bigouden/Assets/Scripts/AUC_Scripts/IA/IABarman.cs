@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -51,7 +50,7 @@ public class IABarman : MonoBehaviour
     [SerializeField] private bool _isRdyMove;
 
     // Anims
-    [SerializeField] private Animator barmanAnimator;
+    private Animator barmanAnimator;
     private bool _isAttack;
     private bool _isWalk;
     #endregion
@@ -111,7 +110,7 @@ public class IABarman : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Animations(agent);
+        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
     }
 
     private void OnDrawGizmosSelected()
