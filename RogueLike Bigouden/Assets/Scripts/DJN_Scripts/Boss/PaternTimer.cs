@@ -25,12 +25,16 @@ public class PaternTimer : MonoBehaviour
     [SerializeField] private float P2Lenght;
     [SerializeField] private Timer[] timerPhase2;
 
+    private BossStatsManager _bossStatsManager;
+    private CinematicBoss _cinematicBoss;
     public GameObject waveSpawner;
     
     // Start is called before the first frame update
     void Start()
     {
         _bossEventManager = GetComponent<BossEventManager>();
+        _bossStatsManager = FindObjectOfType<BossStatsManager>();
+        _cinematicBoss = FindObjectOfType<CinematicBoss>();
         Debug.Log("This boss legal duration is " + ((P1Lenght + P2Lenght) * loop) + " seconds");
         
     }
@@ -38,7 +42,7 @@ public class PaternTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_bossEventManager.cinIsEnable)
+        if (!_cinematicBoss.isCinematic)
         {
             TimersPhases();
             EventPhases();
@@ -98,9 +102,10 @@ public class PaternTimer : MonoBehaviour
                 //LoadEnrage
             }
 
-            if (_bossEventManager.pillars.Count <= 0) //If boss is dead, it's win.
+            if (_bossStatsManager.isDead) //If boss is dead, it's win.
             {
                 //There is a cinematic victory
+                _cinematicBoss.StartCoroutine(_cinematicBoss.EndCinematic());
                 Debug.Log("Fight is over");
             }
         }
