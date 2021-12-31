@@ -14,7 +14,19 @@ public class ElectrickTrap : MonoBehaviour
 
     [SerializeField] public float spaceBetweenTrap;
     [SerializeField] public const float gridSnap = 0.03333334f;
-    
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+
     public void InstantiatePrefab(int directionProps)
     {
         GameObject objTrap = Instantiate(basicTrap, trapFolder.transform, false);
