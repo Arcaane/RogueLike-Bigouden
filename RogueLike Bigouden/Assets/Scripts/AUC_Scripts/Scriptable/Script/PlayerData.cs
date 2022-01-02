@@ -50,6 +50,7 @@ public class PlayerData : ScriptableObject
     public bool isAttackYSO; // Peut utiliser l'attaque Y
     public bool readyToAttackBSO; // Peut utiliser l'attaque projectile
     public bool isAttackBSO; // Peut utiliser l'attaque projectile
+    public bool isDeployBSO; // peut deployer le projectile
     public bool isDashingSO;
     public bool readyToDashSO;
     public bool onButterSO; // Le joueur se trouve sur une flaque de beurre

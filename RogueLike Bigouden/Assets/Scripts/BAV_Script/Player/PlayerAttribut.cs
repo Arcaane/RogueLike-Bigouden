@@ -95,17 +95,15 @@ public class PlayerAttribut : MonoBehaviour
 
     //Offset of the end Position
     [SerializeField] private float offsetEndPosProjectile;
-    
-    
+
+
     // TEST 
     private bool isCastingTime;
-    private bool shooting;
-    private bool readyToShoot;
 
     private float castedTime;
     private float castingTime;
-    
-    
+
+
     [Space(10)]
     [Header("Player Ultimate")]
     //float--------------------
@@ -201,7 +199,7 @@ public class PlayerAttribut : MonoBehaviour
     private DialogueManager _dialogueManager;
     public bool isTalking;
     public int dialogueLine;
-    
+
     // Colldiers Bigou
     [SerializeField] private Collider2D _collider2D;
 
@@ -225,7 +223,7 @@ public class PlayerAttribut : MonoBehaviour
         _playerStatsManager.readyToDash = true;
         _playerStatsManager.readyToAttackX = true;
         _playerStatsManager.readyToAttackY = true;
-        readyToShoot = true;
+        _playerStatsManager.readyToAttackB = true;
 
         Player_FeedBack.fb_instance.p_attribut = this;
         Player_FeedBack.fb_instance.p_transform = transform;
@@ -246,7 +244,7 @@ public class PlayerAttribut : MonoBehaviour
     {
         bool xbox_b = Input.GetButton("XboxB");
         bool xbox_b_UP = Input.GetButtonUp("XboxB");
-        
+
         _attackPath.Path();
         if (_playerStatsManager.isDashing || _playerStatsManager.isAttackingX || _playerStatsManager.isAttackingY)
         {
@@ -256,19 +254,19 @@ public class PlayerAttribut : MonoBehaviour
             Reset();
             DodgeAbility_T();
         }
-        
+
 
         if (isUlting)
         {
             UltimateDelay();
         }
-        
-        
-        if (!readyToShoot)
+
+
+        if (!_playerStatsManager.isAttackB)
         {
             ResetLaunchProjectile();
         }
-        
+
         /*
         if (_playerStatsManager.readyToAttackB && !_playerStatsManager.isAttackB)
         {
@@ -294,33 +292,41 @@ public class PlayerAttribut : MonoBehaviour
 
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
-        
-            if (xbox_b && readyToShoot)
-            {
-                Debug.Log("OUII");
-                isCastingTime = true;
-            }
-            else if (xbox_b_UP && readyToShoot)
-            {
-                isCastingTime = false;
-                shooting = true;
-            }
 
-            if (isCastingTime)
-            {
-                launchProjectileFeedback.SetActive(true);
-                castingTime = castingTime + Time.deltaTime;
-                shootPointPos = (_lastPosition);
-                shootPointPos.Normalize();
-                float angle = Mathf.Atan2(shootPointPos.y, shootPointPos.x) * Mathf.Rad2Deg;
-                launchProjectileFeedback.transform.rotation = Quaternion.Euler(0, 0, angle);
-                _playerStatsManager.movementSpeed = 0f;
-            }
+        if (xbox_b && _playerStatsManager.readyToAttackB)
+        {
+            Debug.Log("OUII");
+            isCastingTime = true;
+        }
+        else if (xbox_b_UP && _playerStatsManager.readyToAttackB)
+        {
+            isCastingTime = false;
+            _playerStatsManager.isAttackB = true;
+        }
 
-            // Si tout est bon, appele la fonction de tir
-            if (readyToShoot && shooting)
-            { MovementProjectile(castedTime); }
-        
+
+        if (isCastingTime)
+        {
+            launchProjectileFeedback.SetActive(true);
+            castingTime = castingTime + Time.deltaTime;
+            shootPointPos = (_lastPosition);
+            shootPointPos.Normalize();
+            float angle = Mathf.Atan2(shootPointPos.y, shootPointPos.x) * Mathf.Rad2Deg;
+            launchProjectileFeedback.transform.rotation = Quaternion.Euler(0, 0, angle);
+            _playerStatsManager.movementSpeed = 0f;
+        }
+
+        // Si tout est bon, appele la fonction de tir
+        if (_playerStatsManager.readyToAttackB && _playerStatsManager.isAttackB)
+        {
+            MovementProjectile();
+            _playerStatsManager.readyToAttackB = false;
+        }
+
+        if (_playerStatsManager.isAttackB)
+        {
+            _playerStatsManager.isDeployB = true;
+        }
     }
 
 
@@ -372,17 +378,25 @@ public class PlayerAttribut : MonoBehaviour
 
         {
             SetJoystickValue(moving);
-            SetAttackValue(attack2: true);
+            SetAttackValue(attackX2: true);
             attackPath.launchSecondAttack = true;
         }
-        
+        else if (_playerStatsManager.readyToAttackB && isCastingTime)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attackB_Aim: true);
+        }
+        else if (_playerStatsManager.isDeployB)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attackB_Launch: true);
+        }
         /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
         */
-
 
         else
         {
@@ -404,11 +418,19 @@ public class PlayerAttribut : MonoBehaviour
         }
     }
 
-    void SetAttackValue(bool attack1 = false, bool attack2 = false, bool attack3 = false, bool attack4 = false)
+    void SetAttackValue(bool attackX1 = false, bool attackX2 = false, bool attackY1 = false, bool attackB_Aim = false,
+        bool attackB_Launch = false, bool ultimateDeploy = false, bool ultimateAction = false)
     {
-        animatorPlayer.SetBool("AttackX1", attack1);
-        animatorPlayer.SetBool("AttackX2", attack2);
-        animatorPlayer.SetBool("AttackY", attack3);
+        if (animatorPlayer.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            animatorPlayer.SetBool("AttackX1", attackX1);
+            animatorPlayer.SetBool("AttackX2", attackX2);
+            animatorPlayer.SetBool("AttackY", attackY1);
+            animatorPlayer.SetBool("AimAttackB", attackB_Aim);
+            animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
+        }
+        //animatorPlayer.SetBool("AttackY", ultimateDeploy);
+        //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
     #endregion AnimatorProcess
@@ -505,7 +527,6 @@ public class PlayerAttribut : MonoBehaviour
 
     void LaunchDash()
     {
-        
         spriteRendererFrame.material.SetColor("_DiffuseColor", colorDash);
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 10);
         Vector2 velocity = Vector2.zero;
@@ -530,6 +551,7 @@ public class PlayerAttribut : MonoBehaviour
         {
             playerFeedBack.MovingRumble(Vector2.zero);
         }
+
         spriteRendererFrame.material.SetColor("_DiffuseColor", colorReset);
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
@@ -698,12 +720,13 @@ public class PlayerAttribut : MonoBehaviour
     #region Projectile
 
     public const float radiusShootPoint = 0.9f;
-    public void MovementProjectile(float castingT)
+
+    public void MovementProjectile()
     {
         int damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
         _playerStatsManager.isAttackB = false;
+        _playerStatsManager.isDeployB = true;
         p_delay = _playerStatsManager.attackCdB;
-        readyToShoot = false;
 
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
@@ -718,14 +741,14 @@ public class PlayerAttribut : MonoBehaviour
 
     private void ResetLaunchProjectile()
     {
-        shooting = false;
-        readyToShoot = false;
+        _playerStatsManager.isAttackB = false;
+        _playerStatsManager.isDeployB = false;
         Debug.Log("pls sir");
         p_delay -= Time.deltaTime;
         if (p_delay <= 0)
         {
             p_delay = 0;
-            readyToShoot = true;
+            _playerStatsManager.readyToAttackB = true;
         }
     }
 

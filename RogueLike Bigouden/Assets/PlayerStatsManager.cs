@@ -216,10 +216,10 @@ public class PlayerStatsManager : MonoBehaviour
         set { playerData.isAttackYSO = isAttackYSO; }
     }
 
-    private bool readyToAttackBSO
+    private bool isDeployBSO
     {
-        get { return playerData.readyToAttackBSO; }
-        set { playerData.readyToAttackBSO = readyToAttackBSO; }
+        get { return playerData.isDeployBSO; }
+        set { playerData.isDeployBSO = isDeployBSO; }
     }
 
     private bool isAttackBSO
@@ -289,6 +289,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isAttackingY;
     public bool readyToAttackB;
     public bool isAttackB;
+    public bool isDeployB;
     public bool isDashing;
     public bool readyToDash;
     public bool onButter;
@@ -357,6 +358,7 @@ public class PlayerStatsManager : MonoBehaviour
         isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
         readyToAttackB = true; // Peut utiliser l'attaque projectile
         isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
+        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;
