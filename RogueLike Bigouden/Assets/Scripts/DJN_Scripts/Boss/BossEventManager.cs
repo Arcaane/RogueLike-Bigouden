@@ -17,18 +17,12 @@ public class BossEventManager : MonoBehaviour
 
     [Header("Rotation Laser")] 
     public GameObject[] rotationLaser;
-    
-    [Header("Cinematic")] 
-    public Transform targetPDir;
-    public bool cinIsEnable;
-    private GameObject player;
-    [SerializeField] private float walkSpeed;
-   
-    
+
+
     private void Start()
     {
         pillars.AddRange(FindObjectsOfType<PillarsStatsManager>());
-        player = GameObject.FindGameObjectWithTag("Player");
+        
         
        /* if (player)
         {
@@ -77,6 +71,7 @@ public class BossEventManager : MonoBehaviour
     }
     
     #endregion
-    
+
+  
   
 }

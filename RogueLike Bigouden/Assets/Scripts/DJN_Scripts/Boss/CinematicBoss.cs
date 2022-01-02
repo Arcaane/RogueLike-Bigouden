@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CinematicBoss : MonoBehaviour
 {
-    private bool isCinematic;
+    public bool isCinematic;
     private int i;
     public float time;
     
@@ -21,6 +22,7 @@ public class CinematicBoss : MonoBehaviour
     [Header("End Cinematic")] 
     public DialogueSO endCinematicDialogue;
 
+    private bool sceneEnded;
     void Start()
     {
         _uiManager = FindObjectOfType<UIManager>();
@@ -47,12 +49,20 @@ public class CinematicBoss : MonoBehaviour
         //AT THE END OF DIALOGUE, FEW SECONDS AND THE PLAYER IS ALLOW TO MOVE BY HIS OWN
     }
 
-    void EndCinematic()
+    public IEnumerator EndCinematic()
     {
+        isCinematic = true;
         //WHEN THE BOSS IS DOWN, PLAYER LOSE CONTROL OF THE CHARACTER AND DIALOGUE LOAD
         StartCoroutine(LoadDialogue(endCinematicDialogue));
         //DIALOGUE LINES SKIP AFTER A TIME IN SECONDS
         //AT THE END OF DIALOGUE, SCREEN FADE TO BLACK AND LOAD SCENE CREDITS_END
+        yield return new WaitForSeconds(1);
+        if (sceneEnded)
+        {
+            SceneManager.LoadScene("credits");
+            isCinematic = false;
+            sceneEnded = false;
+        }
     }
 
     IEnumerator LoadDialogue(DialogueSO dialogueSelect)
@@ -69,6 +79,7 @@ public class CinematicBoss : MonoBehaviour
         {
             i = 0;
             StopCoroutine(LoadDialogue(dialogueSelect));
+            sceneEnded = true;
         }
     }
 }
