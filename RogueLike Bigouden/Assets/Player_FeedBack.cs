@@ -84,8 +84,7 @@ public class Player_FeedBack : MonoBehaviour
                 Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeedCamDash * Time.deltaTime);
                 transform.position = smoothedPos;
             }
-
-
+            
             if (p_attribut._isDashing)
             {
                 Vector3 desiredPos = p_transform.position + offset;

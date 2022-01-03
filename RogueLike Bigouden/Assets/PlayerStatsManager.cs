@@ -315,59 +315,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Start()
     {
-        // Set int
-        actualUltPoint = actualUltPointSO;
-        ultMaxPoint = ultMaxPointSO;
-        lifePoint = lifePointSO;
-        maxLifePoint = lifePoint;
-        shieldPoint = shieldPointSO;
-        dashCounter = dashCounterSO;
-        damageFirstX = damageFirstXSO;
-        damageSecondX = damageSecondXSO;
-        damageY = damageYSO;
-        damageProjectile = damageProjectileSO;
-        ultPointToAddPerHit = ultPointToAddPerHitSO;
-        ultPointToAddPerKill = ultPointToAddPerKillSO;
-        damageUlt = damageUltSO;
-        money = 0;
-
-        //Set Float
-        movementSpeed = movementSpeedSO;
-        attackRangeX = attackRangeXSO;
-        attackCdX = attackCdXSO;
-        attackRangeY = attackRangeYSO;
-        attackCdY = attackCdYSO;
-        attackRangeProjectile = attackRangeProjectileSO;
-        attackCdB = attackCdBSO;
-        dashSpeed = DashSpeedSo;
-        dashDuration = dashDurationSO;
-        dashCooldown = dashCooldownSO;
-        ultDuration = ultDurationSO;
-        bonusSpeed = bonusSpeedSO;
-
-        // Set Vector
-        firstAttackReset = firstAttackResetSO;
-        secondAttackReset = secondAttackResetSO;
-
-        // Bools
-        isAttackingX = isAttackingXSO;
-        readyToAttackX = readyToAttackXSO;
-        isAttackFirstX = isAttackFirstXSO;
-        isAttackSecondX = isAttackSecondXSO;
-        readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
-        isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
-        readyToAttackB = true; // Peut utiliser l'attaque projectile
-        isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
-        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
-        isDashing = isDashingSO;
-        readyToDash = readyToDashSO;
-        onButter = onButterSO;
-
-
-        //Other
-        lifePointSave = lifePoint;
-        HurtDamagescreen.SetActive(false);
-        getHurt = false;
+        ResetPlayerStats();
     }
 
     #region Functions
@@ -466,5 +414,64 @@ public class PlayerStatsManager : MonoBehaviour
     {
         ApplyDamageUIFeedBack();
     }
+
+
+    public void ResetPlayerStats()
+    {
+        // Set int
+        actualUltPoint = actualUltPointSO;
+        ultMaxPoint = ultMaxPointSO;
+        lifePoint = lifePointSO;
+        maxLifePoint = lifePoint;
+        shieldPoint = shieldPointSO;
+        dashCounter = dashCounterSO;
+        damageFirstX = damageFirstXSO;
+        damageSecondX = damageSecondXSO;
+        damageY = damageYSO;
+        damageProjectile = damageProjectileSO;
+        ultPointToAddPerHit = ultPointToAddPerHitSO;
+        ultPointToAddPerKill = ultPointToAddPerKillSO;
+        damageUlt = damageUltSO;
+        money = 0;
+
+        //Set Float
+        movementSpeed = movementSpeedSO;
+        attackRangeX = attackRangeXSO;
+        attackCdX = attackCdXSO;
+        attackRangeY = attackRangeYSO;
+        attackCdY = attackCdYSO;
+        attackRangeProjectile = attackRangeProjectileSO;
+        attackCdB = attackCdBSO;
+        dashSpeed = DashSpeedSo;
+        dashDuration = dashDurationSO;
+        dashCooldown = dashCooldownSO;
+        ultDuration = ultDurationSO;
+        bonusSpeed = bonusSpeedSO;
+
+        // Set Vector
+        firstAttackReset = firstAttackResetSO;
+        secondAttackReset = secondAttackResetSO;
+
+        // Bools
+        isAttackingX = isAttackingXSO;
+        readyToAttackX = readyToAttackXSO;
+        isAttackFirstX = isAttackFirstXSO;
+        isAttackSecondX = isAttackSecondXSO;
+        readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
+        isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
+        readyToAttackB = true; // Peut utiliser l'attaque projectile
+        isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
+        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
+        isDashing = isDashingSO;
+        readyToDash = readyToDashSO;
+        onButter = onButterSO;
+
+
+        //Other
+        lifePointSave = lifePoint;
+        HurtDamagescreen.SetActive(false);
+        getHurt = false;
+    }
+
     #endregion
 }

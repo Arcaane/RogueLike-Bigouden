@@ -192,6 +192,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("BAV_HUB_BED");
         Time.timeScale = 1;
         gameOverPanel.SetActive(false);
+        PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
+        RefreshUI();
+        Debug.Log("Fonkioniert ?");
     }
 
     public void RestartGame()
