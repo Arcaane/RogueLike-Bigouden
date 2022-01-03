@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -93,6 +94,11 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverPanel;
     public Animator goBackground;
     public Animator goForeground;
+
+    public TextMeshProUGUI enemyKilledText;
+    public TextMeshProUGUI moneyCollectText;
+    public TextMeshProUGUI timerFinalText;
+    public TextMeshProUGUI scoreText;
     
     [Header("Player HUD Animations")]
     public Animator itemAnimation;
@@ -213,8 +219,13 @@ public class UIManager : MonoBehaviour
     public void LoadGameOver()
     {
         gameOverPanel.SetActive(true);
+        isPaused = true;
         goBackground.Play("background_appear");
         goForeground.Play("foreground_appear");
+
+        enemyKilledText.text = ScoreManager.instance.enemyKilled.ToString();
+        moneyCollectText.text = ScoreManager.instance.moneyObtained.ToString();
+        timerFinalText.text = $"{ScoreManager.instance.minutes:00}:{ScoreManager.instance.seconds:00}";
     }
     
     public void TryAgain()

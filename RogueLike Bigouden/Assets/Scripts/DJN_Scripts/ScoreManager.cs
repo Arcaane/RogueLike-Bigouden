@@ -16,6 +16,9 @@ public class ScoreManager : MonoBehaviour
    private int enemyMultiplier;
    private int moneyMultiplier;
 
+   [HideInInspector] public float seconds;
+   [HideInInspector] public float minutes;
+
    private void Awake()
    {
       if (instance != null && instance != this)
@@ -62,9 +65,9 @@ public class ScoreManager : MonoBehaviour
 
    public void DisplayTime()
    {
-      float minutes = Mathf.FloorToInt(timer / 60);
-      float seconds = Mathf.FloorToInt(timer % 60);
-      UIManager.instance.timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+       minutes = Mathf.FloorToInt(timer / 60);
+       seconds = Mathf.FloorToInt(timer % 60);
+      UIManager.instance.timeText.text = $"{minutes:00}:{seconds:00}";
    }
 
    void UpdateScore()
