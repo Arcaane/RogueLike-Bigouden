@@ -50,7 +50,7 @@ public class IABarman : MonoBehaviour
     [SerializeField] private bool _isRdyMove;
 
     // Anims
-    private Animator barmanAnimator;
+    public Animator barmanAnimator;
     private bool _isAttack;
     private bool _isWalk;
     #endregion
@@ -100,7 +100,8 @@ public class IABarman : MonoBehaviour
         if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
             Attacking();
         
-        //Animations(agent);
+        Animations(agent);
+        
         if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
         {
             _isWalk = false;
