@@ -70,6 +70,8 @@ public class LoadManager : MonoBehaviour
     private float x;
     private float y;
     private float z;
+
+    private string lastRoom;
     #endregion
     
     public void Awake()
@@ -248,13 +250,11 @@ public class LoadManager : MonoBehaviour
          
             Debug.Log("Shop apparition value : " + shopApparitionValue);
 
-            if (i == numberOfRoomToCreate)
-            {
-                if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8)
-                {
-                    ResetProcedural();
-                }
-            }
+            
+             if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8)
+             {
+                 ResetProcedural();
+             }
          }
      }
 
@@ -280,7 +280,7 @@ public class LoadManager : MonoBehaviour
 
      private void LaMoulinette(float sValue, float mValue, float lValue)
      {
-         string lastRoom = String.Empty;
+         lastRoom = String.Empty;
          if (finalList.Count > 1)
          {
              lastRoom = finalList[finalList.Count - 1];
@@ -331,6 +331,7 @@ public class LoadManager : MonoBehaviour
          if (finalList[finalList.Count - 1] == lastRoom)
          {
              finalList.Remove(finalList[finalList.Count - 1]);
+             Debug.Log("Reroll");
              LaMoulinette(x, y ,z);
          }
      }
