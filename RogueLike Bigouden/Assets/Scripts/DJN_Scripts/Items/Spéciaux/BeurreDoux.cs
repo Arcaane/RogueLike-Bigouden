@@ -22,7 +22,7 @@ public class BeurreDoux : MonoBehaviour
 
     private void Update()
     {
-        m_trail.BakeMesh(_meshFilter.mesh, cam, false);
+        m_trail.BakeMesh(_meshFilter.mesh, cam, true);
         _meshCollider.sharedMesh = _meshFilter.mesh;
 
     }

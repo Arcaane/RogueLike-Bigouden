@@ -59,6 +59,11 @@ public class UIManager : MonoBehaviour
     public bool isPaused;
     [SerializeField] private GameObject blur;
 
+    [Header("Pause Menu Score")]
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI killNumber;
+    public TextMeshProUGUI moneyCollect;
+    
     [Header("Settings")] 
     public GameObject settingPanel;
 
@@ -80,13 +85,21 @@ public class UIManager : MonoBehaviour
     public List<GameObject> playerList;
 
     public GameObject actualPanel;
+    
+    
+    [HideInInspector] public bool open;
 
+    [Header("Game Over")]
     public GameObject gameOverPanel;
-
-    public bool open;
+    public Animator goBackground;
+    public Animator goForeground;
+    
+    [Header("Player HUD Animations")]
     public Animator itemAnimation;
 
     public Animator playerAnimation;
+    public Animator moneyAnimation;
+    public bool earnMoney;
     
     private void Awake()
     {
@@ -114,7 +127,17 @@ public class UIManager : MonoBehaviour
     {
         UpdateItemPlayer();
         
-        //playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
+           
+
+        if (earnMoney)
+        {
+            moneyAnimation.SetBool("addMoney", true);
+            earnMoney = false;
+        }
+        else
+        {
+            moneyAnimation.SetBool("addMoney", false);
+        }
     }
 
     #region SETUP
@@ -187,6 +210,13 @@ public class UIManager : MonoBehaviour
 
     #region GAMEOVER
 
+    public void LoadGameOver()
+    {
+        gameOverPanel.SetActive(true);
+        goBackground.Play("background_appear");
+        goForeground.Play("foreground_appear");
+    }
+    
     public void TryAgain()
     {
         SceneManager.LoadScene("BAV_HUB_BED");

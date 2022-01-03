@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class LoadManager : MonoBehaviour
@@ -99,12 +100,6 @@ public class LoadManager : MonoBehaviour
      {
          SceneManager.LoadSceneAsync(finalList[currentRoom]);
          currentRoom++;
-         
-
-         if (currentRoom == 2)
-         {
-            // FindObjectOfType<SoundManager>().LoadMusic("Placeholder");
-         }
      }
 
      private void ResetProcedural()

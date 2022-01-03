@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class EnnemyStatsManager : MonoBehaviour
@@ -226,6 +227,7 @@ public class EnnemyStatsManager : MonoBehaviour
     private void Death()
     {
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
+        ScoreManager.instance.AddEnemyKilledScore(1);
         Destroy(gameObject);
 
         int rand = Random.Range(0, 2);
@@ -233,6 +235,8 @@ public class EnnemyStatsManager : MonoBehaviour
         {
             int newrand = Random.Range(2, 6);
             PlayerStatsManager.playerStatsInstance.money += newrand;
+            UIManager.instance.moneyAnimation.Play("gain");
+            ScoreManager.instance.AddMoneyObtained(newrand);
         }
     }
 

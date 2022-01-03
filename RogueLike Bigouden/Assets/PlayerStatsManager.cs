@@ -372,7 +372,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        getHurt = true;
+        UIManager.instance.playerAnimation.Play("hurt");
         //if (!isDashing)
         //{
         if (shieldPoint > 0)
@@ -393,20 +393,13 @@ public class PlayerStatsManager : MonoBehaviour
         //}
 
     }
-
-    private void FixedUpdate()
-    {
-        if (getHurt)
-        {
-            getHurt = false;
-        }
-    }
+    
 
     private void Death()
     {
         // Play Death Animation
         Debug.Log(gameObject.name + " is Dead !");
-        UIManager.instance.gameOverPanel.SetActive(true);
+        UIManager.instance.LoadGameOver();
         Time.timeScale = 0;
     }
 
@@ -463,6 +456,11 @@ public class PlayerStatsManager : MonoBehaviour
     public void LateUpdate()
     {
         ApplyDamageUIFeedBack();
+    }
+
+    public void EarnMoney(int addMoney)
+    {
+        money += addMoney;
     }
     #endregion
 }

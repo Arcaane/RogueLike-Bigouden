@@ -402,7 +402,14 @@ public class PlayerInput_Final : MonoBehaviour
         if (startButton.performed)
         {
             //Quand j'appuie pour mettre en pause.
-            _uiManager.Pause();
+            if (!_uiManager.isPaused)
+            {
+                _uiManager.Pause();
+            }
+            else
+            {
+                _uiManager.Resume();
+            }
         }
 
         if (startButton.canceled)

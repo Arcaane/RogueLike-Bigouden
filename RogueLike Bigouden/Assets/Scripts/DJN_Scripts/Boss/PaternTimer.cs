@@ -35,8 +35,6 @@ public class PaternTimer : MonoBehaviour
         _bossEventManager = GetComponent<BossEventManager>();
         _bossStatsManager = FindObjectOfType<BossStatsManager>();
         _cinematicBoss = FindObjectOfType<CinematicBoss>();
-        Debug.Log("This boss legal duration is " + ((P1Lenght + P2Lenght) * loop) + " seconds");
-        
     }
 
     // Update is called once per frame
@@ -123,7 +121,6 @@ public class PaternTimer : MonoBehaviour
         {
             if (Math.Abs(timerP1 - t.timeCode) < sensibility)
             {
-                Debug.Log(t.bossParterns + " happen at " + t.timeCode + " on " + t.target);
                 isActive1 = true;
             }
             else
@@ -234,7 +231,6 @@ public class PaternTimer : MonoBehaviour
         {
             if (Math.Abs(timerP2 - t.timeCode) < sensibility)
             {
-                Debug.Log(t.bossParterns + " happen at " + t.timeCode + " on " + t.target);
                 isActive2 = true;
             }
             else

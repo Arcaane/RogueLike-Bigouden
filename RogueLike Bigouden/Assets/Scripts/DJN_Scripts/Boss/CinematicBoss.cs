@@ -26,11 +26,12 @@ public class CinematicBoss : MonoBehaviour
     void Start()
     {
         _uiManager = FindObjectOfType<UIManager>();
-        isCinematic = true;
+        
     }
 
     void StartCinematic()
     {
+        isCinematic = true;
         //SCENE LOAD, PLAYER CAN'T CONTROLL THE CHARACTER
         
         //PLAYER DO MOVE TO THE FRONT OF THE STAGE
@@ -42,6 +43,7 @@ public class CinematicBoss : MonoBehaviour
 
     void TransitionCinematic()
     {
+        isCinematic = true;
         //WHEN P1 IS OVER, ENTER THE TRANSITION PHASE = CINEMATIC
         //PLAYER CAN'T CONTROLL THE CHARACTER AND A BOSS DIALOGUE STRAT
         StartCoroutine(LoadDialogue(transitionCinematicDialogue));
@@ -64,7 +66,7 @@ public class CinematicBoss : MonoBehaviour
             sceneEnded = false;
         }
     }
-
+ 
     IEnumerator LoadDialogue(DialogueSO dialogueSelect)
     {
         _uiManager.dialogueBox.SetActive(true);
