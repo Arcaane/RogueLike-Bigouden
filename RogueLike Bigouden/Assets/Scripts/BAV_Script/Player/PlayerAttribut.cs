@@ -325,6 +325,7 @@ public class PlayerAttribut : MonoBehaviour
 
         if (_playerStatsManager.isAttackB)
         {
+            
             _playerStatsManager.isDeployB = true;
         }
     }
@@ -428,9 +429,9 @@ public class PlayerAttribut : MonoBehaviour
             animatorPlayer.SetBool("AttackY", attackY1);
             animatorPlayer.SetBool("AimAttackB", attackB_Aim);
             animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
+            //animatorPlayer.SetBool("AttackY", ultimateDeploy);
+            //animatorPlayer.SetBool("AttackY", ultimateAction);
         }
-        //animatorPlayer.SetBool("AttackY", ultimateDeploy);
-        //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
     #endregion AnimatorProcess
@@ -724,7 +725,6 @@ public class PlayerAttribut : MonoBehaviour
     public void MovementProjectile()
     {
         int damageProjectile = PlayerStatsManager.playerStatsInstance.damageProjectile;
-        _playerStatsManager.isAttackB = false;
         _playerStatsManager.isDeployB = true;
         p_delay = _playerStatsManager.attackCdB;
 
@@ -1012,7 +1012,9 @@ public class PlayerAttribut : MonoBehaviour
                 Debug.Log(range);
             }
         }
+
     }
+    
 
     private void OnDrawGizmos()
     {
