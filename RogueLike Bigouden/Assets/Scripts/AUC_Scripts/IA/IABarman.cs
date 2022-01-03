@@ -53,6 +53,8 @@ public class IABarman : MonoBehaviour
     public Animator barmanAnimator;
     private bool _isAttack;
     private bool _isWalk;
+    private bool _isAnimAttacking;
+    
     #endregion
 
     // Start is called before the first frame update
@@ -100,8 +102,10 @@ public class IABarman : MonoBehaviour
         if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
             Attacking();
         
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
         Animations(agent);
-        
+
         if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
         {
             _isWalk = false;
@@ -121,7 +125,7 @@ public class IABarman : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(shootPointPos, 0.2f);
+        Gizmos.DrawWireSphere(shootPointPos, 0.4f);
     }
 
     #region PatrollingState
@@ -178,7 +182,6 @@ public class IABarman : MonoBehaviour
 
         if (_isReadyToShoot)
         {
-            _isAttack = true;
             StartCoroutine(Shoot());
         }
         agent.SetDestination(transform.position);
@@ -187,11 +190,11 @@ public class IABarman : MonoBehaviour
     
     private IEnumerator Shoot()
     {
+        _isAttack = _isAnimAttacking = true;
+        
+        
         playerTransform = target.position;
         _isReadyToShoot = false;
-        
-        shootPointPos = (target.position - transform.position);
-        shootPointPos.Normalize();
         
         angularPointBezier = new Vector3((target.position.x + shootPointPos.x) / 2,
             (target.position.y + shootPointPos.y) / 2 + 1.5f, 0);
@@ -200,6 +203,7 @@ public class IABarman : MonoBehaviour
         int cocktailRand = Random.Range(1, 4);
         // 1 = Dmg (+) / 2 = Dmg (-) / 3 = Vie + aux ennemis
 
+        
         var projectile = Instantiate(cocktail, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
         for (int i = 0; i < positions.Length; i++)
         {
@@ -214,6 +218,7 @@ public class IABarman : MonoBehaviour
             projectile.SetActive(false);
         }
 
+        _isAnimAttacking = false;
         _isAttack = false;
         yield return new WaitForSeconds(_delayAttack);
         _isReadyToShoot = true;
@@ -270,18 +275,21 @@ public class IABarman : MonoBehaviour
     {
         if (_isAttack)
         {
+            Debug.Log($"Shootpoint pos :{shootPointPos}");
             barmanAnimator.SetFloat("Horizontal", shootPointPos.x);
             barmanAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
             barmanAnimator.SetBool("isAttack", _isAttack);
             barmanAnimator.SetBool("isWalk", _isWalk);
         }
-        else
+        else if (!_isAnimAttacking)
         {
-            barmanAnimator.SetFloat("Horizontal", agent.velocity.x);
-            barmanAnimator.SetFloat("Vertical", agent.velocity.y);
+            barmanAnimator.SetFloat("Horizontal", target.position.x);
+            barmanAnimator.SetFloat("Vertical", target.position.y);
             barmanAnimator.SetBool("isAttack", _isAttack);
             barmanAnimator.SetBool("isWalk", _isWalk);
+            Debug.Log($"du caca :{shootPointPos}");
         }
+        
         
         Debug.Log("is attack " + _isAttack);           
         Debug.Log("is Walk " + _isWalk);
