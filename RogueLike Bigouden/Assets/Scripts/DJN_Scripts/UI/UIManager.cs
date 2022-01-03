@@ -189,10 +189,11 @@ public class UIManager : MonoBehaviour
 
     public void TryAgain()
     {
-        SceneManager.LoadScene("BAV_HUB_BED");
+        SceneManager.LoadScene("BAV_HUB_BED_RESET");
         Time.timeScale = 1;
         gameOverPanel.SetActive(false);
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
+        LoadManager.LoadManagerInstance.ResetProcedural();
         RefreshUI();
         Debug.Log("Fonkioniert ?");
     }

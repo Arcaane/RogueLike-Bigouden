@@ -109,7 +109,7 @@ public class LoadManager : MonoBehaviour
          }
      }
 
-     private void ResetProcedural()
+     public void ResetProcedural()
      {
          finalList = new List<string>();
          currentRoom = 0;

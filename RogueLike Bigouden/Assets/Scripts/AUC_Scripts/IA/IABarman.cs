@@ -275,7 +275,6 @@ public class IABarman : MonoBehaviour
     {
         if (_isAttack)
         {
-            Debug.Log($"Shootpoint pos :{shootPointPos}");
             barmanAnimator.SetFloat("Horizontal", shootPointPos.x);
             barmanAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
             barmanAnimator.SetBool("isAttack", _isAttack);
@@ -287,7 +286,6 @@ public class IABarman : MonoBehaviour
             barmanAnimator.SetFloat("Vertical", target.position.y);
             barmanAnimator.SetBool("isAttack", _isAttack);
             barmanAnimator.SetBool("isWalk", _isWalk);
-            Debug.Log($"du caca :{shootPointPos}");
         }
         
         
