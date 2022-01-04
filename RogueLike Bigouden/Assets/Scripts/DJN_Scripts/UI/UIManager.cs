@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Player1 HUD")] public GameObject player1UI;
     public Image p1_healthBarImg;
+    public Image p1_backgroundBarImg;
     public TextMeshProUGUI p1_healthText;
     public Image p1_energyBarImage;
 
@@ -187,8 +188,9 @@ public class UIManager : MonoBehaviour
 
             if (i == 0)
             {
-                p1_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
                 p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
+                
+                StartCoroutine(RefreshHealthBar(rlifePoint, rmaxLifePoint));
                 p1_moneyText.text = currentMoney.ToString();
                 p1_moneyText.text = PlayerStatsManager.playerStatsInstance.money.ToString();
             }
@@ -202,6 +204,15 @@ public class UIManager : MonoBehaviour
                 p2_moneyText.text = currentMoney.ToString();
             }
             */
+        }
+
+        IEnumerator RefreshHealthBar(float lifePoint, float maxLifePoint)
+        {
+            
+            p1_healthBarImg.fillAmount = lifePoint / maxLifePoint;
+            yield return new WaitForSeconds(1);
+            p1_backgroundBarImg.fillAmount = lifePoint / maxLifePoint;
+
         }
         
     }

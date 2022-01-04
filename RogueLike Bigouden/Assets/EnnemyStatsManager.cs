@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -205,6 +206,8 @@ public class EnnemyStatsManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         hurt = true;
+        StartCoroutine(HurtColorTint());
+        
         if (shieldPoint > 0)
         {
             shieldPoint -= damage;
@@ -217,11 +220,18 @@ public class EnnemyStatsManager : MonoBehaviour
             lifePoint -= damage;
             PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
         }
-        
+
         ShowFloatingText(lifePoint);
         
         if (lifePoint <= 0)
             Death();
+    }
+    
+    IEnumerator HurtColorTint()
+    {
+        GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
     }
 
     private void Death()

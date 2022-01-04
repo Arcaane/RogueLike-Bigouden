@@ -44,7 +44,7 @@ public class PaternTimer : MonoBehaviour
     {
         currentTimerFS = timerFS;
         backupTimerFS = timerFS;
-        
+        ScoreManager.instance.timerStart = true;
         _bossEventManager = GetComponent<BossEventManager>();
         _bossStatsManager = FindObjectOfType<BossStatsManager>();
         _cinematicBoss = FindObjectOfType<CinematicBoss>();

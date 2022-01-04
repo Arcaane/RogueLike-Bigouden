@@ -322,6 +322,10 @@ public class PlayerStatsManager : MonoBehaviour
         if (playerStatsInstance != null && playerStatsInstance != this)
             Destroy(gameObject);
         playerStatsInstance = this;
+        
+        
+        timerInvincibility = invincibilityDuration;
+
     }
 
 
@@ -336,13 +340,11 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (loadInvincibilty)
         {
-            timerInvincibility = invincibilityDuration;
-            
             isInvincible = true;
             
-            if (timerInvincibility > 0 && isInvincible)
+            if (timerInvincibility > 0)
             {
-                timerInvincibility -= Time.deltaTime;
+                timerInvincibility -= Time.deltaTime * 1;
             }
 
             if (timerInvincibility <= 0)
@@ -459,7 +461,7 @@ public class PlayerStatsManager : MonoBehaviour
     IEnumerator HurtColorTint()
     {
         GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
     }
 
