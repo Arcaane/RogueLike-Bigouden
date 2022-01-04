@@ -282,6 +282,8 @@ public class PlayerStatsManager : MonoBehaviour
     public float dashCooldown;
     public float ultDuration;
     public float bonusSpeed;
+    public float invincibilityDuration;
+    public float timerInvincibility;
 
     // Vectors 2
     public Vector2 firstAttackReset;
@@ -302,6 +304,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool onButter;
     public bool getHurt;
     public bool isInvincible;
+    public bool loadInvincibilty;
 
     // Others
     public GameObject FloatingTextPrefab;
@@ -325,7 +328,31 @@ public class PlayerStatsManager : MonoBehaviour
     {
         ResetPlayerStats();
     }
-    
+
+    private void Update()
+    {
+        #region TIMER INVICIBILTY
+
+        if (loadInvincibilty)
+        {
+            isInvincible = true;
+            
+            if (timerInvincibility > 0 && isInvincible)
+            {
+                timerInvincibility -= Time.deltaTime;
+            }
+
+            if (timerInvincibility <= 0)
+            {
+                isInvincible = false;
+                timerInvincibility = invincibilityDuration;
+            }
+        }
+
+        #endregion
+        
+    }
+
     public void ResetPlayerStats()
     {
         // Set int
@@ -389,8 +416,7 @@ public class PlayerStatsManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (!isInvincible) 
-        { 
-            
+        {
             UIManager.instance.playerAnimation.Play("hurt");
 
         if (shieldPoint > 0)
@@ -406,6 +432,8 @@ public class PlayerStatsManager : MonoBehaviour
         ShowFloatingText(damage);
         UIManager.instance.RefreshUI();
 
+        loadInvincibilty = true;
+        
         if (lifePoint <= 0)
             Death();
         
