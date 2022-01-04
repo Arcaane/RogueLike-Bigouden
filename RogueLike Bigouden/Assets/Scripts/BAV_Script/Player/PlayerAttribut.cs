@@ -745,7 +745,6 @@ public class PlayerAttribut : MonoBehaviour
     {
         _playerStatsManager.isAttackB = false;
         _playerStatsManager.isDeployB = false;
-        Debug.Log("pls sir");
         p_delay -= Time.deltaTime;
         if (p_delay <= 0)
         {
