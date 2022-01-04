@@ -171,7 +171,7 @@ public class PlayerAttribut : MonoBehaviour
     //Vector3
     //Permet de relier ces vecteurs au Joystick dans le InputHandler.
     Vector2 movementInput, lookAxis;
-    Vector3 _lastPosition;
+    public Vector3 _lastPosition;
     Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
     [SerializeField] Vector3 _look;
@@ -751,7 +751,6 @@ public class PlayerAttribut : MonoBehaviour
     {
         _playerStatsManager.isAttackB = false;
         _playerStatsManager.isDeployB = false;
-        Debug.Log("pls sir");
         p_delay -= Time.deltaTime;
         if (p_delay <= 0)
         {

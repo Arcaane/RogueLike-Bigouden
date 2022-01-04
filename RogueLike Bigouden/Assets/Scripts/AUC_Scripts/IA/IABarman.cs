@@ -287,11 +287,6 @@ public class IABarman : MonoBehaviour
             barmanAnimator.SetBool("isAttack", _isAttack);
             barmanAnimator.SetBool("isWalk", _isWalk);
         }
-        
-        
-        Debug.Log("is attack " + _isAttack);           
-        Debug.Log("is Walk " + _isWalk);
-        
     }
     #endregion
 }
