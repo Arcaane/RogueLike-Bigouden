@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
-
+    [SerializeField] PlayerAttribut playerAttribut;
+    
     #region Player Variable Assignation
 
     private string name
@@ -316,6 +317,7 @@ public class PlayerStatsManager : MonoBehaviour
     private void Start()
     {
         ResetPlayerStats();
+        playerAttribut = GetComponent<PlayerAttribut>();
     }
 
     #region Functions
@@ -368,11 +370,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void EarnUltPoint(bool isKill)
     {
-        if (isKill)
-            actualUltPoint += ultPointToAddPerKill;
-        else
-            actualUltPoint += ultPointToAddPerHit;
-
+        if (!playerAttribut.isUlting || !playerAttribut.isUltingAnim)
+        {
+            if (isKill)
+                actualUltPoint += ultPointToAddPerKill;
+            else
+                actualUltPoint += ultPointToAddPerHit;
+        }
+        
         if (actualUltPoint > 100)
         {
             actualUltPoint = 100;

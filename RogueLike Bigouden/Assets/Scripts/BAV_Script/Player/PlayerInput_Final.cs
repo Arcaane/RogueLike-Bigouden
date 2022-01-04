@@ -649,7 +649,7 @@ public class PlayerInput_Final : MonoBehaviour
 
             if (_RightPress_IsUlt)
             {
-                playerAttribut.LaunchUltimate();
+                StartCoroutine(playerAttribut.LaunchUltimate());
             }
         }
 

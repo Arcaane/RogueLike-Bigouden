@@ -44,7 +44,6 @@ public class BulletForUlt : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ennemy"))
         {
-            //other.gameObject.GetComponent<MannequinStatsManager>().TakeDamage(damageDealt);
             other.gameObject.GetComponent<EnnemyStatsManager>().TakeDamage(damageDealt);
         }
     }

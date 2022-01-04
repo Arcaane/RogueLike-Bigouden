@@ -113,7 +113,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float ultDuration;
 
     //bool--------------------
-    [SerializeField] private bool isUlting;
+    [SerializeField] public bool isUlting;
+    [SerializeField] public bool isUltingAnim;
 
     [Header("Boolean pour dialogue et Item")] [SerializeField]
     public bool canTakeItem;
@@ -259,6 +260,7 @@ public class PlayerAttribut : MonoBehaviour
         if (isUlting)
         {
             UltimateDelay();
+            UIManager.instance.RefreshUI();
         }
 
 
@@ -348,7 +350,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (!isUlting)
+        if (!isUltingAnim)
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
@@ -377,8 +379,6 @@ public class PlayerAttribut : MonoBehaviour
         else if (_playerStatsManager.isAttackSecondX && !_playerStatsManager.isAttackFirstX)
 
         {
-            SetJoystickValue(moving);
-            SetAttackValue(attackX2: true);
             attackPath.launchSecondAttack = true;
         }
         else if (_playerStatsManager.readyToAttackB && isCastingTime)
@@ -391,13 +391,17 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(attackB_Launch: true);
         }
+        else if (isUltingAnim)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(ultimateAction: true);
+        }
         /*else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
             SetAttackValue(attack3: true);
         }
         */
-
         else
         {
             SetAttackValue();
@@ -428,11 +432,14 @@ public class PlayerAttribut : MonoBehaviour
             animatorPlayer.SetBool("AttackY", attackY1);
             animatorPlayer.SetBool("AimAttackB", attackB_Aim);
             animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
+            animatorPlayer.SetBool("isUltimate", ultimateAction);
         }
         //animatorPlayer.SetBool("AttackY", ultimateDeploy);
         //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
+    
+    
     #endregion AnimatorProcess
 
     void Attack(bool look)
@@ -486,7 +493,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
 
-        if (_playerStatsManager.readyToDash && !isUlting)
+        if (_playerStatsManager.readyToDash && !isUltingAnim)
         {
             StartDash();
         }
@@ -757,10 +764,15 @@ public class PlayerAttribut : MonoBehaviour
     #region Ultimate
 
     //Launch the function to activate Ultimate
-    public void LaunchUltimate()
+    public IEnumerator LaunchUltimate()
     {
-        isUlting = true;
-        ultBulletSpawner.SetActive(true);
+        if (_playerStatsManager.actualUltPoint > 10)
+        {
+            isUltingAnim = true;
+            yield return new WaitForSeconds(1.250f);
+            isUlting = true;
+            ultBulletSpawner.SetActive(true);
+        }
     }
 
     //Ultimate Delay when he is Activate.
@@ -772,13 +784,14 @@ public class PlayerAttribut : MonoBehaviour
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += _timeManager.CustomDeltaTimePlayer;
 
-            movementInput = Vector2.zero;
+            _playerStatsManager.movementSpeed = 0f;
 
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
-                isUlting = false;
+                isUlting = isUltingAnim = false;
+                _playerStatsManager.movementSpeed = 4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
@@ -790,17 +803,12 @@ public class PlayerAttribut : MonoBehaviour
             {
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
-                isUlting = false;
+                isUlting = isUltingAnim = false;
+                _playerStatsManager.movementSpeed = 4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
     }
-
-    //Capacity bar of the Ultimate.
-    public void UltimateBar()
-    {
-    }
-
     #endregion
 
     #region CameraController
