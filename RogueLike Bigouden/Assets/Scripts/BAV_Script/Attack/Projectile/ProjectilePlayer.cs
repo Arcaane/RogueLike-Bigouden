@@ -62,6 +62,7 @@ public class ProjectilePlayer : MonoBehaviour
     private void ProjectileStop()
     {
         rb.velocity = Vector2.zero;
+        PlayerStatsManager.playerStatsInstance.isAttackB = false;
         isDeploy = true;
         Debug.Log(isDeploy);
     }
@@ -71,6 +72,7 @@ public class ProjectilePlayer : MonoBehaviour
         if (!isDeploy)
         {
             animator.SetBool("isRotate", true);
+            PlayerStatsManager.playerStatsInstance.isAttackB = true;
         }
         else
         {

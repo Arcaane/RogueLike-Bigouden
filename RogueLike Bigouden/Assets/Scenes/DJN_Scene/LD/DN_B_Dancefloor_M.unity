@@ -734,6 +734,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8212834822161053194, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
   m_PrefabInstance: {fileID: 203218860}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &203218862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8212834821559697607, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
+  m_PrefabInstance: {fileID: 203218860}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &204772734
 GameObject:
   m_ObjectHideFlags: 0
@@ -5875,6 +5880,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
+--- !u!1 &540512422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8212834821559697607, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
+  m_PrefabInstance: {fileID: 540512421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &542344089
 GameObject:
   m_ObjectHideFlags: 0
@@ -10294,6 +10304,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8212834822161053194, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
   m_PrefabInstance: {fileID: 866434495}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &866434497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8212834821559697607, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
+  m_PrefabInstance: {fileID: 866434495}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &875460020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13963,6 +13978,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8212834822161053194, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
   m_PrefabInstance: {fileID: 1400211954}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1400211956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8212834821559697607, guid: f89d98ee07e936243a896443511d8d3b, type: 3}
+  m_PrefabInstance: {fileID: 1400211954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1428755892
 GameObject:
   m_ObjectHideFlags: 0
@@ -14014,9 +14034,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _waveManager: {fileID: 756726760}
-  LightsObj: []
-  DoorLight: {fileID: 0}
-  volume: {fileID: 0}
+  LightsObj:
+  - {fileID: 1400211956}
+  - {fileID: 203218862}
+  - {fileID: 866434497}
+  - {fileID: 540512422}
+  volume: {fileID: 2201296396243046489}
   enemyList: []
 --- !u!114 &1428755895
 MonoBehaviour:

@@ -17,7 +17,6 @@ public class RoomLoader : MonoBehaviour
 
     private bool isDoorOpen;
     public List<GameObject> LightsObj;
-    public GameObject DoorLight;
     // PostProcess
     public Volume volume;
     private Bloom bloom;

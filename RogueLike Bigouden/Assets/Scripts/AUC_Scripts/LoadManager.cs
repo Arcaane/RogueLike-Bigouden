@@ -27,12 +27,14 @@ public class LoadManager : MonoBehaviour
     public float mediumRoomApparitionValue = 2;
     public float largeRoomApparitionValue = 1;
     
+    /*
     [Space(10)]
     [Header("Apparition Value Multiplicator")]
     [SerializeField] public float smallRoomMultiplicator;
     [SerializeField] private float mediumRoomMultiplicator;
     [SerializeField] private float largeRoomMultiplicator;
     public float multiplicatorSizeIndicator = 4f;
+    */
     
     private bool isLevel1; // Level 1 == t / Level 2 == f
 
@@ -107,9 +109,9 @@ public class LoadManager : MonoBehaviour
          finalList = new List<string>();
          currentRoom = 0;
          
-         smallRoomApparitionValue = 7;
-         mediumRoomApparitionValue = 2;
-         largeRoomApparitionValue = 1;
+         smallRoomApparitionValue = 5;
+         mediumRoomApparitionValue = 2.5f;
+         smallRoomApparitionValue = 2.5f;
          shopApparitionValue = 0;
          
          smallRoomCounter = 0;
@@ -134,20 +136,14 @@ public class LoadManager : MonoBehaviour
          if (finalList.Count == RoomLevel1BeforeBoss)
          {
              if (shopApparitionValue != 0)
-             {
+             {  
                  finalList.Add(storeRoom[0]);
              }
 
              finalList.Add(bossRoom[0]);
              isLevel1 = false;
-             
-             smallRoomApparitionValue = 5;
-             mediumRoomApparitionValue = 2.5f;
-             smallRoomApparitionValue = 2.5f;
-
          }
          else if (finalList.Count != RoomLevel1BeforeBoss && finalList.Count > 0)
-          // Add une salle normalement selon l'algo. La vache j'ai cho
          {
              LaMoulinette(smallRoomApparitionValue, mediumRoomApparitionValue, largeRoomApparitionValue);
          }
@@ -165,7 +161,6 @@ public class LoadManager : MonoBehaviour
              finalList.Add(bossRoom[1]);
          }
          else if (finalList.Count != RoomLevel2BeforeBoss && finalList.Count > 0)
-             // Add une salle normalement selon l'algo. La vache j'ai cho
          {
              LaMoulinette(smallRoomApparitionValue, mediumRoomApparitionValue, largeRoomApparitionValue);
          }
@@ -186,7 +181,7 @@ public class LoadManager : MonoBehaviour
              else
                  AddRoomLevel2();
 
-             if (i == 4 || i == 14)
+             if (i == 5 || i == 14)
              {
                  shopApparitionValue = 3;
                  Debug.Log("Shop apparition value : " + shopApparitionValue);
@@ -198,21 +193,16 @@ public class LoadManager : MonoBehaviour
             Debug.Log(rAllCharacter);
             char rLastCharacter = rAllCharacter[rAllCharacter.Length - 1];
             
-            
             if (rLastCharacter == 'S') // Si Petite Salle tirée
             {
                 smallRoomCounter++;
                 Debug.Log("Last Letter : S");
-                // Valeur Apparition Salle Petite
-                //smallRoomApparitionValue *= smallRoomMultiplicator;     // TRY
                 smallRoomApparitionValue --;    
              
                 // Valeur Apparition Salle Moyenne
-                //mediumRoomApparitionValue /= mediumRoomMultiplicator;   // TRY
                 mediumRoomApparitionValue += 0.75f;
                 
                 // Valeur Apparition Salle Grande
-                //largeRoomApparitionValue *= largeRoomMultiplicator;     // TRY
                 largeRoomApparitionValue += 0.25f;
             }
             else if (rLastCharacter == 'M') // Si moyenne salle tirée 
@@ -220,15 +210,12 @@ public class LoadManager : MonoBehaviour
                 mediumRoomCounter++;
                 Debug.Log("Last Letter : M");
                 // Valeur Apparition Salle Petite
-                // smallRoomApparitionValue /= smallRoomMultiplicator;     // TRY
                 smallRoomApparitionValue += 0.5f;
              
                 // Valeur Apparition Salle Moyenne
-                // mediumRoomApparitionValue *= mediumRoomMultiplicator;     // TRY
                 mediumRoomApparitionValue --;
              
                 // Valeur Apparition Salle Grande
-                // largeRoomApparitionValue *= largeRoomMultiplicator;     // TRY
                 largeRoomApparitionValue += 0.5f;
             }
             else if(rLastCharacter == 'L') // Si grande salle tirée
@@ -236,15 +223,12 @@ public class LoadManager : MonoBehaviour
                 largeRoomCounter++;
                 Debug.Log("Last Letter : L");
                 // Valeur Apparition Salle Petite
-                //smallRoomApparitionValue /= smallRoomMultiplicator;      // TRY
                 smallRoomApparitionValue += 0.25f;
              
                 // Valeur Apparition Salle Moyenne
-                //mediumRoomApparitionValue /= mediumRoomMultiplicator;    // TRY
                 mediumRoomApparitionValue += 0.75f;
              
                 // Valeur Apparition Salle Grande
-                //largeRoomApparitionValue /= largeRoomMultiplicator;      // TRY
                 largeRoomApparitionValue --;
             }
             else if (finalList[finalList.Count - 1] == "Store")
