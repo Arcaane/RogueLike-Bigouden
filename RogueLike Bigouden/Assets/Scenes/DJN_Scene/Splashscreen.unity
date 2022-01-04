@@ -339,7 +339,6 @@ GameObject:
   - component: {fileID: 736436014}
   - component: {fileID: 736436013}
   - component: {fileID: 736436017}
-  - component: {fileID: 736436018}
   m_Layer: 5
   m_Name: SplashScreen
   m_TagString: Untagged
@@ -451,21 +450,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &736436018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736436012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff934d2a6092c644a0f2e4ad1841111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyRight: {fileID: 0}
-  enemyBotLeft: {fileID: 0}
-  enemyTopLeft: {fileID: 0}
 --- !u!1 &940907506
 GameObject:
   m_ObjectHideFlags: 0
