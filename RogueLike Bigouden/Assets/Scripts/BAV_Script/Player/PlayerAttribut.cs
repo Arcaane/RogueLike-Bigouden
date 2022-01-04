@@ -348,7 +348,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (!isUlting)
+        if (!isUlting && !CinematicBoss.instance.isCinematic)
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
@@ -959,6 +959,7 @@ public class PlayerAttribut : MonoBehaviour
             _dialogueManager.selectDialogue =
                 _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
             var ui = FindObjectOfType<UIManager>();
+            ui.dialogueText.text = String.Empty;
             isTalking = true;
             ui.dialogueBox.SetActive(true);
             ui.dialogueText.DOText(_dialogueManager.selectDialogue.dialogueLine[0], 0.2f, false);

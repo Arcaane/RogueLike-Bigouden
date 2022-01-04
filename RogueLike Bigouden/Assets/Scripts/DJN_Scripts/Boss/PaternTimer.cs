@@ -28,23 +28,51 @@ public class PaternTimer : MonoBehaviour
     private BossStatsManager _bossStatsManager;
     private CinematicBoss _cinematicBoss;
     public GameObject waveSpawner;
+
+    [Header("P1")] 
+    public float timerFS;
+    private float currentTimerFS;
+    
+    [Header("P2")] 
+    public GameObject RotationTurret;
+    public Animator RotationTurretAnimator;
+
+    [Header("TEST")] public GameObject player;
     
     // Start is called before the first frame update
     void Start()
     {
+        currentTimerFS = timerFS;
+        
         _bossEventManager = GetComponent<BossEventManager>();
         _bossStatsManager = FindObjectOfType<BossStatsManager>();
         _cinematicBoss = FindObjectOfType<CinematicBoss>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_cinematicBoss.isCinematic)
+        if (player)
         {
-            TimersPhases();
-            EventPhases();
+            if (!_cinematicBoss.isCinematic)
+            {
+                if (!_cinematicBoss.startEnded)
+                {
+                    _cinematicBoss.StartCoroutine(_cinematicBoss.StartCinematic());
+                }
+                else
+                {
+                    TimersPhases();
+                    EventPhases();
+                }
+            }
         }
+        else
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        
     }
 
     private void TimersPhases()
@@ -77,18 +105,28 @@ public class PaternTimer : MonoBehaviour
         //When the global timer is higher than the phase 1 total lenght and pillars aren't destroyed, load a enrage phase.
         if (globalTimer >= P1Lenght * loop && _bossEventManager.pillars.Count > 0)
         {
-            //LoadEnrage
+            timerFS = 0;
         }
 
         if (_bossEventManager.pillars.Count <= 0)
         {
-            //There is a cinematic transition
-            phase2 = true;
-            loopCount = 0;
+            if (!_cinematicBoss.transiEnded)
+            {             
+                _cinematicBoss.StartCoroutine(_cinematicBoss.TransitionCinematic());
+            }
+            
+            else
+            {
+                phase2 = true;
+                loopCount = 0;
+            }
         }
 
         if (phase2)
         {
+           RotationTurret.SetActive(true);
+            //RotationTurretAnimator.Play("Open");
+            
             if (timerP2 >= P2Lenght)
             {
                 timerP2 = 0;
@@ -97,23 +135,38 @@ public class PaternTimer : MonoBehaviour
 
             if (globalTimer >= (P1Lenght + P2Lenght) * loop && _bossEventManager.pillars.Count > 0)
             {
-                //LoadEnrage
+                timerFS = 0;
             }
 
             if (_bossStatsManager.isDead) //If boss is dead, it's win.
             {
-                //There is a cinematic victory
-                _cinematicBoss.StartCoroutine(_cinematicBoss.EndCinematic());
-                Debug.Log("Fight is over");
+                if (!_cinematicBoss.endEnded)
+                {
+                    _cinematicBoss.StartCoroutine(_cinematicBoss.EndCinematic());
+                }
+                else
+                {
+                    Debug.Log("Fight is over");
+                }
             }
         }
 
         #endregion
        
+        
     }
 
     private void EventPhases()
     {
+        if (currentTimerFS > 0)
+        {
+            currentTimerFS -= Time.deltaTime;
+        }
+        else if (currentTimerFS <= 0)
+        {
+            currentTimerFS = timerFS;
+            LoadFS(1);
+        } 
         
         #region Phase1
         
@@ -252,6 +305,10 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(0);
                                 break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(0);
+                                break;
                         }
 
                         break;
@@ -265,6 +322,10 @@ public class PaternTimer : MonoBehaviour
 
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(1);
+                                break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(1);
                                 break;
                         }
 
@@ -280,6 +341,10 @@ public class PaternTimer : MonoBehaviour
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(2);
                                 break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(2);
+                                break;
                         }
 
                         break;
@@ -293,6 +358,10 @@ public class PaternTimer : MonoBehaviour
 
                             case Timer.BossParterns.FlameStrike:
                                 LoadFS(3);
+                                break;
+                            
+                            case Timer.BossParterns.RotationLaser:
+                                LoadRotationBeam(3);
                                 break;
                         }
 

@@ -34,6 +34,8 @@ public class ApplyAttack : MonoBehaviour
 
         PillarsStatsManager objPillar = objTrigger.GetComponent<PillarsStatsManager>();
 
+        BossStatsManager objBoss = objTrigger.GetComponent<BossStatsManager>();
+        
         //Mannequin and Ennemy
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Ennemy"))
         {
@@ -102,9 +104,22 @@ public class ApplyAttack : MonoBehaviour
         {
             objProps.TakeDamagePilarDestruction(1);
         }
+        
 
-        /*
-        if (objTrigger.CompareTag("Pillier") && PlayerStatsManager.playerStatsInstance.isAttackingX)
+        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Destructible"))
+        {
+            Destroy(trigger2D.gameObject);
+            NavMeshUpdater.instance.UpdateSurface();
+        }
+
+        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Projectile"))
+        {
+            trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity =
+                - trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity;
+        }
+        
+        //Boss
+        if (objTrigger.CompareTag("Pillier") && _projectilePath.isAttacking)
         {
             if (_projectilePath.launchFirstAttack)
             {
@@ -121,18 +136,23 @@ public class ApplyAttack : MonoBehaviour
                 objPillar.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
             }
         }
-        */
 
-        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Destructible"))
+        if (objTrigger.CompareTag("Boss") && _projectilePath.isAttacking)
         {
-            Destroy(trigger2D.gameObject);
-            NavMeshUpdater.instance.UpdateSurface();
-        }
+            if (_projectilePath.launchFirstAttack)
+            {
+                objBoss.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
+            }
 
-        if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Projectile"))
-        {
-            trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity =
-                - trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity;
+            if (_projectilePath.launchSecondAttack)
+            {
+                objBoss.TakeDamage(PlayerStatsManager.playerStatsInstance.damageSecondX);
+            }
+
+            if (_projectilePath.launchAttackY)
+            {
+                objBoss.TakeDamage(PlayerStatsManager.playerStatsInstance.damageY);
+            }
         }
     }
     
