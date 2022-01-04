@@ -546,6 +546,7 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         _playerStatsManager.isDashing = true;
+        _playerStatsManager.isInvincible = true;
         yield return new WaitForSeconds(_playerStatsManager.dashDuration / 2);
         if (useVibration)
         {
@@ -556,6 +557,7 @@ public class PlayerAttribut : MonoBehaviour
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
         _playerStatsManager.isDashing = false;
+        _playerStatsManager.isInvincible = false;
     }
 
     public void DashTP(float speed)

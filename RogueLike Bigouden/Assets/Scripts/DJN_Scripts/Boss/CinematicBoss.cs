@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CinematicBoss : MonoBehaviour
 {
@@ -24,21 +22,20 @@ public class CinematicBoss : MonoBehaviour
 
     [Header("Tansition Cinematic")]
     public DialogueSO transitionCinematicDialogue;
-
-    public bool transiEnded;
+    [HideInInspector] public bool transiEnded;
 
     [Header("End Cinematic")] 
     public DialogueSO endCinematicDialogue;
+    [HideInInspector] public bool endEnded;
 
-    public bool endEnded;
-
-    public bool sceneEnded;
     void Start()
     {
+        #region Instance
         if (instance != null && instance != this)
             Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
 
         instance = this;
+        #endregion
         
         _uiManager = FindObjectOfType<UIManager>();
        
@@ -46,48 +43,33 @@ public class CinematicBoss : MonoBehaviour
 
     public IEnumerator StartCinematic()
     {
-        
-       
-        
         isCinematic = true;
-        //SCENE LOAD, PLAYER CAN'T CONTROLL THE CHARACTER
+        PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        //PLAYER DO MOVE TO THE FRONT OF THE STAGE
         playerLocation.DOMove(stageFrontLocation.position, speed);
-        //WHEN HE'S ON THE POINT, DIALOGUE BOSS START
         yield return new WaitForSeconds(speed);
         StartCoroutine(LoadDialogue(startCinematicDialogue));
-        //AT THE END OF DIALOGUE, FEW SECONDS AND THE PLAYER IS ALLOW TO MOVE BY HIS OWN
 
     }
 
     public IEnumerator TransitionCinematic()
     {
         isCinematic = true;
-        //WHEN P1 IS OVER, ENTER THE TRANSITION PHASE = CINEMATIC
-        //PLAYER CAN'T CONTROLL THE CHARACTER AND A BOSS DIALOGUE STRAT
+        PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        //PLAYER DO MOVE TO THE FRONT OF THE STAGE
         playerLocation.DOMove(stageFrontLocation.position, speed);
-        //WHEN HE'S ON THE POINT, DIALOGUE BOSS START
         yield return new WaitForSeconds(speed);
         StartCoroutine(LoadDialogue(transitionCinematicDialogue));
-        //DIALOGUE LINES SKIP AFTER A TIME IN SECONDS
-        //AT THE END OF DIALOGUE, FEW SECONDS AND THE PLAYER IS ALLOW TO MOVE BY HIS OWN
     }
 
     public IEnumerator EndCinematic()
     {
         isCinematic = true;
-        //WHEN THE BOSS IS DOWN, PLAYER LOSE CONTROL OF THE CHARACTER AND DIALOGUE LOAD
+        PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        //PLAYER DO MOVE TO THE FRONT OF THE STAGE
         playerLocation.DOMove(stageFrontLocation.position, speed);
-        //WHEN HE'S ON THE POINT, DIALOGUE BOSS START
         yield return new WaitForSeconds(speed);
         StartCoroutine(LoadDialogue(endCinematicDialogue));
-        //DIALOGUE LINES SKIP AFTER A TIME IN SECONDS
-        //AT THE END OF DIALOGUE, SCREEN FADE TO BLACK AND LOAD SCENE CREDITS_END
     }
  
     IEnumerator LoadDialogue(DialogueSO dialogueSelect)
@@ -106,9 +88,9 @@ public class CinematicBoss : MonoBehaviour
             _uiManager.dialogueText.text = String.Empty;
             _uiManager.dialogueBox.SetActive(false);
             i = 0;
-            sceneEnded = true;
             isCinematic = false;
-
+            PlayerStatsManager.playerStatsInstance.isInvincible = false;
+            
             if (dialogueSelect == startCinematicDialogue)
             {
                 startEnded = true;
@@ -123,6 +105,7 @@ public class CinematicBoss : MonoBehaviour
             {
                 endEnded = true;
             }
+            
             StopCoroutine(LoadDialogue(dialogueSelect));
         }
     }

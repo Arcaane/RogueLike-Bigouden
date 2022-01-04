@@ -301,6 +301,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool readyToDash;
     public bool onButter;
     public bool getHurt;
+    public bool isInvincible;
 
     // Others
     public GameObject FloatingTextPrefab;
@@ -387,9 +388,11 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        UIManager.instance.playerAnimation.Play("hurt");
-        //if (!isDashing)
-        //{
+        if (!isInvincible) 
+        { 
+            
+            UIManager.instance.playerAnimation.Play("hurt");
+
         if (shieldPoint > 0)
         {
             shieldPoint -= damage;
@@ -405,7 +408,9 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (lifePoint <= 0)
             Death();
-        //}
+        
+        
+        }
 
     }
     
