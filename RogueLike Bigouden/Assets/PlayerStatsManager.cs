@@ -228,6 +228,13 @@ public class PlayerStatsManager : MonoBehaviour
         set { playerData.isAttackBSO = isAttackBSO; }
     }
 
+    private bool isDeployBSO
+    {
+        get { return playerData.isDeployBSO; }
+        set { playerData.isDeployBSO = isDeployBSO; }
+
+    }
+
     private bool isDashingSO
     {
         get { return playerData.isDashingSO; }
@@ -289,6 +296,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isAttackingY;
     public bool readyToAttackB;
     public bool isAttackB;
+    public bool isDeployB;
     public bool isDashing;
     public bool readyToDash;
     public bool onButter;
@@ -313,6 +321,11 @@ public class PlayerStatsManager : MonoBehaviour
 
 
     private void Start()
+    {
+        ResetPlayerStats();
+    }
+    
+    public void ResetPlayerStats()
     {
         // Set int
         actualUltPoint = actualUltPointSO;
@@ -357,6 +370,7 @@ public class PlayerStatsManager : MonoBehaviour
         isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
         readyToAttackB = true; // Peut utiliser l'attaque projectile
         isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
+        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;
@@ -367,6 +381,7 @@ public class PlayerStatsManager : MonoBehaviour
         HurtDamagescreen.SetActive(false);
         getHurt = false;
     }
+
 
     #region Functions
 
