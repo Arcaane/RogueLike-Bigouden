@@ -29,6 +29,8 @@ public class PaternTimer : MonoBehaviour
 
     [Header("P1")] 
     public float timerFS;
+
+    private float backupTimerFS;
     private float currentTimerFS;
     
     [Header("P2")] 
@@ -41,16 +43,18 @@ public class PaternTimer : MonoBehaviour
     void Start()
     {
         currentTimerFS = timerFS;
+        backupTimerFS = timerFS;
         
         _bossEventManager = GetComponent<BossEventManager>();
         _bossStatsManager = FindObjectOfType<BossStatsManager>();
         _cinematicBoss = FindObjectOfType<CinematicBoss>();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        #region SETUP
+
         if (player)
         {
             if (!_cinematicBoss.isCinematic)
@@ -70,7 +74,8 @@ public class PaternTimer : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
-        
+
+        #endregion
     }
 
     private void TimersPhases()
@@ -94,12 +99,14 @@ public class PaternTimer : MonoBehaviour
 
         #region Phases Transitions
 
+        #region P1
+        
         if (timerP1 >= P1Lenght)
         {
             timerP1 = 0;
             loopCount++;
         }
-
+        
         //When the global timer is higher than the phase 1 total lenght and pillars aren't destroyed, load a enrage phase.
         if (globalTimer >= P1Lenght * loop && _bossEventManager.pillars.Count > 0)
         {
@@ -108,6 +115,8 @@ public class PaternTimer : MonoBehaviour
 
         if (_bossEventManager.pillars.Count <= 0)
         {
+            timerFS = backupTimerFS;
+            
             if (!_cinematicBoss.transiEnded)
             {             
                 _cinematicBoss.StartCoroutine(_cinematicBoss.TransitionCinematic());
@@ -119,10 +128,15 @@ public class PaternTimer : MonoBehaviour
                 loopCount = 0;
             }
         }
+        
+
+        #endregion
+
+        #region P2
 
         if (phase2)
         {
-           RotationTurret.SetActive(true);
+            RotationTurret.SetActive(true);
             //RotationTurretAnimator.Play("Open");
             
             if (timerP2 >= P2Lenght)
@@ -150,8 +164,9 @@ public class PaternTimer : MonoBehaviour
         }
 
         #endregion
-       
         
+
+        #endregion
     }
 
     private void EventPhases()
