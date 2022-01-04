@@ -7937,6 +7937,56 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6386744537322031146, guid: 90f4d91a9ef0a38488c15fe8173dc77e, type: 3}
   m_PrefabInstance: {fileID: 1144305132}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1428308039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1428308041}
+  - component: {fileID: 1428308040}
+  m_Layer: 0
+  m_Name: ImmersiveDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1428308040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428308039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2c0aff46fd1eb4f9521d82106175ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogues:
+  - {fileID: 11400000, guid: 97ced1794290885429098c66e9bebd45, type: 2}
+  - {fileID: 11400000, guid: 22dd69c086e2a94499731ca1a831fee9, type: 2}
+  dialogueSelect: {fileID: 0}
+  timeToDraw: 10
+  drawSpeed: 0.58
+  timeToScreen: 3
+--- !u!4 &1428308041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428308039}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960.00006, y: 156.00002, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1432479656
 GameObject:
   m_ObjectHideFlags: 0

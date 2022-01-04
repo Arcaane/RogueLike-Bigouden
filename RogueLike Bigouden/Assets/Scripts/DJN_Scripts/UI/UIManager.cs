@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
 
     [Header("DialogueBox")] public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI immersiveDialogue;
 
     [Header("Common UI")] 
     public GameObject itemInformationPanel;
