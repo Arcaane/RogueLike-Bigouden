@@ -376,9 +376,10 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(true);
         }
-        else if (_playerStatsManager.isAttackSecondX && !_playerStatsManager.isAttackFirstX)
-
+        else if (_playerStatsManager.isAttackSecondX )
         {
+            SetJoystickValue(moving);
+            SetAttackValue(attackX2:true);
             attackPath.launchSecondAttack = true;
         }
         else if (_playerStatsManager.readyToAttackB && isCastingTime)
