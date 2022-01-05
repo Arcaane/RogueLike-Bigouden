@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Beam
-  m_Shader: {fileID: -6465566751694194690, guid: 4cadf7d7457a3114e8bb7f596466be07, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: ee5853fb13b4d7b469ac9091fc1be766, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -54,6 +54,7 @@ Material:
     m_Floats:
     - Vector1_fa2fd5bd859c47d1aa1147bb3f8cb35c: 0
     - _Contrast: 1
+    - _DiffuseIntensity: 1
     - _EnableExternalAlpha: 0
     - _Intensity: 0
     - _NormalAmount: 1
@@ -61,7 +62,7 @@ Material:
     - Color_9dd39ee5a6d448f29f991ac48d163d25: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.0007314645, g: 0.0007314645, b: 0.0007314645, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
