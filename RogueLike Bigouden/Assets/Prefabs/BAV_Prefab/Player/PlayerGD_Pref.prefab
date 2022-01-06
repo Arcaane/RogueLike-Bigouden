@@ -669,7 +669,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 143024
+  m_InstanceId: 42530
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,7 +980,7 @@ MonoBehaviour:
   _X_isProjectile: 0
   buttonYValue: 0
   _Y_isDash: 0
-  _Y_isAttack: 0
+  _Y_isAttack: 1
   _Y_isProjectile: 0
   startButtonValue: 0
   selectButtonValue: 0
@@ -1046,6 +1046,9 @@ MonoBehaviour:
   spriteRendererFrame: {fileID: 8624704071328394346}
   perfectFrameColor: {r: 0.9433962, g: 0.865091, b: 0.15574935, a: 1}
   splinePivot: {fileID: 1578338303392233273}
+  isEnnemy:
+    serializedVersion: 2
+    m_Bits: 512
   attackSpline: {fileID: 4229443248142410407}
   attackPath: {fileID: 6630323540485487898}
   pointAttackY: {fileID: 0}
