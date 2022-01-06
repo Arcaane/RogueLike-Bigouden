@@ -140,7 +140,7 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
 
-    [SerializeField] private Animator animatorPlayer;
+    [SerializeField] public Animator animatorPlayer;
 
 
     [Header("FeedBack (Vibrations, etc)")]
