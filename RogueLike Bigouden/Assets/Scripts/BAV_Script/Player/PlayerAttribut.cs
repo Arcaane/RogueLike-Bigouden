@@ -67,6 +67,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
+    [SerializeField] private LayerMask isEnnemy;
+    
     [SerializeField] public AttackSystemSpline attackSpline;
     [SerializeField] public ProjectilePath attackPath;
     [SerializeField] public Transform pointAttackY;
@@ -140,7 +142,7 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
 
-    [SerializeField] private Animator animatorPlayer;
+    [SerializeField] public Animator animatorPlayer;
 
 
     [Header("FeedBack (Vibrations, etc)")]
@@ -225,7 +227,8 @@ public class PlayerAttribut : MonoBehaviour
         _playerStatsManager.readyToAttackX = true;
         _playerStatsManager.readyToAttackY = true;
         _playerStatsManager.readyToAttackB = true;
-
+        _playerStatsManager.isAttackingY = false;
+        
         Player_FeedBack.fb_instance.p_attribut = this;
         Player_FeedBack.fb_instance.p_transform = transform;
     }
@@ -297,7 +300,6 @@ public class PlayerAttribut : MonoBehaviour
 
         if (xbox_b && _playerStatsManager.readyToAttackB)
         {
-            Debug.Log("OUII");
             isCastingTime = true;
         }
         else if (xbox_b_UP && _playerStatsManager.readyToAttackB)
@@ -397,12 +399,11 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(ultimateAction: true);
         }
-        /*else if (_playerStatsManager.isAttackingY)
+        else if (_playerStatsManager.isAttackingY)
         {
             SetJoystickValue(moving);
-            SetAttackValue(attack3: true);
+            SetAttackValue(attackY1: true);
         }
-        */
         else
         {
             SetAttackValue();
@@ -435,8 +436,6 @@ public class PlayerAttribut : MonoBehaviour
             animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
             animatorPlayer.SetBool("isUltimate", ultimateAction);
         }
-        //animatorPlayer.SetBool("AttackY", ultimateDeploy);
-        //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
     
@@ -606,15 +605,48 @@ public class PlayerAttribut : MonoBehaviour
             _playerStatsManager.isAttackSecondX = true;
         }
     }
-
+    #endregion
+    #region AttackAttributeY
     public void AttackTypeY()
     {
-        _playerStatsManager.isAttackingY = true;
+        Debug.Log($"Is Attacking Y : " + _playerStatsManager.isAttackingY + $"/ Is ready to Y : " + _playerStatsManager.readyToAttackY);
+        if (!_playerStatsManager.isAttackingY && _playerStatsManager.readyToAttackY)
+        {
+            Debug.Log("Y_Pressed");
+            _playerStatsManager.isAttackingY = true;
+            StartCoroutine(StartY(0.4f));
+            _playerStatsManager.movementSpeed = 2;
+        }
+        
+        /*
         attackPath.launchAttackY = true;
         attackPath.projectile.transform.position = new Vector3(pointAttackY.position.x,
             pointAttackY.position.y * _playerStatsManager.attackRangeY, 0f);
         Debug.Log(attackPath.projectile.transform.position);
+        */
     }
+
+    public IEnumerator StartY(float waitYAnim)
+    {
+        yield return new WaitForSeconds(waitYAnim);
+        Collider2D[] yCollider2D =
+            Physics2D.OverlapCircleAll(transform.position + shootPointPos * radiusShootPoint, 0.7f, isEnnemy);
+        foreach (var ennemyCol in yCollider2D)
+        {
+            ennemyCol.GetComponent<EnnemyStatsManager>().TakeDamage(_playerStatsManager.damageY);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        _playerStatsManager.movementSpeed = 4f;
+        _playerStatsManager.isAttackingY = false;
+
+        yield return new WaitForSeconds(_playerStatsManager.attackCdY);
+        _playerStatsManager.readyToAttackY = true;
+
+    }
+    #endregion
+    
+    
 
     public void Reset()
     {
@@ -702,9 +734,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-
-    #endregion
-
+    
     public void SaveLastPosition()
     {
         Vector3 move = new Vector3(movementInput.x, movementInput.y, 0);
@@ -1030,9 +1060,10 @@ public class PlayerAttribut : MonoBehaviour
         Gizmos.DrawRay(position, (_lastPosition.normalized * _dashSpeed) / 2);
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.7f);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint * 2, 0.25f);
+        
     }
 }
 

@@ -369,11 +369,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPattern: 0
-  _playerAttribut: {fileID: 6216360794947180622}
   bulletsAmount: 4
   notEnoughBulletsInPool: 0.1
   notEnoughBulletsInPoolRandom: {x: 0.1, y: 0.2}
-  shootPointPos: {x: 0, y: 0}
   numberOfSpline: 1
   angle: 1
   speedAngle: 7
@@ -671,7 +669,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 164922
+  m_InstanceId: 42530
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,7 +980,7 @@ MonoBehaviour:
   _X_isProjectile: 0
   buttonYValue: 0
   _Y_isDash: 0
-  _Y_isAttack: 0
+  _Y_isAttack: 1
   _Y_isProjectile: 0
   startButtonValue: 0
   selectButtonValue: 0
@@ -1048,6 +1046,9 @@ MonoBehaviour:
   spriteRendererFrame: {fileID: 8624704071328394346}
   perfectFrameColor: {r: 0.9433962, g: 0.865091, b: 0.15574935, a: 1}
   splinePivot: {fileID: 1578338303392233273}
+  isEnnemy:
+    serializedVersion: 2
+    m_Bits: 512
   attackSpline: {fileID: 4229443248142410407}
   attackPath: {fileID: 6630323540485487898}
   pointAttackY: {fileID: 0}

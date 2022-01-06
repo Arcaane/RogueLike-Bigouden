@@ -209,8 +209,8 @@ public class IACac : MonoBehaviour
         }
         else
         {
-            cacAnimator.SetFloat("Vertical", agent.velocity.y);
             cacAnimator.SetFloat("Horizontal", agent.velocity.x);
+            cacAnimator.SetFloat("Vertical", agent.velocity.y);
             cacAnimator.SetBool("isAttack", _isAttack);
             cacAnimator.SetBool("isWalk", _isWalk);
         }

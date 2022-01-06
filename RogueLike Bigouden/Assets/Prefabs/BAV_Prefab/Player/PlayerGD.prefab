@@ -669,6 +669,9 @@ MonoBehaviour:
   spriteRendererFrame: {fileID: 4449841256603219750}
   perfectFrameColor: {r: 0.8113208, g: 0.2793699, b: 0.8023036, a: 1}
   splinePivot: {fileID: 6888110428959059061}
+  isEnnemy:
+    serializedVersion: 2
+    m_Bits: 512
   attackSpline: {fileID: 8125084828788947435}
   attackPath: {fileID: 1617845058245928534}
   pointAttackY: {fileID: 0}
@@ -686,6 +689,7 @@ MonoBehaviour:
   ultBulletSpawner: {fileID: 7076735778691649299}
   ultDuration: 10
   isUlting: 0
+  isUltingAnim: 0
   canTakeItem: 0
   canTalk: 0
   canSkipDialogue: 0
@@ -729,6 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
+  playerAttribut: {fileID: 0}
   maxLifePoint: 0
   actualUltPoint: 0
   ultMaxPoint: 0

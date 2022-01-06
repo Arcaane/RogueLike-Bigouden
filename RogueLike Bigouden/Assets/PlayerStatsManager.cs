@@ -341,7 +341,7 @@ public class PlayerStatsManager : MonoBehaviour
         UIManager.instance.RefreshUI();
 
         if (lifePoint <= 0)
-            Death();
+            StartCoroutine(Death());
         //}
 
     }
@@ -354,9 +354,11 @@ public class PlayerStatsManager : MonoBehaviour
         }
     }
 
-    private void Death()
+    private IEnumerator Death()
     {
-        // Play Death Animation
+        movementSpeed = 0f;
+        playerAttribut.animatorPlayer.SetTrigger("isDead");
+        yield return new WaitForSeconds(1.5f);
         Debug.Log(gameObject.name + " is Dead !");
         UIManager.instance.gameOverPanel.SetActive(true);
         Time.timeScale = 0;
@@ -462,7 +464,7 @@ public class PlayerStatsManager : MonoBehaviour
         readyToAttackX = readyToAttackXSO;
         isAttackFirstX = isAttackFirstXSO;
         isAttackSecondX = isAttackSecondXSO;
-        readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
+        readyToAttackY = true; // Peut utiliser l'attaque Y
         isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
         readyToAttackB = true; // Peut utiliser l'attaque projectile
         isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
