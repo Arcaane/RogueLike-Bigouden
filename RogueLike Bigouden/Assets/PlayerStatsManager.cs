@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerStatsManager : MonoBehaviour
 {
@@ -276,6 +277,8 @@ public class PlayerStatsManager : MonoBehaviour
     public float dashCooldown;
     public float ultDuration;
     public float bonusSpeed;
+    public float invincibilityDuration;
+    public float timerInvincibility;
 
     // Vectors 2
     public Vector2 firstAttackReset;
@@ -295,6 +298,8 @@ public class PlayerStatsManager : MonoBehaviour
     public bool readyToDash;
     public bool onButter;
     public bool getHurt;
+    public bool isInvincible;
+    public bool loadInvincibilty;
 
     // Others
     public GameObject FloatingTextPrefab;
@@ -311,6 +316,8 @@ public class PlayerStatsManager : MonoBehaviour
         if (playerStatsInstance != null && playerStatsInstance != this)
             Destroy(gameObject);
         playerStatsInstance = this;
+        
+        timerInvincibility = invincibilityDuration;
     }
 
 
@@ -320,30 +327,78 @@ public class PlayerStatsManager : MonoBehaviour
         playerAttribut = GetComponent<PlayerAttribut>();
     }
 
+    private void Update()
+    {
+        #region TIMER INVICIBILTY
+        if (loadInvincibilty)
+        {
+            isInvincible = true;
+            
+            if (timerInvincibility > 0)
+            {
+                timerInvincibility -= Time.deltaTime * 1;
+            }
+
+            if (timerInvincibility <= 0)
+            {
+                isInvincible = false;
+                loadInvincibilty = false;
+                timerInvincibility = invincibilityDuration;
+            }
+        }
+
+        #endregion
+        
+    }
+    
     #region Functions
+    IEnumerator HurtColorTint()
+    {
+        GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
+    }
+
+    public void EarnMoney(int addMoney)
+    {
+        money += addMoney;
+    }
+
 
     public void TakeDamage(int damage)
     {
-        if (lifePoint > 0)
+        if (!isInvincible) 
         {
-            getHurt = true;
             if (!isDashing)
             {
+                UIManager.instance.playerAnimation.Play("hurt");
+                StartCoroutine(HurtColorTint());
+            
                 if (shieldPoint > 0)
                 {
                     shieldPoint -= damage;
+                
                     if (shieldPoint < 0)
-                    shieldPoint = 0;
+                    {
+                        shieldPoint = 0;
+                    }
                 }
                 else
-                lifePoint -= damage;
-            }
-            Debug.Log("Player took " + damage + " damage");
-            ShowFloatingText(damage);
-            UIManager.instance.RefreshUI();
+                {
+                    lifePoint -= damage;
+                }
 
-            if (lifePoint <= 0)
-                StartCoroutine(Death());
+                Debug.Log("Player took " + damage + " damage");
+                ShowFloatingText(damage);
+                UIManager.instance.RefreshUI();
+
+                loadInvincibilty = true;
+
+                if (lifePoint <= 0)
+                {
+                    Death();
+                }
+            }
         }
     }
 
@@ -357,11 +412,10 @@ public class PlayerStatsManager : MonoBehaviour
 
     private IEnumerator Death()
     {
+        UIManager.instance.LoadGameOver();
         movementSpeed = 0f;
         playerAttribut.animatorPlayer.SetBool("isDead", true);
-        Debug.Log("Yé");
         yield return new WaitForSeconds(1.5f);
-        Debug.Log("Yé2");
         ShowDeadPannel();
     }
 
