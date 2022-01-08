@@ -205,7 +205,6 @@ public class EnnemyStatsManager : MonoBehaviour
     #region Ennemy Damage & Heal Gestion 
     public void TakeDamage(int damage)
     {
-        hurt = true;
         StartCoroutine(HurtColorTint());
         
         if (shieldPoint > 0)
@@ -229,9 +228,9 @@ public class EnnemyStatsManager : MonoBehaviour
     
     IEnumerator HurtColorTint()
     {
-        GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
+        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
         yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
+        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
     }
 
     private void Death()
@@ -271,42 +270,7 @@ public class EnnemyStatsManager : MonoBehaviour
         go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
     
-    private Color hitcolor = Color.red;
-    private Color notHurtColor = Color.white;
-    [SerializeField] bool hurt = false;
-
-    public void Update()
-    {
-        if (hurt)
-        {
-            SpriteSwap();
-            CounterBeforeReset();
-        }
-    }
-
-    public void SpriteSwap()
-    {
-        if (hurt)
-        {
-            //TimeManager.SlowDownGame();
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
-        }
-        else
-        {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
-        }
-    }
-    
-    public void CounterBeforeReset()
-    {
-        counterBeforeReset += Time.deltaTime;
-        if (counterBeforeReset > 0.2f)
-        {
-            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
-            counterBeforeReset = 0f;
-            hurt = false;
-        }
-    }
+   
     
     #endregion
 }

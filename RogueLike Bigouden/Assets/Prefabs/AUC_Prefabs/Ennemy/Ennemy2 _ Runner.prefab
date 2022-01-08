@@ -226,6 +226,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   runnerAnimator: {fileID: 1886598575}
+  _isAttack: 0
+  _isWalk: 0
+  _isCharging: 0
   _damageDealt: 0
   _detectZone: 0
   _attackRange: 0
@@ -236,8 +239,6 @@ MonoBehaviour:
   _isPlayerInAttackRange: 0
   _isAggro: 0
   _isDashing: 0
-  _isCharging: 0
-  _isRushing: 0
   _dashSpeed: 0
   shootPointPos: {x: 0, y: 0}
   _isReadyToDash: 0

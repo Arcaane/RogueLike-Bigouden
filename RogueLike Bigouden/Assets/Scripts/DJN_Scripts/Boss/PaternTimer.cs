@@ -61,7 +61,7 @@ public class PaternTimer : MonoBehaviour
             {
                 if (!_cinematicBoss.startEnded)
                 {
-                    //_cinematicBoss.StartCoroutine(_cinematicBoss.StartCinematic());
+                    _cinematicBoss.StartCoroutine(_cinematicBoss.StartCinematic());
                 }
                 else
                 {
