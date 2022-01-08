@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
 
     [Header("DialogueBox")] public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI immersiveDialogue;
 
     [Header("Common UI")] 
     public GameObject itemInformationPanel;
@@ -34,6 +36,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Player1 HUD")] public GameObject player1UI;
     public Image p1_healthBarImg;
+    public Image p1_backgroundBarImg;
     public TextMeshProUGUI p1_healthText;
     public Image p1_energyBarImage;
 
@@ -59,6 +62,11 @@ public class UIManager : MonoBehaviour
     public bool isPaused;
     [SerializeField] private GameObject blur;
 
+    [Header("Pause Menu Score")]
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI killNumber;
+    public TextMeshProUGUI moneyCollect;
+    
     [Header("Settings")] 
     public GameObject settingPanel;
 
@@ -80,13 +88,26 @@ public class UIManager : MonoBehaviour
     public List<GameObject> playerList;
 
     public GameObject actualPanel;
+    
+    
+    [HideInInspector] public bool open;
 
+    [Header("Game Over")]
     public GameObject gameOverPanel;
+    public Animator goBackground;
+    public Animator goForeground;
 
-    public bool open;
+    public TextMeshProUGUI enemyKilledText;
+    public TextMeshProUGUI moneyCollectText;
+    public TextMeshProUGUI timerFinalText;
+    public TextMeshProUGUI scoreText;
+    
+    [Header("Player HUD Animations")]
     public Animator itemAnimation;
 
     public Animator playerAnimation;
+    public Animator moneyAnimation;
+    public bool earnMoney;
     
     private void Awake()
     {
@@ -114,7 +135,17 @@ public class UIManager : MonoBehaviour
     {
         UpdateItemPlayer();
         
-        //playerAnimation.SetBool("hurt", _playerStatsManager.getHurt);
+           
+
+        if (earnMoney)
+        {
+            moneyAnimation.SetBool("addMoney", true);
+            earnMoney = false;
+        }
+        else
+        {
+            moneyAnimation.SetBool("addMoney", false);
+        }
     }
 
     #region SETUP
@@ -158,8 +189,9 @@ public class UIManager : MonoBehaviour
 
             if (i == 0)
             {
-                p1_healthBarImg.fillAmount = rlifePoint / rmaxLifePoint;
                 p1_energyBarImage.fillAmount = rUltPoint / rmaxUltPoint;
+                
+                StartCoroutine(RefreshHealthBar(rlifePoint, rmaxLifePoint));
                 p1_moneyText.text = currentMoney.ToString();
                 p1_moneyText.text = PlayerStatsManager.playerStatsInstance.money.ToString();
             }
@@ -174,6 +206,15 @@ public class UIManager : MonoBehaviour
             }
             */
         }
+
+        IEnumerator RefreshHealthBar(float lifePoint, float maxLifePoint)
+        {
+            
+            p1_healthBarImg.fillAmount = lifePoint / maxLifePoint;
+            yield return new WaitForSeconds(1);
+            p1_backgroundBarImg.fillAmount = lifePoint / maxLifePoint;
+
+        }
         
     }
 
@@ -187,6 +228,18 @@ public class UIManager : MonoBehaviour
 
     #region GAMEOVER
 
+    public void LoadGameOver()
+    {
+        gameOverPanel.SetActive(true);
+        isPaused = true;
+        goBackground.Play("background_appear");
+        goForeground.Play("foreground_appear");
+
+        enemyKilledText.text = ScoreManager.instance.enemyKilled.ToString();
+        moneyCollectText.text = ScoreManager.instance.moneyObtained.ToString();
+        timerFinalText.text = $"{ScoreManager.instance.minutes:00}:{ScoreManager.instance.seconds:00}";
+    }
+    
     public void TryAgain()
     {
         SceneManager.LoadScene("BAV_HUB_BED_RESET");

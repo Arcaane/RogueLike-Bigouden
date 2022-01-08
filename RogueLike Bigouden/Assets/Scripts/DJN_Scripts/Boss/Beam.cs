@@ -6,7 +6,10 @@ public class Beam : MonoBehaviour
 {
     private LineRenderer line;
     private RaycastHit2D hit;
+    
     [SerializeField] private int damage;
+    [SerializeField] private float damageDelay;
+    
     [SerializeField] private float raySpeed;
     [SerializeField] private float startingTime;
     [SerializeField] private LayerMask layerMask;
@@ -53,7 +56,7 @@ public class Beam : MonoBehaviour
 
                 if (!pHit)
                 {
-                    _playerStatsManager.TakeDamage(damage);
+                    StartCoroutine(Damage());
                     pHit = true;
                 }
             }
@@ -77,5 +80,14 @@ public class Beam : MonoBehaviour
             line.enabled = false;
             isActive = false;
         }
+    }
+
+    IEnumerator Damage()
+    {
+        _playerStatsManager.TakeDamage(damage);
+        pHit = true;
+        yield return new WaitForSeconds(damageDelay);
+        damage += 1;
+        pHit = false;
     }
 }
