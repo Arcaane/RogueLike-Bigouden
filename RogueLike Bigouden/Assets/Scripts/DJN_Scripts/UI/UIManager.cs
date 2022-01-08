@@ -248,7 +248,6 @@ public class UIManager : MonoBehaviour
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         RefreshUI();
-        Debug.Log("Fonkioniert ?");
     }
 
     public void RestartGame()

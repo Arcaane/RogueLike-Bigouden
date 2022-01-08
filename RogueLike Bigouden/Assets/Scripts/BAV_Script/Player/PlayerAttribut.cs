@@ -67,6 +67,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private Color perfectFrameColor;
     [SerializeField] private GameObject splinePivot;
 
+    [SerializeField] private LayerMask isEnnemy;
+    
     [SerializeField] public AttackSystemSpline attackSpline;
     [SerializeField] public ProjectilePath attackPath;
     [SerializeField] public Transform pointAttackY;
@@ -113,7 +115,8 @@ public class PlayerAttribut : MonoBehaviour
     [SerializeField] private float ultDuration;
 
     //bool--------------------
-    [SerializeField] private bool isUlting;
+    [SerializeField] public bool isUlting;
+    [SerializeField] public bool isUltingAnim;
 
     [Header("Boolean pour dialogue et Item")] [SerializeField]
     public bool canTakeItem;
@@ -139,7 +142,7 @@ public class PlayerAttribut : MonoBehaviour
     [Header("Animation et Sprite Renderer Joueur")] [SerializeField]
     public SpriteRenderer playerMesh;
 
-    [SerializeField] private Animator animatorPlayer;
+    [SerializeField] public Animator animatorPlayer;
 
 
     [Header("FeedBack (Vibrations, etc)")]
@@ -170,7 +173,7 @@ public class PlayerAttribut : MonoBehaviour
     //Vector3
     //Permet de relier ces vecteurs au Joystick dans le InputHandler.
     Vector2 movementInput, lookAxis;
-    Vector3 _lastPosition;
+    public Vector3 _lastPosition;
     Vector3 _lastPositionForRotor;
     [SerializeField] Vector3 _directionNormalized;
     [SerializeField] Vector3 _look;
@@ -224,7 +227,8 @@ public class PlayerAttribut : MonoBehaviour
         _playerStatsManager.readyToAttackX = true;
         _playerStatsManager.readyToAttackY = true;
         _playerStatsManager.readyToAttackB = true;
-
+        _playerStatsManager.isAttackingY = false;
+        
         Player_FeedBack.fb_instance.p_attribut = this;
         Player_FeedBack.fb_instance.p_transform = transform;
     }
@@ -259,6 +263,7 @@ public class PlayerAttribut : MonoBehaviour
         if (isUlting)
         {
             UltimateDelay();
+            UIManager.instance.RefreshUI();
         }
 
 
@@ -295,7 +300,6 @@ public class PlayerAttribut : MonoBehaviour
 
         if (xbox_b && _playerStatsManager.readyToAttackB)
         {
-            Debug.Log("OUII");
             isCastingTime = true;
         }
         else if (xbox_b_UP && _playerStatsManager.readyToAttackB)
@@ -348,7 +352,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (!isUlting && !CinematicBoss.instance.isCinematic)
+        if (!isUltingAnim)
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
@@ -374,11 +378,10 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(true);
         }
-        else if (_playerStatsManager.isAttackSecondX && !_playerStatsManager.isAttackFirstX)
-
+        else if (_playerStatsManager.isAttackSecondX )
         {
             SetJoystickValue(moving);
-            SetAttackValue(attackX2: true);
+            SetAttackValue(attackX2:true);
             attackPath.launchSecondAttack = true;
         }
         else if (_playerStatsManager.readyToAttackB && isCastingTime)
@@ -391,13 +394,16 @@ public class PlayerAttribut : MonoBehaviour
             SetJoystickValue(moving);
             SetAttackValue(attackB_Launch: true);
         }
-        /*else if (_playerStatsManager.isAttackingY)
+        else if (isUltingAnim)
         {
             SetJoystickValue(moving);
-            SetAttackValue(attack3: true);
+            SetAttackValue(ultimateAction: true);
         }
-        */
-
+        else if (_playerStatsManager.isAttackingY)
+        {
+            SetJoystickValue(moving);
+            SetAttackValue(attackY1: true);
+        }
         else
         {
             SetAttackValue();
@@ -428,11 +434,12 @@ public class PlayerAttribut : MonoBehaviour
             animatorPlayer.SetBool("AttackY", attackY1);
             animatorPlayer.SetBool("AimAttackB", attackB_Aim);
             animatorPlayer.SetBool("LaunchAttackB", attackB_Launch);
+            animatorPlayer.SetBool("isUltimate", ultimateAction);
         }
-        //animatorPlayer.SetBool("AttackY", ultimateDeploy);
-        //animatorPlayer.SetBool("AttackY", ultimateAction);
     }
 
+    
+    
     #endregion AnimatorProcess
 
     void Attack(bool look)
@@ -486,7 +493,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
 
-        if (_playerStatsManager.readyToDash && !isUlting)
+        if (_playerStatsManager.readyToDash && !isUltingAnim)
         {
             StartDash();
         }
@@ -546,7 +553,6 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         _playerStatsManager.isDashing = true;
-        _playerStatsManager.isInvincible = true;
         yield return new WaitForSeconds(_playerStatsManager.dashDuration / 2);
         if (useVibration)
         {
@@ -557,7 +563,6 @@ public class PlayerAttribut : MonoBehaviour
         spriteRendererFrame.material.SetFloat("_DiffuseIntensity", 1);
         rb.velocity = Vector2.zero;
         _playerStatsManager.isDashing = false;
-        _playerStatsManager.isInvincible = false;
     }
 
     public void DashTP(float speed)
@@ -600,15 +605,50 @@ public class PlayerAttribut : MonoBehaviour
             _playerStatsManager.isAttackSecondX = true;
         }
     }
-
+    #endregion
+    #region AttackAttributeY
     public void AttackTypeY()
     {
-        _playerStatsManager.isAttackingY = true;
+        Debug.Log($"Is Attacking Y : " + _playerStatsManager.isAttackingY + $"/ Is ready to Y : " + _playerStatsManager.readyToAttackY);
+        if (!_playerStatsManager.isAttackingY && _playerStatsManager.readyToAttackY)
+        {
+            Debug.Log("Y_Pressed");
+            _playerStatsManager.isAttackingY = true;
+            StartCoroutine(StartY(0.4f));
+            _playerStatsManager.movementSpeed = 2;
+        }
+        
+        /*
         attackPath.launchAttackY = true;
         attackPath.projectile.transform.position = new Vector3(pointAttackY.position.x,
             pointAttackY.position.y * _playerStatsManager.attackRangeY, 0f);
         Debug.Log(attackPath.projectile.transform.position);
+        */
     }
+
+    public IEnumerator StartY(float waitYAnim)
+    {
+        yield return new WaitForSeconds(waitYAnim);
+        shootPointPos = (_lastPosition);
+        shootPointPos.Normalize();
+        yield return new WaitForSeconds(0.05f);
+        Collider2D[] yCollider2D =
+            Physics2D.OverlapCircleAll(transform.position + shootPointPos * radiusShootPoint, 0.7f, isEnnemy);
+        foreach (var ennemyCol in yCollider2D)
+        {
+            ennemyCol.GetComponent<EnnemyStatsManager>().TakeDamage(_playerStatsManager.damageY);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        _playerStatsManager.movementSpeed = 4f;
+        _playerStatsManager.isAttackingY = false;
+
+        yield return new WaitForSeconds(_playerStatsManager.attackCdY);
+        _playerStatsManager.readyToAttackY = true;
+    }
+    #endregion
+    
+    
 
     public void Reset()
     {
@@ -626,7 +666,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerDash = 0f;
             }
         }
-
+        /*
         //--------------------Attack Y--------------------//
         //If player launch an Attack Y
         if (_playerStatsManager.isAttackingY)
@@ -641,7 +681,7 @@ public class PlayerAttribut : MonoBehaviour
                 attackPath.launchAttackY = false;
                 _timerAttackY = 0;
             }
-        }
+        }*/
 
         //--------------------Attack X--------------------//
         //If player launch an Attack X
@@ -696,9 +736,7 @@ public class PlayerAttribut : MonoBehaviour
             }
         }
     }
-
-    #endregion
-
+    
     public void SaveLastPosition()
     {
         Vector3 move = new Vector3(movementInput.x, movementInput.y, 0);
@@ -758,10 +796,15 @@ public class PlayerAttribut : MonoBehaviour
     #region Ultimate
 
     //Launch the function to activate Ultimate
-    public void LaunchUltimate()
+    public IEnumerator LaunchUltimate()
     {
-        isUlting = true;
-        ultBulletSpawner.SetActive(true);
+        if (_playerStatsManager.actualUltPoint > 10)
+        {
+            isUltingAnim = true;
+            yield return new WaitForSeconds(1.250f);
+            isUlting = true;
+            ultBulletSpawner.SetActive(true);
+        }
     }
 
     //Ultimate Delay when he is Activate.
@@ -773,13 +816,14 @@ public class PlayerAttribut : MonoBehaviour
             ultDuration = (ultDuration / 2) / 10;
             _timerUltimate += _timeManager.CustomDeltaTimePlayer;
 
-            movementInput = Vector2.zero;
+            _playerStatsManager.movementSpeed = 0f;
 
             if (_timerUltimate >= ultDuration)
             {
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
-                isUlting = false;
+                isUlting = isUltingAnim = false;
+                _playerStatsManager.movementSpeed = 4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
@@ -791,17 +835,12 @@ public class PlayerAttribut : MonoBehaviour
             {
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
-                isUlting = false;
+                isUlting = isUltingAnim = false;
+                _playerStatsManager.movementSpeed = 4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
     }
-
-    //Capacity bar of the Ultimate.
-    public void UltimateBar()
-    {
-    }
-
     #endregion
 
     #region CameraController
@@ -960,7 +999,6 @@ public class PlayerAttribut : MonoBehaviour
             _dialogueManager.selectDialogue =
                 _dialogueManager.dialogue[UnityEngine.Random.Range(0, _dialogueManager.dialogue.Length)];
             var ui = FindObjectOfType<UIManager>();
-            ui.dialogueText.text = String.Empty;
             isTalking = true;
             ui.dialogueBox.SetActive(true);
             ui.dialogueText.DOText(_dialogueManager.selectDialogue.dialogueLine[0], 0.2f, false);
@@ -1024,9 +1062,10 @@ public class PlayerAttribut : MonoBehaviour
         Gizmos.DrawRay(position, (_lastPosition.normalized * _dashSpeed) / 2);
         Gizmos.DrawWireSphere(splinePivot.transform.position, offsetEndPosProjectile);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.25f);
+        Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint, 0.7f);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position + shootPointPos * radiusShootPoint * 2, 0.25f);
+        
     }
 }
 
