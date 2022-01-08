@@ -352,7 +352,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (!isUltingAnim)
+        if (!isUltingAnim /* && !CinematicBoss.instance.isCinematic */)
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
@@ -553,6 +553,7 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         _playerStatsManager.isDashing = true;
+        _playerStatsManager.isInvincible = true;
         yield return new WaitForSeconds(_playerStatsManager.dashDuration / 2);
         if (useVibration)
         {
