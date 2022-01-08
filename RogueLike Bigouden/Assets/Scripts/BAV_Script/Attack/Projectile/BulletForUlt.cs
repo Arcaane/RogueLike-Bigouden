@@ -44,8 +44,19 @@ public class BulletForUlt : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ennemy"))
         {
-            //other.gameObject.GetComponent<MannequinStatsManager>().TakeDamage(damageDealt);
             other.gameObject.GetComponent<EnnemyStatsManager>().TakeDamage(damageDealt);
+            gameObject.SetActive(false);
+        }
+
+        if (other.gameObject.CompareTag("Obstacle") || other.gameObject.CompareTag("Sofa"))
+        {
+            gameObject.SetActive(false);
+        }
+
+        if (other.gameObject.CompareTag("Destructible"))
+        {
+            Destroy(other.gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

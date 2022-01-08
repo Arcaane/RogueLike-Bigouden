@@ -20,12 +20,14 @@ public class FireBullets : MonoBehaviour
     }
 
     [SerializeField] private Pattern myPattern;
+    [SerializeField] private PlayerAttribut _playerAttribut;
 
     [Header("Paramater for Ultimate")] [SerializeField]
     private int bulletsAmount = 10;
 
     [SerializeField] private float notEnoughBulletsInPool = 0.1f;
     [SerializeField] private Vector2 notEnoughBulletsInPoolRandom;
+    [SerializeField] private Vector3 shootPointPos;
     [SerializeField] private float numberOfSpline = 2f;
     [SerializeField] private float angle = 0f;
 
@@ -76,6 +78,7 @@ public class FireBullets : MonoBehaviour
         CancelInvoke();
     }
 
+    public const float radiusShootPoint = 0.8f;
     private void FirePattern1()
     {
         float angleStep = (limitAngle.y - limitAngle.x) / bulletsAmount;
@@ -85,11 +88,15 @@ public class FireBullets : MonoBehaviour
         {
             float bulDirX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
             float bulDirY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
-
+            
             Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
             Vector2 bulDir = (bulMoveVector - transform.position).normalized;
-
-            bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position, transform.rotation);
+            
+            shootPointPos = _playerAttribut._lastPosition;
+            shootPointPos.Normalize();
+            
+            Debug.Log(_playerAttribut._lastPosition);
+            bul = ObjectPooler.Instance.SpawnFromPool("BulletUlt", transform.position + shootPointPos * radiusShootPoint, transform.rotation);
             bul.GetComponent<BulletForUlt>().SetMoveDirection(bulDir);
             angle += angleStep;
         }

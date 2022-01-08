@@ -35,6 +35,7 @@ public class IACac : MonoBehaviour
     // Anims States
     private bool _isWalk;
     private bool _isAttack;
+    public bool _isAttackAnim;
 
     private Vector3 shootPointPos;
     
@@ -61,6 +62,7 @@ public class IACac : MonoBehaviour
         agent.speed = _movementSpeed;
 
         _isAttack = false;
+        _isAttackAnim = false;
         _isWalk = false;
         
         _isAggro = false;
@@ -92,11 +94,7 @@ public class IACac : MonoBehaviour
         }
         else { _isWalk = true; }
     }
-
-    private void FixedUpdate()
-    {
-        //agent.speed = _movementSpeed * TimeManager._timeManager.CustomDeltaTimeEnnemy;
-    }
+    
 
     #region PatrollingState
     void Patrolling()
@@ -165,10 +163,12 @@ public class IACac : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector3(target.position.x - transform.position.x, target.position.y - transform.position.y + upTofitPlayer), Color.green);
     }
     private const float radiusShootPoint = 0.75f;
-    private const float upTofitPlayer = 0.5f;
+    private const float upTofitPlayer = 0.3f;
     private void GoHit()
     {
         _isWalk = false; // Anim
+        _isAttackAnim = true;
+        Debug.Log("CAC GO HIT");
         StartCoroutine(Hit());
     }
     private bool paire = true;
@@ -176,7 +176,7 @@ public class IACac : MonoBehaviour
     {
         shootPointPos = (target.position - transform.position);
         shootPointPos.Normalize();
-        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position + shootPointPos * radiusShootPoint, hitRadius, isPlayer);
+        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position + shootPointPos * 1, hitRadius, isPlayer);
         foreach (var _player in hitPlayers)
         {
             if (paire)
@@ -186,13 +186,12 @@ public class IACac : MonoBehaviour
                 Debug.Log("Player Hit : " + _player.name + " & receive : " + _damageDealt + " damage !");
             }
             else
-            {
                 paire = true;
-            }
         }
-        
-        _isAttack = false;
-        yield return new WaitForSeconds(_attackDelay);
+
+        yield return new WaitForSeconds(0.3f);
+        _isAttack = _isAttackAnim = false;
+        yield return new WaitForSeconds(0.7f);
         _isReadyToShoot = true;
     }
     #endregion
@@ -204,14 +203,14 @@ public class IACac : MonoBehaviour
         {
             cacAnimator.SetFloat("Horizontal", shootPointPos.x);
             cacAnimator.SetFloat("Vertical", shootPointPos.y + upTofitPlayer);
-            cacAnimator.SetBool("isAttack", _isAttack);
+            cacAnimator.SetBool("isAttack", _isAttackAnim);
             cacAnimator.SetBool("isWalk", _isWalk);
         }
         else
         {
-            cacAnimator.SetFloat("Vertical", agent.velocity.y);
             cacAnimator.SetFloat("Horizontal", agent.velocity.x);
-            cacAnimator.SetBool("isAttack", _isAttack);
+            cacAnimator.SetFloat("Vertical", agent.velocity.y);
+            cacAnimator.SetBool("isAttack", _isAttackAnim);
             cacAnimator.SetBool("isWalk", _isWalk);
         }
     }

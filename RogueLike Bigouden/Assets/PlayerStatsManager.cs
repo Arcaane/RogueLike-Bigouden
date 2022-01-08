@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerStatsManager : MonoBehaviour
 {
     public PlayerData playerData;
-
+    [SerializeField] PlayerAttribut playerAttribut;
+    
     #region Player Variable Assignation
 
     private string name
@@ -217,23 +218,16 @@ public class PlayerStatsManager : MonoBehaviour
         set { playerData.isAttackYSO = isAttackYSO; }
     }
 
-    private bool readyToAttackBSO
+    private bool isDeployBSO
     {
-        get { return playerData.readyToAttackBSO; }
-        set { playerData.readyToAttackBSO = readyToAttackBSO; }
+        get { return playerData.isDeployBSO; }
+        set { playerData.isDeployBSO = isDeployBSO; }
     }
 
     private bool isAttackBSO
     {
         get { return playerData.isAttackBSO; }
         set { playerData.isAttackBSO = isAttackBSO; }
-    }
-
-    private bool isDeployBSO
-    {
-        get { return playerData.isDeployBSO; }
-        set { playerData.isDeployBSO = isDeployBSO; }
-
     }
 
     private bool isDashingSO
@@ -323,21 +317,19 @@ public class PlayerStatsManager : MonoBehaviour
             Destroy(gameObject);
         playerStatsInstance = this;
         
-        
         timerInvincibility = invincibilityDuration;
-
     }
 
 
     private void Start()
     {
         ResetPlayerStats();
+        playerAttribut = GetComponent<PlayerAttribut>();
     }
 
     private void Update()
     {
         #region TIMER INVICIBILTY
-
         if (loadInvincibilty)
         {
             isInvincible = true;
@@ -358,106 +350,8 @@ public class PlayerStatsManager : MonoBehaviour
         #endregion
         
     }
-
-    public void ResetPlayerStats()
-    {
-        // Set int
-        actualUltPoint = actualUltPointSO;
-        ultMaxPoint = ultMaxPointSO;
-        lifePoint = lifePointSO;
-        maxLifePoint = lifePoint;
-        shieldPoint = shieldPointSO;
-        dashCounter = dashCounterSO;
-        damageFirstX = damageFirstXSO;
-        damageSecondX = damageSecondXSO;
-        damageY = damageYSO;
-        damageProjectile = damageProjectileSO;
-        ultPointToAddPerHit = ultPointToAddPerHitSO;
-        ultPointToAddPerKill = ultPointToAddPerKillSO;
-        damageUlt = damageUltSO;
-        money = 0;
-
-        //Set Float
-        movementSpeed = movementSpeedSO;
-        attackRangeX = attackRangeXSO;
-        attackCdX = attackCdXSO;
-        attackRangeY = attackRangeYSO;
-        attackCdY = attackCdYSO;
-        attackRangeProjectile = attackRangeProjectileSO;
-        attackCdB = attackCdBSO;
-        dashSpeed = DashSpeedSo;
-        dashDuration = dashDurationSO;
-        dashCooldown = dashCooldownSO;
-        ultDuration = ultDurationSO;
-        bonusSpeed = bonusSpeedSO;
-
-        // Set Vector
-        firstAttackReset = firstAttackResetSO;
-        secondAttackReset = secondAttackResetSO;
-
-        // Bools
-        isAttackingX = isAttackingXSO;
-        readyToAttackX = readyToAttackXSO;
-        isAttackFirstX = isAttackFirstXSO;
-        isAttackSecondX = isAttackSecondXSO;
-        readyToAttackY = readyToAttackYSO; // Peut utiliser l'attaque Y
-        isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
-        readyToAttackB = true; // Peut utiliser l'attaque projectile
-        isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
-        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
-        isDashing = isDashingSO;
-        readyToDash = readyToDashSO;
-        onButter = onButterSO;
-
-
-        //Other
-        lifePointSave = lifePoint;
-        HurtDamagescreen.SetActive(false);
-        getHurt = false;
-    }
-
-
+    
     #region Functions
-
-    public void TakeDamage(int damage)
-    {
-        if (!isInvincible) 
-        {
-            UIManager.instance.playerAnimation.Play("hurt");
-            StartCoroutine(HurtColorTint());
-            
-            if (shieldPoint > 0)
-            {
-                shieldPoint -= damage;
-                
-                if (shieldPoint < 0)
-                {
-                    shieldPoint = 0;
-                }
-            }
-            else
-            {
-                
-                lifePoint -= damage;
-            }
-
-            Debug.Log("Player took " + damage + " damage");
-            ShowFloatingText(damage);
-            UIManager.instance.RefreshUI();
-
-             loadInvincibilty = true;
-
-         if (lifePoint <= 0)
-         {
-             
-             Death();
-         }
-        
-        
-        }
-
-    }
-
     IEnumerator HurtColorTint()
     {
         GetComponentInChildren<SpriteRenderer>().DOColor(Color.red, 0f);
@@ -465,12 +359,71 @@ public class PlayerStatsManager : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().DOColor(Color.white, 0f);
     }
 
-    private void Death()
+    public void EarnMoney(int addMoney)
     {
-        // Play Death Animation
-        Debug.Log(gameObject.name + " is Dead !");
+        money += addMoney;
+    }
+
+
+    public void TakeDamage(int damage)
+    {
+        if (!isInvincible) 
+        {
+            if (!isDashing)
+            {
+                UIManager.instance.playerAnimation.Play("hurt");
+                StartCoroutine(HurtColorTint());
+            
+                if (shieldPoint > 0)
+                {
+                    shieldPoint -= damage;
+                
+                    if (shieldPoint < 0)
+                    {
+                        shieldPoint = 0;
+                    }
+                }
+                else
+                {
+                    lifePoint -= damage;
+                }
+
+                Debug.Log("Player took " + damage + " damage");
+                ShowFloatingText(damage);
+                UIManager.instance.RefreshUI();
+
+                loadInvincibilty = true;
+
+                if (lifePoint <= 0)
+                {
+                    Death();
+                }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (getHurt)
+        {
+            getHurt = false;
+        }
+    }
+
+    private IEnumerator Death()
+    {
         UIManager.instance.LoadGameOver();
+        movementSpeed = 0f;
+        playerAttribut.animatorPlayer.SetBool("isDead", true);
+        yield return new WaitForSeconds(1.5f);
+        ShowDeadPannel();
+    }
+
+    private void ShowDeadPannel()
+    {
+        playerAttribut.animatorPlayer.SetBool("isDead", false);
         Time.timeScale = 0;
+        UIManager.instance.gameOverPanel.SetActive(true);
     }
 
     public void TakeShield(int shield)
@@ -481,11 +434,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void EarnUltPoint(bool isKill)
     {
-        if (isKill)
-            actualUltPoint += ultPointToAddPerKill;
-        else
-            actualUltPoint += ultPointToAddPerHit;
-
+        if (!playerAttribut.isUlting || !playerAttribut.isUltingAnim)
+        {
+            if (isKill)
+                actualUltPoint += ultPointToAddPerKill;
+            else
+                actualUltPoint += ultPointToAddPerHit;
+        }
+        
         if (actualUltPoint > 100)
         {
             actualUltPoint = 100;
@@ -528,9 +484,63 @@ public class PlayerStatsManager : MonoBehaviour
         ApplyDamageUIFeedBack();
     }
 
-    public void EarnMoney(int addMoney)
+
+    public void ResetPlayerStats()
     {
-        money += addMoney;
+        // Set int
+        actualUltPoint = actualUltPointSO;
+        ultMaxPoint = ultMaxPointSO;
+        lifePoint = lifePointSO;
+        maxLifePoint = lifePoint;
+        shieldPoint = shieldPointSO;
+        dashCounter = dashCounterSO;
+        damageFirstX = damageFirstXSO;
+        damageSecondX = damageSecondXSO;
+        damageY = damageYSO;
+        damageProjectile = damageProjectileSO;
+        ultPointToAddPerHit = ultPointToAddPerHitSO;
+        ultPointToAddPerKill = ultPointToAddPerKillSO;
+        damageUlt = damageUltSO;
+        money = 0;
+
+        //Set Float
+        movementSpeed = movementSpeedSO;
+        attackRangeX = attackRangeXSO;
+        attackCdX = attackCdXSO;
+        attackRangeY = attackRangeYSO;
+        attackCdY = 2f;
+        attackRangeProjectile = attackRangeProjectileSO;
+        attackCdB = attackCdBSO;
+        dashSpeed = DashSpeedSo;
+        dashDuration = dashDurationSO;
+        dashCooldown = dashCooldownSO;
+        ultDuration = ultDurationSO;
+        bonusSpeed = bonusSpeedSO;
+
+        // Set Vector
+        firstAttackReset = firstAttackResetSO;
+        secondAttackReset = secondAttackResetSO;
+
+        // Bools
+        isAttackingX = isAttackingXSO;
+        readyToAttackX = readyToAttackXSO;
+        isAttackFirstX = isAttackFirstXSO;
+        isAttackSecondX = isAttackSecondXSO;
+        readyToAttackY = true; // Peut utiliser l'attaque Y
+        isAttackingY = isAttackYSO; // Peut utiliser l'attaque Y
+        readyToAttackB = true; // Peut utiliser l'attaque projectile
+        isAttackB = isAttackBSO; // Peut utiliser l'attaque projectile
+        isDeployB = isDeployBSO; // Peut utiliser l'attaque projectile
+        isDashing = isDashingSO;
+        readyToDash = readyToDashSO;
+        onButter = onButterSO;
+
+
+        //Other
+        lifePointSave = lifePoint;
+        HurtDamagescreen.SetActive(false);
+        getHurt = false;
     }
+
     #endregion
 }

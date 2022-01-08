@@ -41,6 +41,7 @@ public class IARunner : MonoBehaviour
     [SerializeField] private bool _isDashing;
     [SerializeField] private float _dashSpeed;
     [SerializeField] private Vector2 shootPointPos;
+    [SerializeField] private Vector2 shootPointPosAnim;
     [SerializeField] private bool _isReadyToDash;
     [SerializeField] private float _stunDuration;
     [SerializeField] private float _rushDelay;
@@ -188,6 +189,7 @@ public class IARunner : MonoBehaviour
         rb.velocity = Vector2.zero;
         
         // Dash
+        shootPointPosAnim = shootPointPos;
         yield return new WaitForSeconds(0.661f);
         _isDashing = true;
         rb.velocity =  shootPointPos * _dashSpeed;
@@ -271,10 +273,22 @@ public class IARunner : MonoBehaviour
     
     private void Animations(NavMeshAgent agent)
     {
-        runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
-        runnerAnimator.SetFloat("Vertical", shootPointPos.y + 0.1f);
-        runnerAnimator.SetBool("isAttacking", _isAttack);
-        runnerAnimator.SetBool("isWalking", _isWalk);
-        runnerAnimator.SetBool("isChasing", _isDashing);
+        if (_isDashing)
+        {
+            runnerAnimator.SetFloat("Horizontal", shootPointPosAnim.x);
+            runnerAnimator.SetFloat("Vertical", shootPointPosAnim.y + 0.1f);
+            runnerAnimator.SetBool("isAttacking", _isAttack);
+            runnerAnimator.SetBool("isWalking", _isWalk);
+            runnerAnimator.SetBool("isChasing", _isDashing);
+        }
+        else
+        {
+            runnerAnimator.SetFloat("Horizontal", shootPointPos.x);
+            runnerAnimator.SetFloat("Vertical", shootPointPos.y + 0.1f);
+            runnerAnimator.SetBool("isAttacking", _isAttack);
+            runnerAnimator.SetBool("isWalking", _isWalk);
+            runnerAnimator.SetBool("isChasing", _isDashing);
+        }
+        
     }
 }
