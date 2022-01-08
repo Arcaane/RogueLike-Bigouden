@@ -629,6 +629,9 @@ public class PlayerAttribut : MonoBehaviour
     public IEnumerator StartY(float waitYAnim)
     {
         yield return new WaitForSeconds(waitYAnim);
+        shootPointPos = (_lastPosition);
+        shootPointPos.Normalize();
+        yield return new WaitForSeconds(0.05f);
         Collider2D[] yCollider2D =
             Physics2D.OverlapCircleAll(transform.position + shootPointPos * radiusShootPoint, 0.7f, isEnnemy);
         foreach (var ennemyCol in yCollider2D)
@@ -642,7 +645,6 @@ public class PlayerAttribut : MonoBehaviour
 
         yield return new WaitForSeconds(_playerStatsManager.attackCdY);
         _playerStatsManager.readyToAttackY = true;
-
     }
     #endregion
     
@@ -664,7 +666,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerDash = 0f;
             }
         }
-
+        /*
         //--------------------Attack Y--------------------//
         //If player launch an Attack Y
         if (_playerStatsManager.isAttackingY)
@@ -679,7 +681,7 @@ public class PlayerAttribut : MonoBehaviour
                 attackPath.launchAttackY = false;
                 _timerAttackY = 0;
             }
-        }
+        }*/
 
         //--------------------Attack X--------------------//
         //If player launch an Attack X

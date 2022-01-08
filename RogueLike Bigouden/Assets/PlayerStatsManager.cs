@@ -324,26 +324,27 @@ public class PlayerStatsManager : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        getHurt = true;
-        //if (!isDashing)
-        //{
-        if (shieldPoint > 0)
+        if (lifePoint > 0)
         {
-            shieldPoint -= damage;
-            if (shieldPoint < 0)
-                shieldPoint = 0;
+            getHurt = true;
+            if (!isDashing)
+            {
+                if (shieldPoint > 0)
+                {
+                    shieldPoint -= damage;
+                    if (shieldPoint < 0)
+                    shieldPoint = 0;
+                }
+                else
+                lifePoint -= damage;
+            }
+            Debug.Log("Player took " + damage + " damage");
+            ShowFloatingText(damage);
+            UIManager.instance.RefreshUI();
+
+            if (lifePoint <= 0)
+                StartCoroutine(Death());
         }
-        else
-            lifePoint -= damage;
-
-        Debug.Log("Player took " + damage + " damage");
-        ShowFloatingText(damage);
-        UIManager.instance.RefreshUI();
-
-        if (lifePoint <= 0)
-            StartCoroutine(Death());
-        //}
-
     }
 
     private void FixedUpdate()
@@ -357,11 +358,18 @@ public class PlayerStatsManager : MonoBehaviour
     private IEnumerator Death()
     {
         movementSpeed = 0f;
-        playerAttribut.animatorPlayer.SetTrigger("isDead");
+        playerAttribut.animatorPlayer.SetBool("isDead", true);
+        Debug.Log("Yé");
         yield return new WaitForSeconds(1.5f);
-        Debug.Log(gameObject.name + " is Dead !");
-        UIManager.instance.gameOverPanel.SetActive(true);
+        Debug.Log("Yé2");
+        ShowDeadPannel();
+    }
+
+    private void ShowDeadPannel()
+    {
+        playerAttribut.animatorPlayer.SetBool("isDead", false);
         Time.timeScale = 0;
+        UIManager.instance.gameOverPanel.SetActive(true);
     }
 
     public void TakeShield(int shield)
@@ -446,7 +454,7 @@ public class PlayerStatsManager : MonoBehaviour
         attackRangeX = attackRangeXSO;
         attackCdX = attackCdXSO;
         attackRangeY = attackRangeYSO;
-        attackCdY = attackCdYSO;
+        attackCdY = 2f;
         attackRangeProjectile = attackRangeProjectileSO;
         attackCdB = attackCdBSO;
         dashSpeed = DashSpeedSo;
