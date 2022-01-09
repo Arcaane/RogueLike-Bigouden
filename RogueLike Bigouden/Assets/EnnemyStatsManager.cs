@@ -285,5 +285,14 @@ public class EnnemyStatsManager : MonoBehaviour
             StartCoroutine(HurtColorTint());
         }
     }
+
+    IEnumerator HurtColorTint()
+    {
+        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(hitcolor, 0f);
+        yield return new WaitForSeconds(0.2f);
+        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(notHurtColor, 0f);
+    }
+    
+    
     #endregion
 }
