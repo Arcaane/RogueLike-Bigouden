@@ -138,8 +138,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1876662591683130776}
-  - component: {fileID: 2402713427754110574}
   - component: {fileID: 9197972669340611221}
+  - component: {fileID: 2402713427754110574}
   - component: {fileID: 2402713427754110575}
   - component: {fileID: 2131259477649285314}
   m_Layer: 0
@@ -163,40 +163,6 @@ Transform:
   m_Father: {fileID: 3770380719716988701}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2402713427754110574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2402713427754110576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe8d8cb1c3d97240b571429d792a825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  propsData: {fileID: 11400000, guid: 3cdf604f3e0e8fc408116005e9321bd7, type: 2}
-  incrementFloat: 0
-  lifePoint: 0
-  damage: 0
-  counterDamageForLaunchAnim: 0
-  timeBeforeLaunchAnimation: 0
-  animationSpeed: 0
-  isDestructible: 0
-  isDamage: 0
-  isDestruct: 0
-  isTrigger: 0
-  spriteProps: {fileID: 0}
-  propsCollider: []
-  hitcolor: {r: 1, g: 0, b: 0, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
-  isProjector: 0
-  hurt: 0
-  counterBeforeReset: 0
-  incrementDamage: 0
 --- !u!212 &9197972669340611221
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -248,6 +214,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &2402713427754110574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2402713427754110576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe8d8cb1c3d97240b571429d792a825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propsData: {fileID: 11400000, guid: 3cdf604f3e0e8fc408116005e9321bd7, type: 2}
+  incrementFloat: 0
+  lifePoint: 0
+  spriteProps: {fileID: 0}
+  hitcolor: {r: 1, g: 0, b: 0, a: 1}
+  isProjector: 0
+  hurt: 0
+  counterBeforeReset: 0
+  incrementDamage: 0
+  baseSpriteData: {fileID: 0}
+  spriteSwap: []
+  variantNumber: 0
 --- !u!61 &2402713427754110575
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -415,25 +405,15 @@ MonoBehaviour:
   propsData: {fileID: 11400000, guid: 3cdf604f3e0e8fc408116005e9321bd7, type: 2}
   incrementFloat: 0
   lifePoint: 0
-  damage: 0
-  counterDamageForLaunchAnim: 0
-  timeBeforeLaunchAnimation: 0
-  animationSpeed: 0
-  isDestructible: 0
-  isDamage: 0
-  isDestruct: 0
-  isTrigger: 0
   spriteProps: {fileID: 0}
-  propsCollider: []
   hitcolor: {r: 1, g: 0, b: 0, a: 1}
-  needLaunchAnim: 0
-  animCounter: 0
-  reachAnimCounter: 0
-  animStockage: []
   isProjector: 0
   hurt: 0
   counterBeforeReset: 0
   incrementDamage: 0
+  baseSpriteData: {fileID: 0}
+  spriteSwap: []
+  variantNumber: 0
 --- !u!212 &3770380720490351897
 SpriteRenderer:
   m_ObjectHideFlags: 0

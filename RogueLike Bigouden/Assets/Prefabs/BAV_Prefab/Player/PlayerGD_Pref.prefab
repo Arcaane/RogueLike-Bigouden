@@ -369,14 +369,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPattern: 0
-  _playerAttribut: {fileID: 6216360794947180622}
-  bulletsAmount: 4
+  bulletsAmount: 5
   notEnoughBulletsInPool: 0.1
   notEnoughBulletsInPoolRandom: {x: 0.1, y: 0.2}
-  shootPointPos: {x: 0, y: 0, z: 0}
   numberOfSpline: 1
   angle: 1
-  speedAngle: 7
+  speedAngle: 10
   limitAngle: {x: -20, y: 20}
 --- !u!1 &3168704971642622432
 GameObject:
@@ -615,11 +613,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 2357304195136999172, guid: 015a8e0a8a5907c4699235e5e3c3c327, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.6, y: 1.6}
+  m_Size: {x: 0.96, y: 0.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -671,7 +669,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50584
+  m_InstanceId: 80540
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,7 +980,7 @@ MonoBehaviour:
   _X_isProjectile: 0
   buttonYValue: 0
   _Y_isDash: 0
-  _Y_isAttack: 1
+  _Y_isAttack: 0
   _Y_isProjectile: 0
   startButtonValue: 0
   selectButtonValue: 0
@@ -1048,9 +1046,6 @@ MonoBehaviour:
   spriteRendererFrame: {fileID: 8624704071328394346}
   perfectFrameColor: {r: 0.9433962, g: 0.865091, b: 0.15574935, a: 1}
   splinePivot: {fileID: 1578338303392233273}
-  isEnnemy:
-    serializedVersion: 2
-    m_Bits: 512
   attackSpline: {fileID: 4229443248142410407}
   attackPath: {fileID: 6630323540485487898}
   pointAttackY: {fileID: 0}
@@ -1068,7 +1063,6 @@ MonoBehaviour:
   ultBulletSpawner: {fileID: 2901870747702269023}
   ultDuration: 10
   isUlting: 0
-  isUltingAnim: 0
   canTakeItem: 0
   canTalk: 0
   canSkipDialogue: 0
@@ -1087,7 +1081,6 @@ MonoBehaviour:
   _timerBeforeResetPosCamera: 10
   limitationArray: {x: 100, y: 100}
   _attackPath: {fileID: 6630323540485487898}
-  _lastPosition: {x: 0, y: 0, z: 0}
   _directionNormalized: {x: 0, y: 0, z: 0}
   _look: {x: 0, y: 0, z: 0}
   _move: {x: 0, y: 0, z: 0}
@@ -1113,7 +1106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: ff1086fa665f9bc43b1b4df04239bb01, type: 2}
-  playerAttribut: {fileID: 6216360794947180622}
   maxLifePoint: 0
   actualUltPoint: 0
   ultMaxPoint: 0
