@@ -271,28 +271,42 @@ public class EnnemyStatsManager : MonoBehaviour
         go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
     
-    [Header("Color when the ennemy is Hit")]
-    public Color hitcolor = Color.red;
-    public float hitColorIntensity = 1f;
+    private Color hitcolor = Color.red;
     private Color notHurtColor = Color.white;
-    private float hitColorIntensityReset = 1f;
     [SerializeField] bool hurt = false;
 
     public void Update()
     {
         if (hurt)
         {
-            StartCoroutine(HurtColorTint());
+            SpriteSwap();
+            CounterBeforeReset();
         }
     }
 
-    IEnumerator HurtColorTint()
+    public void SpriteSwap()
     {
-        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(hitcolor, 0f);
-        yield return new WaitForSeconds(0.2f);
-        gameObject.GetComponentInChildren<SpriteRenderer>().DOColor(notHurtColor, 0f);
+        if (hurt)
+        {
+            //TimeManager.SlowDownGame();
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = hitcolor;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+        }
     }
     
+    public void CounterBeforeReset()
+    {
+        counterBeforeReset += Time.deltaTime;
+        if (counterBeforeReset > 0.2f)
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().color = notHurtColor;
+            counterBeforeReset = 0f;
+            hurt = false;
+        }
+    }
     
     #endregion
 }
