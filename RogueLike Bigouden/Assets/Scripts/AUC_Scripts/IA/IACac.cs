@@ -93,6 +93,9 @@ public class IACac : MonoBehaviour
             _isWalk = false;
         }
         else { _isWalk = true; }
+        
+        shootPointPos = (target.position - transform.position);
+        shootPointPos.Normalize();
     }
     
 
@@ -174,8 +177,6 @@ public class IACac : MonoBehaviour
     private bool paire = true;
     IEnumerator Hit()
     {
-        shootPointPos = (target.position - transform.position);
-        shootPointPos.Normalize();
         Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position + shootPointPos * 1, hitRadius, isPlayer);
         foreach (var _player in hitPlayers)
         {
@@ -189,9 +190,9 @@ public class IACac : MonoBehaviour
                 paire = true;
         }
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.001f);
         _isAttack = _isAttackAnim = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
         _isReadyToShoot = true;
     }
     #endregion
