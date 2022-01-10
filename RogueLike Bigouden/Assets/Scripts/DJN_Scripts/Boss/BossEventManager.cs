@@ -6,9 +6,13 @@ using UnityEngine;
 
 public class BossEventManager : MonoBehaviour
 {
+    public static BossEventManager instance;
+    [HideInInspector] public int currentPillar;
+
     [Header("Laser")]
     private Beam laserBeam;
     public GameObject[] laser;
+    public Animator[] laserAnimator;
 
     [Header("Flame Strike")] 
     [SerializeField] private GameObject[] _dalles;
@@ -17,18 +21,25 @@ public class BossEventManager : MonoBehaviour
 
     [Header("Rotation Laser")] 
     public GameObject[] rotationLaser;
+    public Animator rotationAnimator;
 
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+    }
 
     private void Start()
     {
         pillars.AddRange(FindObjectsOfType<PillarsStatsManager>());
-        
-        
-       /* if (player)
-        {
-            cinIsEnable = true;
-            StartCoroutine(StartCinematic());
-        } */
+
+        /* if (player)
+         {
+             cinIsEnable = true;
+             StartCoroutine(StartCinematic());
+         } */
     }
 
     private void Update()
@@ -40,14 +51,15 @@ public class BossEventManager : MonoBehaviour
             {
                 pillars.Remove(p);
             }
-            
         }
     }
     
     #region ABILITIES
     public void LoadBeam(int pillardSelect)
     {
+        currentPillar = pillardSelect;
         laserBeam = laser[pillardSelect].GetComponent<Beam>();
+        laserAnimator[pillardSelect].Play("TSpot_Turn");
         laserBeam.ghostTarget.position = laserBeam.originTarget.position;
         laserBeam.isActive = true;
     }

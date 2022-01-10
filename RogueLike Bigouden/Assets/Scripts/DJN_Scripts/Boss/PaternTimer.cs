@@ -136,8 +136,8 @@ public class PaternTimer : MonoBehaviour
 
         if (phase2)
         {
-            RotationTurret.SetActive(true);
-            //RotationTurretAnimator.Play("Open");
+            RotationTurret.GetComponent<BoxCollider2D>().isTrigger = false;
+            RotationTurretAnimator.Play("TM_Open");
             
             if (timerP2 >= P2Lenght)
             {

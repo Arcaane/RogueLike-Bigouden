@@ -79,6 +79,7 @@ public class Beam : MonoBehaviour
         {
             line.enabled = false;
             isActive = false;
+            BossEventManager.instance.laserAnimator[BossEventManager.instance.currentPillar].enabled = false;
         }
     }
 

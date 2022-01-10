@@ -242,12 +242,12 @@ public class UIManager : MonoBehaviour
 
     public void TryAgain()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("BAV_HUB_BED_RESET");
         gameOverPanel.SetActive(false);
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         RefreshUI();
-        Time.timeScale = 1;
     }
 
     #endregion
