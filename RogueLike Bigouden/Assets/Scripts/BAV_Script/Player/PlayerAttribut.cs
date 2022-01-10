@@ -352,7 +352,7 @@ public class PlayerAttribut : MonoBehaviour
 
     public void Move()
     {
-        if (!isUltingAnim /* && !CinematicBoss.instance.isCinematic */)
+        if (!isUltingAnim  /* && !CinematicBoss.instance.isCinematic */ )
         {
             if (_playerStatsManager.isAttackFirstX || _playerStatsManager.isAttackSecondX)
             {
