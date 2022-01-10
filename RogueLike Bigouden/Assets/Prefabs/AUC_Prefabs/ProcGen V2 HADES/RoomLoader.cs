@@ -21,7 +21,7 @@ public class RoomLoader : MonoBehaviour
     public Volume volume;
     private Bloom bloom;
     private ChromaticAberration _chromaticAberration;
-    private float blurTime = 1f;
+    private float blurTime = 3f;
     
     public List<GameObject> enemyList = new List<GameObject>();
 
@@ -98,11 +98,9 @@ public class RoomLoader : MonoBehaviour
         
         foreach (var light in LightsObj)
         {
-            light.GetComponent<Light2D>().intensity = Mathf.Lerp(light.GetComponent<Light2D>().intensity, 8f, blurTime);
+            light.GetComponent<Light2D>().intensity = Mathf.Lerp(light.GetComponent<Light2D>().intensity, 5f, blurTime);
         }
         _chromaticAberration.intensity.value = Mathf.Lerp(0, 1, blurTime);
         bloom.intensity.value = Mathf.Lerp(1, 5, blurTime);
-        
     }
-    
 }
