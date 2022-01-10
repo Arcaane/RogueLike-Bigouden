@@ -426,7 +426,6 @@ public class PlayerStatsManager : MonoBehaviour
 
     private IEnumerator Death()
     {
-        Debug.Log("OUI MORT");
         movementSpeed = 0f;
         playerAttribut.animatorPlayer.SetBool("isDead", true);
         yield return new WaitForSeconds(1.5f);
