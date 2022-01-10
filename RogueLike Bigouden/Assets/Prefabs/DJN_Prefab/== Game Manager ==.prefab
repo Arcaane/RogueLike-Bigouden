@@ -762,7 +762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &641231420
 Transform:
   m_ObjectHideFlags: 0
@@ -4464,12 +4464,12 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4488,7 +4488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7017339519398186039}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4466577913099479305}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: TryAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &244070073441460573
 Animator:
   serializedVersion: 3
@@ -4501,7 +4513,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a308b04e1281d4441a513cde22e3058e, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -4768,6 +4780,7 @@ GameObject:
   - component: {fileID: 845821530200542412}
   - component: {fileID: 2726963852029022018}
   - component: {fileID: 587750922604111940}
+  - component: {fileID: 1935122115}
   m_Layer: 0
   m_Name: ==FOREGROUND==
   m_TagString: Untagged
@@ -4853,6 +4866,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1935122115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877973422924977525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c277c8c10229c4787ff5f1449820e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restartButton: {fileID: 244070073441460573}
+  quitButton: {fileID: 8755201506531900501}
 --- !u!1 &957281913827848066
 GameObject:
   m_ObjectHideFlags: 0
@@ -9940,14 +9967,14 @@ MonoBehaviour:
     volume: 0.7
     pitch: 1
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: P_AttackBHit
     clip: {fileID: 8300000, guid: 0e4b1188adf40d14bb2423aa95a75f1d, type: 3}
     volume: 0.7
     pitch: 1
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: P_UltimateShoot
     clip: {fileID: 8300000, guid: 30ff9b1dcd6f5124ebba6fe92eb86ae2, type: 3}
@@ -10003,28 +10030,28 @@ MonoBehaviour:
     volume: 0.7
     pitch: 1.7
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: E_hurt
     clip: {fileID: 8300000, guid: b458020a14ae1244abc89dc68c12a1cb, type: 3}
     volume: 0.7
     pitch: 0.8
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
-  - soundName: 
-    clip: {fileID: 0}
-    volume: 1
+  - soundName: E_walk
+    clip: {fileID: 8300000, guid: 6527921f876af16478e4c063a9e92773, type: 3}
+    volume: 0.1
     pitch: 1
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
-  - soundName: 
-    clip: {fileID: 0}
-    volume: 1
+  - soundName: B_shoot1
+    clip: {fileID: 8300000, guid: 5182b9c2c8bc7464abb3aeed6bc21e5f, type: 3}
+    volume: 0.2
     pitch: 1
     loop: 0
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: 
     clip: {fileID: 0}
@@ -10532,14 +10559,14 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundName: menu_open
     clip: {fileID: 8300000, guid: 8521ced88f180dd42bb016b87ede4966, type: 3}
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 0
     mixerGroup: {fileID: -4614067701151040045, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: menu_close
     clip: {fileID: 8300000, guid: 6ea617194a3963149805ec12bff60523, type: 3}
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 0
     mixerGroup: {fileID: -4614067701151040045, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
@@ -10603,21 +10630,21 @@ MonoBehaviour:
   musics:
   - soundName: LowMusic
     clip: {fileID: 8300000, guid: 88237562034711b4ea49a227e31629c0, type: 3}
-    volume: 0.5
+    volume: 0.3
     pitch: 1
     loop: 1
     mixerGroup: {fileID: -2967977376069358851, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: MediumMusic
     clip: {fileID: 8300000, guid: 1b6c2d66dff6fa346ab359b0a443f982, type: 3}
-    volume: 0.5
+    volume: 0.3
     pitch: 1
     loop: 1
     mixerGroup: {fileID: -2967977376069358851, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     source: {fileID: 0}
   - soundName: HighMusic
     clip: {fileID: 8300000, guid: 10831aa48c645f74f8f05fc8c1340760, type: 3}
-    volume: 0.5
+    volume: 0.3
     pitch: 1
     loop: 1
     mixerGroup: {fileID: -2967977376069358851, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
@@ -10924,9 +10951,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -10945,7 +10972,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6111879328762382761}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4466577913099479305}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &8755201506531900501
 Animator:
   serializedVersion: 3
@@ -10958,7 +10997,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 00f2784deae94854dbaee522a973402f, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 

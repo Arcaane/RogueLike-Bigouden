@@ -301,7 +301,8 @@ public class PlayerStatsManager : MonoBehaviour
     public bool isInvincible;
     public bool loadInvincibilty;
     public bool isR;
-
+    public bool isDead;
+    
     // Others
     public GameObject FloatingTextPrefab;
     public GameObject HurtDamagescreen;
@@ -373,7 +374,12 @@ public class PlayerStatsManager : MonoBehaviour
             
             if (lifePoint <= 0) 
             {
-                StartCoroutine(Death());
+                if (!isDead)
+                {
+                    isDead = true;
+                    StartCoroutine(Death());
+                    isR = false;
+                }
             }
             
             if (isR)
@@ -548,6 +554,7 @@ public class PlayerStatsManager : MonoBehaviour
         readyToDash = readyToDashSO;
         onButter = onButterSO;
         isR = true;
+        isDead = false;
 
 
         //Other
