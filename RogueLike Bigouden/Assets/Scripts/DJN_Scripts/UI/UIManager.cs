@@ -320,9 +320,9 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(false);
             SoundManager.instance.PlaySound("menu_close");
             Time.timeScale = 1;
-            
+            SetSelectedButton(null);
             SetPanel(null);
-            
+
             if (blur)
             {
                 blur.SetActive(false);

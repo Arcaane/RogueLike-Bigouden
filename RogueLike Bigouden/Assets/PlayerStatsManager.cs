@@ -381,6 +381,7 @@ public class PlayerStatsManager : MonoBehaviour
                 if (lifePoint > 0)
                 {
                     UIManager.instance.playerAnimation.Play("hurt");
+                    SoundManager.instance.PlaySound("P_hurt");
                     StartCoroutine(HurtColorTint());
             
                     if (shieldPoint > 0)

@@ -220,6 +220,7 @@ public class EnnemyStatsManager : MonoBehaviour
             PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
         }
 
+        SoundManager.instance.PlaySound("E_hurt");
         ShowFloatingText(lifePoint);
         
         if (lifePoint <= 0)
