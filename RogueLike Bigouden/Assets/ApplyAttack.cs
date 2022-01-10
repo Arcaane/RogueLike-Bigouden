@@ -116,6 +116,8 @@ public class ApplyAttack : MonoBehaviour
         {
             trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity =
                 - trigger2D.gameObject.GetComponent<Rigidbody2D>().velocity;
+
+            trigger2D.GetComponent<BulletBehaviour>().isReverse = true;
         }
         
         //Boss

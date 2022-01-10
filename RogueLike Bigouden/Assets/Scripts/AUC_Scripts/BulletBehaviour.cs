@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    private Rigidbody2D rb; 
+    private Rigidbody2D rb;
+    public bool isReverse;
     private void Awake()
     {
         rb=GetComponent<Rigidbody2D>();
@@ -19,10 +20,9 @@ public class BulletBehaviour : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D colid)
     {
-        //Modif Baptiste
         GameObject objColid = colid.gameObject;
         PlayerStatsManager stats = objColid.GetComponent<PlayerStatsManager>();
-        if (objColid.CompareTag("Player") && !stats.isDashing)
+        if (objColid.CompareTag("Player"))
         {
             stats.TakeDamage(1);
             gameObject.SetActive(false);
@@ -30,6 +30,12 @@ public class BulletBehaviour : MonoBehaviour
 
         if (objColid.CompareTag("Border") || objColid.CompareTag("Sofa") || objColid.CompareTag("Pillier") || objColid.CompareTag("Obstacle") || objColid.CompareTag("Destructible"))
         {
+            gameObject.SetActive(false);
+        }
+
+        if (isReverse && objColid.CompareTag("Ennemy"))
+        {
+            objColid.GetComponent<EnnemyStatsManager>().TakeDamage(1);
             gameObject.SetActive(false);
         }
     }

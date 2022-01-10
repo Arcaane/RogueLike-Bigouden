@@ -300,6 +300,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool getHurt;
     public bool isInvincible;
     public bool loadInvincibilty;
+    public bool isR;
 
     // Others
     public GameObject FloatingTextPrefab;
@@ -329,6 +330,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         #region TIMER INVICIBILTY
         if (loadInvincibilty)
         {
@@ -346,9 +348,8 @@ public class PlayerStatsManager : MonoBehaviour
                 timerInvincibility = invincibilityDuration;
             }
         }
-
         #endregion
-        
+        */
     }
     
     #region Functions
@@ -366,42 +367,55 @@ public class PlayerStatsManager : MonoBehaviour
 
 
     public void TakeDamage(int damage)
-    {
-        if (!isInvincible) 
+    { 
+        if (!isDashing)
         {
-            if (!isDashing)
-            {
-                UIManager.instance.playerAnimation.Play("hurt");
-                StartCoroutine(HurtColorTint());
             
-                if (shieldPoint > 0)
+            if (lifePoint <= 0) 
+            {
+                StartCoroutine(Death());
+            }
+            
+            if (isR)
+            {
+                if (lifePoint > 0)
                 {
-                    shieldPoint -= damage;
-                
-                    if (shieldPoint < 0)
+                    UIManager.instance.playerAnimation.Play("hurt");
+                    StartCoroutine(HurtColorTint());
+            
+                    if (shieldPoint > 0)
                     {
-                        shieldPoint = 0;
+                        shieldPoint -= damage;
+                
+                        if (shieldPoint < 0)
+                        {
+                            shieldPoint = 0;
+                        }
                     }
-                }
-                else
-                {
-                    lifePoint -= damage;
-                }
+                    else
+                    { 
+                        lifePoint -= damage;
+                        isR = false;
+                        StartCoroutine(GoR());
+                    }
 
-                Debug.Log("Player took " + damage + " damage");
-                ShowFloatingText(damage);
-                UIManager.instance.RefreshUI();
+                    Debug.Log($"Player took {damage} damage");
+                    ShowFloatingText(damage);
+                    UIManager.instance.RefreshUI();
 
-                loadInvincibilty = true;
-
-                if (lifePoint <= 0)
-                {
-                    Death();
+                    //loadInvincibilty = true;
                 }
             }
         }
     }
 
+    private IEnumerator GoR()
+    {
+        yield return new WaitForSeconds(0.37f);
+        isR = true;
+    }
+
+    
     private void FixedUpdate()
     {
         if (getHurt)
@@ -412,7 +426,6 @@ public class PlayerStatsManager : MonoBehaviour
 
     private IEnumerator Death()
     {
-        UIManager.instance.LoadGameOver();
         movementSpeed = 0f;
         playerAttribut.animatorPlayer.SetBool("isDead", true);
         yield return new WaitForSeconds(1.5f);
@@ -421,15 +434,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void ShowDeadPannel()
     {
+        UIManager.instance.LoadGameOver();
         playerAttribut.animatorPlayer.SetBool("isDead", false);
         Time.timeScale = 0;
-        UIManager.instance.gameOverPanel.SetActive(true);
     }
 
     public void TakeShield(int shield)
     {
         shieldPoint += shield;
-        // Play TakeShield Animation
     }
 
     public void EarnUltPoint(bool isKill)
@@ -534,6 +546,7 @@ public class PlayerStatsManager : MonoBehaviour
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;
+        isR = true;
 
 
         //Other
