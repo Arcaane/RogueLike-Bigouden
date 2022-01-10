@@ -370,38 +370,42 @@ public class PlayerStatsManager : MonoBehaviour
     { 
         if (!isDashing)
         {
+            
+            if (lifePoint <= 0) 
+            {
+                StartCoroutine(Death());
+            }
+            
             if (isR)
             {
-                UIManager.instance.playerAnimation.Play("hurt");
-                StartCoroutine(HurtColorTint());
-            
-                if (shieldPoint > 0)
+                if (lifePoint > 0)
                 {
-                    shieldPoint -= damage;
-                
-                    if (shieldPoint < 0)
+                    UIManager.instance.playerAnimation.Play("hurt");
+                    StartCoroutine(HurtColorTint());
+            
+                    if (shieldPoint > 0)
                     {
-                        shieldPoint = 0;
+                        shieldPoint -= damage;
+                
+                        if (shieldPoint < 0)
+                        {
+                            shieldPoint = 0;
+                        }
                     }
-                }
-                else
-                { 
-                    lifePoint -= damage;
-                    isR = false;
-                    StartCoroutine(GoR());
-                }
+                    else
+                    { 
+                        lifePoint -= damage;
+                        isR = false;
+                        StartCoroutine(GoR());
+                    }
 
-                Debug.Log("Player took " + damage + " damage");
-                ShowFloatingText(damage);
-                UIManager.instance.RefreshUI();
+                    Debug.Log($"Player took {damage} damage");
+                    ShowFloatingText(damage);
+                    UIManager.instance.RefreshUI();
 
-                //loadInvincibilty = true;
+                    //loadInvincibilty = true;
+                }
             }
-                if (lifePoint <= 0)
-                {
-                    Death();
-                }
-            
         }
     }
 
@@ -422,7 +426,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private IEnumerator Death()
     {
-        UIManager.instance.LoadGameOver();
+        Debug.Log("OUI MORT");
         movementSpeed = 0f;
         playerAttribut.animatorPlayer.SetBool("isDead", true);
         yield return new WaitForSeconds(1.5f);
@@ -431,15 +435,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void ShowDeadPannel()
     {
+        UIManager.instance.LoadGameOver();
         playerAttribut.animatorPlayer.SetBool("isDead", false);
         Time.timeScale = 0;
-        UIManager.instance.gameOverPanel.SetActive(true);
     }
 
     public void TakeShield(int shield)
     {
         shieldPoint += shield;
-        // Play TakeShield Animation
     }
 
     public void EarnUltPoint(bool isKill)
