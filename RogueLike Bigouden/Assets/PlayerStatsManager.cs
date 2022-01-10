@@ -300,6 +300,7 @@ public class PlayerStatsManager : MonoBehaviour
     public bool getHurt;
     public bool isInvincible;
     public bool loadInvincibilty;
+    public bool isR;
 
     // Others
     public GameObject FloatingTextPrefab;
@@ -346,7 +347,6 @@ public class PlayerStatsManager : MonoBehaviour
                 timerInvincibility = invincibilityDuration;
             }
         }
-
         #endregion
         
     }
@@ -366,10 +366,10 @@ public class PlayerStatsManager : MonoBehaviour
 
 
     public void TakeDamage(int damage)
-    {
-        if (!isInvincible) 
+    { 
+        if (!isDashing)
         {
-            if (!isDashing)
+            if (isR)
             {
                 UIManager.instance.playerAnimation.Play("hurt");
                 StartCoroutine(HurtColorTint());
@@ -384,8 +384,10 @@ public class PlayerStatsManager : MonoBehaviour
                     }
                 }
                 else
-                {
+                { 
                     lifePoint -= damage;
+                    isR = false;
+                    StartCoroutine(GoR());
                 }
 
                 Debug.Log("Player took " + damage + " damage");
@@ -402,6 +404,13 @@ public class PlayerStatsManager : MonoBehaviour
         }
     }
 
+    private IEnumerator GoR()
+    {
+        yield return new WaitForSeconds(0.4f);
+        isR = true;
+    }
+
+    
     private void FixedUpdate()
     {
         if (getHurt)
@@ -534,6 +543,7 @@ public class PlayerStatsManager : MonoBehaviour
         isDashing = isDashingSO;
         readyToDash = readyToDashSO;
         onButter = onButterSO;
+        isR = true;
 
 
         //Other
