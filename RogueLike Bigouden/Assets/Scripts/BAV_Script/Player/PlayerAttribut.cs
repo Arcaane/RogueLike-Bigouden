@@ -298,7 +298,7 @@ public class PlayerAttribut : MonoBehaviour
         //Stock l'ancienne Velocity
         lastVelocity = rb.velocity;
 
-        if (xbox_b && _playerStatsManager.readyToAttackB)
+        if (xbox_b && _playerStatsManager.readyToAttackB && !UIManager.instance.isPaused)
         {
             isCastingTime = true;
         }

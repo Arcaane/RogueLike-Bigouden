@@ -10446,14 +10446,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1277212336}
     m_Modifications:
-    - target: {fileID: 1519636972, guid: 31cd54b8796f6ff459683fd36b1c74d7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.00000023841858
-      objectReference: {fileID: 0}
-    - target: {fileID: 1519636972, guid: 31cd54b8796f6ff459683fd36b1c74d7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.53332996
-      objectReference: {fileID: 0}
     - target: {fileID: 82470713143018613, guid: 31cd54b8796f6ff459683fd36b1c74d7, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -10502,10 +10494,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ennemy1 _ Shooter (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 2110859047016906816, guid: 31cd54b8796f6ff459683fd36b1c74d7, type: 3}
-      propertyPath: _detectZone
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31cd54b8796f6ff459683fd36b1c74d7, type: 3}
 --- !u!4 &493749515 stripped
@@ -10520,22 +10508,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1277212336}
     m_Modifications:
-    - target: {fileID: 1379514261, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: _detectZone
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1379514261, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: _attackRange
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1886598574, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.6976562
-      objectReference: {fileID: 0}
-    - target: {fileID: 1886598574, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.8174143
-      objectReference: {fileID: 0}
     - target: {fileID: 3323860257783470425, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -12515,14 +12487,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1277212336}
     m_Modifications:
-    - target: {fileID: 1886598574, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.13332
-      objectReference: {fileID: 0}
-    - target: {fileID: 1886598574, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.56660986
-      objectReference: {fileID: 0}
     - target: {fileID: 3323860257783470425, guid: 048922d063ea12d439f818d9d1c74e01, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -12939,14 +12903,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1277212336}
     m_Modifications:
-    - target: {fileID: 1048843384, guid: f2adaabd0f0230e408f5190f227bc4c2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.430977
-      objectReference: {fileID: 0}
-    - target: {fileID: 1048843384, guid: f2adaabd0f0230e408f5190f227bc4c2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.6406684
-      objectReference: {fileID: 0}
     - target: {fileID: 5445882489520437768, guid: f2adaabd0f0230e408f5190f227bc4c2, type: 3}
       propertyPath: m_Name
       value: Ennemy4_Cac (1)
@@ -13560,7 +13516,7 @@ MonoBehaviour:
   m_OverrideTileSize: 1
   m_TileSize: 100
   m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.01
+  m_VoxelSize: 0.05
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: cde911ba80dd54249a23aa1c0466fed9, type: 2}

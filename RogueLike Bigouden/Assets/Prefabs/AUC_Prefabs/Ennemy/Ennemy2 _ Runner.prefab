@@ -230,8 +230,8 @@ MonoBehaviour:
   _isWalk: 0
   _isCharging: 0
   _damageDealt: 0
-  _detectZone: 0
-  _attackRange: 0
+  _detectZone: 3
+  _attackRange: 2
   _timeBeforeAggro: 0
   _movementSpeed: 0
   _isPlayerInAggroRange: 0
@@ -241,6 +241,7 @@ MonoBehaviour:
   _isDashing: 0
   _dashSpeed: 0
   shootPointPos: {x: 0, y: 0}
+  shootPointPosAnim: {x: 0, y: 0}
   _isReadyToDash: 0
   _stunDuration: 0
   _rushDelay: 0
@@ -285,4 +286,3 @@ MonoBehaviour:
   isReadyToDash: 0
   FloatingTextEnnemiPrefab: {fileID: 2722654959424730303, guid: 4736037fe8427d64ca36083a14093258, type: 3}
   counterBeforeReset: 0.5
-  hurt: 0
