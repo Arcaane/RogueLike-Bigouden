@@ -44,28 +44,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRoom: 0
-  numberOfRoomToCreate: 19
-  roomBeforeBoss: 0
+  numberOfRoomToCreate: 20
+  roomBeforeBoss: 10
   shopApparitionValue: 0
   smallRoomCounter: 0
   mediumRoomCounter: 0
   largeRoomCounter: 0
   smallRoomApparitionValue: 3
-  mediumRoomApparitionValue: 5
+  mediumRoomApparitionValue: 6
   largeRoomApparitionValue: 1
-  smallRoomMultiplicator: 0.75
-  mediumRoomMultiplicator: 0
-  largeRoomMultiplicator: 0
-  multiplicatorSizeIndicator: 4
   roomLevel1Small:
-  - L1R1 - S
+  - D_DanceFloor_S
+  - DN_C_DanceFloor_S
   roomLevel1Medium:
   - BAV_LD4_Dancefloor_M
+  - AUC_LD_1_M
   - BAV_LD6_Dancefloor_M
   - DN_B_Dancefloor_M
-  - AUC_LD_1_M
   roomLevel1Large:
-  - L1R3 - L
+  - D_DanceFloor_S
   roomLevel2Small:
   - L1R1 - S
   roomLevel2Medium:
@@ -77,7 +74,7 @@ MonoBehaviour:
   - Store
   bossRoom:
   - L1BR
-  - L1BR
+  - DN_BOSS
   finalList: []
   launchAnimator: {fileID: 0}
   transitionDuration: 2

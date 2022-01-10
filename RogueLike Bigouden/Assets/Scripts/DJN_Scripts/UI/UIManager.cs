@@ -239,22 +239,16 @@ public class UIManager : MonoBehaviour
         moneyCollectText.text = ScoreManager.instance.moneyObtained.ToString();
         timerFinalText.text = $"{ScoreManager.instance.minutes:00}:{ScoreManager.instance.seconds:00}";
     }
-    
+
     public void TryAgain()
     {
-        SceneManager.LoadScene("BAV_HUB_BED_RESET");
-        Time.timeScale = 1;
         gameOverPanel.SetActive(false);
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         RefreshUI();
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene("Menu");
         Time.timeScale = 1;
-        gameOverPanel.SetActive(false);
+        SceneManager.LoadScene("BAV_HUB_BED_RESET");
+        
     }
 
     #endregion
