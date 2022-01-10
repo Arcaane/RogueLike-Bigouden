@@ -43,12 +43,15 @@ public class ProjectilePlayer : MonoBehaviour
             Debug.Log("Ennemy here");
             ProjectileStop();
             other.GetComponent<EnnemyStatsManager>().TakeDamage(damage);
+            SoundManager.instance.PlaySound("P_AttackBHit");
         }
 
         if (other.gameObject.CompareTag("Border") && !isDeploy)
         {
             Debug.Log("Border here");
             ProjectileStop();
+            
+            SoundManager.instance.PlaySound("P_AttackBHit");
         }
 
         if (other.gameObject.CompareTag("Player") && isDeploy)

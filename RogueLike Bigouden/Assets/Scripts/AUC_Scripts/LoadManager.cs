@@ -104,6 +104,9 @@ public class LoadManager : MonoBehaviour
      {
          SceneManager.LoadSceneAsync(finalList[currentRoom]);
          currentRoom++;
+
+         SoundManager.instance.StartMusic();
+             
      }
 
      public void ResetProcedural()

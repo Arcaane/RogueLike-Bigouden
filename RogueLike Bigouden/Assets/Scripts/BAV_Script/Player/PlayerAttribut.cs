@@ -771,6 +771,7 @@ public class PlayerAttribut : MonoBehaviour
 
         GameObject obj = Instantiate(AttackProjectile, transform.position + shootPointPos * radiusShootPoint,
             Quaternion.identity);
+        SoundManager.instance.PlaySound("P_AttackBLoad");
         obj.GetComponent<ProjectilePlayer>()
             .GoDirection(new Vector2(shootPointPos.x, shootPointPos.y), 7f, damageProjectile,
                 1.3f); // Direction puis Speed des balles
@@ -990,6 +991,7 @@ public class PlayerAttribut : MonoBehaviour
                 canTakeItem = false;
                 Destroy(_dropSystem.gameObject, 0.4f);
             }
+            SoundManager.instance.PlaySound("item_add");
         }
     }
 

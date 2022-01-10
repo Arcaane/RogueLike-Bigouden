@@ -6,14 +6,25 @@ using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;
     [SerializeField] private Sound[] sounds;
     [SerializeField] private Sound[] musics;
-    [SerializeField] private string lowLevelMusic;
-    [SerializeField] private string mediumLevelMusic;
-    [SerializeField] private string highLevelMusic;
-    [SerializeField] private string bossLevelMusic;
+     public string lowLevelMusic;
+     public int roomToLoadLow;
+     public string mediumLevelMusic;
+     public int roomToLoadMedium;
+     public string highLevelMusic;
+     public int roomToLoadHigh;
+     public string bossLevelMusic;
+     public int roomToLoadBoss;
+    
     private void Awake()
     {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+        
         foreach (Sound s in sounds)
         {
                 s.source = gameObject.AddComponent<AudioSource>();
@@ -41,10 +52,43 @@ public class SoundManager : MonoBehaviour
         s.source.Play();
     }
 
-    public void LoadMusic(string name)
+    private void LoadMusic(string name)
     {
         Sound m = Array.Find(musics, music => music.soundName == name);
         m.source.Play();
-        
     }
+
+    private void StopMusic(string name)
+    {
+        Sound m = Array.Find(musics, music => music.soundName == name);
+        m.source.Stop();
+    }
+
+    public void StartMusic()
+    {
+        if (LoadManager.LoadManagerInstance.currentRoom == roomToLoadLow)
+        {
+            LoadMusic(lowLevelMusic);
+        }
+        
+        if (LoadManager.LoadManagerInstance.currentRoom == roomToLoadMedium)
+        {
+            LoadMusic(mediumLevelMusic);
+            StopMusic(lowLevelMusic);
+            
+        }
+        
+        if (LoadManager.LoadManagerInstance.currentRoom == roomToLoadHigh)
+        {
+            LoadMusic(highLevelMusic);
+            StopMusic(mediumLevelMusic);
+        }
+        
+        if (LoadManager.LoadManagerInstance.currentRoom == roomToLoadBoss)
+        {
+            LoadMusic(bossLevelMusic);
+            StopMusic(highLevelMusic);
+        }
+    }
+    
 }

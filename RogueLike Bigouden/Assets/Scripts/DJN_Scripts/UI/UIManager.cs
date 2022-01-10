@@ -268,7 +268,7 @@ public class UIManager : MonoBehaviour
             SetSelectedButton(pauseFirstSelectedButton);
             isPaused = true;
             pauseMenu.SetActive(true);
-            
+            SoundManager.instance.PlaySound("menu_open");
             Time.timeScale = 0;
             
             SetPanel(pauseMenuPanel);
@@ -297,6 +297,7 @@ public class UIManager : MonoBehaviour
     {
         actualPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        SoundManager.instance.PlaySound("click_back");
         
         if (actualPanel == pauseMenuPanel)
         {
@@ -317,7 +318,7 @@ public class UIManager : MonoBehaviour
         {
             isPaused = false;
             pauseMenu.SetActive(false);
-            
+            SoundManager.instance.PlaySound("menu_close");
             Time.timeScale = 1;
             
             SetPanel(null);
@@ -429,6 +430,11 @@ public class UIManager : MonoBehaviour
         {
             masterMixer.SetFloat("masterVolume", 0);
         }
+    }
+
+    public void LoadSound(string soundName)
+    {
+        SoundManager.instance.PlaySound(soundName);
     }
 
     #endregion
