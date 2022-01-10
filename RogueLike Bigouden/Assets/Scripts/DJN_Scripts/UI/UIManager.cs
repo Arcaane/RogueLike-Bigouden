@@ -127,7 +127,7 @@ public class UIManager : MonoBehaviour
         dialogueBox.SetActive(false);
         isPaused = false;
         pauseMenu.SetActive(false);
-        
+        eventSystem = FindObjectOfType<EventSystem>();
         itemInformationPanel.SetActive(false);
     }
 

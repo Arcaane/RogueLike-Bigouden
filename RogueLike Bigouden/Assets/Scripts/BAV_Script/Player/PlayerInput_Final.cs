@@ -152,9 +152,9 @@ public class PlayerInput_Final : MonoBehaviour
 
         //Use Button----------
         controls.Player.AButton.performed += Input_AButton;
-        //controls.Player.BButton.started += Input_BButton;
-        //controls.Player.BButton.performed += Input_BButton;
-        //controls.Player.BButton.canceled += Input_BButton;
+        controls.Player.BButton.started += Input_BButton;
+        controls.Player.BButton.performed += Input_BButton;
+        controls.Player.BButton.canceled += Input_BButton;
         controls.Player.XButton.performed += Input_XButton;
         controls.Player.YButton.performed += Input_YButton;
 
@@ -255,50 +255,9 @@ public class PlayerInput_Final : MonoBehaviour
     /// Permet d'appeler l'input du Boutton B
     /// </summary>
     /// <param name="buttonB"></param>
-   /* public void Input_BButton(CallbackContext buttonB)
+    public void Input_BButton(CallbackContext buttonB)
     {
         buttonBValue = buttonB.ReadValue<float>();
-        if (PlayerStatsManager.playerStatsInstance.readyToAttackB && !_uiManager.isPaused)
-        {
-            if (buttonB.started)
-            {
-                //Debug.Log("Button B Started");
-                playerAttribut.launchProjectileFeedback.SetActive(true);
-            }
-
-            if (buttonB.performed)
-            {
-                if (_B_isDash)
-                {
-                    playerAttribut.Dash();
-                }
-
-                if (_B_isAttack)
-                {
-                    playerAttribut.AttackTypeX();
-                }
-
-                if (_B_isProjectile)
-                {
-                    playerAttribut.launchProjectileFeedback.SetActive(true);
-
-                    if (buttonBValue >= InputSystem.settings.defaultHoldTime)
-                    {
-                        Debug.Log("Button Held");
-                        PlayerStatsManager.playerStatsInstance.isAttackB = true;
-                    }
-                    else
-                    {
-                        if (buttonBValue <= InputSystem.settings.defaultButtonPressPoint)
-                        {
-                            PlayerStatsManager.playerStatsInstance.isAttackB = false;
-                            Debug.Log("Button tapped");
-                        }
-                    }
-                }
-
-            }
-        }
 
         if (_uiManager.isPaused)
         {
@@ -309,14 +268,8 @@ public class PlayerInput_Final : MonoBehaviour
             }
         }
 
-
-        if (buttonB.canceled)
-        {
-            //Debug.Log("Button B Canceled");
-            playerAttribut.launchProjectileFeedback.SetActive(false);
-        }
     }
-    */
+    
    
     /// <summary>
     /// Permet d'appeler l'input du Boutton X

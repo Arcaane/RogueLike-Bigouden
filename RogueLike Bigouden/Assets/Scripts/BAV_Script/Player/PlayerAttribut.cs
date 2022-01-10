@@ -321,7 +321,7 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         // Si tout est bon, appele la fonction de tir
-        if (_playerStatsManager.readyToAttackB && _playerStatsManager.isAttackB)
+        if (_playerStatsManager.readyToAttackB && _playerStatsManager.isAttackB && !UIManager.instance.isPaused)
         {
             MovementProjectile();
             _playerStatsManager.readyToAttackB = false;
