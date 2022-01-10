@@ -330,6 +330,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         #region TIMER INVICIBILTY
         if (loadInvincibilty)
         {
@@ -348,7 +349,7 @@ public class PlayerStatsManager : MonoBehaviour
             }
         }
         #endregion
-        
+        */
     }
     
     #region Functions
@@ -394,19 +395,19 @@ public class PlayerStatsManager : MonoBehaviour
                 ShowFloatingText(damage);
                 UIManager.instance.RefreshUI();
 
-                loadInvincibilty = true;
-
+                //loadInvincibilty = true;
+            }
                 if (lifePoint <= 0)
                 {
                     Death();
                 }
-            }
+            
         }
     }
 
     private IEnumerator GoR()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.37f);
         isR = true;
     }
 
