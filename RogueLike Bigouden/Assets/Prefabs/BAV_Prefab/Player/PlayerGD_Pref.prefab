@@ -671,7 +671,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50584
+  m_InstanceId: 36134
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ SpriteRenderer:
   m_Size: {x: 0.9375, y: 0.9375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5337798057693890605
@@ -1140,6 +1140,8 @@ MonoBehaviour:
   dashCooldown: 0
   ultDuration: 0
   bonusSpeed: 0
+  invincibilityDuration: 0
+  timerInvincibility: 0
   firstAttackReset: {x: 0, y: 0}
   secondAttackReset: {x: 0, y: 0}
   isAttackingX: 0
@@ -1155,6 +1157,10 @@ MonoBehaviour:
   readyToDash: 0
   onButter: 0
   getHurt: 0
+  isInvincible: 0
+  loadInvincibilty: 0
+  isR: 0
+  isDead: 0
   FloatingTextPrefab: {fileID: 2722654959424730303, guid: ca82c292d0009ce4087feff5a2b2658f, type: 3}
   HurtDamagescreen: {fileID: 759035399250331798}
   lifePointSave: 0
@@ -1240,7 +1246,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02000001, y: 0.03}
+  m_Offset: {x: 0.02000001, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1251,7 +1257,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.35, y: 0.06}
+  m_Size: {x: 0.3, y: 0.2}
   m_EdgeRadius: 0.03
 --- !u!1 &8653559456594275084
 GameObject:
