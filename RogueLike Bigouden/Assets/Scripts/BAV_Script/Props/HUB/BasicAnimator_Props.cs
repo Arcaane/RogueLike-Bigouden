@@ -19,18 +19,11 @@ public class BasicAnimator_Props : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        ;
         GameObject objtrigger = other.gameObject;
         PlayerStatsManager objManager = objtrigger.GetComponent<PlayerStatsManager>();
-        if (objtrigger.CompareTag("Player") && objManager.isAttackingX)
+        if (objtrigger.CompareTag("Weapon") || objtrigger.CompareTag("Player") /*&& objManager.isAttackingX*/)
         {
-            props.TakeDamagePropsDestruction();
-            if (props.incrementDamage > damageToLaunchHitAnim)
-            {
-                animator.SetTrigger("Hit");
-                box.enabled = false;
-            }
+            animator.SetTrigger("Hit");
         }
     }
-
 }
