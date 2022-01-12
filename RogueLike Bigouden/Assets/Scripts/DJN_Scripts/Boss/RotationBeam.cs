@@ -23,6 +23,8 @@ public class RotationBeam : MonoBehaviour
      
     public bool isActive;
 
+    public Animator animator;
+
     public int p;
 
     private void Start()
@@ -35,10 +37,14 @@ public class RotationBeam : MonoBehaviour
 
     private void Update()
     {
+        
         if (isActive)
         {
             LoadRBeam();
             line.enabled = true;
+            animator.Play("TM_Open");
+            animator.GetComponent<BoxCollider2D>().isTrigger = false;
+            
         }
         
         if (ghostTarget.position == keyPoints[5].position)
@@ -46,6 +52,8 @@ public class RotationBeam : MonoBehaviour
             line.enabled = false;
             isActive = false;
             p = 0;
+            animator.GetComponent<BoxCollider2D>().isTrigger = true;
+            animator.Play("TM_Close");
         }
        
     }
@@ -53,6 +61,7 @@ public class RotationBeam : MonoBehaviour
     void LoadRBeam()
     {
             hit = Physics2D.Linecast(startPoint.position, ghostTarget.position, layerMask);
+           
             
             line.SetPosition(0, startPoint.position);
 
