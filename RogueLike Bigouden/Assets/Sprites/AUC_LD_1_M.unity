@@ -13467,8 +13467,8 @@ Transform:
   - {fileID: 745775762}
   - {fileID: 1286850794}
   - {fileID: 493749515}
-  - {fileID: 168586171}
   - {fileID: 1710734224}
+  - {fileID: 168586171}
   m_Father: {fileID: 1648158202}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13706,6 +13706,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6440969308848791455, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
+      propertyPath: bossRoom.Array.data[0]
+      value: DN_B_Dancefloor_M
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440969308848791455, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
+      propertyPath: largeRoomApparitionValue
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440969308848791455, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
+      propertyPath: smallRoomApparitionValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440969308848791455, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
+      propertyPath: mediumRoomApparitionValue
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6638168299840511847, guid: 8f36217ccb3175c4fbe7468a076b80ea, type: 3}
       propertyPath: m_RootOrder
       value: 3
