@@ -30,12 +30,14 @@ public class PaternTimer : MonoBehaviour
     [Header("P1")] 
     public float timerFS;
 
-    private float backupTimerFS;
-    private float currentTimerFS;
+    public float backupTimerFS;
+    public float currentTimerFS;
     
     [Header("P2")] 
     public GameObject RotationTurret;
     public Animator RotationTurretAnimator;
+
+    [Header("Boss")] public Animator bossAnimator;
 
     [Header("TEST")] public GameObject player;
     
@@ -175,7 +177,7 @@ public class PaternTimer : MonoBehaviour
         }
         else if (currentTimerFS <= 0)
         {
-            currentTimerFS = timerFS;
+            currentTimerFS = backupTimerFS;
             LoadFS(1);
         } 
         

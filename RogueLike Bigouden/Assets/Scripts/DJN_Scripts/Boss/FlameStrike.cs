@@ -10,7 +10,7 @@ public class FlameStrike : MonoBehaviour
   private BossEventManager _bossEventManager;
 
   [SerializeField] private int damage;
-  private bool playerOnIt;
+  public bool playerOnIt;
   private GameObject player;
   private bool alreadyLoad;
   
@@ -23,25 +23,7 @@ public class FlameStrike : MonoBehaviour
 
   public void LoadTint()
   {
-    if (!alreadyLoad)
-    {
-      _animator.SetBool("activeTint", true);
-      _animator.SetBool("disactive", false);
-      alreadyLoad = true;
-    }
-  }
-
-  public void ActiveBurst()
-  {
-    _animator.SetBool("activeTint", false);
-    _animator.SetBool("activeBurst", true);
-  }
-
-  public void Disactive()
-  {
-    _animator.SetBool("disactive", true);
-    _animator.SetBool("activeBurst", false);
-    alreadyLoad = false;
+      _animator.Play("dancefloor_explode");
   }
 
 
