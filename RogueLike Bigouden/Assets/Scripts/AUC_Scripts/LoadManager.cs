@@ -114,9 +114,9 @@ public class LoadManager : MonoBehaviour
          finalList = new List<string>();
          currentRoom = 0;
          
-         smallRoomApparitionValue = 5;
-         mediumRoomApparitionValue = 2.5f;
-         smallRoomApparitionValue = 2.5f;
+         smallRoomApparitionValue = 6;
+         mediumRoomApparitionValue = 3f;
+         smallRoomApparitionValue = 1f;
          shopApparitionValue = 0;
          
          smallRoomCounter = 0;
@@ -136,7 +136,6 @@ public class LoadManager : MonoBehaviour
              return;
          }
          
-         
          if (finalList.Count == RoomLevel1BeforeBoss)
          {
              if (shopApparitionValue != 0)
@@ -155,6 +154,8 @@ public class LoadManager : MonoBehaviour
 
      private void AddRoomLevel2()
      {
+         isLevel1 = false;
+         
          if (finalList.Count == RoomLevel2BeforeBoss) // Add le shop avant le boss
          {
              if (shopApparitionValue != 0)
@@ -171,12 +172,6 @@ public class LoadManager : MonoBehaviour
 
      private void AlgoCompliquer()
      {
-
-         for (int i = 0; i < defaultRoom.Count; i++)
-         {
-             finalList.Add(defaultRoom[i]);
-         }
-         
          for (int i = 0; i < numberOfRoomToCreate; i++)
          {
              if (isLevel1)
@@ -184,7 +179,7 @@ public class LoadManager : MonoBehaviour
              else
                  AddRoomLevel2();
 
-             if (i == 5 || i == 14)
+             if (i == 4 || i == 13)
              {
                  shopApparitionValue = 3;
              }
@@ -197,6 +192,7 @@ public class LoadManager : MonoBehaviour
             if (rLastCharacter == 'S') // Si Petite Salle tirée
             {
                 smallRoomCounter++;
+                
                 smallRoomApparitionValue --;    
              
                 // Valeur Apparition Salle Moyenne
@@ -208,6 +204,7 @@ public class LoadManager : MonoBehaviour
             else if (rLastCharacter == 'M') // Si moyenne salle tirée 
             {
                 mediumRoomCounter++;
+                
                 // Valeur Apparition Salle Petite
                 smallRoomApparitionValue += 0.5f;
              
@@ -233,20 +230,27 @@ public class LoadManager : MonoBehaviour
                 shopApparitionValue = 0;
             
             if (smallRoomApparitionValue <= 0)
-                smallRoomApparitionValue = 1;
+                smallRoomApparitionValue = 2;
             else if (mediumRoomApparitionValue <= 0)
-                mediumRoomApparitionValue = 1;
+                mediumRoomApparitionValue = 2;
             else if (largeRoomApparitionValue <= 0)
-                largeRoomApparitionValue = 1;
+                largeRoomApparitionValue = 2;
             
-            
-             if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8)
-             {
-                 ResetProcedural();
-             }
          }
+
+         CheckAlgo();
      }
 
+     private void CheckAlgo()
+     {
+         if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8 || finalList.Count > 22 || finalList[finalList.Count - 1] != "BOSS_PT")
+         {
+             ResetProcedural();
+         }
+     }
+     
+     private int i;
+     
      private void CheckShop()
      {
          if (shopApparitionValue == 0)
@@ -270,11 +274,8 @@ public class LoadManager : MonoBehaviour
      private void LaMoulinette(float sValue, float mValue, float lValue)
      {
          lastRoom = String.Empty;
-         if (finalList.Count > 1)
-         {
-             lastRoom = finalList[finalList.Count - 1];
-         }
-         
+         lastRoom = finalList[finalList.Count - 1];
+
          x = sValue;
          y = x + mValue; 
          z = y + lValue;
@@ -299,18 +300,17 @@ public class LoadManager : MonoBehaviour
          {
              if (rand <= x && roomLevel2Small != null)
              {
-                 finalList.Add(roomLevel1Small[Random.Range(0, roomLevel2Small.Count)]);
+                 finalList.Add(roomLevel2Small[Random.Range(0, roomLevel2Small.Count)]);
              }
              else if ( rand > x && rand <= y && roomLevel2Medium != null)
              {
-                 finalList.Add(roomLevel1Medium[Random.Range(0, roomLevel2Medium.Count)]);
+                 finalList.Add(roomLevel2Medium[Random.Range(0, roomLevel2Medium.Count)]);
              }
              else if (rand > y && roomLevel2Large != null)
              {
                  finalList.Add(roomLevel2Large[Random.Range(0, roomLevel2Large.Count)]);
              }
          }
-         
          
          if (finalList[finalList.Count - 1] == lastRoom)
          {
