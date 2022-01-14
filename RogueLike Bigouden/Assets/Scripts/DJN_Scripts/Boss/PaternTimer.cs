@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PaternTimer : MonoBehaviour
 {
     public static PaternTimer instance;
     private BossEventManager _bossEventManager;
     [SerializeField] private float sensibility;
-    
+
+    public List<GameObject> enemyInScene;
+
     [SerializeField] private int loop;
     private int loopCount;
     
@@ -65,7 +69,65 @@ public class PaternTimer : MonoBehaviour
     void Update()
     {
         #region SETUP
+        
+            foreach (GameObject n in enemyInScene)
+            {
+                for (int i = 0; i < enemyInScene.Count; i++)
+                {
+                    if (_cinematicBoss.isCinematic)
+                    {
+                        //Unable NavMesh Script
+                        //enemyInScene[i].GetComponent<NavMeshAgent>().enabled = false;
+                        
+                        //Unable Controll Script
+                        if (enemyInScene[i].GetComponent<IAShooter>())
+                        {
+                            enemyInScene[i].GetComponent<IAShooter>().enabled = false;
+                        }
 
+                        if (enemyInScene[i].GetComponent<IABarman>())
+                        {
+                            enemyInScene[i].GetComponent<IABarman>().enabled = false;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IARunner>())
+                        {
+                            enemyInScene[i].GetComponent<IARunner>().enabled = false;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IACac>())
+                        {
+                            enemyInScene[i].GetComponent<IACac>().enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        //enemyInScene[i].GetComponent<NavMeshAgent>().enabled = true;
+                        
+                        if (enemyInScene[i].GetComponent<IAShooter>())
+                        {
+                            enemyInScene[i].GetComponent<IAShooter>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IABarman>())
+                        {
+                            enemyInScene[i].GetComponent<IABarman>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IARunner>())
+                        {
+                            enemyInScene[i].GetComponent<IARunner>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IACac>())
+                        {
+                            enemyInScene[i].GetComponent<IACac>().enabled = true;
+                        }
+                    }
+                }
+            }
+        
+        
         if (player)
         {
             if (!_cinematicBoss.isCinematic)
@@ -87,6 +149,16 @@ public class PaternTimer : MonoBehaviour
         }
 
         #endregion
+
+        if (_bossStatsManager.isDead)
+        {
+            for (int i = 0; i < enemyInScene.Count; i++)
+            {
+                Destroy(enemyInScene[i]);
+            }
+            
+            waveSpawner.SetActive(false);
+        }
     }
 
     private void TimersPhases()

@@ -55,6 +55,20 @@ public class RotationBeam : MonoBehaviour
             animator.GetComponent<BoxCollider2D>().isTrigger = true;
             animator.Play("TM_Close");
         }
+
+        if (FindObjectOfType<BossStatsManager>())
+        {
+            BossStatsManager bossStat = FindObjectOfType<BossStatsManager>();
+
+            if (bossStat.isDead)
+            {
+                isActive = false;
+                line.enabled = false;
+                p = 0;
+                animator.GetComponent<BoxCollider2D>().isTrigger = true;
+                animator.Play("TM_Close");
+            }
+        }
        
     }
 

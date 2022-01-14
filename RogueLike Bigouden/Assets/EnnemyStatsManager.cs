@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
@@ -238,6 +239,12 @@ public class EnnemyStatsManager : MonoBehaviour
     {
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
         ScoreManager.instance.AddEnemyKilledScore(1);
+        
+        if (FindObjectOfType<PaternTimer>())
+        {
+            PaternTimer.instance.enemyInScene.Remove(gameObject);
+        }
+        
         Destroy(gameObject);
 
         int rand = Random.Range(0, 2);

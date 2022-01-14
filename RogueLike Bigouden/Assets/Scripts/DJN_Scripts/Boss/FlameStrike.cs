@@ -22,7 +22,10 @@ public class FlameStrike : MonoBehaviour
 
   public void LoadTint()
   {
+    if (!FindObjectOfType<BossStatsManager>().isDead)
+    {
       _animator.Play("dancefloor_explode");
+    }
   }
 
 
