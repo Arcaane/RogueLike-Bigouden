@@ -3,20 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class FlameStrike : MonoBehaviour
 {
-  private Animator _animator;
+  public Animator _animator;
   private BossEventManager _bossEventManager;
 
   [SerializeField] private int damage;
   public bool playerOnIt;
-  private GameObject player;
+  public GameObject player;
   private bool alreadyLoad;
-  
   private void Awake()
   {
-    _animator = GetComponent<Animator>();
     _bossEventManager = FindObjectOfType<BossEventManager>();
   }
   
@@ -29,23 +28,10 @@ public class FlameStrike : MonoBehaviour
 
   public void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.transform.GetComponent<PlayerStatsManager>())
+    if (other.transform.GetComponent<PlayerStatsManager>() && other is BoxCollider2D)
     {
       playerOnIt = true;
       player = other.gameObject;
-    }
-    else
-    {
-      playerOnIt = false;
-    }
-  }
-
-  private void OnTriggerExit2D(Collider2D other)
-  {
-    if (other.transform.GetComponent<PlayerStatsManager>())
-    {
-      playerOnIt = false;
-      player = null;
     }
   }
 
