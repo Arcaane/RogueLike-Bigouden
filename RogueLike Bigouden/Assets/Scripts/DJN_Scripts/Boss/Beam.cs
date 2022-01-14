@@ -7,6 +7,7 @@ public class Beam : MonoBehaviour
     private LineRenderer line;
     private RaycastHit2D hit;
     public Animator spot;
+    public PillarsStatsManager pillarStats;
     
     [SerializeField] private int damage;
     [SerializeField] private float damageDelay;
@@ -34,10 +35,15 @@ public class Beam : MonoBehaviour
 
     private void Update()
     {
-        if (isActive)
+        if (isActive && !pillarStats.isDestroyed)
         {
             line.enabled = true;
             Laser();
+        }
+
+        if (pillarStats.isDestroyed)
+        {
+            line.enabled = false;
         }
     }
 

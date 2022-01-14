@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PaternTimer : MonoBehaviour
 {
+    public static PaternTimer instance;
     private BossEventManager _bossEventManager;
     [SerializeField] private float sensibility;
     
@@ -18,7 +19,7 @@ public class PaternTimer : MonoBehaviour
     private bool isActive2;
     [SerializeField] private Timer[] timerPhase1;
     
-    private bool phase2;
+    public bool phase2;
     [SerializeField] private float timerP2;
     [SerializeField] private float P2Lenght;
     [SerializeField] private Timer[] timerPhase2;
@@ -40,7 +41,15 @@ public class PaternTimer : MonoBehaviour
     [Header("Boss")] public Animator bossAnimator;
 
     [Header("TEST")] public GameObject player;
-    
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -194,7 +203,7 @@ public class PaternTimer : MonoBehaviour
                 isActive1 = false;
             }
 
-            if (isActive1)
+            if (isActive1 && !_bossStatsManager.isDead)
             {
                 switch (t.target)
                 {
@@ -304,7 +313,7 @@ public class PaternTimer : MonoBehaviour
                 isActive2 = false;
             }
 
-            if (isActive2)
+            if (isActive2 && !_bossStatsManager.isDead)
             {
                 switch (t.target)
                 {
@@ -388,18 +397,30 @@ public class PaternTimer : MonoBehaviour
 
     void LoadBeam(int selectPillard)
     {
-        _bossEventManager.LoadBeam(selectPillard);
+        if (!_bossStatsManager.isDead)
+        {
+            _bossEventManager.LoadBeam(selectPillard);
+            bossAnimator.Play("DJ_Attack_1");
+        }
     }
 
     void LoadFS(int selectPillard)
     {
-        _bossEventManager.LoadFS();
+        if (!_bossStatsManager.isDead)
+        {
+            _bossEventManager.LoadFS();
+            bossAnimator.Play("DJ_Attack_2");
+        }
     }
 
     void LoadRotationBeam(int selectedSide)
     {
-        RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
-        rotationBeam.isActive = true;
+        if (!_bossStatsManager.isDead)
+        {
+            RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
+            rotationBeam.isActive = true;
+            bossAnimator.Play("DJ_Attack_3");
+        }
     }
     
     
