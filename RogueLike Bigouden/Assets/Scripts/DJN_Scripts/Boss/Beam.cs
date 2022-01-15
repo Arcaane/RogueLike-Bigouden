@@ -6,6 +6,8 @@ public class Beam : MonoBehaviour
 {
     private LineRenderer line;
     private RaycastHit2D hit;
+    public Animator spot;
+    public PillarsStatsManager pillarStats;
     
     [SerializeField] private int damage;
     [SerializeField] private float damageDelay;
@@ -33,10 +35,15 @@ public class Beam : MonoBehaviour
 
     private void Update()
     {
-        if (isActive)
+        if (isActive && !pillarStats.isDestroyed)
         {
             line.enabled = true;
             Laser();
+        }
+
+        if (pillarStats.isDestroyed)
+        {
+            line.enabled = false;
         }
     }
 
@@ -79,7 +86,7 @@ public class Beam : MonoBehaviour
         {
             line.enabled = false;
             isActive = false;
-            BossEventManager.instance.laserAnimator[BossEventManager.instance.currentPillar].enabled = false;
+            BossEventManager.instance.laserAnimator[BossEventManager.instance.currentPillar].Play("TSSpot_Idle");
         }
     }
 

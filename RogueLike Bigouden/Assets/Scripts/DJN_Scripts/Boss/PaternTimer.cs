@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PaternTimer : MonoBehaviour
 {
+    public static PaternTimer instance;
     private BossEventManager _bossEventManager;
     [SerializeField] private float sensibility;
-    
+
+    public List<GameObject> enemyInScene;
+
     [SerializeField] private int loop;
     private int loopCount;
     
@@ -18,7 +23,7 @@ public class PaternTimer : MonoBehaviour
     private bool isActive2;
     [SerializeField] private Timer[] timerPhase1;
     
-    private bool phase2;
+    public bool phase2;
     [SerializeField] private float timerP2;
     [SerializeField] private float P2Lenght;
     [SerializeField] private Timer[] timerPhase2;
@@ -30,15 +35,25 @@ public class PaternTimer : MonoBehaviour
     [Header("P1")] 
     public float timerFS;
 
-    private float backupTimerFS;
-    private float currentTimerFS;
+    public float backupTimerFS;
+    public float currentTimerFS;
     
     [Header("P2")] 
     public GameObject RotationTurret;
     public Animator RotationTurretAnimator;
 
+    [Header("Boss")] public Animator bossAnimator;
+
     [Header("TEST")] public GameObject player;
-    
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +69,65 @@ public class PaternTimer : MonoBehaviour
     void Update()
     {
         #region SETUP
+        
+            foreach (GameObject n in enemyInScene)
+            {
+                for (int i = 0; i < enemyInScene.Count; i++)
+                {
+                    if (_cinematicBoss.isCinematic)
+                    {
+                        //Unable NavMesh Script
+                        //enemyInScene[i].GetComponent<NavMeshAgent>().enabled = false;
+                        
+                        //Unable Controll Script
+                        if (enemyInScene[i].GetComponent<IAShooter>())
+                        {
+                            enemyInScene[i].GetComponent<IAShooter>().enabled = false;
+                        }
 
+                        if (enemyInScene[i].GetComponent<IABarman>())
+                        {
+                            enemyInScene[i].GetComponent<IABarman>().enabled = false;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IARunner>())
+                        {
+                            enemyInScene[i].GetComponent<IARunner>().enabled = false;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IACac>())
+                        {
+                            enemyInScene[i].GetComponent<IACac>().enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        //enemyInScene[i].GetComponent<NavMeshAgent>().enabled = true;
+                        
+                        if (enemyInScene[i].GetComponent<IAShooter>())
+                        {
+                            enemyInScene[i].GetComponent<IAShooter>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IABarman>())
+                        {
+                            enemyInScene[i].GetComponent<IABarman>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IARunner>())
+                        {
+                            enemyInScene[i].GetComponent<IARunner>().enabled = true;
+                        }
+
+                        if (enemyInScene[i].GetComponent<IACac>())
+                        {
+                            enemyInScene[i].GetComponent<IACac>().enabled = true;
+                        }
+                    }
+                }
+            }
+        
+        
         if (player)
         {
             if (!_cinematicBoss.isCinematic)
@@ -76,6 +149,16 @@ public class PaternTimer : MonoBehaviour
         }
 
         #endregion
+
+        if (_bossStatsManager.isDead)
+        {
+            for (int i = 0; i < enemyInScene.Count; i++)
+            {
+                Destroy(enemyInScene[i]);
+            }
+            
+            waveSpawner.SetActive(false);
+        }
     }
 
     private void TimersPhases()
@@ -136,9 +219,7 @@ public class PaternTimer : MonoBehaviour
 
         if (phase2)
         {
-            RotationTurret.GetComponent<BoxCollider2D>().isTrigger = false;
-            RotationTurretAnimator.Play("TM_Open");
-            
+
             if (timerP2 >= P2Lenght)
             {
                 timerP2 = 0;
@@ -177,7 +258,7 @@ public class PaternTimer : MonoBehaviour
         }
         else if (currentTimerFS <= 0)
         {
-            currentTimerFS = timerFS;
+            currentTimerFS = backupTimerFS;
             LoadFS(1);
         } 
         
@@ -194,7 +275,7 @@ public class PaternTimer : MonoBehaviour
                 isActive1 = false;
             }
 
-            if (isActive1)
+            if (isActive1 && !_bossStatsManager.isDead)
             {
                 switch (t.target)
                 {
@@ -304,7 +385,7 @@ public class PaternTimer : MonoBehaviour
                 isActive2 = false;
             }
 
-            if (isActive2)
+            if (isActive2 && !_bossStatsManager.isDead)
             {
                 switch (t.target)
                 {
@@ -388,18 +469,30 @@ public class PaternTimer : MonoBehaviour
 
     void LoadBeam(int selectPillard)
     {
-        _bossEventManager.LoadBeam(selectPillard);
+        if (!_bossStatsManager.isDead)
+        {
+            _bossEventManager.LoadBeam(selectPillard);
+            bossAnimator.Play("DJ_Attack_1");
+        }
     }
 
     void LoadFS(int selectPillard)
     {
-        _bossEventManager.LoadFS();
+        if (!_bossStatsManager.isDead)
+        {
+            _bossEventManager.LoadFS();
+            bossAnimator.Play("DJ_Attack_2");
+        }
     }
 
     void LoadRotationBeam(int selectedSide)
     {
-        RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
-        rotationBeam.isActive = true;
+        if (!_bossStatsManager.isDead)
+        {
+            RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
+            rotationBeam.isActive = true;
+            bossAnimator.Play("DJ_Attack_3");
+        }
     }
     
     

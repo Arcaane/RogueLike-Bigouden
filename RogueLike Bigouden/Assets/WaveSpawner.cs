@@ -157,6 +157,11 @@ public class WaveSpawner : MonoBehaviour
         _esp.gameObject.GetComponent<EnnemyStatsManager>().lifePoint += _wave.bonusLife;
         _esp.gameObject.GetComponent<EnnemyStatsManager>().damageDealt += _wave.bonusDamage;
         _esp.gameObject.GetComponent<EnnemyStatsManager>().shieldPoint += _wave.bonusShield;
+
+        if (FindObjectOfType<PaternTimer>())
+        {
+            PaternTimer.instance.enemyInScene.Add(_esp.gameObject);
+        }
     }
 
     bool IsEnemyAlive()

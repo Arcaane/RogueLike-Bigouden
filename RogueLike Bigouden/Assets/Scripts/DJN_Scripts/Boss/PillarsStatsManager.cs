@@ -7,30 +7,24 @@ public class PillarsStatsManager : MonoBehaviour
 {
         public Pillar pillar;
         public enum Pillar{TopLeft, TopRight, DownLeft, DownRight}
-        private Beam childBeam;
-        private Animator pillarAnimator;
+        public Beam childBeam;
+        public Animator pillarAnimator;
         public int health;
         public int shieldPoint;
         public bool isDestroyed;
 
-        private void Awake()
-        {
-                childBeam = GetComponentInChildren<Beam>();
-                pillarAnimator = GetComponent<Animator>();
-        }
-
         private void Update()
         {
-                if (childBeam.isActive)
+                if (childBeam.isActive && !isDestroyed)
                 {
                         switch (pillar)
                         {
                                 case Pillar.DownLeft:
-                                        pillarAnimator.Play("BR_Open");
+                                        pillarAnimator.Play("BL_Open");
                                         break;
                                 
                                 case Pillar.DownRight:
-                                        pillarAnimator.Play("BL_Open");
+                                        pillarAnimator.Play("BR_Open");
                                         break;
                                 
                                 case Pillar.TopLeft:
@@ -39,6 +33,28 @@ public class PillarsStatsManager : MonoBehaviour
                                 
                                 case Pillar.TopRight:
                                         pillarAnimator.Play("TR_Open");
+                                        break;
+                        }
+                }
+                
+                if(!childBeam.isActive && !isDestroyed)
+                {
+                        switch (pillar)
+                        {
+                                case Pillar.DownLeft:
+                                        pillarAnimator.Play("BL_CloseIdle");
+                                        break;
+                                
+                                case Pillar.DownRight:
+                                        pillarAnimator.Play("BR_CloseIdle");
+                                        break;
+                                
+                                case Pillar.TopLeft:
+                                        pillarAnimator.Play("TL_CloseIdle");
+                                        break;
+                                
+                                case Pillar.TopRight:
+                                        pillarAnimator.Play("TR_CloseIdle");
                                         break;
                         }
                 }

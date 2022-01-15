@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CinematicBoss : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class CinematicBoss : MonoBehaviour
     public IEnumerator StartCinematic()
     {
         isCinematic = true;
+        PlayerInput_Final.instance.enabled = false;
         PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerLocation.DOMove(stageFrontLocation.position, speed);
@@ -55,6 +57,7 @@ public class CinematicBoss : MonoBehaviour
     public IEnumerator TransitionCinematic()
     {
         isCinematic = true;
+        PlayerInput_Final.instance.enabled = false;
         PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerLocation.DOMove(stageFrontLocation.position, speed);
@@ -65,6 +68,7 @@ public class CinematicBoss : MonoBehaviour
     public IEnumerator EndCinematic()
     {
         isCinematic = true;
+        PlayerInput_Final.instance.enabled = false;
         PlayerStatsManager.playerStatsInstance.isInvincible = true;
         playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerLocation.DOMove(stageFrontLocation.position, speed);
@@ -105,7 +109,8 @@ public class CinematicBoss : MonoBehaviour
             {
                 endEnded = true;
             }
-            
+
+            PlayerInput_Final.instance.enabled = true;
             StopCoroutine(LoadDialogue(dialogueSelect));
         }
     }

@@ -11,6 +11,8 @@ using Debug = UnityEngine.Debug;
 
 public class PlayerInput_Final : MonoBehaviour
 {
+    public static PlayerInput_Final instance;
+    
     private PlayerConfiguration playerConfig;
 
     //UIManager
@@ -140,6 +142,11 @@ public class PlayerInput_Final : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+        
         controls = new BAV_PlayerController();
         _uiManager = FindObjectOfType<UIManager>();
         isMoving = false;
