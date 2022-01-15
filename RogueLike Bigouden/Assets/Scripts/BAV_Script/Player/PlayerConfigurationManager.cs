@@ -14,6 +14,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     public static PlayerConfigurationManager Instance { get; private set; }
     public bool launchGame;
 
+    public GameObject UIClickButton;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             DontDestroyOnLoad(Instance);
             playerConfigs = new List<PlayerConfiguration>();
         }
+        UIClickButton = GameObject.Find("UI A Button");
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -56,8 +58,8 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (playerConfigs.Count == MaxPlayers
             && playerConfigs.All(p => p.isReady == true))
         {
+            UIClickButton.SetActive(false);
             launchGame = true;
-            //SceneManager.LoadScene("MapScene");
         }
     }
 }

@@ -8,19 +8,19 @@ public class GreenCocktailBehaviour : MonoBehaviour
     
     void Start()
     {
-        InvokeRepeating(nameof(HealEnnemiesTick), 1, 1.5f);
+        InvokeRepeating(nameof(HealEnnemiesTick), 1, 1.75f);
         Destroy(gameObject, 5f);
     }
 
     private void HealEnnemiesTick()
     {
         // Detect Ennemies
-        Collider2D[] ennemyInRadius = Physics2D.OverlapCircleAll(transform.position, 2, isEnnemy);
+        Collider2D[] ennemyInRadius = Physics2D.OverlapCircleAll(transform.position, 3, isEnnemy);
         
         // Heal Them
         foreach (var ennemy in ennemyInRadius)
         {
-           ennemy.GetComponent<EnnemyStatsManager>().TakeHeal(1);
+           ennemy.GetComponent<EnnemyStatsManager>().TakeHeal(2);
             Debug.Log("Ennemy healed : " + ennemy.name);
         }
     }

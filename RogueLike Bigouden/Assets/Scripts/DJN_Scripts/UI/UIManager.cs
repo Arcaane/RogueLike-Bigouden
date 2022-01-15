@@ -27,12 +27,12 @@ public class UIManager : MonoBehaviour
 
     [Header("Common UI")] 
     public GameObject itemInformationPanel;
-
     public TextMeshProUGUI itemNameText;
     public TextMeshProUGUI itemDescriptionText;
     public TextMeshProUGUI itemPriceText;
     public Image itemIconImage;
     public TextMeshProUGUI itemRarityText;
+    public GameObject AButtonStart;
 
     [Header("Player1 HUD")] public GameObject player1UI;
     public Image p1_healthBarImg;
@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AButtonStart.SetActive(false);
         gameOverPanel.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
@@ -129,14 +130,13 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         eventSystem = FindObjectOfType<EventSystem>();
         itemInformationPanel.SetActive(false);
+        StartCoroutine(AAppreir());
     }
 
     private void Update()
     {
         UpdateItemPlayer();
         
-           
-
         if (earnMoney)
         {
             moneyAnimation.SetBool("addMoney", true);
@@ -172,10 +172,18 @@ public class UIManager : MonoBehaviour
         }
 
         _playerInputFinal = player.GetComponent<PlayerInput_Final>();
-
         Invoke(nameof(RefreshUI), 1);
     }
 
+    public IEnumerator AAppreir()
+    {
+        yield return new WaitForSeconds(0.4f);
+        if (!AButtonStart.activeSelf && !player1UI.activeSelf)
+        {
+            AButtonStart.SetActive(true); 
+        }
+    }
+    
     public void RefreshUI()
     {
         for (int i = 0; i < playerList.Count; i++)
