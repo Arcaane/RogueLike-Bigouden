@@ -80,7 +80,7 @@ public class CinematicBoss : MonoBehaviour
     {
         _uiManager.dialogueBox.SetActive(true);
         _uiManager.dialogueText.DOText(dialogueSelect.dialogueLine[i], time);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(time + 0.5f);
         i++;
         if (i < dialogueSelect.dialogueLine.Length)
         {
