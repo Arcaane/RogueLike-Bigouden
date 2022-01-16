@@ -15,7 +15,7 @@ public class GreenCocktailBehaviour : MonoBehaviour
     private void HealEnnemiesTick()
     {
         // Detect Ennemies
-        Collider2D[] ennemyInRadius = Physics2D.OverlapCircleAll(transform.position, 1.5f, isEnnemy);
+        Collider2D[] ennemyInRadius = Physics2D.OverlapCircleAll(transform.position, 3, isEnnemy);
         
         // Heal Them
         foreach (var ennemy in ennemyInRadius)

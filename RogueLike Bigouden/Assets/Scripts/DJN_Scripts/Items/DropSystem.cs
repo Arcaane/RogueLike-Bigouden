@@ -77,18 +77,30 @@ public class DropSystem : MonoBehaviour
             if (roll < epicValue)
             {
                 itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
+            
                 gameobjectSprite.sprite = itemSelect.image;
             }
+            else
+            {
+                //ShopItemGeneration();
+            }
+
             if (roll > epicValue && roll < rareValue)
             {
                 itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
+                
                 gameobjectSprite.sprite = itemSelect.image;
               
+            }
+            else
+            {
+                //ShopItemGeneration();
             }
 
             if (roll > rareValue && roll < commonValue)
             {
                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
+            
                 gameobjectSprite.sprite = itemSelect.image;
           
             }
@@ -133,38 +145,34 @@ public class DropSystem : MonoBehaviour
 
     public void EndLevelItemDrop()
     {
-         
-         Roll();
-         collider.enabled = true;
-         Debug.Log(roll);
+         itemAlreadySpawn = true;
+            Roll();
+            collider.enabled = true;
+            Debug.Log(roll);
 
-         if (!itemAlreadySpawn)
-         {
-             if (roll < epicValue)
-             {
-                 itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
-                 gameobjectSprite.sprite = itemSelect.image;
-                 itemAlreadySpawn = true;
-                 itemManager.itemsInRoom.Add(this);
-             }
+            if (roll < epicValue)
+            {
+                itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
+                
+                gameobjectSprite.sprite = itemSelect.image;
+            }
 
-             if (roll > epicValue && roll < rareValue)
-             {
-                 itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
-                 gameobjectSprite.sprite = itemSelect.image;
-                 itemAlreadySpawn = true;
-                 itemManager.itemsInRoom.Add(this);
-             }
+            if (roll > epicValue && roll < rareValue)
+            {
+                itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
+             
+                gameobjectSprite.sprite = itemSelect.image;
+          
+            }
 
-             if (roll > rareValue && roll < commonValue)
-             {
-                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
-                 gameobjectSprite.sprite = itemSelect.image;
-                 itemAlreadySpawn = true;
-                 itemManager.itemsInRoom.Add(this);
-             }
-         }
+            if (roll > rareValue && roll < commonValue)
+            {
+                itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
+                
+                gameobjectSprite.sprite = itemSelect.image;
+            }
             
+            itemManager.itemsInRoom.Add(this);
         
             
             

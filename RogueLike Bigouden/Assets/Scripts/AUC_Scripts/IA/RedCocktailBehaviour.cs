@@ -14,7 +14,7 @@ public class RedCocktailBehaviour : MonoBehaviour
 
     private void DamagePlayer()
     {
-        Collider2D[] playerCircleAll = Physics2D.OverlapCircleAll(transform.position, 1.5f, isPlayer);
+        Collider2D[] playerCircleAll = Physics2D.OverlapCircleAll(transform.position, 3, isPlayer);
         foreach (var p in playerCircleAll)
         {
             p.GetComponent<PlayerStatsManager>().TakeDamage(2);
