@@ -37,7 +37,6 @@ public class ScoreManager : MonoBehaviour
       if (UIManager.instance.isPaused)
       {
          timerStart = false;
-         UpdateScore();
       }
       
       if (timerStart)
@@ -51,11 +50,13 @@ public class ScoreManager : MonoBehaviour
    public void AddEnemyKilledScore(int kill)
    {
       enemyKilled += kill;
+      UpdateScore();
    }
 
    public void AddMoneyObtained(int moneyAdd)
    {
       moneyObtained += moneyAdd;
+      UpdateScore();
    }
 
    public void Timer()
@@ -70,20 +71,22 @@ public class ScoreManager : MonoBehaviour
       UIManager.instance.timeText.text = $"{minutes:00}:{seconds:00}";
    }
 
-   void UpdateScore()
+   public void UpdateScore()
    {
       //based on every data : enemykilled, money obtained;
-      score += enemyKilled * enemyMultiplier;
-      score += moneyObtained * moneyMultiplier;
-
-      if (timer > 30)
+      if (timer > 180)
       {
-         score += 500;
+         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier) + 500;
       }
 
-      if (timer < 30 && timer > 60)
+      if (timer > 180 && timer < 360)
       {
-         score += 400;
+         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier) + 300;
+      }
+
+      if (timer > 360)
+      {
+         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier);
       }
    }
 }

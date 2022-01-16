@@ -246,6 +246,7 @@ public class UIManager : MonoBehaviour
         enemyKilledText.text = ScoreManager.instance.enemyKilled.ToString();
         moneyCollectText.text = ScoreManager.instance.moneyObtained.ToString();
         timerFinalText.text = $"{ScoreManager.instance.minutes:00}:{ScoreManager.instance.seconds:00}";
+        scoreText.text = ScoreManager.instance.score.ToString();
     }
 
     public void TryAgain()

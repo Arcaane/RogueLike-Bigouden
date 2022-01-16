@@ -435,6 +435,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         movementSpeed = 0f;
         playerAttribut.animatorPlayer.SetBool("isDead", true);
+        FindObjectOfType<ScoreManager>().UpdateScore();
         yield return new WaitForSeconds(1.5f);
         ShowDeadPannel();
     }
