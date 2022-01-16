@@ -100,9 +100,9 @@ public class RoomLoader : MonoBehaviour
         
         foreach (var light in LightsObj)
         {
-            light.GetComponent<Light2D>().intensity = Mathf.Lerp(light.GetComponent<Light2D>().intensity, 5f, blurTime);
+            light.GetComponent<Light2D>().intensity = Mathf.Lerp(light.GetComponent<Light2D>().intensity, 4.5f, blurTime);
         }
-        _chromaticAberration.intensity.value = Mathf.Lerp(0, 0.6f, blurTime);
+        _chromaticAberration.intensity.value = Mathf.Lerp(0, 0.55f, blurTime);
         bloom.intensity.value = Mathf.Lerp(1, 5, blurTime);
     }
 }
