@@ -47,7 +47,7 @@ public class IARunner : MonoBehaviour
     [SerializeField] private float _rushDelay;
     [SerializeField] private float _moveSpeedCharge;
     [SerializeField] private bool isSpot;
-    [SerializeField] private bool _isStun;
+    [SerializeField] private bool isStun;
     
     #endregion
     
@@ -90,12 +90,15 @@ public class IARunner : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
-        if (!_isPlayerInAggroRange && _isAggro)
-            Patrolling();
-        if (!_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
-            ChasePlayer();
-        if (_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
-            Attacking();
+        if (!isStun)
+        {
+            if (!_isPlayerInAggroRange && _isAggro)
+                Patrolling();
+            if (!_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
+                ChasePlayer();
+            if (_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
+                Attacking();
+        }
         
         
         if (agent.velocity.x <= 0.1f && agent.velocity.y <= 0.1f)
@@ -206,22 +209,6 @@ public class IARunner : MonoBehaviour
         _isReadyToDash = true;
     }
     
-    private IEnumerator TakeObstacle()
-    {
-        _isReadyToDash = false;
-        agent.speed = 0;
-
-        Debug.Log("STUN");
-        _isStun = true;
-        
-        yield return new WaitForSeconds(_stunDuration);
-        
-        agent.speed = _movementSpeed; 
-        _isReadyToDash = true;
-        _isStun = false;
-        Debug.Log("NO MORE STUN");
-    }
-    
     #endregion
     
     private void OnDrawGizmosSelected()
@@ -242,7 +229,7 @@ public class IARunner : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Obstacle") && _isDashing)
         {
-            StartCoroutine(nameof(TakeObstacle));
+            StartCoroutine(nameof(ResetStun));
         }
         
         if (other.gameObject.CompareTag("Player") && _isDashing)
@@ -289,6 +276,19 @@ public class IARunner : MonoBehaviour
             runnerAnimator.SetBool("isWalking", _isWalk);
             runnerAnimator.SetBool("isChasing", _isDashing);
         }
-        
+    }
+    
+    public IEnumerator ResetStun()
+    {
+        if (!isStun)
+        {
+            isStun = true;
+            yield return new WaitForSeconds(1f);
+            isStun = false;
+        }
+        else
+        {
+            yield return null;
+        }
     }
 }

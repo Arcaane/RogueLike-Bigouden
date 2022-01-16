@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using static TimeManager;
 
@@ -28,7 +29,8 @@ public class IABarman : MonoBehaviour
     public GameObject cocktail;
     public float testSpeed = 0.03f;
     private Vector2 playerTransform;
-    
+    public GameObject projectile;
+
     // Floats
     [SerializeField] private float _detectZone; // Fov
     [SerializeField] private float _attackRange; // Portée de l'attaque
@@ -48,12 +50,14 @@ public class IABarman : MonoBehaviour
     [SerializeField] private bool _isAggro; // L'unité chase le joueur ?
     [SerializeField] private bool _isAttacking; // L'unité attaque ?
     [SerializeField] private bool _isRdyMove;
+    [SerializeField] private bool isStun;
 
     // Anims
     public Animator barmanAnimator;
     private bool _isAttack;
     private bool _isWalk;
     private bool _isAnimAttacking;
+    public bool IsBarman;
     
     #endregion
 
@@ -94,13 +98,16 @@ public class IABarman : MonoBehaviour
             
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
-    
-        if (!_isPlayerInAggroRange && _isAggro)
-            Patrolling();
-        if (_isPlayerInAggroRange && _isAggro)
-            ChasePlayer();
-        if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
-            Attacking();
+
+        if (!isStun)
+        {
+            if (!_isPlayerInAggroRange && _isAggro)
+                Patrolling();
+            if (_isPlayerInAggroRange && _isAggro)
+                ChasePlayer();
+            if ( _isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro )
+                Attacking();
+        }
         
         shootPointPos = (target.position - transform.position);
         shootPointPos.Normalize();
@@ -204,7 +211,7 @@ public class IABarman : MonoBehaviour
         // 1 = Dmg (+) / 2 = Dmg (-) / 3 = Vie + aux ennemis
 
         
-        var projectile = Instantiate(cocktail, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
+        projectile = Instantiate(cocktail, transform.position + shootPointPos * radiusShootPoint, Quaternion.identity);
         for (int i = 0; i < positions.Length; i++)
         {
             yield return new WaitForSeconds(testSpeed);
@@ -289,4 +296,18 @@ public class IABarman : MonoBehaviour
         }
     }
     #endregion
+    
+    public IEnumerator ResetStun()
+    {
+        if (!isStun)
+        {
+            isStun = true;
+            yield return new WaitForSeconds(1f);
+            isStun = false;
+        }
+        else
+        {
+            yield return null;
+        }
+    }
 }

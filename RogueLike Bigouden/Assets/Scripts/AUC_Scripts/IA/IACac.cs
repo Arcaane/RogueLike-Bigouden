@@ -36,6 +36,9 @@ public class IACac : MonoBehaviour
     private bool _isWalk;
     private bool _isAttack;
     public bool _isAttackAnim;
+    
+    
+    public bool isStun;
 
     private Vector3 shootPointPos;
     
@@ -79,12 +82,16 @@ public class IACac : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
-        if (!_isPlayerInAggroRange && _isAggro)
-            Patrolling();
-        if (!_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
-            ChasePlayer();
-        if(_isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro)
-            Attacking();
+
+        if (!isStun)
+        {
+            if (!_isPlayerInAggroRange && _isAggro)
+                Patrolling();
+            if (!_isPlayerInAttackRange && _isPlayerInAggroRange && _isAggro)
+                ChasePlayer();
+            if(_isPlayerInAggroRange && _isPlayerInAttackRange && _isAggro)
+                Attacking();
+        }
         
         Animations(agent);
 
@@ -216,6 +223,21 @@ public class IACac : MonoBehaviour
         }
     }
     #endregion
+
+
+    public IEnumerator ResetStun()
+    {
+        if (!isStun)
+        {
+            isStun = true;
+            yield return new WaitForSeconds(1f);
+            isStun = false;
+        }
+        else
+        {
+            yield return null;
+        }
+    }
     
     private void SpottedPlayer()
     {

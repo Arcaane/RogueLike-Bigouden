@@ -53,7 +53,22 @@ public class ApplyAttack : MonoBehaviour
                 else
                 {
                     objEnnemy.TakeDamage(PlayerStatsManager.playerStatsInstance.damageFirstX);
-
+                    if (objTrigger.GetComponent<IACac>())
+                    {
+                        objEnnemy.GetComponent<IACac>().StartCoroutine(objEnnemy.GetComponent<IACac>().ResetStun());
+                    }
+                    else if (objTrigger.GetComponent<IARunner>())
+                    {
+                        objEnnemy.GetComponent<IARunner>().StartCoroutine(objEnnemy.GetComponent<IARunner>().ResetStun());
+                    }
+                    else if (objTrigger.GetComponent<IAShooter>())
+                    {
+                        objEnnemy.GetComponent<IAShooter>().StartCoroutine(objEnnemy.GetComponent<IAShooter>().ResetStun());
+                    }
+                    else if (objTrigger.GetComponent<IABarman>())
+                    {
+                        objEnnemy.GetComponent<IABarman>().StartCoroutine(objEnnemy.GetComponent<IABarman>().ResetStun());
+                    }
                     //Debug.Log("Ennemy damaged : " + trigger2D.gameObject.GetComponent<EnnemyStatsManager>().lifePoint);
                 }
             }

@@ -237,6 +237,11 @@ public class EnnemyStatsManager : MonoBehaviour
 
     private void Death()
     {
+        if (gameObject.GetComponent<IABarman>())
+        {
+            Destroy(gameObject.GetComponent<IABarman>().projectile);
+        }
+        
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
         ScoreManager.instance.AddEnemyKilledScore(1);
         

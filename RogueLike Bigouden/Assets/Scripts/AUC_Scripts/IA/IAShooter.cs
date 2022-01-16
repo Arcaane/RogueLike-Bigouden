@@ -39,6 +39,7 @@ public class IAShooter : MonoBehaviour
     [SerializeField] private bool _isWalk;
 
     [SerializeField] private bool isSpot;
+    [SerializeField] private bool isStun;
     
     
     public LayerMask isPlayer;
@@ -92,22 +93,17 @@ public class IAShooter : MonoBehaviour
         
         _isPlayerInAttackRange = Vector2.Distance(enemyPos, targetPos) < _attackRange;
         _isPlayerInAggroRange = Vector2.Distance(enemyPos, targetPos) < _detectZone;
-        bool _isPlayerTooClose = Vector2.Distance(enemyPos, targetPos) < tooClose;
-        
-        /*
-        if (_isPlayerTooClose)
+
+
+        if (!isStun)
         {
-            //Flee();
-            _isPlayerInAttackRange = false;
-            _isPlayerInAggroRange = false;
+            if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
+                Patrolling();
+            if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
+                ChasePlayer();
+            if (_isPlayerInAttackRange && _isPlayerInAggroRange)
+                Attacking();
         }
-        */
-        if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
-            Patrolling();
-        if (_isPlayerInAggroRange && !_isPlayerInAttackRange) 
-            ChasePlayer();
-        if (_isPlayerInAttackRange && _isPlayerInAggroRange)
-            Attacking();
         
         agentVelocity = agent.velocity;
         agentVelocity.Normalize();
@@ -271,5 +267,19 @@ public class IAShooter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + new Vector3(0, upTofitPlayer, 0), radiusShootPoint);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, tooClose);
+    }
+    
+    public IEnumerator ResetStun()
+    {
+        if (!isStun)
+        {
+            isStun = true;
+            yield return new WaitForSeconds(1f);
+            isStun = false;
+        }
+        else
+        {
+            yield return null;
+        }
     }
 }
