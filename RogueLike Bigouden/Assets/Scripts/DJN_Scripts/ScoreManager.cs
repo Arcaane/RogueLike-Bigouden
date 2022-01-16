@@ -50,13 +50,13 @@ public class ScoreManager : MonoBehaviour
    public void AddEnemyKilledScore(int kill)
    {
       enemyKilled += kill;
-      UpdateScore();
+      score += enemyMultiplier;
    }
 
    public void AddMoneyObtained(int moneyAdd)
    {
       moneyObtained += moneyAdd;
-      UpdateScore();
+      score += moneyMultiplier;
    }
 
    public void Timer()
@@ -73,20 +73,15 @@ public class ScoreManager : MonoBehaviour
 
    public void UpdateScore()
    {
-      //based on every data : enemykilled, money obtained;
       if (timer > 180)
       {
-         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier) + 500;
+         score +=  500;
       }
 
       if (timer > 180 && timer < 360)
       {
-         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier) + 300;
+         score += 300;
       }
 
-      if (timer > 360)
-      {
-         score = (enemyKilled * enemyMultiplier) + (moneyObtained * moneyMultiplier);
-      }
    }
 }
