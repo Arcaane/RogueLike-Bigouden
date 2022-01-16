@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class CinematicBoss : MonoBehaviour
 {
@@ -108,6 +109,7 @@ public class CinematicBoss : MonoBehaviour
             if (dialogueSelect == endCinematicDialogue)
             {
                 endEnded = true;
+                SceneManager.LoadScene("EndScene");
             }
 
             PlayerInput_Final.instance.enabled = true;

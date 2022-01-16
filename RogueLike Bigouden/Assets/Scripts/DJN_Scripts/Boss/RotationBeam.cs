@@ -17,7 +17,7 @@ public class RotationBeam : MonoBehaviour
     public float raySpeed;
     public float startingTime;
     public LayerMask layerMask;
-    
+    private bool alreayOpen;
     private PlayerStatsManager _playerStatsManager;
     private bool pHit;
      
@@ -42,9 +42,8 @@ public class RotationBeam : MonoBehaviour
         {
             LoadRBeam();
             line.enabled = true;
-            animator.Play("TM_Open");
-            animator.GetComponent<BoxCollider2D>().isTrigger = false;
             
+            animator.GetComponent<BoxCollider2D>().isTrigger = false;
         }
         
         if (ghostTarget.position == keyPoints[5].position)
@@ -53,7 +52,7 @@ public class RotationBeam : MonoBehaviour
             isActive = false;
             p = 0;
             animator.GetComponent<BoxCollider2D>().isTrigger = true;
-            animator.Play("TM_Close");
+            alreayOpen = false;
         }
 
         if (FindObjectOfType<BossStatsManager>())
@@ -67,6 +66,7 @@ public class RotationBeam : MonoBehaviour
                 p = 0;
                 animator.GetComponent<BoxCollider2D>().isTrigger = true;
                 animator.Play("TM_Close");
+                alreayOpen = false;
             }
         }
        
@@ -75,7 +75,12 @@ public class RotationBeam : MonoBehaviour
     void LoadRBeam()
     {
             hit = Physics2D.Linecast(startPoint.position, ghostTarget.position, layerMask);
-           
+
+            if (!alreayOpen)
+            {
+                animator.Play("TM_Open");
+                alreayOpen = true;
+            }
             
             line.SetPosition(0, startPoint.position);
 
