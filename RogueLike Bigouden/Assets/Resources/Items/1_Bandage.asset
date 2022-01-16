@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
   m_Name: 1_Bandage
   m_EditorClassIdentifier: 
-  itemID: 1
-  itemName: Bandage
-  description: Rend un petit montant de point de vie
+  itemID: 0
+  itemName: Bandages
+  description: Restores a small amount of life
   image: {fileID: -956252262595852801, guid: ae79492776db1e84ea2f20303a128438, type: 3}
-  price: 0
+  price: 20
   rarity: 0
   condition: 0
   action: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   conditionActionMustBeDone: 0
   conditionValueToReach: 0
   onCurrent: 1
-  modAmount: 5
+  modAmount: 10
   modIsAnotherVariable: 0
   anotherVariableModPourcentage: 0
   rate: 100

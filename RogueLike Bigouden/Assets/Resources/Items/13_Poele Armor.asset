@@ -10,45 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e036ca310d10bd4886f23de5bba5fcb, type: 3}
-  m_Name: 14_Poele Armor
+  m_Name: 13_Poele Armor
   m_EditorClassIdentifier: 
-  itemID: 14
+  itemID: 13
   itemName: Poele Armor
-  description: 'When you take damage, you have a chance to spawn an area on the ground.
-    When you are in it, your defense increases. The zone is active for a few seconds. '
+  description: Add shield points
   image: {fileID: 8132948862792318974, guid: ae79492776db1e84ea2f20303a128438, type: 3}
-  price: 55
-  rarity: 2
-  condition: 1
+  price: 35
+  rarity: 1
+  condition: 0
   action: 0
   target: 0
   type: 0
-  effectOn: 1
+  effectOn: 0
   augmentation: 0
   value: 0
   state: 0
   player: 0
   enemy: 0
   alteration: 0
-  actionTarget: 1
+  actionTarget: 0
   actionPlayer: 0
   actionEnemy: 0
   variableTarget: 0
   _operator: 0
-  spawnPoint: 1
+  spawnPoint: 0
   playerSpawn: 0
   enemySpawn: 0
   conditionActionMustBeDone: 0
   conditionValueToReach: 0
   onCurrent: 0
-  modAmount: 5
+  modAmount: 10
   modIsAnotherVariable: 0
   anotherVariableModPourcentage: 0
   rate: 100
-  objectPrefab: {fileID: 6259549434191952331, guid: 7e7e88f179e8f17458d05392cfef7f7c, type: 3}
+  objectPrefab: {fileID: 0}
   specialSpawnPoint: {fileID: 0}
-  spawnAmount: 1
+  spawnAmount: 0
   mustBeActivated: 0
-  spawnTime: 3
+  spawnTime: 0
   overTime: 0
   overTimeDuration: 0
