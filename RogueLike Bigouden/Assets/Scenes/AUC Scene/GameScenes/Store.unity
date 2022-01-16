@@ -134,30 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item
       objectReference: {fileID: 0}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_Size.x
-      value: 1.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_Size.y
-      value: 1.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f02b246577a3c1f46b2b09b8ebb5cf93, type: 3}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1520021615
-      objectReference: {fileID: 0}
-    - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 413029891565226927, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -657,11 +633,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: f02b246577a3c1f46b2b09b8ebb5cf93, type: 3}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1520021615
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_WasSpriteAssigned
@@ -801,6 +777,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _waveManager: {fileID: 0}
+  LightsObj: []
+  volume: {fileID: 0}
   enemyList: []
 --- !u!114 &778533709
 MonoBehaviour:
@@ -991,7 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - {fileID: 11400000, guid: a1ac54ac603a9544a9f5537975287b87, type: 2}
+  - {fileID: 0}
   selectDialogue: {fileID: 0}
   triggerFeedback: {fileID: 621613800}
 --- !u!61 &1876507454
@@ -1111,11 +1089,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: f02b246577a3c1f46b2b09b8ebb5cf93, type: 3}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1520021615
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 413029891565226925, guid: 29090ee3b752fa84ba9da7e9bf03c81e, type: 3}
       propertyPath: m_WasSpriteAssigned

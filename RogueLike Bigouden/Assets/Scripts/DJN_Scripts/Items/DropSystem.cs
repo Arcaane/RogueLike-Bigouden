@@ -42,11 +42,7 @@ public class DropSystem : MonoBehaviour
         itemAlreadySpawn = false;
         collider.enabled = false;
     }
-
-    void Start()
-    {
-        ShopItemGeneration();
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -69,6 +65,14 @@ public class DropSystem : MonoBehaviour
             Destroy(gameObject);
             UIManager.instance.RefreshUI();
         }
+
+        if (shop)
+        {
+            if (itemSelect == null)
+            {
+                ShopItemGeneration();
+            }
+        }
     }
 
     void ShopItemGeneration()
@@ -82,9 +86,8 @@ public class DropSystem : MonoBehaviour
             if (roll < epicValue)
             {
                 itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
-                Debug.Log("It will be epic");
+            
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.red;
             }
             else
             {
@@ -94,9 +97,9 @@ public class DropSystem : MonoBehaviour
             if (roll > epicValue && roll < rareValue)
             {
                 itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
-                Debug.Log("It will be rare");
+                
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.blue;
+              
             }
             else
             {
@@ -106,14 +109,12 @@ public class DropSystem : MonoBehaviour
             if (roll > rareValue && roll < commonValue)
             {
                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
-                Debug.Log("It will be common");
+            
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.green;
+          
             }
-            else
-            {
-                //ShopItemGeneration();
-            }
+
+           
         }
     }
 
@@ -161,26 +162,23 @@ public class DropSystem : MonoBehaviour
             if (roll < epicValue)
             {
                 itemSelect = itemManager.epicItems[UnityEngine.Random.Range(0, itemManager.epicItems.Count)];
-                Debug.Log("It will be epic");
+                
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.red;
             }
 
             if (roll > epicValue && roll < rareValue)
             {
                 itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
-                Debug.Log("It will be rare");
+             
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.blue;
+          
             }
 
             if (roll > rareValue && roll < commonValue)
             {
                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
                 
-                Debug.Log("It will be common");
                 gameobjectSprite.sprite = itemSelect.image;
-                gameobjectSprite.color = Color.green;
             }
             
             itemManager.itemsInRoom.Add(this);

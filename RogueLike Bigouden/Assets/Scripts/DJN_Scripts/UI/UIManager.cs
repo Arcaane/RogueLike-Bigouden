@@ -389,6 +389,7 @@ public class UIManager : MonoBehaviour
     public void InformationPanel(Items items)
     {
         itemIconImage.sprite = items.image;
+        itemIconImage.SetNativeSize();
         itemNameText.text = items.itemName;
         itemDescriptionText.text = items.description;
         itemPriceText.text = items.price.ToString();
