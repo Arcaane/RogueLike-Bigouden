@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1048843384}
   - component: {fileID: 1048843386}
   - component: {fileID: 1048843385}
+  - component: {fileID: 1426842842}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Untagged
@@ -102,6 +103,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1426842842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048843383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 0
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: fb75d70e
+  m_ShapePath:
+  - {x: -0.05512929, y: -0.30122936, z: 0}
+  - {x: 0.15006971, y: -0.3614303, z: 0}
+  - {x: 0.3301823, y: -0.32053137, z: 0}
+  - {x: 0.12268615, y: -0.26335323, z: 0}
+  m_ShapePathHash: 1627074269
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -452528
 --- !u!1 &5445882489520437768
 GameObject:
   m_ObjectHideFlags: 0
