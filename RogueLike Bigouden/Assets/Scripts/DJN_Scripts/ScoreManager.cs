@@ -13,8 +13,8 @@ public class ScoreManager : MonoBehaviour
    public bool timerStart;
    public int score;
 
-   private int enemyMultiplier;
-   private int moneyMultiplier;
+   public int enemyMultiplier;
+   public int moneyMultiplier;
 
    [HideInInspector] public float seconds;
    [HideInInspector] public float minutes;

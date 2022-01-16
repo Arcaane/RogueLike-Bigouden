@@ -109,7 +109,11 @@ public class CinematicBoss : MonoBehaviour
             if (dialogueSelect == endCinematicDialogue)
             {
                 endEnded = true;
-                SceneManager.LoadScene("EndScene");
+
+                if (LoadManager.LoadManagerInstance.currentRoom == LoadManager.LoadManagerInstance.finalList.Count)
+                {
+                    SceneManager.LoadScene("EndScene");
+                }
             }
 
             PlayerInput_Final.instance.enabled = true;
