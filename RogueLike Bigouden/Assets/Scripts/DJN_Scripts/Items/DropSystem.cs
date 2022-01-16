@@ -47,16 +47,7 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!m_roomLoader)
-        {
-            m_roomLoader = FindObjectOfType<WaveSpawner>();
-        }
         
-        if (!shop && m_roomLoader.State == WaveSpawner.SpawnState.FINISHED && !itemAlreadySpawn)
-        {
-            EndLevelItemDrop();
-        }
-
         if (playerOnIt && Input.GetKeyDown(KeyCode.X) &&
             PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
         {
@@ -152,7 +143,7 @@ public class DropSystem : MonoBehaviour
         roll = UnityEngine.Random.Range(0, 100);
     }
 
-    private void EndLevelItemDrop()
+    public void EndLevelItemDrop()
     {
          itemAlreadySpawn = true;
             Roll();

@@ -85,6 +85,8 @@ public class RoomLoader : MonoBehaviour
             d.GetComponent<DoorInteractions>().isRoomClear = true;
         }
         
+        FindObjectOfType<DropSystem>().EndLevelItemDrop();
+        
     }
     
     private void RoomIntensity()
