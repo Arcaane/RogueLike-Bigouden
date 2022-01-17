@@ -524,7 +524,7 @@ public class PlayerStatsManager : MonoBehaviour
         money = 0;
 
         //Set Float
-        movementSpeed = 3.6f;
+        movementSpeed = 3.4f;
         attackRangeX = attackRangeXSO;
         attackCdX = attackCdXSO;
         attackRangeY = attackRangeYSO;

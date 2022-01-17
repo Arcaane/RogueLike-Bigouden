@@ -243,7 +243,7 @@ public class LoadManager : MonoBehaviour
 
      private void CheckAlgo()
      {
-         if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8 || finalList.Count > 22 || finalList[finalList.Count - 1] != "BOSS_PT")
+         if (smallRoomCounter >= 8 || mediumRoomCounter >= 8 || largeRoomCounter >= 8 || finalList.Count > 22 || finalList[finalList.Count - 1] != "DN_Boss")
          {
              ResetProcedural();
          }

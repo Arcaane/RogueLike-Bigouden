@@ -616,7 +616,7 @@ public class PlayerAttribut : MonoBehaviour
             Debug.Log("Y_Pressed");
             _playerStatsManager.isAttackingY = true;
             StartCoroutine(StartY(0.4f));
-            _playerStatsManager.movementSpeed = 3.6f;
+            _playerStatsManager.movementSpeed = 3.4f;
         }
         
         /*
@@ -641,7 +641,7 @@ public class PlayerAttribut : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.1f);
-        _playerStatsManager.movementSpeed = 3.6f;
+        _playerStatsManager.movementSpeed = 3.4f;
         _playerStatsManager.isAttackingY = false;
 
         yield return new WaitForSeconds(_playerStatsManager.attackCdY);
@@ -777,7 +777,7 @@ public class PlayerAttribut : MonoBehaviour
                 1.3f); // Direction puis Speed des balles
         Destroy(obj, delayProjectile);
 
-        _playerStatsManager.movementSpeed = 3.6f;
+        _playerStatsManager.movementSpeed = 3.4f;
         launchProjectileFeedback.SetActive(false);
     }
 
@@ -825,7 +825,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
                 isUlting = isUltingAnim = false;
-                _playerStatsManager.movementSpeed = 3.6f;
+                _playerStatsManager.movementSpeed = 3.4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
@@ -838,7 +838,7 @@ public class PlayerAttribut : MonoBehaviour
                 _timerUltimate = 0;
                 ultBulletSpawner.SetActive(false);
                 isUlting = isUltingAnim = false;
-                _playerStatsManager.movementSpeed = 3.6f;
+                _playerStatsManager.movementSpeed = 3.4f;
                 _playerStatsManager.actualUltPoint = 0;
             }
         }
