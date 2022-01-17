@@ -257,13 +257,15 @@ public class UIManager : MonoBehaviour
 
     public void TryAgain()
     {
-        canPaused = true;
         Time.timeScale = 1;
         SceneManager.LoadScene("BAV_HUB_BED_RESET");
         gameOverPanel.SetActive(false);
         SoundManager.instance.ResetSound();
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
+        player1UI.SetActive(true);
+        isPaused = false;
+        canPaused = true;
         RefreshUI();
     }
 
