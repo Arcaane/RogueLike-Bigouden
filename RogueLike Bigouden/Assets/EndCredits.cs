@@ -19,6 +19,7 @@ public class EndCredits : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene("Splashscreen");
+        SoundManager.instance.ResetSound();
         Destroy(FindObjectOfType<test>().gameObject);
     }
 

@@ -345,6 +345,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/BAV_Scene/BAV_HUB_BED_RESET");
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
+        SoundManager.instance.ResetSound();
         RefreshUI();
     }
     

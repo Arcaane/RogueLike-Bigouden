@@ -58,6 +58,7 @@ public class SoundManager : MonoBehaviour
         StopMusic(lowLevelMusic);
         StopMusic(mediumLevelMusic);
         StopMusic(highLevelMusic);
+        StopMusic(bossLevelMusic);
     }
 
     public void PlaySound(string name)
