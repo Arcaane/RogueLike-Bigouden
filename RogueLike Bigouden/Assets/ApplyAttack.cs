@@ -125,6 +125,7 @@ public class ApplyAttack : MonoBehaviour
         {
             Destroy(trigger2D.gameObject);
             NavMeshUpdater.instance.UpdateSurface();
+            Inventory.instance.mediKit = true;
         }
 
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Projectile"))

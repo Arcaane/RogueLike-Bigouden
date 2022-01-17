@@ -8,6 +8,7 @@ using Random = System.Random;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory instance;
     public List<Items> items;
     public Items itemOnTheFloor;
     public bool conditionActivate;
@@ -26,6 +27,17 @@ public class Inventory : MonoBehaviour
     private IACac ennemyCac;
 
     private bool isChecking;
+    public bool mediKit;
+    private int mediKitHeal;
+
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(gameObject); // Suppression d'une instance précédente (sécurité...sécurité...)
+
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -212,7 +224,11 @@ public class Inventory : MonoBehaviour
                                         break;
 
                                     case Items.ActionTarget.Props:
-                                        //setup quand les props destrucibles seront fait.
+                                        if (mediKit)
+                                        {
+                                            playerStats.lifePoint += mediKitHeal;
+                                            mediKit = false;
+                                        }
                                         break;
                                 }
 
@@ -322,7 +338,6 @@ public class Inventory : MonoBehaviour
 
                                         switch (i.enemy)
                                         {
-                                            //chercher tout les enemys dans la scene et voir ceux qui sont actifs
                                         }
 
                                         break;
@@ -973,5 +988,10 @@ public class Inventory : MonoBehaviour
         yield return new WaitForSeconds(duration);
         Destroy(spawnObject);
         Debug.Log(spawnObject + " have been destroyed");
+    }
+
+    public void MediKit()
+    {
+        
     }
 }

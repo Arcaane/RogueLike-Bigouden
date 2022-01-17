@@ -334,15 +334,15 @@ public class UIManager : MonoBehaviour
 
     public void BackToHome()
     {
-        
-        SceneManager.LoadScene(0);
-        Debug.Log("Go To Hub");
+        SceneManager.LoadScene("Scenes/BAV_Scene/BAV_HUB_BED_RESET");
+        PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
+        LoadManager.LoadManagerInstance.ResetProcedural();
+        RefreshUI();
     }
     
     public void Quit()
     {
         Application.Quit();
-        Debug.Log("Quit Application");
     }
     #endregion
    
