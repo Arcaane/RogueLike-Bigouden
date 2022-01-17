@@ -29,6 +29,7 @@ public class EndCredits : MonoBehaviour
 
     private void Awake()
     {
+        FindObjectOfType<UIManager>().player1UI.SetActive(false);
         FindObjectOfType<EventSystem>().SetSelectedGameObject(buttonSelected);
         ScoreManager.instance.timerStart = false;
         ScoreManager.instance.DisplayTime();
