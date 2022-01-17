@@ -45,7 +45,13 @@ public class SoundManager : MonoBehaviour
         }
         
     }
-    
+
+    public void ResetSound()
+    {
+        StopMusic(lowLevelMusic);
+        StopMusic(mediumLevelMusic);
+        StopMusic(highLevelMusic);
+    }
 
     public void PlaySound(string name)
     {

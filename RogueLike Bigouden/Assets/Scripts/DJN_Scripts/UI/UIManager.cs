@@ -256,6 +256,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("BAV_HUB_BED_RESET");
         gameOverPanel.SetActive(false);
+        SoundManager.instance.ResetSound();
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         RefreshUI();
