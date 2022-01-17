@@ -108,7 +108,7 @@ public class UIManager : MonoBehaviour
     public Animator playerAnimation;
     public Animator moneyAnimation;
     public bool earnMoney;
-    
+    public bool canPaused;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canPaused = true;
         AButtonStart.SetActive(false);
         gameOverPanel.SetActive(false);
         player1UI.SetActive(false);
@@ -240,8 +241,11 @@ public class UIManager : MonoBehaviour
 
     public void LoadGameOver()
     {
+        canPaused = false;
+        player1UI.SetActive(false);
         gameOverPanel.SetActive(true);
         isPaused = true;
+        
         goBackground.Play("background_appear");
         goForeground.Play("foreground_appear");
 
@@ -253,6 +257,7 @@ public class UIManager : MonoBehaviour
 
     public void TryAgain()
     {
+        canPaused = true;
         Time.timeScale = 1;
         SceneManager.LoadScene("BAV_HUB_BED_RESET");
         gameOverPanel.SetActive(false);
@@ -268,7 +273,7 @@ public class UIManager : MonoBehaviour
     #region PAUSE
     public void Pause()
     {
-        if (!isPaused)
+        if (!isPaused && canPaused)
         {
             SetSelectedButton(pauseFirstSelectedButton);
             isPaused = true;

@@ -331,26 +331,10 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Update()
     {
-        /*
-        #region TIMER INVICIBILTY
-        if (loadInvincibilty)
+        if (lifePoint > maxLifePoint)
         {
-            isInvincible = true;
-            
-            if (timerInvincibility > 0)
-            {
-                timerInvincibility -= Time.deltaTime * 1;
-            }
-
-            if (timerInvincibility <= 0)
-            {
-                isInvincible = false;
-                loadInvincibilty = false;
-                timerInvincibility = invincibilityDuration;
-            }
+            lifePoint = maxLifePoint;
         }
-        #endregion
-        */
     }
     
     #region Functions
