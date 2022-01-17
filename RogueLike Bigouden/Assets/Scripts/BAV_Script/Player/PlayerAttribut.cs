@@ -985,7 +985,8 @@ public class PlayerAttribut : MonoBehaviour
                     SoundManager.instance.PlaySound("item_add");
                     Destroy(_dropSystem.gameObject, 0.4f);
                 }
-                else
+                
+                if(!_dropSystem.shop)
                 {
                     _dropSystem.refUI.settingPanel.SetActive(false);
                     _playerInventory.items.Add(_dropSystem.itemSelect);
