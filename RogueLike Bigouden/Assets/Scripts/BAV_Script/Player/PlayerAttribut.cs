@@ -973,25 +973,29 @@ public class PlayerAttribut : MonoBehaviour
     {
         if (_dropSystem != null)
         {
-            if (_dropSystem.shop && _playerStatsManager.money >= _dropSystem.itemSelect.price)
+            if (canTakeItem)
             {
-                _dropSystem.refUI.settingPanel.SetActive(false);
-                _playerInventory.items.Add(_dropSystem.itemSelect);
-                _playerStatsManager.money -= _dropSystem.itemSelect.price;
-                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
-                canTakeItem = false;
-                Destroy(_dropSystem.gameObject, 0.4f);
+                if (_dropSystem.shop && _playerStatsManager.money >= _dropSystem.itemSelect.price)
+                {
+                    _dropSystem.refUI.settingPanel.SetActive(false);
+                    _playerInventory.items.Add(_dropSystem.itemSelect);
+                    _playerStatsManager.money -= _dropSystem.itemSelect.price;
+                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                    canTakeItem = false;
+                    SoundManager.instance.PlaySound("item_add");
+                    Destroy(_dropSystem.gameObject, 0.3f);
+                }
+                else
+                {
+                    _dropSystem.refUI.settingPanel.SetActive(false);
+                    _playerInventory.items.Add(_dropSystem.itemSelect);
+                    FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
+                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                    canTakeItem = false;
+                    SoundManager.instance.PlaySound("item_add");
+                    Destroy(_dropSystem.gameObject, 0.3f);
+                }
             }
-            else
-            {
-                _dropSystem.refUI.settingPanel.SetActive(false);
-                _playerInventory.items.Add(_dropSystem.itemSelect);
-                FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
-                FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
-                canTakeItem = false;
-                Destroy(_dropSystem.gameObject, 0.4f);
-            }
-            SoundManager.instance.PlaySound("item_add");
         }
     }
 
