@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8708234029199920777}
   - component: {fileID: 9122043615545229835}
   - component: {fileID: 4882256771491084994}
+  - component: {fileID: 3080484803074961163}
   m_Layer: 0
   m_Name: AquariumCenter
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,6 +69,17 @@ MonoBehaviour:
   hurt: 0
   counterBeforeReset: 0
   incrementDamage: 0
+  baseSpriteData: {fileID: 0}
+  spriteSwap: []
+  variantNumber: 0
+  useBaseSprite: 0
+  useRandomNumber: 0
+  updateInRealtime: 0
+  baseSprite: {fileID: 0}
+  variantSprite: {fileID: 0}
+  propsColor: {r: 0, g: 0, b: 0, a: 0}
+  emissiveColor: {r: 0, g: 0, b: 0, a: 0}
+  intensity: 0
 --- !u!114 &9122043615545229835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520542a3829b51e42a5545e3e4688422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToLaunchHitAnim: 5
+  damageToLaunchHitAnim: 3
   props: {fileID: 8708234029199920777}
   animator: {fileID: 7704592141464740233}
 --- !u!61 &4882256771491084994
@@ -96,7 +108,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.16295}
+  m_Offset: {x: -0.057487488, y: -1.1082214}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -107,8 +119,104 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.7259002}
+  m_Size: {x: 2.7141752, y: 1.6541934}
   m_EdgeRadius: 0
+--- !u!82 &3080484803074961163
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551208320973238717}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1458619736294429947, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
+  m_audioClip: {fileID: 8300000, guid: f5488daceca1fbb47842648b647080b9, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.2
+  MaxDistance: 3.86
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7704592141464740235
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +229,8 @@ GameObject:
   - component: {fileID: 7704592141464740246}
   - component: {fileID: 7704592141464740233}
   - component: {fileID: 7704592141464740232}
+  - component: {fileID: 1372407351}
+  - component: {fileID: 1372407352}
   m_Layer: 0
   m_Name: Aquarium_Shatter_0
   m_TagString: Untagged
@@ -228,7 +338,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 1.1969962}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.2216667}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 5, y: 6.6666665}
     newSize: {x: 5.001221, y: 6.6666665}
     adaptiveTilingThreshold: 0.5
@@ -238,3 +348,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.59, y: 2.0760078}
   m_EdgeRadius: 0.2
+--- !u!114 &1372407351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704592141464740235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!114 &1372407352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704592141464740235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11104a0404fb0ee47b9737e255095198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
