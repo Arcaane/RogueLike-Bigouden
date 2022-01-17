@@ -89,6 +89,7 @@ public class SoundManager : MonoBehaviour
     {
         if (LoadManager.LoadManagerInstance.currentRoom == roomToLoadLow)
         {
+            StopMusic("Hub");
             LoadMusic(lowLevelMusic);
         }
         
