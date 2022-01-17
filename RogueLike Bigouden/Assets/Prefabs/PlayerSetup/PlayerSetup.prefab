@@ -353,6 +353,26 @@ PrefabInstance:
       value: -6.7404175
       objectReference: {fileID: 0}
     - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: sounds.Array.size
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d7462850507f3164a91fddf69d5857cc, type: 3}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
       propertyPath: sounds.Array.data[88].clip
       value: 
       objectReference: {fileID: 8300000, guid: 5db8729f81f623842b59f16ae4c4e215, type: 3}
@@ -361,6 +381,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 0162874e24abee74db3410ba79364748, type: 3}
     - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
       propertyPath: sounds.Array.data[88].volume
       value: 0.2
       objectReference: {fileID: 0}
@@ -368,6 +392,14 @@ PrefabInstance:
       propertyPath: sounds.Array.data[89].volume
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].soundName
+      value: Hub
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
+      propertyPath: musics.Array.data[4].mixerGroup
+      value: 
+      objectReference: {fileID: -2967977376069358851, guid: afa01c836317b5a4389cc1d3ede13561, type: 2}
     - target: {fileID: 1182032214404304989, guid: fa11ae686bf6ab44db05f629cec1dd26, type: 3}
       propertyPath: sounds.Array.data[88].soundName
       value: bottle_break
@@ -749,6 +781,10 @@ PrefabInstance:
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: bossRoom.Array.data[1]
       value: DN_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
+      propertyPath: storeRoom.Array.data[0]
+      value: THB_SHOP
       objectReference: {fileID: 0}
     - target: {fileID: 5313670428798600804, guid: 92959ee95a086c247a76ce5814a0a79e, type: 3}
       propertyPath: largeRoomApparitionValue

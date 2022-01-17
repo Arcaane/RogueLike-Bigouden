@@ -45,9 +45,16 @@ public class SoundManager : MonoBehaviour
         }
         
     }
+    
+    void Start(){
+        
+        LoadMusic("Hub");
+    }
+    
 
     public void ResetSound()
     {
+        LoadMusic("Hub");
         StopMusic(lowLevelMusic);
         StopMusic(mediumLevelMusic);
         StopMusic(highLevelMusic);
