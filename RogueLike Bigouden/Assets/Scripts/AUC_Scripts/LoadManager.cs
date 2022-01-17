@@ -226,7 +226,7 @@ public class LoadManager : MonoBehaviour
                 // Valeur Apparition Salle Grande
                 largeRoomApparitionValue --;
             }
-            else if (finalList[finalList.Count - 1] == "Store")
+            else if (finalList[finalList.Count - 1] == "THB_SHOP")
                 shopApparitionValue = 0;
             
             if (smallRoomApparitionValue <= 0)
