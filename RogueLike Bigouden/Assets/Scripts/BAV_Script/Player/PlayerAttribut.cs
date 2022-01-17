@@ -977,13 +977,13 @@ public class PlayerAttribut : MonoBehaviour
             {
                 if (_dropSystem.shop && _playerStatsManager.money >= _dropSystem.itemSelect.price)
                 {
-                    _dropSystem.refUI.itemInformationPanel.SetActive(false);
                     _dropSystem.playerOnIt = false;
                     _playerInventory.items.Add(_dropSystem.itemSelect);
                     _playerStatsManager.money -= _dropSystem.itemSelect.price;
-                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     canTakeItem = false;
                     SoundManager.instance.PlaySound("item_add");
+                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
+                    _dropSystem.refUI.itemInformationPanel.SetActive(false);
                     Destroy(_dropSystem.gameObject, 0.4f);
                 }
                 
@@ -992,10 +992,10 @@ public class PlayerAttribut : MonoBehaviour
                     _dropSystem.refUI.itemInformationPanel.SetActive(false);
                     _dropSystem.playerOnIt = false;
                     _playerInventory.items.Add(_dropSystem.itemSelect);
-                    FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
-                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     canTakeItem = false;
                     SoundManager.instance.PlaySound("item_add");
+                    FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
+                    FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     Destroy(_dropSystem.gameObject, 0.4f);
                 }
             }
