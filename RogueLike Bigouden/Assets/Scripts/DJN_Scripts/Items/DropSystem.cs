@@ -35,12 +35,16 @@ public class DropSystem : MonoBehaviour
     {
         itemManager = FindObjectOfType<ItemsManager>();
         gameobjectSprite = GetComponent<SpriteRenderer>();
-        collider = GetComponent<CircleCollider2D>();
+
+        if (!shop)
+        {
+            collider = GetComponent<CircleCollider2D>();
+            collider.enabled = false;
+        }
         _uiManager = FindObjectOfType<UIManager>();
         refUI = _uiManager;
 
         itemAlreadySpawn = false;
-        collider.enabled = false;
     }
     
 
@@ -81,7 +85,6 @@ public class DropSystem : MonoBehaviour
         if (shop)
         {
             Roll();
-            collider.enabled = true;
             Debug.Log(roll);
 
             if (roll < epicValue)
