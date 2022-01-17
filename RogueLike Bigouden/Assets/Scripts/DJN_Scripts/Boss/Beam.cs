@@ -35,10 +35,14 @@ public class Beam : MonoBehaviour
 
     private void Update()
     {
+        if (!isActive)
+        {
+            SoundManager.instance.StopSound("boss_laser");
+        }
+        
         if (isActive && !pillarStats.isDestroyed)
         {
             line.enabled = true;
-            SoundManager.instance.PlaySound("boss_laser");
             Laser();
         }
 
@@ -88,7 +92,6 @@ public class Beam : MonoBehaviour
         {
             line.enabled = false;
             isActive = false;
-            SoundManager.instance.StopSound("boss_laser");
             BossEventManager.instance.laserAnimator[BossEventManager.instance.currentPillar].Play("TSSpot_Idle");
         }
     }

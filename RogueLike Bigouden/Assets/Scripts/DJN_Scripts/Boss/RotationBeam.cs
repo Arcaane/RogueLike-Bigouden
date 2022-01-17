@@ -42,7 +42,6 @@ public class RotationBeam : MonoBehaviour
         {
             LoadRBeam();
             line.enabled = true;
-            SoundManager.instance.PlaySound("boss_laser");
             animator.GetComponent<BoxCollider2D>().isTrigger = false;
         }
         
@@ -67,6 +66,7 @@ public class RotationBeam : MonoBehaviour
                 animator.GetComponent<BoxCollider2D>().isTrigger = true;
                 animator.Play("TM_Close");
                 alreayOpen = false;
+                SoundManager.instance.StopSound("boss_laser");
             }
         }
        

@@ -471,6 +471,7 @@ public class PaternTimer : MonoBehaviour
     {
         if (!_bossStatsManager.isDead)
         {
+            SoundManager.instance.PlaySound("boss_laser");
             _bossEventManager.LoadBeam(selectPillard);
             bossAnimator.Play("DJ_Attack_1");
         }
@@ -489,6 +490,8 @@ public class PaternTimer : MonoBehaviour
     {
         if (!_bossStatsManager.isDead)
         {
+            
+            SoundManager.instance.PlaySound("boss_laser");
             RotationBeam rotationBeam = _bossEventManager.rotationLaser[selectedSide].GetComponent<RotationBeam>();
             rotationBeam.isActive = true;
             bossAnimator.Play("DJ_Attack_3");
