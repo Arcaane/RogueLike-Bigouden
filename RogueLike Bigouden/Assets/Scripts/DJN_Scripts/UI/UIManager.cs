@@ -136,6 +136,8 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         UpdateItemPlayer();
+
+        FindObjectOfType<PlayerAttribut>().enabled = !isPaused;
         
         if (earnMoney)
         {
@@ -272,7 +274,6 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(true);
             SoundManager.instance.PlaySound("menu_open");
             Time.timeScale = 0;
-            
             SetPanel(pauseMenuPanel);
             
             
@@ -324,7 +325,6 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1;
             SetSelectedButton(null);
             SetPanel(null);
-
             if (blur)
             {
                 blur.SetActive(false);

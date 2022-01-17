@@ -983,7 +983,7 @@ public class PlayerAttribut : MonoBehaviour
                     FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     canTakeItem = false;
                     SoundManager.instance.PlaySound("item_add");
-                    Destroy(_dropSystem.gameObject, 0.3f);
+                    Destroy(_dropSystem.gameObject, 0.4f);
                 }
                 else
                 {
@@ -993,7 +993,7 @@ public class PlayerAttribut : MonoBehaviour
                     FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     canTakeItem = false;
                     SoundManager.instance.PlaySound("item_add");
-                    Destroy(_dropSystem.gameObject, 0.3f);
+                    Destroy(_dropSystem.gameObject, 0.4f);
                 }
             }
         }

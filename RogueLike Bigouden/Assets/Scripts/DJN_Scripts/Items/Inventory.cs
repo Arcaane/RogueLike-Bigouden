@@ -224,11 +224,8 @@ public class Inventory : MonoBehaviour
                                         break;
 
                                     case Items.ActionTarget.Props:
-                                        if (mediKit)
-                                        {
-                                            playerStats.lifePoint += mediKitHeal;
-                                            mediKit = false;
-                                        }
+                                        FindObjectOfType<ApplyAttack>().mediKit = true;
+                                        FindObjectOfType<ApplyAttack>().mediKitHeal = i.modAmount;
                                         break;
                                 }
 
@@ -323,6 +320,8 @@ public class Inventory : MonoBehaviour
                                                 {
                                                     ApplyItemEffect(i);
                                                     isChecking = true;
+                                                    
+                                                    conditionActivate = false;
                                                 }
 
                                                 break;
@@ -355,7 +354,7 @@ public class Inventory : MonoBehaviour
     void ApplyItemEffect(Items i)
     {
         roll = UnityEngine.Random.Range(0, 100);
-
+        conditionActivate = false;
         switch (i._operator)
         {
             case Items.Operator.Add:

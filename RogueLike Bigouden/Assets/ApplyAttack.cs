@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Management.Instrumentation;
 using System.Timers;
 using UnityEngine;
+using Random = System.Random;
 
 public class ApplyAttack : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class ApplyAttack : MonoBehaviour
     [SerializeField] public int isDetect;
     public Vector3 posTarget;
 
+    public bool mediKit;
+    public int mediKitHeal;
+    
     private void Start()
     {
         _projectilePath = _projectilePathHolder.GetComponent<ProjectilePath>();
@@ -125,7 +129,17 @@ public class ApplyAttack : MonoBehaviour
         {
             Destroy(trigger2D.gameObject);
             NavMeshUpdater.instance.UpdateSurface();
-            Inventory.instance.mediKit = true;
+
+            if (mediKit)
+            {
+                int roll = UnityEngine.Random.Range(0, 100);
+
+                if (roll < 20)
+                {
+                    Debug.Log("Heal by medic with " + roll + " roll");
+                    PlayerStatsManager.playerStatsInstance.lifePoint += mediKitHeal;
+                }
+            }
         }
 
         if (_projectilePath.isAttacking && trigger2D.gameObject.CompareTag("Projectile"))
