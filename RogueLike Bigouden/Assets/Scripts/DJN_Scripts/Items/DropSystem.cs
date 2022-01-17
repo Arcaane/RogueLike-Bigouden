@@ -47,6 +47,16 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerOnIt)
+        {
+            _uiManager.itemInformationPanel.SetActive(true);
+
+        }
+        else
+        {
+            _uiManager.itemInformationPanel.SetActive(false);
+        }
+        
         
         if (playerOnIt && Input.GetKeyDown(KeyCode.X) &&
             PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
@@ -118,6 +128,7 @@ public class DropSystem : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         _uiManager.itemInformationPanel.SetActive(false);
+       
         if (other.GetComponent<PlayerAttribut>() != null)
         {
             playerInventory = null;
