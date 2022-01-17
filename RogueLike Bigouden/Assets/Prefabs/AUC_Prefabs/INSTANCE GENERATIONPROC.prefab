@@ -50,31 +50,39 @@ MonoBehaviour:
   smallRoomCounter: 0
   mediumRoomCounter: 0
   largeRoomCounter: 0
-  smallRoomApparitionValue: 3
-  mediumRoomApparitionValue: 6
-  largeRoomApparitionValue: 1
+  smallRoomApparitionValue: 5.5
+  mediumRoomApparitionValue: 3
+  largeRoomApparitionValue: 1.5
   roomLevel1Small:
   - D_DanceFloor_S
   - DN_C_DanceFloor_S
+  - THB_09_S
   roomLevel1Medium:
   - BAV_LD4_Dancefloor_M
-  - AUC_LD_1_M
   - BAV_LD6_Dancefloor_M
   - DN_B_Dancefloor_M
+  - THB_10_M
   roomLevel1Large:
-  - D_DanceFloor_S
+  - AUC_LD_1_L
+  - AUC_LD_1_SAME_L
   roomLevel2Small:
-  - L1R1 - S
+  - THB_09_LVL2_S
+  - D_DanceFloor_LVL2_S
+  - DN_C_DanceFloor_LVL2_S
   roomLevel2Medium:
-  - L1R2- M
+  - THB_10_LVL2_M
+  - BAV_LD4_Dancefloor_LVL2_M
+  - BAV_LD6_Dancefloor_LVL2_M
+  - DN_B_Dancefloor_LVL2_M
   roomLevel2Large:
-  - L1R3 - L
+  - AUC_LD_LVL2_L
+  - AUC_LD_LVL2_SAME_L
   defaultRoom: []
   storeRoom:
-  - Store
+  - THB_SHOP
   bossRoom:
-  - L1BR
-  - DN_BOSS
+  - THB_09_LVL2_S
+  - DN_Boss
   finalList: []
   launchAnimator: {fileID: 0}
   transitionDuration: 2
