@@ -15,7 +15,7 @@ public class IACac : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private bool isRdyMove;
-    [SerializeField] private Animator cacAnimator;
+    [SerializeField] public Animator cacAnimator;
     private Vector2 pos;
     public LayerMask isPlayer;
     
@@ -30,6 +30,7 @@ public class IACac : MonoBehaviour
     [SerializeField] private bool _isReadyToShoot;
     [SerializeField] private bool _isAggro;
     [SerializeField] private bool isSpot;
+    [SerializeField] public bool isDead;
     public float hitRadius;
     
     // Anims States
@@ -67,7 +68,7 @@ public class IACac : MonoBehaviour
         _isAttack = false;
         _isAttackAnim = false;
         _isWalk = false;
-        
+        isDead = false;
         _isAggro = false;
         isRdyMove = false;
         _isPlayerInAggroRange = false;
@@ -83,7 +84,7 @@ public class IACac : MonoBehaviour
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
 
-        if (!isStun)
+        if (!isStun || !isDead)
         {
             if (!_isPlayerInAggroRange && _isAggro)
                 Patrolling();
@@ -219,7 +220,7 @@ public class IACac : MonoBehaviour
             cacAnimator.SetFloat("Horizontal", agent.velocity.x);
             cacAnimator.SetFloat("Vertical", agent.velocity.y);
             cacAnimator.SetBool("isAttack", _isAttackAnim);
-            cacAnimator.SetBool("isWalk", _isWalk);
+            cacAnimator.SetBool("isWalk", _isAttack);
         }
     }
     #endregion

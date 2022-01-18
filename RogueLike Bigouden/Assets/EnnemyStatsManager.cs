@@ -249,9 +249,32 @@ public class EnnemyStatsManager : MonoBehaviour
         {
             PaternTimer.instance.enemyInScene.Remove(gameObject);
         }
-        
-        Destroy(gameObject);
 
+        if (gameObject.GetComponent<IABarman>())
+        {
+            gameObject.GetComponent<IABarman>().isDead = true;
+            gameObject.GetComponent<IABarman>().barmanAnimator.SetTrigger("isDead");
+            StartCoroutine(DoDeath(0.917f));
+        }
+        else if (gameObject.GetComponent<IACac>())
+        {
+            gameObject.GetComponent<IACac>().isDead = true;
+            gameObject.GetComponent<IACac>().cacAnimator.SetTrigger("isDead");
+            StartCoroutine(DoDeath(0.5f));
+        }
+        else if (gameObject.GetComponent<IARunner>())
+        {
+            gameObject.GetComponent<IARunner>().isDead = true;
+            gameObject.GetComponent<IARunner>().runnerAnimator.SetTrigger("isDead");
+            StartCoroutine(DoDeath(0.667f));
+        }
+        else if (gameObject.GetComponent<IAShooter>())
+        {
+            gameObject.GetComponent<IAShooter>().isDead = true;
+            gameObject.GetComponent<IAShooter>().shooterAnimator.SetTrigger("isDead");
+            StartCoroutine(DoDeath(1.083f));
+        }
+        
         int rand = Random.Range(0, 2);
         if (rand == 1)
         {
@@ -282,8 +305,14 @@ public class EnnemyStatsManager : MonoBehaviour
         var go = Instantiate(FloatingTextEnnemiPrefab, transform.position, Quaternion.identity, transform);
         go.GetComponent<TextMeshPro>().SetText(damageToShow.ToString());
     }
+
+
+    private IEnumerator DoDeath(float animDeadTime)
+    {
+        yield return new WaitForSeconds(animDeadTime);
+        Destroy(gameObject);
+    }
     
-   
     
     #endregion
 }
