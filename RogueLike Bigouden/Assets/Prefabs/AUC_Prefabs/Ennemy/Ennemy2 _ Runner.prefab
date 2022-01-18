@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1886598576}
   - component: {fileID: 1886598575}
   - component: {fileID: 3418601478165464352}
+  - component: {fileID: 8404342068331896748}
   m_Layer: 9
   m_Name: Animation
   m_TagString: Untagged
@@ -128,7 +129,19 @@ MonoBehaviour:
   - {x: -0.20643276, y: 0.12046766, z: 0}
   m_ShapePathHash: 467255757
   m_Mesh: {fileID: 0}
-  m_InstanceId: -487502
+  m_InstanceId: 26604
+--- !u!114 &8404342068331896748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886598573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11104a0404fb0ee47b9737e255095198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3323860257783470426
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +287,7 @@ MonoBehaviour:
   _rushDelay: 0
   _moveSpeedCharge: 0
   isSpot: 0
-  _isStun: 0
+  isStun: 0
 --- !u!114 &5930435314255698863
 MonoBehaviour:
   m_ObjectHideFlags: 0

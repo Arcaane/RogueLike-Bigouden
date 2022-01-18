@@ -13,9 +13,11 @@ public class PillarsStatsManager : MonoBehaviour
         public int shieldPoint;
         public bool isDestroyed;
 
+        private bool getHurt;
+        
         private void Update()
         {
-                if (childBeam.isActive && !isDestroyed)
+                if (childBeam.isActive && !isDestroyed && !getHurt)
                 {
                         switch (pillar)
                         {
@@ -37,7 +39,7 @@ public class PillarsStatsManager : MonoBehaviour
                         }
                 }
                 
-                if(!childBeam.isActive && !isDestroyed)
+                if(!childBeam.isActive && !isDestroyed && !getHurt)
                 {
                         switch (pillar)
                         {
@@ -64,7 +66,6 @@ public class PillarsStatsManager : MonoBehaviour
         {
                 if (shieldPoint > 0)
                 {
-                        
                         shieldPoint -= damage;
 
                         if (shieldPoint < 0)
@@ -102,27 +103,33 @@ public class PillarsStatsManager : MonoBehaviour
                 }
                 else
                 {
+                        getHurt = true;
                         switch (pillar)
                         {
                                   
                                 case Pillar.DownLeft:
-                                        pillarAnimator.Play("BL_Damage_3");
+                                        pillarAnimator.Play("BL_Damage_1");
                                         break;
                                 
                                 case Pillar.DownRight:
-                                        pillarAnimator.Play("BR_Damage_3");
+                                        pillarAnimator.Play("BR_Damage_1");
                                         break;
                                 
                                 case Pillar.TopLeft:
-                                        pillarAnimator.Play("TL_Damage_3");
+                                        pillarAnimator.Play("TL_Damage_1");
                                         break;
                                 
                                 case Pillar.TopRight:
-                                        pillarAnimator.Play("TR_Damage_3");
+                                        pillarAnimator.Play("TR_Damage_1");
                                         break;
                         }
                 }
 
                
+        }
+
+        public void ResetHurt()
+        {
+                getHurt = false;
         }
 }
