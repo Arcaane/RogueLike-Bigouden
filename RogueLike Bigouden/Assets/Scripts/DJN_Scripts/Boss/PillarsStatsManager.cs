@@ -108,19 +108,84 @@ public class PillarsStatsManager : MonoBehaviour
                         {
                                   
                                 case Pillar.DownLeft:
-                                        pillarAnimator.Play("BL_Damage_1");
+
+                                        if (health < 14)
+                                        { 
+                                                pillarAnimator.Play("BL_Damage_1");
+
+                                        }
+
+                                        if (health > 14 && health < 28)
+                                        {
+                                                pillarAnimator.Play("BL_Damage_2");
+
+                                        }
+
+                                        if (health > 28 && health < 42)
+                                        {
+                                                pillarAnimator.Play("BL_Damage_3");
+
+                                        }
                                         break;
                                 
                                 case Pillar.DownRight:
-                                        pillarAnimator.Play("BR_Damage_1");
+                                        
+                                        
+                                        if (health < 14)
+                                        { 
+                                                pillarAnimator.Play("BR_Damage_1");
+                                        }
+
+                                        if (health > 14 && health < 28)
+                                        {
+                                                pillarAnimator.Play("BR_Damage_2");
+                                        }
+
+                                        if (health > 28 && health < 42)
+                                        {
+                                                pillarAnimator.Play("BR_Damage_3");
+                                        }
                                         break;
                                 
                                 case Pillar.TopLeft:
-                                        pillarAnimator.Play("TL_Damage_1");
+                                        
+                                        if (health < 14)
+                                        { 
+                                                pillarAnimator.Play("TL_Damage_1");
+
+                                        }
+
+                                        if (health > 14 && health < 28)
+                                        {
+                                                pillarAnimator.Play("TL_Damage_2");
+
+                                        }
+
+                                        if (health > 28 && health < 42)
+                                        {
+                                                pillarAnimator.Play("TL_Damage_3");
+
+                                        }
                                         break;
                                 
                                 case Pillar.TopRight:
-                                        pillarAnimator.Play("TR_Damage_1");
+                                        
+                                        if (health < 14)
+                                        { 
+                                                pillarAnimator.Play("TR_Damage_1");
+                                        }
+
+                                        if (health > 14 && health < 28)
+                                        {
+                                                pillarAnimator.Play("TR_Damage_2");
+
+                                        }
+
+                                        if (health > 28 && health < 42)
+                                        {
+                                                pillarAnimator.Play("TR_Damage_3");
+
+                                        }
                                         break;
                         }
                 }

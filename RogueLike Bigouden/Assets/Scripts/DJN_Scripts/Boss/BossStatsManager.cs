@@ -10,7 +10,7 @@ public class BossStatsManager : MonoBehaviour
     public int shieldPoint;
     public bool isDead;
     private Animator _animator;
-
+    public bool getHurt;
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -35,7 +35,8 @@ public class BossStatsManager : MonoBehaviour
                 {
                     health -= damage;
                 }
-            
+
+                getHurt = true;
                 _animator.Play("DJ_Hurt");
             
             }
@@ -51,6 +52,6 @@ public class BossStatsManager : MonoBehaviour
 
     public void ResetHurt()
     {
-        
+        getHurt = false;
     }
 }
