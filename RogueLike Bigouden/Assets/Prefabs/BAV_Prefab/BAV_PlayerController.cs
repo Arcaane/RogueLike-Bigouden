@@ -129,6 +129,14 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""GodMod"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec8d3e65-4d8f-4d03-9fcb-fad873b51e70"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -472,6 +480,17 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ef68204-a574-40c6-83fd-f3c6cb2fc0fb"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GodMod"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -719,6 +738,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         m_Player_Right_Bottom_Trigger = m_Player.FindAction("Right_Bottom_Trigger", throwIfNotFound: true);
         m_Player_Left_Stick_Press = m_Player.FindAction("Left_Stick_Press", throwIfNotFound: true);
         m_Player_Right_Stick_Press = m_Player.FindAction("Right_Stick_Press", throwIfNotFound: true);
+        m_Player_GodMod = m_Player.FindAction("GodMod", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -787,6 +807,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Right_Bottom_Trigger;
     private readonly InputAction m_Player_Left_Stick_Press;
     private readonly InputAction m_Player_Right_Stick_Press;
+    private readonly InputAction m_Player_GodMod;
     public struct PlayerActions
     {
         private @BAV_PlayerController m_Wrapper;
@@ -805,6 +826,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         public InputAction @Right_Bottom_Trigger => m_Wrapper.m_Player_Right_Bottom_Trigger;
         public InputAction @Left_Stick_Press => m_Wrapper.m_Player_Left_Stick_Press;
         public InputAction @Right_Stick_Press => m_Wrapper.m_Player_Right_Stick_Press;
+        public InputAction @GodMod => m_Wrapper.m_Player_GodMod;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -856,6 +878,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Right_Stick_Press.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
                 @Right_Stick_Press.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
                 @Right_Stick_Press.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRight_Stick_Press;
+                @GodMod.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGodMod;
+                @GodMod.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGodMod;
+                @GodMod.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGodMod;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -902,6 +927,9 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
                 @Right_Stick_Press.started += instance.OnRight_Stick_Press;
                 @Right_Stick_Press.performed += instance.OnRight_Stick_Press;
                 @Right_Stick_Press.canceled += instance.OnRight_Stick_Press;
+                @GodMod.started += instance.OnGodMod;
+                @GodMod.performed += instance.OnGodMod;
+                @GodMod.canceled += instance.OnGodMod;
             }
         }
     }
@@ -998,6 +1026,7 @@ public class @BAV_PlayerController : IInputActionCollection, IDisposable
         void OnRight_Bottom_Trigger(InputAction.CallbackContext context);
         void OnLeft_Stick_Press(InputAction.CallbackContext context);
         void OnRight_Stick_Press(InputAction.CallbackContext context);
+        void OnGodMod(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
