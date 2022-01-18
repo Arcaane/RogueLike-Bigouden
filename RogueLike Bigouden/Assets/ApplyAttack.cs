@@ -134,7 +134,7 @@ public class ApplyAttack : MonoBehaviour
             {
                 int roll = UnityEngine.Random.Range(0, 100);
 
-                if (roll < 30)
+                if (roll < 15)
                 {
                     Debug.Log("Heal by medic with " + roll + " roll");
                     PlayerStatsManager.playerStatsInstance.lifePoint += mediKitHeal;
