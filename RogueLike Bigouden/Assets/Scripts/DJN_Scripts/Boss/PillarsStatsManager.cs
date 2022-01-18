@@ -14,7 +14,10 @@ public class PillarsStatsManager : MonoBehaviour
         public bool isDestroyed;
 
         private bool getHurt;
-        
+
+        [Header("Anim Stat")] public int state1;
+        public int state2;
+        public int state3;
         private void Update()
         {
                 if (childBeam.isActive && !isDestroyed && !getHurt)
@@ -109,19 +112,19 @@ public class PillarsStatsManager : MonoBehaviour
                                   
                                 case Pillar.DownLeft:
 
-                                        if (health < 14)
+                                        if (health < state1)
                                         { 
                                                 pillarAnimator.Play("BL_Damage_1");
 
                                         }
 
-                                        if (health > 14 && health < 28)
+                                        if (health > state1 && health < state2)
                                         {
                                                 pillarAnimator.Play("BL_Damage_2");
 
                                         }
 
-                                        if (health > 28 && health < 42)
+                                        if (health > state2 && health < state3)
                                         {
                                                 pillarAnimator.Play("BL_Damage_3");
 
@@ -131,17 +134,17 @@ public class PillarsStatsManager : MonoBehaviour
                                 case Pillar.DownRight:
                                         
                                         
-                                        if (health < 14)
+                                        if (health < state1)
                                         { 
                                                 pillarAnimator.Play("BR_Damage_1");
                                         }
 
-                                        if (health > 14 && health < 28)
+                                        if (health > state1 && health < state2)
                                         {
                                                 pillarAnimator.Play("BR_Damage_2");
                                         }
 
-                                        if (health > 28 && health < 42)
+                                        if (health > state2 && health < state3)
                                         {
                                                 pillarAnimator.Play("BR_Damage_3");
                                         }
@@ -149,19 +152,19 @@ public class PillarsStatsManager : MonoBehaviour
                                 
                                 case Pillar.TopLeft:
                                         
-                                        if (health < 14)
+                                        if (health < state1)
                                         { 
                                                 pillarAnimator.Play("TL_Damage_1");
 
                                         }
 
-                                        if (health > 14 && health < 28)
+                                        if (health > state1 && health < state2)
                                         {
                                                 pillarAnimator.Play("TL_Damage_2");
 
                                         }
 
-                                        if (health > 28 && health < 42)
+                                        if (health > state2 && health < state3)
                                         {
                                                 pillarAnimator.Play("TL_Damage_3");
 
@@ -170,18 +173,18 @@ public class PillarsStatsManager : MonoBehaviour
                                 
                                 case Pillar.TopRight:
                                         
-                                        if (health < 14)
+                                        if (health < state1)
                                         { 
                                                 pillarAnimator.Play("TR_Damage_1");
                                         }
 
-                                        if (health > 14 && health < 28)
+                                        if (health > state1 && health < state2)
                                         {
                                                 pillarAnimator.Play("TR_Damage_2");
 
                                         }
 
-                                        if (health > 28 && health < 42)
+                                        if (health > state2 && health < state3)
                                         {
                                                 pillarAnimator.Play("TR_Damage_3");
 
