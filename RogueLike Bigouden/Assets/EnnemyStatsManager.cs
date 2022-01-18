@@ -206,19 +206,21 @@ public class EnnemyStatsManager : MonoBehaviour
     #region Ennemy Damage & Heal Gestion 
     public void TakeDamage(int damage)
     {
-        StartCoroutine(HurtColorTint());
-        
-        if (shieldPoint > 0)
+        if (lifePoint > 0)
         {
-            shieldPoint -= damage;
-            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
-            if (shieldPoint < 0)
-                shieldPoint = 0;
-        }
-        else
-        {
-            lifePoint -= damage;
-            PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+            StartCoroutine(HurtColorTint());
+            if (shieldPoint > 0)
+            {
+                shieldPoint -= damage;
+                PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+                if (shieldPoint < 0)
+                    shieldPoint = 0;
+            }
+            else
+            {
+                lifePoint -= damage;
+                PlayerStatsManager.playerStatsInstance.EarnUltPoint(false);
+            }
         }
 
         SoundManager.instance.PlaySound("E_hurt");
@@ -237,11 +239,6 @@ public class EnnemyStatsManager : MonoBehaviour
 
     private void Death()
     {
-        if (gameObject.GetComponent<IABarman>())
-        {
-            Destroy(gameObject.GetComponent<IABarman>().projectile);
-        }
-        
         PlayerStatsManager.playerStatsInstance.EarnUltPoint(true);
         ScoreManager.instance.AddEnemyKilledScore(1);
         
@@ -252,27 +249,28 @@ public class EnnemyStatsManager : MonoBehaviour
 
         if (gameObject.GetComponent<IABarman>())
         {
+            Destroy(gameObject.GetComponent<IABarman>().projectile);
             gameObject.GetComponent<IABarman>().isDead = true;
             gameObject.GetComponent<IABarman>().barmanAnimator.SetTrigger("isDead");
-            StartCoroutine(DoDeath(0.917f));
+            StartCoroutine(DoDeath(1f));
         }
         else if (gameObject.GetComponent<IACac>())
         {
             gameObject.GetComponent<IACac>().isDead = true;
             gameObject.GetComponent<IACac>().cacAnimator.SetTrigger("isDead");
-            StartCoroutine(DoDeath(0.5f));
+            StartCoroutine(DoDeath(0.55f));
         }
         else if (gameObject.GetComponent<IARunner>())
         {
             gameObject.GetComponent<IARunner>().isDead = true;
             gameObject.GetComponent<IARunner>().runnerAnimator.SetTrigger("isDead");
-            StartCoroutine(DoDeath(0.667f));
+            StartCoroutine(DoDeath(0.7f));
         }
         else if (gameObject.GetComponent<IAShooter>())
         {
             gameObject.GetComponent<IAShooter>().isDead = true;
             gameObject.GetComponent<IAShooter>().shooterAnimator.SetTrigger("isDead");
-            StartCoroutine(DoDeath(1.083f));
+            StartCoroutine(DoDeath(1.1f));
         }
         
         int rand = Random.Range(0, 2);
