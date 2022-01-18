@@ -48,4 +48,9 @@ public class BossStatsManager : MonoBehaviour
         }
         
     }
+
+    public void ResetHurt()
+    {
+        
+    }
 }
