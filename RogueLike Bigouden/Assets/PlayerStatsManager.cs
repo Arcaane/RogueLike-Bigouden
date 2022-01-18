@@ -552,6 +552,8 @@ public class PlayerStatsManager : MonoBehaviour
         lifePointSave = lifePoint;
         HurtDamagescreen.SetActive(false);
         getHurt = false;
+
+       // gameObject.transform.position = GameObject.FindGameObjectWithTag("Respawn").transform.position;
     }
 
     #endregion
