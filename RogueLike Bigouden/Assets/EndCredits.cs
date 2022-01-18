@@ -20,6 +20,10 @@ public class EndCredits : MonoBehaviour
     {
         SceneManager.LoadScene("Splashscreen");
         SoundManager.instance.ResetSound();
+        PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
+        LoadManager.LoadManagerInstance.ResetProcedural();
+        ScoreManager.instance.ResetScore();
+        UIManager.instance.RefreshUI();
         Destroy(FindObjectOfType<test>().gameObject);
     }
 

@@ -84,4 +84,12 @@ public class ScoreManager : MonoBehaviour
       }
 
    }
+
+   public void ResetScore()
+   {
+      score = 0;
+      timer = 0;
+      moneyObtained = 0;
+      enemyKilled = 0;
+   }
 }

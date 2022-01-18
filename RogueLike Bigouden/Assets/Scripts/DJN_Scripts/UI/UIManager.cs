@@ -261,6 +261,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("BAV_HUB_BED_RESET");
         gameOverPanel.SetActive(false);
         SoundManager.instance.ResetSound();
+        ScoreManager.instance.ResetScore();
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         player1UI.SetActive(true);
@@ -346,6 +347,7 @@ public class UIManager : MonoBehaviour
         PlayerStatsManager.playerStatsInstance.ResetPlayerStats();
         LoadManager.LoadManagerInstance.ResetProcedural();
         SoundManager.instance.ResetSound();
+        ScoreManager.instance.ResetScore();
         RefreshUI();
     }
     

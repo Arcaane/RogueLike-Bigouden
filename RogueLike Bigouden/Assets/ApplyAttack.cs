@@ -138,6 +138,7 @@ public class ApplyAttack : MonoBehaviour
                 {
                     Debug.Log("Heal by medic with " + roll + " roll");
                     PlayerStatsManager.playerStatsInstance.lifePoint += mediKitHeal;
+                    UIManager.instance.RefreshUI();
                 }
             }
         }
