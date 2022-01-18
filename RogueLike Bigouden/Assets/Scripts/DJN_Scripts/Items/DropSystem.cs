@@ -51,17 +51,7 @@ public class DropSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerOnIt)
-        {
-            _uiManager.itemInformationPanel.SetActive(true);
 
-        }
-        else
-        {
-            _uiManager.itemInformationPanel.SetActive(false);
-        }
-        
-        
         if (playerOnIt && Input.GetKeyDown(KeyCode.X) &&
             PlayerStatsManager.playerStatsInstance.money >= itemSelect.price) // PlayerStat Money
         {
@@ -96,14 +86,12 @@ public class DropSystem : MonoBehaviour
             {
                 itemSelect = itemManager.rareItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
                 gameobjectSprite.sprite = itemSelect.image;
-              
             }
 
             if (roll > rareValue && roll < commonValue)
             {
                 itemSelect = itemManager.commonItems[UnityEngine.Random.Range(0, itemManager.rareItems.Count)];
                 gameobjectSprite.sprite = itemSelect.image;
-          
             }
 
            
