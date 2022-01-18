@@ -36,13 +36,13 @@ public class EndCredits : MonoBehaviour
     {
         FindObjectOfType<UIManager>().player1UI.SetActive(false);
         FindObjectOfType<EventSystem>().SetSelectedGameObject(buttonSelected);
-        ScoreManager.instance.timerStart = false;
         ScoreManager.instance.DisplayTime();
         ScoreManager.instance.UpdateScore();
     }
 
     private void Start()
     {
+        ScoreManager.instance.timerStart = false;
         ennemy.text = ScoreManager.instance.enemyKilled.ToString();
         money.text = ScoreManager.instance.moneyObtained.ToString();
         score.text = ScoreManager.instance.score.ToString();

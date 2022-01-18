@@ -984,6 +984,7 @@ public class PlayerAttribut : MonoBehaviour
                     SoundManager.instance.PlaySound("item_add");
                     FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     _dropSystem.refUI.itemInformationPanel.SetActive(false);
+                    UIManager.instance.RefreshUI();
                     Destroy(_dropSystem.gameObject, 0.4f);
                 }
                 
@@ -994,6 +995,7 @@ public class PlayerAttribut : MonoBehaviour
                     _playerInventory.items.Add(_dropSystem.itemSelect);
                     canTakeItem = false;
                     SoundManager.instance.PlaySound("item_add");
+                    UIManager.instance.RefreshUI();
                     FindObjectOfType<ItemsManager>().itemsInRoom.Remove(_dropSystem);
                     FindObjectOfType<UIManager>().itemInformationPanel.SetActive(false);
                     Destroy(_dropSystem.gameObject, 0.4f);

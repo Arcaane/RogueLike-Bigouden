@@ -671,7 +671,7 @@ MonoBehaviour:
   - {x: -0.097604275, y: 0.041471004, z: 0}
   m_ShapePathHash: 789513949
   m_Mesh: {fileID: 0}
-  m_InstanceId: 36134
+  m_InstanceId: 95516
 --- !u!114 &4400766828020147100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,6 +786,8 @@ MonoBehaviour:
   duration: 5
   isDetect: 0
   posTarget: {x: 0, y: 0, z: 0}
+  mediKit: 0
+  mediKitHeal: 5
 --- !u!58 &1288522201593659124
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1180,6 +1182,7 @@ MonoBehaviour:
   itemOnTheFloor: {fileID: 0}
   conditionActivate: 0
   roll: 0
+  mediKit: 0
 --- !u!114 &7518471598936574239
 MonoBehaviour:
   m_ObjectHideFlags: 0

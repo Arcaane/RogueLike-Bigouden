@@ -720,9 +720,10 @@ public class Inventory : MonoBehaviour
                                         UIManager.instance.RefreshUI();
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.lifePoint = Mathf.FloorToInt(baseActualLifePoint);
-                                        isChecking = false;
                                         
                                         UIManager.instance.RefreshUI();
+                                        isChecking = false;
+                                        
                                     }
                                 }
                                 else
@@ -737,9 +738,10 @@ public class Inventory : MonoBehaviour
                                         UIManager.instance.RefreshUI();
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.maxLifePoint = Mathf.FloorToInt(baseMaxLifePoint);
-                                        isChecking = false;
                                         
                                         UIManager.instance.RefreshUI();
+                                        isChecking = false;
+                                        
                                     }
                                 }
                             }
@@ -748,16 +750,18 @@ public class Inventory : MonoBehaviour
                                 if (i.onCurrent)
                                 {
                                     playerStats.lifePoint += i.modAmount;
-                                    isChecking = false;
                                     
                                     UIManager.instance.RefreshUI();
+                                    isChecking = false;
+                                    
                                 }
                                 else
                                 {
                                     playerStats.maxLifePoint += i.modAmount;
-                                    isChecking = false;
                                     
                                     UIManager.instance.RefreshUI();
+                                    isChecking = false;
+                                    
                                 }
                             }
                         }
@@ -781,9 +785,10 @@ public class Inventory : MonoBehaviour
                                         UIManager.instance.RefreshUI();
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.actualUltPoint = Mathf.FloorToInt(baseActualUltPoint);
-                                        isChecking = false;
                                         
                                         UIManager.instance.RefreshUI();
+                                        isChecking = false;
+                                        
                                     }
                                 }
                                 else
@@ -798,9 +803,10 @@ public class Inventory : MonoBehaviour
                                         UIManager.instance.RefreshUI();
                                         yield return new WaitForSeconds(i.overTimeDuration);
                                         playerStats.ultMaxPoint = Mathf.FloorToInt(baseMaxUltPoint);
-                                        isChecking = false;
                                         
                                         UIManager.instance.RefreshUI();
+                                        isChecking = false;
+                                        
                                     }
                                 }
                             }
@@ -809,16 +815,18 @@ public class Inventory : MonoBehaviour
                                 if (i.onCurrent)
                                 {
                                     playerStats.actualUltPoint += i.modAmount;
-                                    isChecking = false;
                                     
                                     UIManager.instance.RefreshUI();
+                                    isChecking = false;
+                                    
                                 }
                                 else
                                 {
                                     playerStats.ultMaxPoint += i.modAmount;
-                                    isChecking = false;
                                     
                                     UIManager.instance.RefreshUI();
+                                    isChecking = false;
+                                    
                                 }
                             }
                         }
@@ -863,17 +871,19 @@ public class Inventory : MonoBehaviour
                                     playerStats.money += i.modAmount;
                                     yield return new WaitForSeconds(i.overTimeDuration);
                                     playerStats.money = Mathf.FloorToInt(baseCMoney);
-                                    isChecking = false;
                                     
                                     UIManager.instance.RefreshUI();
+                                    isChecking = false;
+                                    
                                 }
                             }
                             else
                             {
                                 playerStats.money += i.modAmount;
-                                isChecking = false;
                                 
                                 UIManager.instance.RefreshUI();
+                                isChecking = false;
+                                
                             }
                         }
 
