@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     public Image itemIconImage;
     public TextMeshProUGUI itemRarityText;
     public GameObject AButtonStart;
+    public GameObject BigouSleepSprite;
 
     [Header("Player1 HUD")] public GameObject player1UI;
     public Image p1_healthBarImg;
@@ -122,6 +123,7 @@ public class UIManager : MonoBehaviour
     {
         canPaused = true;
         AButtonStart.SetActive(false);
+        BigouSleepSprite.SetActive(false);
         gameOverPanel.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
@@ -183,7 +185,8 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         if (!AButtonStart.activeSelf && !player1UI.activeSelf)
         {
-            AButtonStart.SetActive(true); 
+            AButtonStart.SetActive(true);
+            BigouSleepSprite.SetActive(true);
         }
     }
     

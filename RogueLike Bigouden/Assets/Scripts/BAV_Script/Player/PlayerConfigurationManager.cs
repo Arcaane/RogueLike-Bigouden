@@ -15,6 +15,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     public bool launchGame;
 
     public GameObject UIClickButton;
+    public GameObject BigouInBed;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             playerConfigs = new List<PlayerConfiguration>();
         }
         UIClickButton = GameObject.Find("UI A Button");
+        BigouInBed = GameObject.Find("Danslelit");
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -59,6 +61,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             && playerConfigs.All(p => p.isReady == true))
         {
             UIClickButton.SetActive(false);
+            BigouInBed.SetActive(false);
             launchGame = true;
         }
     }
