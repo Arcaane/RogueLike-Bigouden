@@ -327,6 +327,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         ResetPlayerStats();
         playerAttribut = GetComponent<PlayerAttribut>();
+        isInvincible = false;
     }
 
     private void Update()
@@ -335,6 +336,8 @@ public class PlayerStatsManager : MonoBehaviour
         {
             lifePoint = maxLifePoint;
         }
+        
+        
     }
     
     #region Functions
@@ -352,49 +355,52 @@ public class PlayerStatsManager : MonoBehaviour
 
 
     public void TakeDamage(int damage)
-    { 
-        if (!isDashing)
+    {
+        if (!isInvincible)
         {
-            
-            if (lifePoint <= 0) 
+            if (!isDashing)
             {
-                if (!isDead)
-                {
-                    isDead = true;
-                    StartCoroutine(Death());
-                    isR = false;
-                }
-            }
             
-            if (isR)
-            {
-                if (lifePoint > 0)
+                if (lifePoint <= 0) 
                 {
-                    UIManager.instance.playerAnimation.Play("hurt");
-                    SoundManager.instance.PlaySound("P_hurt");
-                    StartCoroutine(HurtColorTint());
-            
-                    if (shieldPoint > 0)
+                    if (!isDead)
                     {
-                        shieldPoint -= damage;
-                
-                        if (shieldPoint < 0)
-                        {
-                            shieldPoint = 0;
-                        }
-                    }
-                    else
-                    { 
-                        lifePoint -= damage;
+                        isDead = true;
+                        StartCoroutine(Death());
                         isR = false;
-                        StartCoroutine(GoR());
                     }
+                }
+            
+                if (isR)
+                {
+                    if (lifePoint > 0)
+                    {
+                        UIManager.instance.playerAnimation.Play("hurt");
+                        SoundManager.instance.PlaySound("P_hurt");
+                        StartCoroutine(HurtColorTint());
+            
+                        if (shieldPoint > 0)
+                        {
+                            shieldPoint -= damage;
+                
+                            if (shieldPoint < 0)
+                            {
+                                shieldPoint = 0;
+                            }
+                        }
+                        else
+                        { 
+                            lifePoint -= damage;
+                            isR = false;
+                            StartCoroutine(GoR());
+                        }
 
-                    Debug.Log($"Player took {damage} damage");
-                    ShowFloatingText(damage);
-                    UIManager.instance.RefreshUI();
+                        Debug.Log($"Player took {damage} damage");
+                        ShowFloatingText(damage);
+                        UIManager.instance.RefreshUI();
 
-                    //loadInvincibilty = true;
+                        //loadInvincibilty = true;
+                    }
                 }
             }
         }

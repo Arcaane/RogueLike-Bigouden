@@ -134,6 +134,9 @@ public class PlayerInput_Final : MonoBehaviour
     [SerializeField] private bool _RightPress_isProjectile;
     [SerializeField] private bool _RightPress_IsUlt;
 
+    //Player God Mode
+    [SerializeField] private float DPad_UpValue;
+    
     private float duration = 0.2f;
     private Vector2 lookValue;
     private Vector2 moveValue;
@@ -175,6 +178,10 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Right_Top_Trigger.performed += RightTopTrigger;
         controls.Player.Right_Bottom_Trigger.performed += RightBottomTrigger;
 
+        //Use DPad
+        controls.Player.GodMod.started += GodModOnperformed;
+        controls.Player.GodMod.performed += GodModOnperformed;
+        
         //Use Stick----------
         controls.Player.Move.performed += OnMove;
         controls.Player.Move.canceled += OnMove;
@@ -187,6 +194,25 @@ public class PlayerInput_Final : MonoBehaviour
         controls.Player.Select.performed += SelectButton;
         controls.Player.Select.canceled += SelectButton;
         //controls.Player.Look.performed += OnLook;
+    }
+
+    private void GodModOnperformed(CallbackContext DPadUp)
+    {
+        DPad_UpValue = DPadUp.ReadValue<float>();
+
+        if (DPadUp.started)
+        {
+            PlayerStatsManager.playerStatsInstance.isInvincible = !PlayerStatsManager.playerStatsInstance.isInvincible;
+            
+            if (PlayerStatsManager.playerStatsInstance.isInvincible)
+            {
+                Debug.Log("Player is invincible");
+            }
+            else
+            {
+                Debug.Log("Player is no longer invincible");
+            }
+        }
     }
 
 
