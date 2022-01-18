@@ -13,7 +13,7 @@ public class IAShooter : MonoBehaviour
     //Utilities
     [SerializeField] private Transform target;
     [SerializeField] private  NavMeshAgent agent;
-    [SerializeField] private Animator shooterAnimator;
+    [SerializeField] public Animator shooterAnimator;
     
     private Rigidbody2D rb;
     private bool isRdyMove;
@@ -40,6 +40,7 @@ public class IAShooter : MonoBehaviour
 
     [SerializeField] private bool isSpot;
     [SerializeField] private bool isStun;
+    [SerializeField] public bool isDead;
     
     
     public LayerMask isPlayer;
@@ -55,6 +56,7 @@ public class IAShooter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+        isDead = false;
     }
 
     private void Start()
@@ -95,7 +97,7 @@ public class IAShooter : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(enemyPos, targetPos) < _detectZone;
 
 
-        if (!isStun)
+        if (!isStun || !isDead)
         {
             if (!_isPlayerInAggroRange && !_isPlayerInAttackRange) 
                 Patrolling();

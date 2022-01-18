@@ -19,7 +19,7 @@ public class IARunner : MonoBehaviour
     private Vector2 pos;
 
     //Anims
-    [SerializeField] private Animator runnerAnimator;
+    [SerializeField] public Animator runnerAnimator;
     public bool _isAttack;
     public bool _isWalk;
     public bool _isCharging;
@@ -48,6 +48,7 @@ public class IARunner : MonoBehaviour
     [SerializeField] private float _moveSpeedCharge;
     [SerializeField] private bool isSpot;
     [SerializeField] private bool isStun;
+    [SerializeField] public bool isDead;
     
     #endregion
     
@@ -70,6 +71,7 @@ public class IARunner : MonoBehaviour
         _rushDelay = GetComponent<EnnemyStatsManager>().rushDelay;
         _moveSpeedCharge = _movementSpeed * 3;
         isSpot = false;
+        isDead = false;
         
         // Set bools 
         agent.updateRotation = false;
@@ -90,7 +92,7 @@ public class IARunner : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
-        if (!isStun)
+        if (!isStun || !isDead)
         {
             if (!_isPlayerInAggroRange && _isAggro)
                 Patrolling();

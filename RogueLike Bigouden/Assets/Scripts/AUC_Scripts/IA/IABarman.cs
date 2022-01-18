@@ -51,6 +51,7 @@ public class IABarman : MonoBehaviour
     [SerializeField] private bool _isAttacking; // L'unité attaque ?
     [SerializeField] private bool _isRdyMove;
     [SerializeField] private bool isStun;
+    [SerializeField] public bool isDead;
 
     // Anims
     public Animator barmanAnimator;
@@ -82,6 +83,7 @@ public class IABarman : MonoBehaviour
         
         // Set bools
         _isAttack = false;
+        isDead = false;
         _isWalk = false;        
         _isAggro = false;
         _isRdyMove = false;
@@ -99,7 +101,7 @@ public class IABarman : MonoBehaviour
         _isPlayerInAggroRange = Vector2.Distance(transform.position, target.position) < _detectZone;
         _isPlayerInAttackRange = Vector2.Distance(transform.position, target.position) < _attackRange;
 
-        if (!isStun)
+        if (!isStun || !isDead)
         {
             if (!_isPlayerInAggroRange && _isAggro)
                 Patrolling();
